@@ -14,14 +14,19 @@ $bill_date = date('Y-m-d', strtotime($_POST['bill_date']));
 $due_date = date('Y-m-d', strtotime($_POST['due_date']));
 
 $po->id = $_POST['id'];
-$po->bill_date = $bill_date;
-$po->terms = $_POST['terms'];
-$po->due_date = $due_date;
-$po->days_due = $_POST['days_due'];
 $po->bill_no = $_POST['bill_no'];
 $po->po_num = $_POST['po_num'];
 $po->company = $_POST['company'];
 $po->supplier = $_POST['supplier'];
+$po->project = $_POST['project'];
+$po->department = $_POST['department'];
+$po->bill_date = $bill_date;
+$po->terms = $_POST['terms'];
+$po->due_date = $due_date;
+$po->days_due = $_POST['days_due'];
+$po->amount = $_POST['amount'];
+$po->si_num = $_POST['si_num'];
+$po->status = 1;
 
 $upd = $po->upd_details();
 if($upd)

@@ -1,3 +1,15 @@
+<!-- toast function -->
+<script>
+  function showToast(){
+    var title = 'Loading...';
+    var duration = 500;
+    $.Toast.showToast({title: title,duration: duration, image: 'assets/img/loading.gif'});
+  }
+  function hideLoading(){
+    $.Toast.hideToast();
+  }
+</script>
+
 <script>
   //login function
   $('#btnlogin').click(function(e){
@@ -7,28 +19,43 @@
       var password = $('#password').val();
       var myData = 'username=' + username + '&password=' + password;
 
-      $.ajax({
-        type: 'POST',
-        url: 'controls/login.php',
-        data: myData,
-
-        success: function(response)
-        {
-          if(response > 0)
+      if(username != '' && password != '')
+      {
+        $.ajax({
+          type: 'POST',
+          url: 'controls/login.php',
+          data: myData,
+          beforeSend: function()
           {
-            window.location = 'controls/checkaccess.php';
-          }
-          else
+            showToast();
+          },
+          success: function(response)
           {
-            $('#login-warning').html('<center><i class="fas fa-ban"></i> Login Failed. Incorrect Username or Password.</center>');
-            $('#login-warning').show().fadeOut(8000);   
+            if(response > 0)
+            {
+              window.location = 'controls/checkaccess.php';
+            }
+            else
+            {
+              $('#login-warning').html('<center><i class="fas fa-ban"></i> Login Failed. Incorrect Username or Password.</center>');
+              $('#login-warning').show();
+              setTimeout(function(){
+                $('#login-warning').fadeOut();
+              }, 1500)
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError)
+          {
+            alert(thrownError);
           }
-        },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
-          alert(thrownError);
-        }
-      })
+        })
+      }else{
+        $('#login-warning').html('<center><i class="fas fa-ban"></i> Login Failed. Fillout all fields needed.</center>');
+        $('#login-warning').show();
+        setTimeout(function(){
+          $('#login-warning').fadeOut();
+        }, 1500)
+      }
   })
 
   //register function
@@ -40,8 +67,8 @@
     var lastname = $('#lastname').val();
     var email = $('#email').val();
     var username = $('#username').val();
-    var password = $('#password').val();
-    var password2 = $('#password2').val();
+    var password = $('#reg-password').val();
+    var password2 = $('#reg-password2').val();
     var department = $('#department').val();
     var myData = 'firstname=' + firstname + '&lastname=' + lastname + '&email=' + email + '&username=' + username + '&password=' + password + '&department=' + department;
 
@@ -84,9 +111,9 @@
 
 <script>
 //check if the password match
-$('#password').keyup(function(){
+$('#reg-password').keyup(function(){
   var pass1 = $(this).val();
-  var pass2 = $('#password2').val();
+  var pass2 = $('#reg-password2').val();
 
   if(pass1 != pass2)
   {
@@ -144,16 +171,4 @@ $('#lastname').blur(function(e){
   var username = f.concat('.').concat(l);
   $('.username').val(username);
 })
-</script>
-
-<!-- toast function -->
-<script>
-  function showToast(){
-    var title = 'Loading...';
-    var duration = 500;
-    $.Toast.showToast({title: title,duration: duration, image: 'assets/img/loading.gif'});
-  }
-  function hideLoading(){
-    $.Toast.hideToast();
-  }
 </script>

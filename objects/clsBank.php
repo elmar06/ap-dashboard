@@ -70,9 +70,9 @@ class Banks
 		}
     }
 
-    public function view_all_banks()
+    public function get_all_banks()
     {
-        $query = 'SELECT * '.$this->table_name.' ORDER BY name ASC';
+        $query = 'SELECT id, name, status FROM '.$this->table_name.' WHERE status != 0 ORDER BY name ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

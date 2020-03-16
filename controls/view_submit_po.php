@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 
@@ -6,7 +7,7 @@ $database = new clsConnection();
 $db = $database->connect();
 
 $po = new PO_Details($db);
-
+$po->submitted_by = $_SESSION['id'];
 $get = $po->get_details_pending();
 while($row=$get->fetch(PDO::FETCH_ASSOC))
 {

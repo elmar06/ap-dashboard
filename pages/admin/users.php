@@ -43,12 +43,7 @@
                 <table class="table align-items-center table-flush table-hover" id="user-table">
                   <thead class="thead-light">
                     <tr>
-                      <th style="width: 3%">
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input checkboxall" id="customCheck2">
-                          <label class="custom-control-label" for="customCheck2"></label>
-                        </div>
-                      </th>
+                      <th style="width: 3%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                       <th>Fullname</th>
                       <th>Email</th>
                       <th>Username</th>
@@ -65,21 +60,24 @@
                           //format of status
                           if($row['status'] == 1)
                           {
-                              $status = '<label style="color: green"><b> Active</b></label>';
+                            $status = '<label style="color: green"><b> Active</b></label>';
                           }
                           else
                           {
-                              $status = '<label style="color: red"><b> Inactive</b></label>';
+                            $status = '<label style="color: red"><b> Inactive</b></label>';
                           }
                           //department
                           if($row['access'] == 1)
                           {
-                              $dept = 'Administrator';
+                            $dept = 'Administrator';
                           }elseif($row['access'] == 2)
                           {   
-                              $dept = 'Accounting';
+                            $dept = 'AP Front Office';
+                          }elseif($row['access'] == 3)
+                          {   
+                            $dept = 'AP Back Office';
                           }else{
-                              $dept = 'Purchasing';
+                            $dept = 'Purchasing';
                           }
                           echo '
                               <tr>

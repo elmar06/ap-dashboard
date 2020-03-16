@@ -24,7 +24,10 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
         $dept = 'Administrator';
     }elseif($row['access'] == 2)
     {   
-        $dept = 'Accounting';
+        $dept = 'AP Front Office';
+    }elseif($row['access'] == 3)
+    {   
+        $dept = 'AP Back Office';
     }else{
         $dept = 'Purchasing';
     }

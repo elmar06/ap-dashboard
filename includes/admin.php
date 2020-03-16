@@ -6,20 +6,22 @@ if(!(isset($_SESSION['fullname'])))
 }
 
 include '../../config/clsConnection.php';
-include '../../objects/clsUser.php';
 include '../../objects/clsSupplier.php';
 include '../../objects/clsCompany.php';
+include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
+include '../../objects/clsUser.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
-$user = new Users($db);
 $supplier = new Supplier($db);
 $company = new Company($db);
+$po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
+$user = new Users($db);
 ?>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -51,13 +53,7 @@ $project = new Project($db);
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="releasing.php">
-      <i class="fas fa-fw fa-coins"></i>
-      <span>For Releasing</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="released.php">
+    <a class="nav-link" href="released_check.php">
       <i class="fas fa-fw fa-check-circle"></i>
       <span>Released Check</span>
     </a>

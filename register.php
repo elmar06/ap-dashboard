@@ -43,18 +43,19 @@
                     <div class="form-group">
                       <select id="department" class="form-control mb-3">
                         <option value="0" selected disabled>Please select a Department</option>
-                        <option value="2">Accounts Payable</option>
-                        <option value="3">Purchasing</option>
+                        <option value="2">AP Front Office</option>
+                        <option value="3">AP Back Office</option>
+                        <option value="4">Purchasing</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <input type="text" class="form-control username" id="username" placeholder="Username" disabled>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" id="password" placeholder="Password">
+                      <input type="password" class="form-control" id="reg-password" placeholder="Password">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" id="password2" placeholder="Repeat Password">
+                      <input type="password" class="form-control" id="reg-password2" placeholder="Repeat Password">
                       <label id="pass_alert" style="display: none"></label>
                     </div>
                     <div class="form-group">

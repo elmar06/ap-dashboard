@@ -135,6 +135,53 @@ $('.btnActivate').click(function(e){
         }
     })
 })
+
+//Multi Remove
+$("#btnMultiRemove").click(function(){
+    if(confirm("Do you really want to deactivate the selected Suppliers?"))
+    {
+        var id = []
+        $('input:checkbox[name=checklist]:checked').each(function() { //itemid
+            id.push($(this).val())
+        })
+    
+        $.each( id, function( key, value ) {
+            $.ajax({
+                type: "POST",
+                data: {id:value},
+                url: "../../controls/delete_supplier.php",
+                cache: false,
+
+                success:function(response)
+                {
+                    if(response > 0)
+                    {
+                        //display the new list of supplier
+                        $.ajax({
+                            url: '../../controls/view_all_supplier.php',
+                            success: function(html)
+                            {
+                                $('#supplier-body').html(html);
+                                $('.checkboxall').prop('checked', false);
+                            }
+                        })
+                    }
+                    else
+                    {
+                        $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Failed to remove the Suppliers. Please contact the System Administrator at local 124.<i>');
+                        $('#error-msg').show();
+                        $('#success-msg').hide();
+                        $('#errorModal').modal('show');
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError)
+                {
+                    alert(thrownError);
+                }
+                });
+            });
+    }
+});
 </script>
 
 <!-- CHECKBOXALL-->

@@ -105,5 +105,27 @@ class Project
 		$sel->execute();
 		return $sel;
     }
+
+    public function get_active_project()
+    {
+        $query = 'SELECT * FROM '.$this->table_name.' WHERE status != 0 ORDER BY project ASC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function get_proj_details()
+    {
+        $query = 'SELECT * FROM '.$this->table_name.' WHERE id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->bindParam(1, $this->id);
+
+		$sel->execute();
+		return $sel;
+    }
 }
 ?>

@@ -109,7 +109,7 @@ class Company
 
     public function get_active_company()
     {
-        $query = 'SELECT * FROM '.$this->table_name.' WHERE status != 0 ORDER BY company ASC';
+        $query = 'SELECT id, company, status FROM '.$this->table_name.' WHERE status != 0 ORDER BY company ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

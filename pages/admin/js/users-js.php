@@ -136,7 +136,7 @@ $('#btnActivate').click(function(e){
 
     var id = []
     $('input:checkbox[name=checklist]:checked').each(function() {
-         id.push($(this).val())
+        id.push($(this).val())
     });
 
     if(id == 0)

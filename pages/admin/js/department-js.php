@@ -224,48 +224,52 @@ $('.btnActivate').click(function(e){
     })
 })
 
-//remove Multi Company
-$('#btnMultiRemove').click(function(e){
-    e.preventDefault();
-
-    var id = []
-    $('input:checkbox[name=checklist]:checked').each(function() {
-         id.push($(this).val())
-    });
-
-    $.each(id, function(key, value){
-        $.ajax({
-            type: 'POST',
-            url: '../../controls/delete_department.php',
-            data: {id: value},
-            beforeSend: function()
-            {
-                showToast();
-            },
-            success: function(response)
-            {
-                if(response > 0)
-                {
-                    //display the new list of supplier
-                    $.ajax({
-                        url: '../../controls/view_all_department.php',
-                        success: function(html)
-                        {
-                            $('#dept-body').html(html);
-                        }
-                    })
-                }
-                else
-                {
-                    $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Failed to Remove the Companies. Please contact the System Administrator at local 124.<i>');
-                    $('#error-msg').show();
-                    $('#success-msg').hide();
-                    $('#errorModal').modal('show');
-                }
-            }
+//Multi Remove
+$("#btnMultiRemove").click(function(){
+    if(confirm("Do you really want to deactivate the selected Departments?"))
+    {
+        var id = []
+        $('input:checkbox[name=checklist]:checked').each(function() { //itemid
+            id.push($(this).val())
         })
-    })
-})
+    
+        $.each( id, function( key, value ) {
+            $.ajax({
+                type: "POST",
+                data: {id:value},
+                url: "../../controls/delete_department.php",
+                cache: false,
+
+                success:function(response)
+                {
+                    if(response > 0)
+                    {
+                        //display the new list of supplier
+                        $.ajax({
+                            url: '../../controls/view_all_department.php',
+                            success: function(html)
+                            {
+                                $('#dept-body').html(html);
+                                $('.checkboxall').prop('checked', false);
+                            }
+                        })
+                    }
+                    else
+                    {
+                        $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Failed to remove the selected Departments. Please contact the System Administrator at local 124.<i>');
+                        $('#error-msg').show();
+                        $('#success-msg').hide();
+                        $('#errorModal').modal('show');
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError)
+                {
+                    alert(thrownError);
+                }
+                });
+            });
+    }
+});
 </script>
 
 <!-- CHECKBOXALL-->

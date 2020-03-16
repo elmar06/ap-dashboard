@@ -117,6 +117,18 @@ class Supplier
 		$sel->execute();
 		return $sel;
     }
+
+    public function get_term()
+    {
+        $query = 'SELECT terms FROM '.$this->table_name.' WHERE id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+        $sel->execute();
+        return $sel;
+    }
 }
 
 ?>
