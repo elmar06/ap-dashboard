@@ -63,7 +63,7 @@
                           }
                           elseif($row['status'] == 8)
                           {
-                            $status = '<label style="color: red"><b> On Hold</b></label>';
+                            $status = '<label style="color: orange"><b> On Hold</b></label>';
                           }
                           else if($row['status'] == 9)
                           {

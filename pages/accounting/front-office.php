@@ -181,6 +181,10 @@
                         {
                           $status = '<label style="color: orange"><b> Returned</b></label>';
                         }
+                        else if($row['status'] == 8)
+                        {
+                          $status = '<label style="color: orange"><b> On Hold</b></label>';
+                        }
                         else if($row['status'] == 9)
                         {
                           $status = '<label style="color: green"><b> For Releasing</b></label>';

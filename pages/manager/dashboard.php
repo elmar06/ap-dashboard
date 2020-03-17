@@ -41,7 +41,7 @@
                       <div class="text-xs font-weight-bold text-uppercase mb-1">Pending PO/JO</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_pending_by_user();
+                        $count = $po->count_pending();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['pending-count'].'</div>';
@@ -69,7 +69,7 @@
                       <div class="text-xs font-weight-bold text-uppercase mb-1">Returned</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_return_by_user();
+                        $count = $po->count_return();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['return-count'].'</div>';
@@ -97,7 +97,7 @@
                       <div class="text-xs font-weight-bold text-uppercase mb-1">On Process</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_on_process_by_user();
+                        $count = $po->count_on_process();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['process-count'].'</div>';
@@ -125,7 +125,7 @@
                       <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_releasing_by_user();
+                        $count = $po->count_releasing();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['releasing-count'].'</div>';
@@ -182,9 +182,13 @@
                           {
                             $status = '<label style="color: orange"><b> Returned</b></label>';
                           }
-                          else if($row['status'] == 8)
+                          else if($row['status'] == 9)
                           {
                             $status = '<label style="color: green"><b> For Releasing</b></label>';
+                          }
+                          else if($row['status'] == 8)
+                          {
+                            $status = '<label style="color: orange"><b> On Hold</b></label>';
                           }
                           else
                           {
