@@ -135,7 +135,11 @@ echo '<div class="row mb-3">
                     {
                         $status = '<label style="color: orange"><b> Returned</b></label>';
                     }
-                    else if($row6['status'] == 6)
+                    else if($row6['status'] == 8)
+                    {
+                      $status = '<label style="color: orange"><b> On Hold</b></label>';
+                    }
+                    else if($row6['status'] == 9)
                     {
                         $status = '<label style="color: green"><b> For Releasing</b></label>';
                     }

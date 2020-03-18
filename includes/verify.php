@@ -54,6 +54,12 @@ $user_id = $_SESSION['id'];
       <span>For Releasing</span>
     </a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="released.php">
+      <i class="fas fa-fw fa-check-double"></i>
+      <span>Released Check</span>
+    </a>
+  </li>
 </ul>
 <!-- Sidebar -->
 <div id="content-wrapper" class="d-flex flex-column">

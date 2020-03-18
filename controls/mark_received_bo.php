@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 
@@ -7,11 +8,12 @@ $db = $database->connect();
 
 $po = new PO_Details($db);
 
-//po details
-$po->status = 7;
+$po->date_received_bo = date('Y-m-d');
+$po->received_by_bo = $_SESSION['id'];
+$po->po_id = $_POST['id'];
 $po->id = $_POST['id'];
 
-$mark = $po->mark_as_signed();
+$mark = $po->mark_received_bo();
 
 if($mark)
 {

@@ -128,6 +128,13 @@ function SubmitPO()
   var si_num = $('#sales-invoice').val();
   var reports = $('#report').val();
   var submit_by = <?php echo $_SESSION['id'];?>;
+  //check the department if null
+  if(department != 0)
+  {
+    var department = $('#department').val();
+  }else{
+    var department = 0;
+  }
 
   var myData = 'bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&submitted_by=' + submit_by + '&amount=' + amount + '&reports=' + reports + '&si_num=' + si_num;
 
@@ -152,14 +159,14 @@ function SubmitPO()
           }, 3000)
           //get the updated list
           $.ajax({
-              url: '../../controls/view_submit_po.php',
-              success: function(html)
-              {
-                $('#po-details-body').fadeOut();
-                $('#po-details-body').fadeIn();
-                $('#po-details-body').html(html);
-              }
-            })
+            url: '../../controls/view_submit_po.php',
+            success: function(html)
+            {
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
+            }
+          })
         }
         else
         {

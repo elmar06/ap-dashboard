@@ -10,7 +10,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 $access = new Access($db);
 
-$po->status = 7;
+$po->status = 8;
 $po->date_from_ea = date('Y-m-d');
 $po->po_id = $_POST['id'];
 $po->id = $_POST['id'];
@@ -49,20 +49,23 @@ if($upd)
            <td><center>
              <select class="form-control-sm action" style="width:120px">
                <option value="0" selected disabled>Mark Status</option>';
-               if($row['po-stat'] == 5){
-                echo '<option value="1" selected disabled>Sent to EA</option>
-                      <option value="2">Returned from EA</option>';
-              }elseif($row['po-stat'] == 6){
-                echo '<option value="1" disabled>Sent to EA</option>
-                      <option value="1" disabled selected>For Pick Up in EA</option>
-                      <option value="2">Returned from EA</option>';
-              }elseif($row['po-stat'] == 7){
-                echo '<option value="1" disabled>Sent to EA</option>
-                      <option value="2" disabled selected>Returned from EA</option>';
-              }else{
+                if($row['po-stat'] == 5){
                 echo '<option value="1">Sent to EA</option>
                       <option value="2">Returned from EA</option>';
-              }
+                }elseif($row['po-stat'] == 6){
+                  echo '<option value="1" disabled selected>Sent to EA</option>
+                        <option value="2">Returned from EA</option>';
+                }elseif($row['po-stat'] == 7){
+                  echo '<option value="1" disabled>Sent to EA</option>
+                        <option value="1" disabled selected>For Pick Up in EA</option>
+                        <option value="2">Returned from EA</option>';
+                }elseif($row['po-stat'] == 8){
+                  echo '<option value="1" disabled>Sent to EA</option>
+                        <option value="2" disabled selected>Returned from EA</option>';
+                }else{
+                  echo '<option value="1">Sent to EA</option>
+                        <option value="2">Returned from EA</option>';
+                }
              echo '</select>
              <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button></center>
            </td>

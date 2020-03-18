@@ -11,10 +11,12 @@ $po = new PO_Details($db);
 $po_id = $_POST['id'];//po-id
 
 $user_id = $_SESSION['id'];//user id
+$reports = $_POST['reports'];
+
 //po details
 $po->status = 3;
 $po->id = $po_id;
-$po->reports = $_POST['reports'];
+$po->reports = $reports;
 //other details
 $po->date_received_fo = date('Y-m-d');
 $po->received_by_fo = $user_id;

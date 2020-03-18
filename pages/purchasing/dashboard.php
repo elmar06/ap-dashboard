@@ -32,6 +32,7 @@
 
           <!-- Cards -->
           <!-- Pending Card -->
+          <div id="page-body">
           <div class="row mb-3">
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card h-100">
@@ -237,7 +238,8 @@
                 </div>
               </div>
             </div>     
-          </div><!-- /end of req-table-->
+          </div><!-- /end of req-table -->
+          </div> <!-- /end of page-body -->
       </div><!---/Container-Fluid-->
   </div><!-- /wrapper -->
 <!-- Footer -->

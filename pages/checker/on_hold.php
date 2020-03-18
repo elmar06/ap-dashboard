@@ -27,12 +27,12 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Checker</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
           <div id="page-body">
           <div>
-            <a type="button" class="btn btn-primary mb-1" href="#" onclick="mark_on_hold()"><i class="fas fa-hand-paper"></i> Hold Check</a>
             <a type="button" class="btn btn-success mb-1" href="#" onclick="mark_for_releasing()"><i class="fas fa-check-square"></i> Release Check</a>
           </div><br>
           <!-- DataTable with Hover -->

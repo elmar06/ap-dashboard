@@ -10,7 +10,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 $access = new Access($db);
 
-$po->status = 9;
+$po->status = 10;
 $po->date_for_release = date('Y-m-d');
 $po->po_id = $_POST['id'];
 $po->id = $_POST['id'];
@@ -19,12 +19,22 @@ $upd = $po->mark_for_release();
 
 if($upd)
 {
-    $po->submitted_by = $_SESSION['id'];
-    $view = $po->get_on_hold_check();
+    $view = $po->get_for_verification();
     while($row = $view->fetch(PDO::FETCH_ASSOC))
     {
-    $status = '<label style="color: red"><b> On Hold</b></label>';
-    
+    //format of status
+    if($row['status'] == 8)
+    {
+        $status = '<label style="color: blue"><b> For Verification</b></label>';
+    }
+    elseif($row['status'] == 9)
+    {
+        $status = '<label style="color: red"><b> On Hold</b></label>';
+    }
+    else
+    {
+        $status = '<label style="color: green"><b> For Releasing</b></label>';
+    }
     echo '
     <tr>
         <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>

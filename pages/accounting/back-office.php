@@ -15,6 +15,7 @@
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -146,7 +147,8 @@
           </div> <!-- end of card row -->
           <div class="row mb-3">
             <div class="col-lg-12">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
+              <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
             </div>
           </div>
           <!-- DataTable with Hover -->
@@ -186,6 +188,13 @@
                           {
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                            if($row['status'] == 3)
+                            {
+                              $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
+                            }else{
+                              $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
+                            }
+                            
                             echo '
                             <tr>
                               <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
@@ -194,7 +203,7 @@
                               <td>'.$row['supplier_name'].'</td>
                               <td>'.$bill_date.'</td>
                               <td>'.$row['fullname'].'</td>
-                              <td><center><a href="#" class="btn-sm btn-success edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Edit</a></center></td>
+                              <td><center>'.$action.'</center></td>
                             </tr>';
                           }  
                         }
@@ -233,7 +242,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="submitForSignature()">Submit For Signature</button>
+        <button id="btnSubmit" class="btn btn-primary" onclick="submitForSignature()">Submit</button>
       </div>
     </div>
   </div>
@@ -267,7 +276,7 @@
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Bank:</label>
                     <select id="bank" class="form-control mb-3 select2" style="width: 100%;">
-                      <option selected disabled>Select a Bank</option>';
+                      <option selected disabled>Select a Bank</option>
                       <?php
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
@@ -287,11 +296,25 @@
                 </div>
                 </div>
             </div>
+            <div class="row">
+              <div class="col-lg-12">
+                  <label><i style="color: red">*</i> Select a PO/JO number to process:</label>
+                  <select id="multiReq" class="form-control mb-3 select2" multiple="multiple" style="width: 100%;">
+                    <?php
+                    $get = $bank->get_all_banks();
+                    while($row5 = $get->fetch(PDO::FETCH_ASSOC))
+                    {
+                      echo '<option value="'.$row5['id'].'">'.$row5['name'].'</option>';
+                    }
+                    ?>
+                  </select>
+              </div>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="btnSubmit" class="btn btn-primary">Submit</button>
+        <button id="btnSubmit" class="btn btn-primary" onclick="submit_cv()">Submit</button>
       </div>
     </div>
   </div>
@@ -307,6 +330,7 @@
 <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
 <?php include 'js/backOffice-js.php';?>
 
 </body>

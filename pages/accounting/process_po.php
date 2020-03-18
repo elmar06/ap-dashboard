@@ -52,11 +52,11 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="max-width: 1%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>CV No</th>
+                          <th>Check No</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
-                          <th>Supplier</th>
-                          <th>Billing Date</th>
-                          <th>Submitted By</th>
+                          <th>Payee</th>
                           <th><center>Status</center></th>
                         </tr>
                       </thead>
@@ -83,22 +83,25 @@
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td>'.$row['cv_no'].'</td>
+                                <td>'.$row['check_no'].'</td>
                                 <td>'.$row['comp-name'].'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td>'.$row['supplier_name'].'</td>
-                                <td>'.$bill_date.'</td>
-                                <td>'.$row['fullname'].'</td>
                                 <td><center>
                                 <select class="form-control-sm action" style="width:120px">
                                   <option value="0" selected disabled>Mark Status</option>';
                                   if($row['po-stat'] == 5){
-                                    echo '<option value="1" selected disabled>Sent to EA</option>
+                                    echo '<option value="1">Sent to EA</option>
                                           <option value="2">Returned from EA</option>';
                                   }elseif($row['po-stat'] == 6){
+                                    echo '<option value="1" disabled selected>Sent to EA</option>
+                                          <option value="2">Returned from EA</option>';
+                                  }elseif($row['po-stat'] == 7){
                                     echo '<option value="1" disabled>Sent to EA</option>
                                           <option value="1" disabled selected>For Pick Up in EA</option>
                                           <option value="2">Returned from EA</option>';
-                                  }elseif($row['po-stat'] == 7){
+                                  }elseif($row['po-stat'] == 8){
                                     echo '<option value="1" disabled>Sent to EA</option>
                                           <option value="2" disabled selected>Returned from EA</option>';
                                   }else{

@@ -184,6 +184,7 @@ function returned_all()
             url: '../../controls/view_all_po.php',
             success: function(html)
             {
+              toastr.success('Request successfully mark as Returned.');
               $('#page-body').html(html);
             }
           })
@@ -203,16 +204,18 @@ function received_all()
   $('input:checkbox[name=checklist]:checked').each(function() { //itemid
     id.push($(this).val())
   })
+  var reports = null;
 
   $.each(id, function(key, value){
     $.ajax({
       type: 'POST',
       url: '../../controls/mark_process.php',
-      data: {id:value},
+      data: {id: value, reports: reports},
       success: function(response)
       {
         if(response > 0)
         {
+          toastr.success('Request successfully mark as Received.');
           //display the new list
           $.ajax({
             type: 'POST',
@@ -225,7 +228,7 @@ function received_all()
         }
         else
         {
-          alert('Error! Please contact the System Administrator at local 124 for assistance.');
+          toastr.error('Receiving failed. Please contact the system administrator at local 124.');
         }
       }
     })

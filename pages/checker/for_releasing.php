@@ -27,6 +27,7 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Checker</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -59,7 +60,7 @@
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
                         //format of status
-                        if($row['status'] == 9)
+                        if($row['status'] == 10)
                         {
                             $status = '<label style="color: blue"><b> For Releasing</b></label>';
                         }

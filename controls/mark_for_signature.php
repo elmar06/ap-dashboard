@@ -13,12 +13,8 @@ $check = new CheckDetails($db);
 $po_id = $_POST['id'];//po-id
 $user_id = $_SESSION['id'];//user id
 //po details
-$po->status = 4;
 $po->id = $po_id;
-//other details
-$po->date_received_bo = date('Y-m-d');
-$po->received_by_bo = $user_id;
-$po->po_id = $po_id;
+
 //check details
 $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
 $check->po_id = $po_id;

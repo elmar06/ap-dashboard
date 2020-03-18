@@ -207,5 +207,4 @@ format: "MM dd, yyyy",
 setDate: new Date(),
 autoClose: true
 });
-
 </script>

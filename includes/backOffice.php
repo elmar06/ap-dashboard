@@ -48,12 +48,12 @@ $user_id = $_SESSION['id'];
       <span>Process Request</span>
     </a>
   </li>
-  <!-- <li class="nav-item">
-    <a class="nav-link" href="for-verification.php">
+  <li class="nav-item">
+    <a class="nav-link" href="for_releasing_bo.php">
       <i class="fas fa-fw fa-check-double"></i>
-      <span>For Verification</span>
+      <span>For Releasing</span>
     </a>
-  </li> -->
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="reports.php">
       <i class="fas fa-fw fa-chart-pie"></i>

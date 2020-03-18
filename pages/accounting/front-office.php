@@ -15,6 +15,7 @@
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -181,13 +182,9 @@
                         {
                           $status = '<label style="color: orange"><b> Returned</b></label>';
                         }
-                        else if($row['status'] == 8)
-                        {
-                          $status = '<label style="color: orange"><b> On Hold</b></label>';
-                        }
                         else if($row['status'] == 9)
                         {
-                          $status = '<label style="color: green"><b> For Releasing</b></label>';
+                          $status = '<label style="color: orange"><b> On Hold</b></label>';
                         }
                         else
                         {
@@ -258,6 +255,7 @@
 <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
 <?php include 'js/frontOffice-js.php';?>
 
 </body>

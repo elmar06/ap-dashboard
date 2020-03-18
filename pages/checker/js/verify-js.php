@@ -29,9 +29,7 @@ function mark_on_hold()
         data: {id: value},
         success: function(html)
         {
-          toastr.success('Request successfully mark as Returned from EA Team.');
-          $('#req-body').fadeOut();
-          $('#req-body').fadeIn();
+          toastr.warning('Request successfully mark as On Hold.');
           $('#req-body').html(html);
         }
       })
@@ -57,9 +55,7 @@ function mark_for_releasing()
         data: {id: value},
         success: function(html)
         {
-          toastr.success('Request successfully mark as Returned from EA Team.');
-          $('#req-body').fadeOut();
-          $('#req-body').fadeIn();
+          toastr.success('Request is mark as For Releasing.');
           $('#req-body').html(html);
         }
       })

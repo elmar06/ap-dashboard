@@ -11,11 +11,11 @@ $view = $po->get_list_for_ea();
 while($row = $view->fetch(PDO::FETCH_ASSOC))
 {
 //format of status
-if($row['status'] == 5)
+if($row['status'] == 6)
 {
     $status = '<label style="color: red"><b> For Signature</b></label>';
 }
-elseif($row['status'] == 6)
+elseif($row['status'] == 7)
 {
     $status = '<label style="color: green"><b> Signed</b></label>';
 }

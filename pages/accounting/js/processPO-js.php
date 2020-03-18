@@ -21,7 +21,7 @@ $('.apply').on('click', function(e){
   var id = $(this).val();
   var action =$(this).closest('tr').find('.action').val();
 
-  //update date_to_ea in po_other_details
+  //update date_to_ea in po_other_details(MARK AS SENT TO EA)
   if(action == 1)
   {
     $.ajax({
@@ -30,12 +30,13 @@ $('.apply').on('click', function(e){
       data: {id:id},
       success: function(html)
       {
+        alert(html);
         toastr.success('Request successfully mark as forwarded to EA Team.');
         $('#process-body').html(html);
       }
     })
   }
-  //update date_from_ea in po_other_details
+  //update date_from_ea in po_other_details(MARK AS RETURNED FROM EA)
   if(action == 2)
   {
     $.ajax({

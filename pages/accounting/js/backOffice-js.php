@@ -2,6 +2,8 @@
 <script>
 $(document).ready(function () {
   $('#req-table').DataTable();// ID From dataTable with Hover
+  //select2 js
+  $(".select2").select2();
 })
 //toast
 function showToast(){
@@ -13,7 +15,7 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
-//acknowledge request
+//process request
 $('.edit').click(function(e){
   e.preventDefault();
 
@@ -65,6 +67,7 @@ $(document).on('dblclick', '#req-table tr', function(){
   })
 })
 
+//mark as process by BackOffice
 function submitForSignature()
 {
   var id = $('#upd-id').val();
@@ -123,6 +126,87 @@ function submitForSignature()
     }, 3000)
   }
 }
+//mark as received by Back Office
+$('.btnReceived').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).attr('value');
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_received_bo.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response > 0)
+      {
+        toastr.success('Request successfully mark as received.');
+        //display the new list
+        $.ajax({
+          type: 'POST',
+          url: '../../controls/view_all_process_po.php',
+          success: function(html)
+          {
+            $('#req-body').fadeOut();
+            $('#req-body').fadeIn();
+            $('#req-body').html(html);
+          }
+        })
+      }else{
+        toastr.error('Receiving Failed. Please contact the system administrator at local 124 for assistance.');
+      }
+    }
+  })
+})
+
+//mark all as received by Back Office
+function mark_all_received()
+{
+  var id = []
+  $('input:checkbox[name=checklist]:checked').each(function() {
+    id.push($(this).val())
+  });
+
+  if(id.length > 0){
+    $.each(id, function( key, value ) {
+      $.ajax({
+        type: 'POST',
+        url: '../../controls/mark_received_bo.php',
+        data: {id: value},
+        success: function(response)
+        {
+          if(response > 0)
+          {
+            toastr.success('Request successfully mark as received.');
+            //display the new list
+            $.ajax({
+              type: 'POST',
+              url: '../../controls/view_all_process_po.php',
+              success: function(html)
+              {
+                $('#req-body').html(html);
+              }
+            })
+          }else{
+            toastr.error('Receiving Failed. Please contact the system administrator at local 124 for assistance.');
+          }
+        }
+      })
+    })
+  }else{
+    toastr.error('<center>ERROR! Please select a request to process.</center>');
+  }
+}
+//submit multiple cv
+function submit_cv()
+{
+  var id = $('#multiReq').val();
+  alert(id);
+}
 </script>
 
 <!-- CHECKBOXALL-->
@@ -136,11 +220,11 @@ $('.checkboxall').change(function(){
       var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value});
       if(selected.length > 1)
       { 
-        $('#btnProcessAll').show();
+        $('#btnAllReceive').attr('disabled', false);
       }
       else
       {
-        $('#btnProcessAll').show();
+        $('#btnAllReceive').attr('disabled', true);
       }
     })
   }
@@ -149,24 +233,22 @@ $('.checkboxall').change(function(){
     $('tbody tr td input[type="checkbox"]').each(function(){
       $(this).prop('checked', false);
 
-      $('#btnProcessAll').show();
+      $('#btnAllReceive').attr('disabled', true);
     })
   }
 });
-</script>
 
-<!-- checklist -->
-<script>
+//check list
 $('.checklist').change(function(){
   var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});
 
   if(selected.length > 1)
   {
-    $('#btnProcessAll').show();
+    $('#btnAllReceive').attr('disabled', false);
   }
   else
   {
-    $('#btnProcessAll').show();
+    $('#btnAllReceive').attr('disabled', true);
   }
 })
 </script>

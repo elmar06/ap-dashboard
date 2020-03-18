@@ -36,8 +36,6 @@ function mark_signed()
               success: function(html)
               {
                 toastr.success('Request successfully mark as signed.');
-                $('#req-body').fadeOut();
-                $('#req-body').fadeIn();
                 $('#req-body').html(html);
               }
             })
@@ -122,26 +120,6 @@ function get_for_signature()
 //get all signed request
 function get_signed()
 {
-  var status = 6;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_stat_list_ea.php',
-    data: {status: status},
-    beforeSend: function(){
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
-}
-
-//get all returned request to AP
-function get_return_to_ap()
-{
   var status = 7;
   $.ajax({
     type: 'POST',
@@ -152,8 +130,24 @@ function get_return_to_ap()
     },
     success: function(html)
     {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get all returned request to AP
+function get_return_to_ap()
+{
+  var status = 8;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_stat_list_ea.php',
+    data: {status: status},
+    beforeSend: function(){
+      showToast();
+    },
+    success: function(html)
+    {
       $('#req-body').html(html);
     }
   })

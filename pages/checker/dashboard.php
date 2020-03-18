@@ -27,17 +27,18 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Checker</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
           <div id="page-body">
           <div class="row mb-3">
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">From EA</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">For Verification</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_pending();
@@ -53,47 +54,19 @@
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-times-circle fa-2x text-danger"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Received by Accounting Payable -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">On Hold</div>
-                      <?php
-                        $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_return();
-                        if($row = $count->fetch(PDO::FETCH_ASSOC))
-                        {
-                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['return-count'].'</div>';
-                        }else{
-                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                        }
-                      ?>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                      <a class="text-success mr-2" href="#" onclick="get_returned_po()"><i class="fas fa-arrow-up"></i> More Details</a>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-retweet fa-2x text-warning"></i>
+                      <i class="fas fa-certificate fa-2x text-info"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- For Releasing Card -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">On Hold</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_on_process();
@@ -109,19 +82,19 @@
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-history fa-2x text-info"></i>
+                      <i class="fas fa-pause-circle fa-2x text-danger"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Total Submitted PO/JO Card-->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card h-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Release Check</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_releasing();
@@ -167,16 +140,15 @@
                     </thead>
                     <tbody id="req-body">
                     <?php
-                      $po->submitted_by = $_SESSION['id'];
-                      $view = $po->get_return_from_ea();
+                      $view = $po->get_for_verification();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
                         //format of status
-                        if($row['status'] == 7)
+                        if($row['status'] == 8)
                         {
                             $status = '<label style="color: blue"><b> For Verification</b></label>';
                         }
-                        elseif($row['status'] == 8)
+                        elseif($row['status'] == 9)
                         {
                             $status = '<label style="color: red"><b> On Hold</b></label>';
                         }
