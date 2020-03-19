@@ -108,7 +108,7 @@ class PO_Details
 
     public function get_for_releasing_fo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.bill_date, po_details.status, company.id, company.company as "comp-name", departments.id, departments.department, supplier.id, supplier.supplier_name, project.id, project.project, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, company, departments, supplier, project, users WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.department = departments.id AND po_details.project = project.id AND po_details.submitted_by = users.id AND po_details.status = 9 ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.bill_date, po_details.status, company.id, company.company as "comp-name", departments.id, departments.department, supplier.id, supplier.supplier_name, project.id, project.project, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, company, departments, supplier, project, users WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.department = departments.id AND po_details.project = project.id AND po_details.submitted_by = users.id AND po_details.status = 10 ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -637,14 +637,15 @@ class PO_Details
 
     public function mark_released()
     {
-        $query = 'UPDATE po_details, po_other_details SET po_details.status = 10, po_details.or_num = ?, po_other_details.date_release = ? WHERE po_details.id = ? AND po_other_details.po_id = ?';
+        $query = 'UPDATE po_details, po_other_details SET po_details.status = 11, po_details.or_num = ?, po_other_details.date_release = ?, po_other_details.released_by = ? WHERE po_details.id = ? AND po_other_details.po_id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
         $upd->bindParam(1, $this->or_num);
         $upd->bindParam(2, $this->date_release);
-        $upd->bindParam(3, $this->id);
-        $upd->bindParam(4, $this->po_id);
+        $upd->bindParam(3, $this->released_by);
+        $upd->bindParam(4, $this->id);
+        $upd->bindParam(5, $this->po_id);
 
         if($upd->execute())
         {

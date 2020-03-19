@@ -14,6 +14,7 @@ $po->id = $_POST['id'];
 $po->po_id = $_POST['id'];
 $po->date_release = date('Y-m-d');
 $po->or_num = $_POST['or_num'];
+$po->released_by = $_SESSION['id'];
 
 $upd = $po->mark_released();
 
