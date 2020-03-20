@@ -65,7 +65,8 @@ if($upd)
                     <option value="2">Returned from EA</option>';
             }
             echo '</select>
-            <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button></center>
+            <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
+            <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
           </td>
         </tr>';
       }  
@@ -156,5 +157,27 @@ if($upd)
       }
     })
   }
+})
+
+//cancel check function
+$('.cancel').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_for_cancel.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#cancelModal').modal('show');
+      $('#details-body').html(html);
+    }
+  })
 })
 </script>

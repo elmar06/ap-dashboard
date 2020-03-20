@@ -30,7 +30,6 @@ $('.apply').on('click', function(e){
       data: {id:id},
       success: function(html)
       {
-        alert(html);
         toastr.success('Request successfully mark as forwarded to EA Team.');
         $('#process-body').html(html);
       }
@@ -126,6 +125,72 @@ function cancel_bulk()
   $('#bulk-action').fadeOut();
   $('.action').attr('disabled', false);
   $('.apply').attr('disabled', false);
+}
+
+//cancel check function
+$('.cancel').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_for_cancel.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#cancelModal').modal('show');
+      $('#details-body').html(html);
+    }
+  })
+})
+
+//submit cancellation function
+function submit_cancellation()
+{
+  var id = $('#po-id').val();
+  //old data
+  var old_cv_no = $('#old-cv-no').val();
+  var old_check_no = $('#old-check-no').val();
+  var old_bank = $('#old-bank').val();
+  var old_check_date = $('#old-checkdate').val();
+  //new data
+  var new_cv_no = $('#new-cv-no').val();
+  var new_check_no = $('#new-check-no').val();
+  var new_bank = $('#new-bank').val();
+  var new_check_date = $('#new-checkdate').val();
+  var myData = 'id=' + id + '&old_cv_no=' + old_check_no + '&old_check_no=' + old_check_no + '&old_bank=' + old_bank + '&old_check_date=' + old_check_date + '&new_cv_no=' + new_cv_no + '&new_check_no=' + new_check_no + '&new_bank=' + new_bank + '&new_check_date=' + new_check_date;
+  
+  if(new_cv_no != null && new_check_no != null && new_bank != null && new_check_date != null)
+  {
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/cancel_check.php',
+      data: myData,
+      beforeSend: function()
+      {
+        showToast();
+      },
+      success: function(html)
+      {
+        if(html != 0)
+        {
+          toastr.success('<center>Cancellation of check successfully process.</center>');
+          $('#process-body').fadeOut();
+          $('#process-body').fadeIn();
+          $('#process-body').html(html);
+        }else{
+          toastr.error('<center>ERROR! Please contact the system administrator at local 124 for assistance.</center>');
+        }
+      }
+    })
+  }else{
+    toastr.error('<center>ERROR! Please fill out all the data needed to proceed.</center>');
+  }
 }
 
 //Checkbox All

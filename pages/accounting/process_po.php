@@ -109,7 +109,8 @@
                                           <option value="2">Returned from EA</option>';
                                   }
                                   echo '</select>
-                                  <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button></center>
+                                  <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
+                                  <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
                                 </td>
                               </tr>';
                             }  
@@ -134,12 +135,12 @@
 </a>
 
 <!-- View Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Check Detail</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -149,7 +150,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="btnSubmit" class="btn btn-primary">Submit For Signature</button>
+        <button class="btn btn-primary" onclick="submit_cancellation()">Submit</button>
       </div>
     </div>
   </div>

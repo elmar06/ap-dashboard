@@ -126,27 +126,23 @@ echo '<div class="row mb-3">
                     $view = $po->get_submitted_po_acc();
                     while($row6 = $view->fetch(PDO::FETCH_ASSOC))
                     {
-                    //format of status
-                    if($row6['status'] == 1)
-                    {
+                        //format of status
+                        if($row6['status'] == 1)
+                        {
                         $status = '<label style="color: red"><b> Pending</b></label>';
-                    }
-                    else if($row6['status'] == 2)
-                    {
+                        }
+                        else if($row6['status'] == 2)
+                        {
                         $status = '<label style="color: orange"><b> Returned</b></label>';
-                    }
-                    else if($row6['status'] == 8)
-                    {
-                      $status = '<label style="color: orange"><b> On Hold</b></label>';
-                    }
-                    else if($row6['status'] == 9)
-                    {
-                        $status = '<label style="color: green"><b> For Releasing</b></label>';
-                    }
-                    else
-                    {
+                        }
+                        else if($row6['status'] == 9)
+                        {
+                        $status = '<label style="color: orange"><b> On Hold</b></label>';
+                        }
+                        else
+                        {
                         $status = '<label style="color: blue"><b> On Process</b></label>';
-                    }
+                        }
                     //date format
                     $bill_date = date('m/d/Y', strtotime($row6['bill_date']));
                     echo '

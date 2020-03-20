@@ -60,7 +60,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                     echo '</select>
                 </div>
                 <div class="col-lg-6">
-                <label><i style="color: red">*</i> Billing/Invoice Date:</label>
+                <label><i style="color: red">*</i> Check Date:</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>

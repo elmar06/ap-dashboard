@@ -41,8 +41,8 @@ if($upd)
          echo '
          <tr>
            <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-           <td>'.$row['comp-name'].'</td>
-           <td>'.$row['po_num'].'</td>
+           <td>'.$row['cv_no'].'</td>
+           <td>'.$row['check_no'].'</td>
            <td>'.$row['supplier_name'].'</td>
            <td>'.$bill_date.'</td>
            <td>'.$row['fullname'].'</td>
@@ -67,7 +67,8 @@ if($upd)
                         <option value="2">Returned from EA</option>';
                 }
              echo '</select>
-             <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button></center>
+             <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
+             <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
            </td>
          </tr>';
        }  
@@ -113,5 +114,27 @@ $('.apply').on('click', function(e){
       }
     })
   }
+})
+
+//cancel check function
+$('.cancel').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_for_cancel.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#cancelModal').modal('show');
+      $('#details-body').html(html);
+    }
+  })
 })
 </script>
