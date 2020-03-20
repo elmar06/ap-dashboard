@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 19, 2020 at 10:06 AM
+-- Generation Time: Mar 20, 2020 at 10:40 AM
 -- Server version: 5.7.23
 -- PHP Version: 5.6.38
 
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `check_details` (
   `check_no` varchar(50) NOT NULL,
   `check_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `check_details`
@@ -102,7 +102,10 @@ INSERT INTO `check_details` (`id`, `po_id`, `cv_no`, `bank`, `check_no`, `check_
 (2, 2, '33121', 1, '1212', '2020-03-11 00:00:00'),
 (6, 3, '112312', 4, '451122', '2020-03-18 00:00:00'),
 (7, 4, '665122', 2, '12344', '2020-03-19 00:00:00'),
-(8, 5, '1212', 1, '3312', '2020-03-18 00:00:00');
+(8, 5, '1212', 1, '3312', '2020-03-18 00:00:00'),
+(9, 7, '12233', 3, '1122', '2020-03-20 00:00:00'),
+(10, 8, '121', 2, '331', '2020-03-20 00:00:00'),
+(11, 11, '3341', 4, '112', '2020-03-20 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -188,6 +191,31 @@ INSERT INTO `departments` (`id`, `department`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `old_check_details`
+--
+
+DROP TABLE IF EXISTS `old_check_details`;
+CREATE TABLE IF NOT EXISTS `old_check_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `po_id` int(11) NOT NULL,
+  `cv_no` varchar(20) NOT NULL,
+  `bank` int(11) NOT NULL,
+  `check_no` varchar(20) NOT NULL,
+  `check_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `old_check_details`
+--
+
+INSERT INTO `old_check_details` (`id`, `po_id`, `cv_no`, `bank`, `check_no`, `check_date`) VALUES
+(1, 7, '22222', 2, '22222', '2020-03-20 00:00:00'),
+(2, 7, '1233', 4, '1233', '2020-03-20 00:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `po_details`
 --
 
@@ -224,12 +252,12 @@ INSERT INTO `po_details` (`id`, `po_num`, `si_num`, `company`, `project`, `depar
 (3, '112453', '451244', 2, 2, 4, 4, '474574', '2020-03-07 00:00:00', '30', '50,000.00', '2020-04-06 00:00:00', 'undefined', '2020-03-16', '', NULL, 1, 9),
 (4, '777941', '455745', 2, 5, 14, 3, '11746441', '2020-03-16 00:00:00', '30', '154,111.00', '2020-04-15 00:00:00', 'undefined', '2020-03-16', '', NULL, 1, 9),
 (5, '44512', '455664', 2, 8, 16, 21, '121433445', '2020-03-16 00:00:00', '20', '10,000.00', '2020-04-05 00:00:00', 'undefined', '2020-03-16', '', '121223', 1, 11),
-(6, '11234', '13341', 14, 17, 2, 3, '3131', '2020-03-18 00:00:00', '30', '45,661.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
-(7, '44321', '31212', 2, 6, 6, 17, '885664', '2020-03-18 00:00:00', '20', '41,225.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
-(8, '33112', '121344', 2, 25, 2, 23, '1213213', '2020-03-18 00:00:00', '30 days', '1,211.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
-(9, '99412', '1541', 2, 17, 16, 18, '78994', '2020-03-18 00:00:00', '20', '120,000.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
+(6, '11234', '13341', 14, 17, 2, 3, '3131', '2020-03-18 00:00:00', '30', '45,661.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 3),
+(7, '44321', '31212', 2, 6, 6, 17, '885664', '2020-03-18 00:00:00', '20', '41,225.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5),
+(8, '33112', '121344', 2, 25, 2, 23, '1213213', '2020-03-18 00:00:00', '30 days', '1,211.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5),
+(9, '99412', '1541', 2, 17, 16, 18, '78994', '2020-03-18 00:00:00', '20', '120,000.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 4),
 (10, '44231', '144564', 2, 2, 3, 37, '55641', '2020-03-18 00:00:00', '30', '10,023.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
-(11, '1212', '4561', 2, 2, 15, 4, '123132', '2020-03-18 00:00:00', '30', '10,000.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1);
+(11, '1212', '4561', 2, 2, 15, 4, '123132', '2020-03-18 00:00:00', '30', '10,000.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -270,14 +298,14 @@ INSERT INTO `po_other_details` (`id`, `po_id`, `date_returned_req`, `remarks`, `
 (6, 3, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, NULL),
 (7, 4, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, NULL, NULL),
 (8, 5, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, '2020-03-18 00:00:00', '2020-03-19 00:00:00', 4),
-(9, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(13, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(14, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 6, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 8, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 9, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
 (15, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(16, 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(16, 11, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
