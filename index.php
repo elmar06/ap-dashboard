@@ -12,9 +12,9 @@
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
-
+<!-- Im testing it from my home -->
 <body class="bg-gradient-login">
-  <!-- Login Content this is a test-->
+  <!-- Login Content-->
   <div class="container-login">
     <div class="row justify-content-center">
       <div class="col-xl-10 col-lg-12 col-md-9">
