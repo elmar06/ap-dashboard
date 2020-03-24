@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();//work from home
 if(!(isset($_SESSION['fullname'])))
 {
   header('Location: ../../index.php');

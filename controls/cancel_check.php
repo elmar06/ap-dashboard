@@ -1,5 +1,4 @@
 <?php
-//last update 3/23/2020
 session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';

@@ -358,6 +358,9 @@ function get_releasing_po()
     }
   })
 }
+
+//upd user details
+//get details
 </script>
 
 <!-- CHECKBOXALL-->
