@@ -24,7 +24,7 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
             <input type="email" class="form-control" id="user-email" placeholder="Email Address" value="'.$row['email'].'">
         </div>
         <div class="form-group">
-            <select id="user-department" class="form-control mb-3">';
+            <select id="user-department" class="form-control mb-3" disabled>';
             if($row['access'] == 1)
             {
                 echo '<option value="0" selected disabled>Please select a Department</option>
@@ -57,6 +57,7 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
         </div>
         <div class="form-group">
             <input type="password" class="form-control" id="user-password2" placeholder="Retype Password">
+            <small id="pass-alert" style="color: green;"></small>
         </div>
         <div id="user-success" class="alert alert-success" role="alert" style="display: none"></div>
         <div id="user-warning" class="alert alert-danger" role="alert" style="display: none"></div>';
@@ -88,4 +89,37 @@ $('#upd-lastname').blur(function(e){
   var username = f.concat('.').concat(l);
   $('#upd-username').val(username);
 })
+
+//check if password match
+$('#user-password2').keyup(function(){
+  var newpass = $('#user-password').val();
+  var repass = $(this).val();
+
+  if(newpass == repass)
+  {
+    document.getElementById("pass-alert").innerHTML = "<label style='color:green'>Password match</label>";
+    $('#btnUpdate').attr('disabled', false);
+  }
+  else
+  {
+    document.getElementById("pass-alert").innerHTML = "<label style='color:red'>ERROR! Password not match</label>";
+    $('#btnUpdate').attr('disabled', true);
+  }
+})  
+
+$('#user-password').keyup(function(){
+  var repass = $('#user-password2').val();
+  var newpass = $(this).val();
+
+  if(newpass == repass)
+  {
+    document.getElementById("pass-alert").innerHTML = "<label style='color:green'>Password match</label>";
+    $('#btnUpdate').attr('disabled', false);
+  }
+  else
+  {
+    document.getElementById("pass-alert").innerHTML = "<label style='color:red'>ERROR! Password not match</label>";
+    $('#btnUpdate').attr('disabled', true);
+  }
+})  
 </script>

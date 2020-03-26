@@ -146,6 +146,25 @@ class Users
 		}
 	}
 
+	public function change_password()
+	{
+		$query = 'UPDATE '.$this->table_name.' SET password=?, logcount=1 WHERE id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$res = $this->conn->prepare($query);
+
+		$res->bindParam(1, $this->password);
+		$res->bindParam(2, $this->id);
+
+		if($res->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public function get_user_detail_byid()
 	{
 		$query = 'SELECT * FROM '.$this->table_name.' WHERE id=?';

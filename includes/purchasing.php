@@ -67,6 +67,7 @@ $project = new Project($db);
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $_SESSION['id']; ?>" style="display: none;">
+          <input id="logcount" value="<?php echo $_SESSION['log_count']; ?>" style="display: none;">
             <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
@@ -96,10 +97,44 @@ $project = new Project($db);
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="updateSettings()">Update Details</button>
+            <button id="btnUpdate" type="button" class="btn btn-primary" onclick="updateSettings()">Update Details</button>
           </div>
         </div>
     </div>
+</div>
+
+<!-- change password modal -->
+<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> User Details</h5>
+          </div>
+          <div id="pass-body" class="modal-body">
+            <!-- body goes here  -->
+          </div>
+          <div class="modal-footer">
+            <button id="btnChangePassword" type="button" class="btn btn-primary" onclick="changePassword()"><i class="fas fa-save"></i> Save</button>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal after successful change of password -->
+<div id="noticeModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><b>NOTICE</b></h4>
+      </div>
+      <div class="modal-body">
+        <p>Congratulation, your password has been successfully updated. You need to login again to complete the process <a href="../../controls/logout.php"><b><u>Click here</b></u></a> to continue.</p>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" href="../../controls/logout.php">Logout</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -109,7 +144,7 @@ function getUserDetails()
 
   $.ajax({
     type: 'POST',
-    url: '../../controls/user_settings.php',
+    url: '../../controls/get_user_details.php',
     data: {id: id},
     beforeSend: function()
     {
@@ -135,25 +170,74 @@ function updateSettings()
   var password2 = $('#user-password2').val();
   var myData = 'id=' + id + '&firstname=' + firstname + '&lastname=' + lastname + '&email=' + email + '&department=' + department + '&username=' + username + '&password=' + password;
 
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/upd_user.php',
-    data: myData,
-    beforeSend: function()
+  if(firstname != '' && lastname != '' && email != '')
+  {
+    if(password != '')//if password is not empty
     {
-      showToast();
-    },
-    success: function(response)
-    {
-      if(response > 0)
-      {
-        alert('success');
-      }
-      else
-      {
-        alert('failed')
-      }
+      $.ajax({
+        type: 'POST',
+        url: '../../controls/upd_user_settings.php',
+        data: myData,
+        beforeSend: function()
+        {
+          showToast();
+        },
+        success: function(response)
+        {
+          if(response > 0)
+          {
+            $('#user-success').html('<center><i class="fas fa-check"></i> User Details successfully udpated.</center>');
+            $('#user-success').show();
+            setTimeout(function(){
+              $('#user-success').hide();
+            }, 2000)
+          }
+          else
+          {
+            $('#user-warning').html('<center><i class="fas fa-ban"></i> Update Failed. Please contact the Administrator at local 124.</center>');
+            $('#user-warning').show();
+            setTimeout(function(){
+              $('#user-warning').hide();
+            }, 3000)
+          }
+        }
+      })
+    }else{
+      $.ajax({
+        type: 'POST',
+        url: '../../controls/upd_user.php',
+        data: myData,
+        beforeSend: function()
+        {
+          showToast();
+        },
+        success: function(response)
+        {
+          if(response > 0)
+          {
+            $('#user-success').html('<center><i class="fas fa-check"></i> User Details successfully udpated.</center>');
+            $('#user-success').show();
+            setTimeout(function(){
+              $('#user-success').hide();
+            }, 2000)
+          }
+          else
+          {
+            $('#user-warning').html('<center><i class="fas fa-ban"></i> Update Failed. Please contact the Administrator at local 124.</center>');
+            $('#user-warning').show();
+            setTimeout(function(){
+              $('#user-warning').hide();
+            }, 3000)
+          }
+        }
+      })
     }
-  })
+  }else{
+    $('#user-warning').html('<center><i class="fas fa-ban"></i> ERROR! Please fill out all the fields needed.</center>');
+    $('#user-warning').show();
+    setTimeout(function(){
+      $('#user-warning').hide();
+    }, 3000)
+  }
 }
 </script>
