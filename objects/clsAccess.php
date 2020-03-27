@@ -42,6 +42,7 @@ class Access
  		$sel->execute();
 
  		return $sel;
- 	}
+	 }
+	 
 }
 ?>

@@ -233,7 +233,15 @@ class Users
 		}
 	}
 
-	
+	public function get_fo_staff()
+	{
+		$query = 'SELECT * FROM '.$this->table_name.' WHERE access = 2 AND status != 0';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+	}
 }
 
 ?>

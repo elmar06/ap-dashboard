@@ -2,6 +2,9 @@
 <script>
   $(document).ready(function () {
     $('#user-table').DataTable(); // ID From dataTable with Hover
+    
+    //select2 js
+    $(".select2").select2();
   });
 </script>
 
@@ -141,10 +144,7 @@ $('#btnActivate').click(function(e){
 
     if(id == 0)
     {
-        $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Please select a user to proceed.<i>');
-        $('#error-msg').show();
-        $('#success-msg').hide();
-        $('#errorModal').modal('show');
+        toastr.error('ERROR! Please select a user to proceed.');
     }
     else
     {
@@ -164,16 +164,13 @@ $('#btnActivate').click(function(e){
                         url: '../../controls/view_all_user.php',
                         success: function(html)
                         {
-                            $('#user-body').html(html);
-                            $('#upd-success').html('<center><i class="fas fa-check"></i> User successfully marked as inactive. </center>');
-                            $('#upd-success').show().fadeOut(10000);
+                            toastr.success('User successfully activated.');
                         }
                     })
                 }
                 else
                 {
-                    $('#upd-warning').html('<center><i class="fas fa-ban"></i> Removing Failed. Please call the IT administrator in local 124 for assistance.</center>');
-                    $('#upd-warning').show().fadeOut(10000);
+                    toastr.error('ERROR! Activate Failed. Please contact the system administrator at local 124 for assistance.');
                 }
             },
             error: function(xhr, ajaxOptions, thrownError)
@@ -197,10 +194,7 @@ $('#btnRemove').click(function(e){
 
     if(id == 0)
     {
-        $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Please select a user to proceed.<i>');
-        $('#error-msg').show();
-        $('#success-msg').hide();
-        $('#errorModal').modal('show');
+        toastr.error('ERROR! Please select a user to proceed.');
     }
     else
     {
@@ -220,16 +214,13 @@ $('#btnRemove').click(function(e){
                         url: '../../controls/view_all_user.php',
                         success: function(html)
                         {
-                            $('#user-body').html(html);
-                            $('#upd-success').html('<center><i class="fas fa-check"></i> User successfully marked as inactive. </center>');
-                            $('#upd-success').show().fadeOut(10000);
+                            toastr.success('User successfully marked as Inactive.');
                         }
                     })
                 }
                 else
                 {
-                    $('#upd-warning').html('<center><i class="fas fa-ban"></i> Removing Failed. Please call the IT administrator in local 124 for assistance.</center>');
-                    $('#upd-warning').show().fadeOut(10000);
+                    toastr.error('ERROR! Activate Failed. Please contact the system administrator at local 124 for assistance.');
                 }
             },
             error: function(xhr, ajaxOptions, thrownError)
@@ -253,10 +244,7 @@ $('#btnReset').click(function(e){
     
     if(id == 0)
     {
-        $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Please select a user to proceed.<i>');
-        $('#error-msg').show();
-        $('#success-msg').hide();
-        $('#errorModal').modal('show');
+        toastr.error('ERROR! Please select a user to proceed.');
     }
     else
     {
@@ -272,17 +260,11 @@ $('#btnReset').click(function(e){
             {
                 if(response > 0)
                 {
-                    $('#success-msg').html('<i class="fas fa-times-circle"></i> Password Successfully Reset. User can now login using the default password.<i>');
-                    $('#success-msg').show();
-                    $('#error-msg').hide();
-                    $('#errorModal').modal('show');
+                    toastr.success('User Password successfully reseted.');
                 }
                 else
                 {
-                    $('#error-msg').html('<i class="fas fa-times-circle"></i> ERROR! Please contact the administrator at local 124.<i>');
-                    $('#error-msg').show();
-                    $('#success-msg').hide();
-                    $('#errorModal').modal('show');
+                    toastr.error('ERROR! Reset Failed. Please contact the system administrator at local 124 for assistance.');
                 }
             },
             error: function(xhr, ajaxOptions, thrownError)
@@ -291,6 +273,43 @@ $('#btnReset').click(function(e){
             }
         })
     }
+})
+
+//add company per user
+$('#btnAddComp').on('click', function(e){
+    e.preventDefault();
+
+    var id = []
+    $('input:checkbox[name=checklist]:checked').each(function() {
+        id.push($(this).val())
+    });
+
+    if(id == 0)
+    {
+        toastr.error('ERROR! Please select a user to proceed.');
+    }
+    else
+    {
+        $.ajax({
+            type: 'POST',
+            url: '../../controls/get_user_access.php',
+            data: 'id=' + id,
+            beforeSend: function()
+            {
+                showToast();
+            },
+            success: function(html)
+            {
+                $('#userCompanyModal').modal('show');
+                $('#user-company-body').html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+            }
+        })
+    }
+    
 })
 </script>
 

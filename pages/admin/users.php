@@ -13,6 +13,8 @@
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -33,6 +35,7 @@
               <div class="row">
                 &nbsp;&nbsp;&nbsp;
                 <button id="btnAdd" class="btn btn-primary btn-block" style="width: 13%" data-toggle="modal" data-target="#newUser"><i class="fas fa-plus"></i> Add User</button>&nbsp;
+                <button id="btnAddComp" type="button" class="btn btn-info"><i class="fas fa-folder-plus"></i> Add Access</button>&nbsp;
                 <button id="btnActivate" type="button" class="btn btn-success"><i class="fas fa-check"></i> Activate</button>&nbsp;
                 <button id="btnRemove" type="button" class="btn btn-danger"><i class="fas fa-trash"></i> Remove</button>&nbsp;
                 <button id="btnReset" type="button" class="btn btn-warning"><i class="fas fa-sync-alt"></i> Reset Password</button>
@@ -174,23 +177,55 @@
         </div>
     </div>
 </div>
-
-<!-- Error modal -->
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Display the details of user company modal -->
+<div class="modal fade" id="userCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> Company Access Details</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-          <center><label id="error-msg" style="font-size: 18px; color: red; display: none;"></label></center>
-          <center><label id="success-msg" style="font-size: 18px; color: green; display: none;"></label></center>
-
+          <form>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-lg-10">
+                  <select id="company" class="form-control mb-3 select2" style="width: 100%;">
+                    <option selected disabled>Select a Company</option>
+                    <?php
+                      $get = $company->get_active_company();
+                      while($row = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
+                      }
+                    ?>
+                  </select>
+                </div>
+                <div class="col-lg-2">
+                  <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush table-hover" id="company-table">
+              <thead class="thead-light">
+                <tr>
+                  <th>Company</th>
+                  <th><center>Action</center></th>
+                </tr>
+              </thead>
+              <tbody id="user-company-body">
+                <!-- list of company goes here -->
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="btnEdit" type="button" class="btn btn-info">Edit</button>
+          <button id="btnUpdUser" type="button" class="btn btn-primary" disabled>Update Details</button>
         </div>
         </div>
     </div>
@@ -204,6 +239,9 @@
 <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
+<script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <?php include 'js/users-js.php'; ?>
 
 </body>

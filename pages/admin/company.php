@@ -107,7 +107,7 @@
         <div class="modal-body">
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control firstname" id="company-name" placeholder="Company Name">
+                  <input type="text" class="form-control firstname" id="company-name" placeholder="Company Name">
                 </div>
                 <!-- Alert -->
                 <div id="add-success" class="alert alert-success" role="alert" style="display: none"></div>
