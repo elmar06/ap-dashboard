@@ -242,6 +242,17 @@ class Users
 		$sel->execute();
 		return $sel;
 	}
+
+	public function get_next_user_id()
+	{
+		$query = 'SELECT max(id) + 1 as "id" FROM users';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+	}
+
 }
 
 ?>

@@ -187,45 +187,12 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-lg-10">
-                  <select id="company" class="form-control mb-3 select2" style="width: 100%;">
-                    <option selected disabled>Select a Company</option>
-                    <?php
-                      $get = $company->get_active_company();
-                      while($row = $get->fetch(PDO::FETCH_ASSOC))
-                      {
-                        echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="col-lg-2">
-                  <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
-                </div>
-              </div>
-            </div>
-          </form>
-          <div class="table-responsive">
-            <table class="table align-items-center table-flush table-hover" id="company-table">
-              <thead class="thead-light">
-                <tr>
-                  <th>Company</th>
-                  <th><center>Action</center></th>
-                </tr>
-              </thead>
-              <tbody id="user-company-body">
-                <!-- list of company goes here -->
-              </tbody>
-            </table>
-          </div>
+        <div class="modal-body access-body">
+            <!-- details goes here -->
         </div>
         <div class="modal-footer">
-          <button id="btnEdit" type="button" class="btn btn-info">Edit</button>
-          <button id="btnUpdUser" type="button" class="btn btn-primary" disabled>Update Details</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="apply_access()">Save Changes</button>
         </div>
         </div>
     </div>

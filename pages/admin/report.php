@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../../assets/img/logo/logo.png" rel="icon">
+  <title>AP Dashboard - User</title>
+  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+    <?php include '../../includes/admin.php'; ?><!-- page header -->
+      <!-- Container Fluid-->
+      <!-- Breadcrumbs -->
+        <div class="container-fluid" id="container-wrapper">
+            <div class="d-sm-flex justify-content-between mb-4">
+                <ol class="breadcrumb" align="right">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Administrator</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Reports</li>
+                </ol>
+            </div><!-- /Breadcrumbs -->
+            <div class="card mb-4">
+                <div class="p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>Generate Report By:</label>
+                    </div>   
+                </div>  
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input id="from" class="form-control datepicker" placeholder="Date From">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <input id="to" class="form-control datepicker" placeholder="Date To">
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn-sm btn-success apply"><i class="fas fa-check"></i> Generate</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div><!---/Container Fluid-->
+    </div><!-- /wrapper -->
+
+<!-- Footer -->
+<?php include '../../includes/footer.php'; ?>
+
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Modal Section-->
+<!-- Add New User Modal -->
+<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> User Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control firstname" id="firstname" placeholder="Firstname">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control lastname" id="lastname" placeholder="Lastname">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" 
+                    placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <select id="department" class="form-control mb-3">
+                    <option value="0" selected disabled>Please select a Department</option>
+                    <option value="2">Accounts Payable</option>
+                    <option value="3">Purchasing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control username" id="username" placeholder="Username" disabled>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Username" value="123456" disabled>
+                </div>
+                <!-- Alert -->
+                <div id="add-success" class="alert alert-success" role="alert" style="display: none"></div>
+                <div id="add-warning" class="alert alert-danger" role="alert" style="display: none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="btnSaveUser" type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../../assets/js/ruang-admin.min.js"></script>
+<script src="../../assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js"></script>
+<!-- Datatable plugins -->
+<script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../../assets/js/jquery.toast.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
+<script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
+<script src="../../assets/vendor/select2/js/select2.min.js"></script>
+<?php include 'js/report-js.php'; ?>
+
+</body>
+</html>

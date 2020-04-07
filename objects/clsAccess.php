@@ -15,14 +15,32 @@ class Access
     
     public function add_access()
 	{
-		$query = 'INSERT INTO '.$this->table_name.' SET user_id=?, company=?';
+		$query = 'INSERT INTO '.$this->table_name.' SET user_id=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$ins = $this->conn->prepare($query);
 
 		$ins->bindParam(1, $this->user_id);
-		$ins->bindParam(2, $this->company);
 
 		if($ins->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public function add_user_access()
+	{
+		$query = 'UPDATE '.$this->table_name.' SET company=? WHERE user_id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$upd = $this->conn->prepare($query);
+
+		$upd->bindParam(1, $this->company);
+		$upd->bindParam(2, $this->user_id);
+
+		if($upd->execute())
 		{
 			return true;
 		}

@@ -126,8 +126,8 @@ $('#btnUpdUser').click(function(e){
         $('#upd-warning').html('<center><i class="fas fa-ban"></i> Update Failed. Please input all the data needed.</center>');
         $('#upd-warning').show();
         setTimeout(function(){
-            $('#upd-warning').fadeOut();
-        }, 5000)
+            $('#upd-warning').hide();
+        }, 3000)
     }    
 })
 </script>
@@ -287,6 +287,9 @@ $('#btnAddComp').on('click', function(e){
     if(id == 0)
     {
         toastr.error('ERROR! Please select a user to proceed.');
+    }else if(id.length > 1)
+    {
+        toastr.error('ERROR! More than 1 user are selected.');
     }
     else
     {
@@ -301,16 +304,76 @@ $('#btnAddComp').on('click', function(e){
             success: function(html)
             {
                 $('#userCompanyModal').modal('show');
-                $('#user-company-body').html(html);
+                $('.access-body').html(html);
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
                 alert(thrownError);
             }
         })
-    }
-    
+    }   
 })
+
+//apply access to user
+function apply_access()
+{
+    var company = []
+    $('input:checkbox[name=access]:checked').each(function() {
+        company.push($(this).val())
+    });
+    var id = $('#id').val();
+    var myData = 'id=' + id + '&company=' + company;
+
+    $.ajax({
+        type: 'POST',
+        url: '../../controls/add_access.php',
+        data: myData,
+        beforeSend: function()
+        {
+            showToast();
+        },
+        success: function(response)
+        {
+            if(response > 0)
+            {
+                $('#access-success').html('<center><i class="fas fa-check"></i> User Access Successfully added. </center>');
+                $('#access-success').show();
+                setTimeout(function(){
+                    $('#access-success').fadeOut();
+                }, 4000) 
+            }else{
+                $('#access-warning').html('<center><i class="fas fa-ban"></i> Adding access Failed. Please contact the system administrator at local 124 for assistance.</center>');
+                $('#access-warning').show();
+                setTimeout(function(){
+                    $('#access-warning').hide();
+                }, 3000)
+            }
+        }
+    })
+
+}
+
+//save new company access
+function add_company_access()
+{
+    if($('#company option:selected').val() != "Select a Company")
+    {
+        var id = $('#company option:selected').val();
+        var company = $('#company option:selected').text();
+        //var opt = $('#company option:selected').remove();
+        var row = $('<tr><td hidden><input type="checkbox" name="access" value="'+ id +'" checked></td><td>'+ company +'</td><td><center><button class="btn-sm btn-danger remove"><i class="fas fa-times-circle"></i></button></center></td></tr>');
+        row.appendTo('#tblcompany-access');
+    }
+    else
+    {
+        $('#comp-warning').html('<center><i class="fas fa-ban"></i> Please select a company to proceed.</center>');
+        $('#comp-warning').show();
+        setTimeout(function(){
+            $('#comp-warning').hide();
+        }, 3000)
+    }
+}
+
 </script>
 
 <!-- edit button function -->

@@ -44,7 +44,6 @@
                         <th>PO/JO No</th>
                         <th>Supplier</th>
                         <th>Billing Date</th>
-                        <th>Submitted By</th>
                         <th>Release Date</th>
                       </tr>
                     </thead>
@@ -64,7 +63,6 @@
                           <td>'.$row['po_num'].'</td>
                           <td>'.$row['supplier_name'].'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
                           <td><center>'.$release.'</center></td>
                         </tr>';
                       }
