@@ -4,6 +4,8 @@ $(document).ready(function () {
   $('#req-table').DataTable();// ID From dataTable with Hover
   //select2 js
   $(".select2").select2();
+  //select2 multiple
+  $('.basic-multiple').select2();
 })
 //toast
 function showToast(){

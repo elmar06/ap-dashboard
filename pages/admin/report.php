@@ -30,8 +30,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Reports</li>
                 </ol>
             </div><!-- /Breadcrumbs -->
-            <div class="card mb-4">
-                <div class="p-3">
+            <div class="card mb-4 p-3">
                 <div class="row">
                     <div class="col-lg-12">
                         <label>Generate Report By:</label>
@@ -39,6 +38,62 @@
                 </div>  
                 <div class="row">
                     <div class="col-lg-3">
+                        <label>User Role:</label>
+                        <select id="role" class="form-control mb-3 select2" style="width: 100%;">
+                            <option selected disabled>Please select a Role</option>
+                            <option value="1">Front Office</option>
+                            <option value="2">Back Office</option>
+                            <option value="3">Purchasing</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"><br>
+                        <label>Company:</label>
+                        <select id="company" class="form-control mb-3 select2" style="width: 100%;">
+                        <option selected disabled>Select a Company</option>
+                            <?php
+                                $get = $company->get_active_company();
+                                while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                {
+                                echo '<option value="'.$row1['id'].'">'.$row1['company'].'</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Supplier:</label>
+                        <select id="supplier" class="form-control mb-3 select2" style="width: 100%;">
+                        <option selected disabled>Select a Supplier</option>
+                        <?php
+                            $get = $supplier->get_active_supplier();
+                            while($row = $get->fetch(PDO::FETCH_ASSOC))
+                            {
+                            echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
+                            }
+                        ?>
+                        </select>
+                    </div><br>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Requestor:</label>
+                        <select id="requestor" class="form-control mb-3 select2" style="width: 100%;">
+                        <option selected disabled>Select a Requestor</option>
+                        <?php
+                            $get = $user->view_all_user();
+                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                            {
+                            echo '<option value="'.$row1['id'].'">'.$row1['fullname'].'</option>';
+                            }
+                        ?>
+                        </select>
+                    </div><br>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3"><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -46,7 +101,7 @@
                             <input id="from" class="form-control datepicker" placeholder="Date From">
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3"><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -54,10 +109,11 @@
                             <input id="to" class="form-control datepicker" placeholder="Date To">
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <button class="btn-sm btn-success apply"><i class="fas fa-check"></i> Generate</button>
-                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button class="btn btn-success" onclick="generate_report()"><i class="fas fa-check"></i> Generate</button>
+                    </div>
                 </div>
             </div>
         </div><!---/Container Fluid-->
@@ -70,55 +126,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
-
-<!-- Modal Section-->
-<!-- Add New User Modal -->
-<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user"></i> User Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <input type="text" class="form-control firstname" id="firstname" placeholder="Firstname">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control lastname" id="lastname" placeholder="Lastname">
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="email" 
-                    placeholder="Email Address">
-                </div>
-                <div class="form-group">
-                    <select id="department" class="form-control mb-3">
-                    <option value="0" selected disabled>Please select a Department</option>
-                    <option value="2">Accounts Payable</option>
-                    <option value="3">Purchasing</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control username" id="username" placeholder="Username" disabled>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="Username" value="123456" disabled>
-                </div>
-                <!-- Alert -->
-                <div id="add-success" class="alert alert-success" role="alert" style="display: none"></div>
-                <div id="add-warning" class="alert alert-danger" role="alert" style="display: none"></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="btnSaveUser" type="button" class="btn btn-primary">Save changes</button>
-        </div>
-        </div>
-    </div>
-</div>
 
 <script src="../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

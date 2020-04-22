@@ -188,9 +188,15 @@
                 </div>
             </div>
             <div class="row">
+              <div class="col-lg-8">
+                <label><i style="color: red">*</i> Amount:</label>
+                <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter Amount">
+              </div>
+            </div>
+            <div class="row">
               <div class="col-lg-12">
                   <label><i style="color: red">*</i> Select a PO/JO number to process:</label>
-                  <select id="multiReq" class="form-control mb-3 select2" multiple="multiple" style="width: 100%;">
+                  <select id="multiReq" class="form-control mb-3 basic-multiple" multiple="multiple" style="width: 100%;">
                     <?php
                     $get = $bank->get_all_banks();
                     while($row5 = $get->fetch(PDO::FETCH_ASSOC))
