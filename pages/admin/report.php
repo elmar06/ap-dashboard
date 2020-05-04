@@ -37,17 +37,6 @@
                     </div>   
                 </div>  
                 <div class="row">
-                    <div class="col-lg-3">
-                        <label>User Role:</label>
-                        <select id="role" class="form-control mb-3 select2" style="width: 100%;">
-                            <option selected disabled>Please select a Role</option>
-                            <option value="1">Front Office</option>
-                            <option value="2">Back Office</option>
-                            <option value="3">Purchasing</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3"><br>
                         <label>Company:</label>
                         <select id="company" class="form-control mb-3 select2" style="width: 100%;">
@@ -60,6 +49,10 @@
                                 }
                             ?>
                         </select>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 17px; padding-left: 50px"> </label><br>
+                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
                 <div class="row">
@@ -75,7 +68,11 @@
                             }
                         ?>
                         </select>
-                    </div><br>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 23px"> </label>
+                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
@@ -90,7 +87,11 @@
                             }
                         ?>
                         </select>
-                    </div><br>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 23px"> </label>
+                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3"><br>

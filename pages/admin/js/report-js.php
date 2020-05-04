@@ -19,6 +19,19 @@ function generate_report()
   var date_to = $('#to').val();
   var myData = 'company=' + company + '&supplier=' + supplier + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to;
   //send data to report page
-  window.open('../../print/form/printReport.php?' + myData);
+  if(date_from != '' && date_to != '')
+  {
+    if(company != null || supplier != null || requestor != null)
+    {
+      window.open('../../print/form/printReportByDate.php?' + myData);
+    }else{
+      window.open('../../print/form/printReport.php?' + myData);
+    }
+  }
+  else
+  {
+    //basic data Reporting
+    window.open('../../print/form/printReport.php?' + myData);
+  }
 }
 </script>
