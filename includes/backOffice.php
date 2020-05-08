@@ -55,7 +55,7 @@ $user_id = $_SESSION['id'];
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="reports.php">
+    <a class="nav-link" href="BO_report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>
     </a>

@@ -20,7 +20,7 @@
 
 <body id="page-top">
     <div id="wrapper">
-    <?php include '../../includes/admin.php'; ?><!-- page header -->
+    <?php include '../../includes/purchasing.php'; ?><!-- page header -->
       <!-- Container Fluid-->
       <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
@@ -65,25 +65,6 @@
                             while($row = $get->fetch(PDO::FETCH_ASSOC))
                             {
                             echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
-                            }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label>Requestor:</label>
-                        <select id="requestor" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Requestor</option>
-                        <?php
-                            $get = $user->view_all_user();
-                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row1['id'].'">'.$row1['fullname'].'</option>';
                             }
                         ?>
                         </select>

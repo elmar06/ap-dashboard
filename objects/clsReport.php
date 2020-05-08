@@ -8,7 +8,7 @@ class Reports
     {
         $this->conn = $db;
     }
-
+    //Administrator report functions
     public function generate_by_company()
     {
         $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_bo, po_other_details.received_by_bo, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.company = ? ORDER BY po_other_details.date_received_bo';
@@ -82,6 +82,43 @@ class Reports
         $sel = $this->conn->prepare($query);
 
 		$sel->execute(array($from, $to, $requestor_id));
+		return $sel;
+    }
+
+    //front Office report functions
+    public function generate_by_company_acc()
+    {
+        $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_received_bo, po_other_details.received_by_fo, po_other_details.received_by_bo, po_other_details.date_release, po_details.or_num, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.company = ? AND po_other_details.received_by_fo = ? ORDER BY po_other_details.date_received_bo';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+        $sel->bindParam(2, $this->received_by_fo);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function generate_by_supplier_acc()
+    {
+        $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_received_bo, po_other_details.received_by_fo, po_other_details.received_by_bo, po_other_details.date_release, po_details.or_num, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.supplier = ? AND po_other_details.received_by_fo = ? ORDER BY po_other_details.date_received_bo';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->supplier);
+        $sel->bindParam(2, $this->received_by_fo);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function generate_by_all_acc($from, $to, $requestor_id, $comp_id, $supplier_id)
+    {
+        $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_received_bo, po_other_details.received_by_fo, po_other_details.received_by_bo, po_other_details.date_release, po_details.or_num, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name", CONCAT(users.firstname, " ", users.lastname) as "req-name" FROM po_details, po_other_details, check_details, company, supplier, bank, users WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.submitted_by = users.id AND po_details.status = 11 AND (po_details.date_submit BETWEEN ? AND ? AND po_other_details.received_by_fo = ? AND po_details.company = ? AND po_details.supplier = ?) ORDER BY po_other_details.date_received_bo';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to, $requestor_id,  $comp_id, $supplier_id));
 		return $sel;
     }
 }

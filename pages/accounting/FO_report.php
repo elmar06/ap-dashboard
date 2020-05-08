@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
+    <head>
+    <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -20,14 +20,14 @@
 
 <body id="page-top">
     <div id="wrapper">
-    <?php include '../../includes/admin.php'; ?><!-- page header -->
+    <?php include '../../includes/frontOffice.php'; ?><!-- page header -->
       <!-- Container Fluid-->
       <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
             <div class="d-sm-flex justify-content-between mb-4">
                 <ol class="breadcrumb" align="right">
-                    <li class="breadcrumb-item"><a href="dashboard.php">Administrator</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Reports</li>
+                    <li class="breadcrumb-item"><a href="dashboard.php">Accounting Payables</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Reports (Front Office)</li>
                 </ol>
             </div><!-- /Breadcrumbs -->
             <div class="card mb-4 p-3">
@@ -39,26 +39,26 @@
                 <div class="row">
                     <div class="col-lg-3"><br>
                         <label>Company:</label>
-                        <select id="company" class="form-control mb-3 select2">
+                        <select id="fo-company" class="form-control mb-3 select2">
                         <option selected disabled>Select a Company</option>
                             <?php
                                 $get = $company->get_active_company();
-                                while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                while($row = $get->fetch(PDO::FETCH_ASSOC))
                                 {
-                                echo '<option value="'.$row1['id'].'">'.$row1['company'].'</option>';
+                                echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
                                 }
                             ?>
                         </select>
                     </div>
                     <div class="col-lg-3"><br>
                         <br><label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove-data"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
                         <label>Supplier:</label>
-                        <select id="supplier" class="form-control mb-3 select2">
+                        <select id="fo-supplier" class="form-control mb-3 select2">
                         <option selected disabled>Select a Supplier</option>
                         <?php
                             $get = $supplier->get_active_supplier();
@@ -71,26 +71,7 @@
                     </div>
                     <div class="col-lg-3"><br>
                         <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label>Requestor:</label>
-                        <select id="requestor" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Requestor</option>
-                        <?php
-                            $get = $user->view_all_user();
-                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row1['id'].'">'.$row1['fullname'].'</option>';
-                            }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
