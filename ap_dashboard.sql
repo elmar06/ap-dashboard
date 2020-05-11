@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 20, 2020 at 10:40 AM
--- Server version: 5.7.23
--- PHP Version: 5.6.38
+-- Generation Time: May 11, 2020 at 02:28 AM
+-- Server version: 10.4.10-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -32,9 +32,9 @@ DROP TABLE IF EXISTS `access`;
 CREATE TABLE IF NOT EXISTS `access` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `company` varchar(100) NOT NULL,
+  `company` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `access`
@@ -50,7 +50,14 @@ INSERT INTO `access` (`id`, `user_id`, `company`) VALUES
 (7, 7, '21,22,23,9'),
 (8, 8, '25,26,27,28'),
 (9, 9, '29,30'),
-(10, 10, '18,19');
+(10, 10, '18,19'),
+(11, 11, '6,2'),
+(12, 12, NULL),
+(13, 13, NULL),
+(14, 14, NULL),
+(15, 15, NULL),
+(16, 16, NULL),
+(17, 17, NULL);
 
 -- --------------------------------------------------------
 
@@ -1007,19 +1014,19 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `username`, `password`, `logcount`, `access`, `status`) VALUES
-(1, 'Elmar', 'Malazarte', 'elmar.malazarte@innogroup.com.ph', 'elmar.malazarte', 'e10adc3949ba59abbe56e057f20f883e', 0, 4, 1),
+(1, 'Elmar', 'Malazarte', 'elmar.malazarte@innogroup.com.ph', 'elmar.malazarte', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 1),
 (2, 'May Flor', 'Zafra', 'may.zafra@innogroup.com.ph', 'may.zafra', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 1),
 (3, 'Faye Ann', 'Tejamo', 'faye.tejamo@innogroup.com.ph', 'faye.tejamo', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 1),
-(4, 'Brigette', 'Trangia', 'brigette.trangia@innogroup.com.ph', 'brigette.trangia', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 1),
-(5, 'Alberr', 'Soreno', 'alberr.soreno@innogroup.com.ph', 'alberr.soreno', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
+(4, 'Brigette', 'Trangia', 'brigette.trangia@innogroup.com.ph', 'brigette.trangia', 'e10adc3949ba59abbe56e057f20f883e', 1, 2, 1),
+(5, 'Alberr', 'Soreno', 'alberr.soreno@innogroup.com.ph', 'alberr.soreno', 'e10adc3949ba59abbe56e057f20f883e', 1, 3, 1),
 (6, 'John Karl', 'Morga', 'john.morga@innogroup.com.ph', 'john.morga', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (7, 'Chris Marie', 'Pepito', 'chrismarie.pepito@innogroup.com.ph', 'chris.pepito', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (8, 'Lady Jane', 'Saladaga', 'lady.saladaga@innogroup.com.ph', 'lady.saladaga', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (9, 'George', 'Mansueto', 'george.mansueto@innogroup.com.ph', 'george.mansueto', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (10, 'Madel', 'Senoran', 'madel.senoran@innogroup.com.ph', 'madel.senoran', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
-(11, 'Katrina', 'Butil', 'katrina.butil@innogroup.com.ph', 'katrina.butil', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 0),
+(11, 'Katrina', 'Butil', 'katrina.butil@innogroup.com.ph', 'katrina.butil', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 1),
 (12, 'Carmela', 'Inocian', 'carmela.inocian@innogroup.com.ph', 'carmela.inocian', 'e10adc3949ba59abbe56e057f20f883e', 0, 4, 1),
-(13, 'Elisa', 'Quezon', 'elisa.quezon@innogroup.com.ph', 'elisa.quezon', 'e10adc3949ba59abbe56e057f20f883e', 0, 4, 1),
+(13, 'Elisa', 'Quezon', 'elisa.quezon@innogroup.com.ph', 'elisa.quezon', 'e10adc3949ba59abbe56e057f20f883e', 1, 4, 1),
 (14, 'Louise', 'Tan', 'louise.tan@innogroup.com.ph', 'louise.tan', 'e10adc3949ba59abbe56e057f20f883e', 0, 5, 1),
 (15, 'Charisse', 'Ibon', 'charisse.ibon@innogroup.com.ph', 'charisse.ibon', 'e10adc3949ba59abbe56e057f20f883e', 0, 5, 1),
 (16, 'Anabelle', 'Ranolo', 'anabelle.ranolo@innogroup.com.ph', 'anabelle.ranolo', 'e10adc3949ba59abbe56e057f20f883e', 0, 6, 1),
