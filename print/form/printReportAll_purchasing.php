@@ -88,12 +88,10 @@ $requestor_id = $_GET['requestor'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 
-//GENERATE REPORT BY COMPANY
-if($comp_id != null)
+//GENERATE REPORT BY COMPANY, SUPPLIER, DATE
+if($from != null && $to != null && $comp_id != null && $supplier_id != null && $requestor_id != null)
 {
-	$report->company = $comp_id;
-	$report->received_by_bo = $requestor_id;
-	$get_data = $report->generate_by_company_acc();
+	$get_data = $report->generate_by_all_req($from, $to, $requestor_id, $comp_id, $supplier_id);
 	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
 	{
 		$po_num = $row['po_num'];
@@ -106,77 +104,7 @@ if($comp_id != null)
 		$date_received =  date('m/d/y', strtotime($row['date_received_bo']));
 		$due_date =  date('m/d/y', strtotime($row['due_date']));
 		$amount = $row['amount'];
-		$title_name = 'COMPANY NAME: '.$row['comp-name'];
-
-		$report_data .= '
-			<tr>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$po_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$cv_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bank.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$payee.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bill_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$date_received.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$due_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$amount.'</td>
-			</tr>';
-	}
-}
-
-//GENERATE REPORT BY SUPPLIER
-if($supplier_id != null)
-{
-	$report->supplier = $supplier_id;
-	$report->received_by_bo = $requestor_id;
-	$get_data = $report->generate_by_supplier_acc();
-	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
-	{
-		$po_num = $row['po_num'];
-		$check_date = date('m/d/y', strtotime($row['check_date']));
-		$cv_num = $row['cv_no'];
-		$bank = $row['bank-name'];
-		$check_num = $row['check_no'];
-		$payee = $row['supplier_name'];
-		$bill_date =  date('m/d/y', strtotime($row['bill_date']));
-		$date_received =  date('m/d/y', strtotime($row['date_received_bo']));
-		$due_date =  date('m/d/y', strtotime($row['due_date']));
-		$amount = $row['amount'];
-		$title_name = 'SUPPLIER NAME: '.$row['supplier_name'];
-
-		$report_data .= '
-			<tr>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$po_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$cv_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bank.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_num.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$payee.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bill_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$date_received.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$due_date.'</td>
-				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$amount.'</td>
-			</tr>';
-	}
-}
-
-//GENERATE REPORT BY DATE SPAN
-if($from != null && $to != null)
-{
-	$get_data = $report->generate_by_date_acc($from, $to, $requestor_id);
-	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
-	{
-		$po_num = $row['po_num'];
-		$check_date = date('m/d/y', strtotime($row['check_date']));
-		$cv_num = $row['cv_no'];
-		$bank = $row['bank-name'];
-		$check_num = $row['check_no'];
-		$payee = $row['supplier_name'];
-		$bill_date =  date('m/d/y', strtotime($row['bill_date']));
-		$date_received =  date('m/d/y', strtotime($row['date_received_bo']));
-		$due_date =  date('m/d/y', strtotime($row['due_date']));
-		$amount = $row['amount'];
-		$title_name = 'DATE SPAN: '.date('M d, Y', strtotime($from)).' - '.date('M d, Y', strtotime($to));
+		$title_name = 'COMPANY NAME: '.$row['comp-name'].'<br>SUPPLIER NAME: '.$row['supplier_name'].'<br>DATE SPAN: '.date('M d, Y', strtotime($from)).' - '.date('M d, Y', strtotime($to));
 
 		$report_data .= '
 			<tr>

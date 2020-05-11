@@ -92,8 +92,8 @@ $to = date('Y-m-d', strtotime($_GET['date_to']));
 if($comp_id != null)
 {
 	$report->company = $comp_id;
-	$report->received_by_bo = $requestor_id;
-	$get_data = $report->generate_by_company_acc();
+	$report->submitted_by = $requestor_id;
+	$get_data = $report->generate_by_company_req();
 	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
 	{
 		$po_num = $row['po_num'];
@@ -128,8 +128,8 @@ if($comp_id != null)
 if($supplier_id != null)
 {
 	$report->supplier = $supplier_id;
-	$report->received_by_bo = $requestor_id;
-	$get_data = $report->generate_by_supplier_acc();
+	$report->submitted_by = $requestor_id;
+	$get_data = $report->generate_by_supplier_req();
 	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
 	{
 		$po_num = $row['po_num'];
@@ -163,7 +163,7 @@ if($supplier_id != null)
 //GENERATE REPORT BY DATE SPAN
 if($from != null && $to != null)
 {
-	$get_data = $report->generate_by_date_acc($from, $to, $requestor_id);
+	$get_data = $report->generate_by_date_req($from, $to, $requestor_id);
 	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
 	{
 		$po_num = $row['po_num'];

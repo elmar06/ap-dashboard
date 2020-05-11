@@ -35,12 +35,12 @@ function generate_report()
   {
     if(company != null && supplier != null && requestor != null)
     {
-      window.open('../../print/form/printReportAll_acc.php?' + myData);
+      window.open('../../print/form/printReportAll_purchasing.php?' + myData);
     }else{
-      window.open('../../print/form/printReport_acc.php?' + myData);
+      window.open('../../print/form/printReport_purchasing.php?' + myData);
     }
   }else{
-    window.open('../../print/form/printReport_acc.php?' + myData);
+    window.open('../../print/form/printReport_purchasing.php?' + myData);
   }
 }
 </script>
