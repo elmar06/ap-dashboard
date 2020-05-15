@@ -28,8 +28,10 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     }elseif($row['access'] == 3)
     {   
         $dept = 'AP Back Office';
-    }else{
+    }elseif($row['access'] == 4){
         $dept = 'Purchasing';
+    }else{
+    $dept = 'EA';
     }
     echo '
         <tr>
