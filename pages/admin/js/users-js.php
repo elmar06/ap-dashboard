@@ -165,6 +165,9 @@ $('#btnActivate').click(function(e){
                         success: function(html)
                         {
                             toastr.success('User successfully activated.');
+                            $('#user-body').fadeOut();
+                            $('#user-body').fadeIn();
+                            $('#user-body').html(html);
                         }
                     })
                 }
@@ -215,6 +218,9 @@ $('#btnRemove').click(function(e){
                         success: function(html)
                         {
                             toastr.success('User successfully marked as Inactive.');
+                            $('#user-body').fadeOut();
+                            $('#user-body').fadeIn();
+                            $('#user-body').html(html);
                         }
                     })
                 }
