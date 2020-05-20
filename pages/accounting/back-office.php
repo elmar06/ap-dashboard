@@ -144,76 +144,75 @@
                 </div>
                 </div>
             </div>
-            
             </div> <!-- end of card row -->
-          <div class="row mb-3">
-            <div class="col-lg-12">
-              <button class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
-              <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
-            </div>
-          </div>
-          <!-- DataTable with Hover -->
-          <div class="row mb-3">
-            <div class="col-lg-12">
-              <div class="card mb-4">
-                <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="req-table">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                        <th>Company</th>
-                        <th>PO/JO No</th>
-                        <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th><center>Action</center></th>
-                      </tr>
-                    </thead>
-                    <tbody id="req-body">
-                    <?php
-                      //get the user company access
-                      $access->user_id = $user_id;
-                      $get = $access->get_company();
-                      while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                      {
-                        //get the access company id
-                        $id = $row1['comp-access'];
-                        $array_id = explode(',', $id);
-                        foreach($array_id as $value)
-                        {
-                          $comp_id =  $value; 
-                          //display all the data by access
-                          $po->id = $comp_id;
-                          $view = $po->get_all_process_bo();
-                          while($row = $view->fetch(PDO::FETCH_ASSOC))
-                          {
-                            //date format
-                            $bill_date = date('m/d/Y', strtotime($row['bill_date']));
-                            if($row['status'] == 3)
-                            {
-                              $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
-                            }else{
-                              $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
-                            }
-                            
-                            echo '
-                            <tr>
-                              <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td style="max-width: 15%">'.$row['comp-name'].'</td>
-                              <td>'.$row['po_num'].'</td>
-                              <td>'.$row['supplier_name'].'</td>
-                              <td>'.$bill_date.'</td>
-                              <td><center>'.$action.'</center></td>
-                            </tr>';
-                          }  
-                        }
-                      }
-                    ?>
-                    </tbody>
-                  </table> 
-                </div>
+            <div class="row mb-3">
+              <div class="col-lg-12">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
+                <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
               </div>
-            </div><!-- /column -->
-          </div><!-- /row --> 
+            </div>
+            <!-- DataTable with Hover -->
+            <div class="row mb-3">
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div class="table-responsive p-3">
+                    <table class="table align-items-center table-flush table-hover" id="req-table">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Company</th>
+                          <th>PO/JO No</th>
+                          <th>Supplier</th>
+                          <th>Billing Date</th>
+                          <th><center>Action</center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="req-body">
+                      <?php
+                        //get the user company access
+                        $access->user_id = $user_id;
+                        $get = $access->get_company();
+                        while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                        {
+                          //get the access company id
+                          $id = $row1['comp-access'];
+                          $array_id = explode(',', $id);
+                          foreach($array_id as $value)
+                          {
+                            $comp_id =  $value; 
+                            //display all the data by access
+                            $po->id = $comp_id;
+                            $view = $po->get_all_process_bo();
+                            while($row = $view->fetch(PDO::FETCH_ASSOC))
+                            {
+                              //date format
+                              $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                              if($row['status'] == 3)
+                              {
+                                $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
+                              }else{
+                                $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
+                              }
+                              
+                              echo '
+                              <tr>
+                                <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td style="max-width: 15%">'.$row['comp-name'].'</td>
+                                <td>'.$row['po_num'].'</td>
+                                <td>'.$row['supplier_name'].'</td>
+                                <td>'.$bill_date.'</td>
+                                <td><center>'.$action.'</center></td>
+                              </tr>';
+                            }  
+                          }
+                        }
+                      ?>
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div><!-- /column -->
+            </div><!-- /row --> 
           </div><!-- /page-body -->   
     </div><!-- /container-wrapper-->
   </div><!-- /wrapper -->

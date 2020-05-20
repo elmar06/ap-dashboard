@@ -138,7 +138,7 @@ echo '
           </thead>
           <tbody id="req-body">';
             //get the user company access
-            $access->user_id = $user_id;
+            $access->user_id = $_SESSION['id'];
             $get = $access->get_company();
             while($row1 = $get->fetch(PDO::FETCH_ASSOC))
             {
@@ -236,9 +236,9 @@ $('.btnReceived').on('click', function(e){
           url: '../../controls/view_all_process_po.php',
           success: function(html)
           {
-            $('#req-body').fadeOut();
-            $('#req-body').fadeIn();
-            $('#req-body').html(html);
+            $('#page-body').fadeOut();
+            $('#page-body').fadeIn();
+            $('#page-body').html(html);
           }
         })
       }else{
