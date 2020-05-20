@@ -446,9 +446,9 @@ class PO_Details
         return $sel;
     }
 
-    public function count_process_by_bo()
+    public function count_for_process_bo()
     {
-        $query = 'SELECT count(id) as "pending-count" FROM '.$this->table_name.' WHERE status=3';
+        $query = 'SELECT count(id) as "pending-count" FROM '.$this->table_name.' WHERE status=4';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 

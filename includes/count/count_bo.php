@@ -6,7 +6,7 @@
             <div class="text-xs font-weight-bold text-uppercase mb-1">For BO Processing</div>
             <?php
             $po->submitted_by = $_SESSION['id'];
-            $count = $po->count_pending();
+            $count = $po->count_for_process_bo();
             if($row = $count->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['pending-count'].'</div>';
@@ -15,7 +15,7 @@
             }
             ?>
             <div class="mt-2 mb-0 text-muted text-xs">
-            <a class="text-success mr-2" href="#" onclick="get_pending_po()"><i class="fas fa-arrow-up"></i> More Details</a>
+            <a class="text-success mr-2" href="process_po.php"><i class="fas fa-arrow-up"></i> More Details</a>
             </div>
         </div>
         <div class="col-auto">

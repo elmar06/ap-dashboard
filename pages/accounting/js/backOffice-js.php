@@ -104,9 +104,9 @@ function submitForSignature()
               setTimeout(function(){
                 $('#upd-success').fadeOut();
               }, 3000)
-              $('#req-body').fadeOut();
-              $('#req-body').fadeIn();
-              $('#req-body').html(html);
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
             }
           })
         }
