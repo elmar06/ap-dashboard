@@ -49,12 +49,6 @@ $user_id = $_SESSION['id'];
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="for_releasing_bo.php">
-      <i class="fas fa-fw fa-check-double"></i>
-      <span>For Releasing</span>
-    </a>
-  </li>
-  <li class="nav-item">
     <a class="nav-link" href="BO_report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>

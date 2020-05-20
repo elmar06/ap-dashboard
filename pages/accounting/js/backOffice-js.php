@@ -203,6 +203,19 @@ function mark_all_received()
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   }
 }
+
+//get all the po for verification
+function get_for_verification()
+{
+  $.ajax({
+    url: '../../controls/get_for_verification.php',
+    success: function(html)
+    {
+      $('#req-body').html(html);
+    }
+  })
+}
+
 //submit multiple cv
 function submit_cv()
 {

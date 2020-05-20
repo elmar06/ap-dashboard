@@ -69,10 +69,10 @@
                         <div class="text-xs font-weight-bold text-uppercase mb-1">For Signature</div>
                         <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_return();
+                        $count = $po->count_for_signature();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['return-count'].'</div>';
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
                         }else{
                             echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
                         }
@@ -97,16 +97,16 @@
                         <div class="text-xs font-weight-bold text-uppercase mb-1">For Verification</div>
                         <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_on_process();
+                        $count = $po->count_for_verification();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['process-count'].'</div>';
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
                         }else{
                             echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
                         }
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="#" onclick="get_process_po()"><i class="fas fa-arrow-up"></i> More Details</a>
+                        <a class="text-success mr-2" href="#" onclick="get_for_verification()"><i class="fas fa-arrow-up"></i> More Details</a>
                         </div>
                     </div>
                     <div class="col-auto">
