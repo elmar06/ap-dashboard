@@ -231,9 +231,9 @@ function upd_po_details()
               url: '../../controls/view_submit_po.php',
               success: function(html)
               {
-                $('#po-details-body').fadeOut();
-                $('#po-details-body').fadeIn();
-                $('#po-details-body').html(html);
+                $('#page-body').fadeOut();
+                $('#page-body').fadeIn();
+                $('#page-body').html(html);
                 $('#req-list').hide();
                 $('#btnClear').fadeOut();
               }
