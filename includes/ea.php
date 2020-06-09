@@ -7,11 +7,21 @@ if(!(isset($_SESSION['fullname'])))
 
 include '../../config/clsConnection.php';
 include '../../objects/clsPODetails.php';
+include '../../objects/clsUser.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
 $po = new PO_Details($db);
+$user = new Users($db);
+
+//get the updated logcount
+$user->id = $_SESSION['id'];
+$get = $user->get_logcount();
+while($row = $get->fetch(PDO::FETCH_ASSOC))
+{
+  $logcount = $row['logcount'];
+}
 ?>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -59,7 +69,7 @@ $po = new PO_Details($db);
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $_SESSION['id']; ?>" style="display: none;">
-          <input id="logcount" value="<?php echo $_SESSION['log_count']; ?>" style="display: none;">
+          <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
             <a class="dropdown-item" href="#">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings

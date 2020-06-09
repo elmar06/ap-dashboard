@@ -165,9 +165,39 @@ class Users
 		}
 	}
 
+	public function change_pass_later()
+	{
+		$query = 'UPDATE '.$this->table_name.' SET logcount=1 WHERE id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$res = $this->conn->prepare($query);
+
+		$res->bindParam(1, $this->id);
+
+		if($res->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public function get_user_detail_byid()
 	{
 		$query = 'SELECT * FROM '.$this->table_name.' WHERE id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->bindParam(1, $this->id);
+
+		$sel->execute();
+		return $sel;
+	}
+
+	public function get_logcount()
+	{
+		$query = 'SELECT logcount FROM '.$this->table_name.' WHERE id=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -248,6 +278,20 @@ class Users
 		$query = 'SELECT max(id) + 1 as "id" FROM users';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+	}
+
+	public function check_user()
+	{
+		$query='SELECT firstname, lastname, email FROM '.$this->table_name.' WHERE (FIND_IN_SET(?, firstname) && FIND_IN_SET(?, lastname)  && FIND_IN_SET(?, email))';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->bindParam(1, $this->firstname);
+		$sel->bindParam(2, $this->lastname);
+		$sel->bindParam(3, $this->email);
 
 		$sel->execute();
 		return $sel;

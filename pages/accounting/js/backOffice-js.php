@@ -327,4 +327,34 @@ function changePassword()
     }, 3000)
   }
 }
+
+//change password later
+function changePassLater()
+{
+  var id = $('#pass-id').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/change_pass_later.php',
+    data: {id: id},
+
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response > 0)
+        {
+          $('#changePassModal').modal('hide');
+        }else{
+          $('#pass-warning').html('<center><i class="fas fa-ban"></i> ERROR! Please contact the system administrator at local 124 for assistance.</center>');
+          $('#pass-warning').show();
+          setTimeout(function(){
+            $('#pass-warning').fadeOut();
+          }, 3000)
+        }
+    }
+  })
+}
 </script>

@@ -31,32 +31,68 @@
                   </div>
                   <form>
                     <div class="form-group">
-                      <input type="text" class="form-control" id="firstname" placeholder="Firstname">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="lastname" placeholder="Lastname">
-                    </div>
-                    <div class="form-group">
-                      <input type="email" class="form-control" id="email" 
-                        placeholder="Email Address">
-                    </div>
-                    <div class="form-group">
-                      <select id="department" class="form-control mb-3">
-                        <option value="0" selected disabled>Please select a Department</option>
-                        <option value="2">AP Front Office</option>
-                        <option value="3">AP Back Office</option>
-                        <option value="4">Purchasing</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control username" id="username" placeholder="Username" disabled>
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" id="reg-password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" id="reg-password2" placeholder="Repeat Password">
-                      <label id="pass_alert" style="display: none"></label>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="text" class="form-control mb-3" id="firstname" placeholder="Firstname">
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="text" class="form-control mb-3" id="lastname" placeholder="Lastname">
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="email" class="form-control mb-3" id="email" placeholder="Email Address">
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <select id="department" class="form-control mb-3">
+                            <option value="0" selected disabled>Please select a Department</option>
+                            <option value="2">AP Front Office</option>
+                            <option value="3">AP Back Office</option>
+                            <option value="4">Purchasing</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="text" class="form-control username mb-3" id="username" placeholder="Username" disabled>
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="password" class="form-control mb-3" id="reg-password" placeholder="Password">
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-11">
+                          <input type="password" class="form-control mb-3" id="reg-password2" placeholder="Repeat Password">
+                          <label id="pass_alert" style="display: none"></label>
+                        </div>
+                        <div class="col-sm-1">
+                          <label><i style="color: red">*</i></label>
+                        </div>
+                      </div>
                     </div>
                     <div class="form-group">
                       <button id="register" class="btn btn-primary btn-block">Register</button>

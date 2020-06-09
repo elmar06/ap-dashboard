@@ -255,7 +255,7 @@
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<?php include 'js/manager-js.php';?>
+<?php include 'js/dashboard-js.php';?>
 
 </body>
 </html>

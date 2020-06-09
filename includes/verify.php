@@ -13,6 +13,7 @@ include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsAccess.php';
 include '../../objects/clsBank.php';
+include '../../objects/clsUser.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -24,8 +25,16 @@ $dept = new Department($db);
 $project = new Project($db);
 $access = new Access($db);
 $bank = new Banks($db);
+$user = new Users($db);
 
 $user_id = $_SESSION['id'];
+//get the updated logcount
+$user->id = $_SESSION['id'];
+$get = $user->get_logcount();
+while($row = $get->fetch(PDO::FETCH_ASSOC))
+{
+  $logcount = $row['logcount'];
+}
 ?>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -79,7 +88,7 @@ $user_id = $_SESSION['id'];
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $user_id; ?>" style="display: none;">
-          <input id="logcount" value="<?php echo $_SESSION['log_count']; ?>" style="display: none;">
+          <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
             <a class="dropdown-item" href="#">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings

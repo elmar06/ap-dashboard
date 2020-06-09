@@ -22,6 +22,14 @@ $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
+
+//get the updated logcount
+$user->id = $_SESSION['id'];
+$get = $user->get_logcount();
+while($row = $get->fetch(PDO::FETCH_ASSOC))
+{
+  $logcount = $row['logcount'];
+}
 ?>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -89,7 +97,7 @@ $user = new Users($db);
           </a>
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
             <input id="user-id" value="<?php echo $_SESSION['id']; ?>" style="display: none;">
-            <input id="logcount" value="<?php echo $_SESSION['log_count']; ?>" style="display: none;">
+            <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
             <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
@@ -137,6 +145,7 @@ $user = new Users($db);
             <!-- body goes here  -->
           </div>
           <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="changePassLater()"><i class="fas fa-clock"></i> Change Later</button>
             <button id="btnChangePassword" type="button" class="btn btn-primary" onclick="changePassword()"><i class="fas fa-save"></i> Save</button>
           </div>
         </div>

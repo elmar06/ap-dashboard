@@ -74,9 +74,10 @@
 
     if(firstname != null && lastname != null && email != null && password != null)
     {
+      //check if the user already exist
       $.ajax({
         type: 'POST',
-        url: 'controls/register.php',
+        url: 'controls/check_user.php',
         data: myData,
         beforeSend: function()
         {
@@ -86,25 +87,55 @@
         {
           if(response > 0)
           {
-            $('#reg-success').html('<center><i class="fas fa-check"></i> Registration Successfull. You can now Login. </center>');
-            $('#reg-success').show().fadeOut(8000);
+            //show error msg if exist
+            $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. User is already in database.</center>');
+            $('#reg-warning').fadeIn();
+            setTimeout(function(){
+              $('#reg-warning').hide();
+            }, 4000)
           }
           else
           {
-            $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. Please call the IT administrator in local 124 for assistance.</center>');
-            $('#reg-warning').show().fadeOut(10000);
+            //save user information if not exist
+            $.ajax({
+              type: 'POST',
+              url: 'controls/register.php',
+              data: myData,
+              success: function(response)
+              {
+                if(response > 0)
+                {
+                  $('#reg-success').html('<center><i class="fas fa-check"></i> Registration Successfull. You can now Login. </center>');
+                  $('#reg-success').fadeIn();
+                  setTimeout(function(){
+                    $('#reg-success').fadeOut();
+                  }, 3000)
+                }
+                else
+                {
+                  $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. Please call the IT administrator in local 124 for assistance.</center>');
+                  $('#reg-warning').fadeIn();
+                  setTimeout(function(){
+                    $('#reg-warning').hide();
+                  }, 4000)
+                }
+              },
+              error: function(xhr, ajaxOptions, thrownError)
+              {
+                alert(thrownError);
+              }
+            })
           }
-        },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
-          alert(thrownError);
         }
       })
     }
     else
     {
       $('#reg-warning').html('<center><i class="fas fa-ban"></i> Please input all the data needed.</center>');
-      $('#reg-warning').show().fadeOut(8000);   
+      $('#reg-warning').fadeIn();
+      setTimeout(function(){
+        $('#reg-warning').hide();
+      }, 4000)  
     }
   })
 </script>
@@ -129,9 +160,9 @@ $('#reg-password').keyup(function(){
   }
 })
 
-$('#password2').keyup(function(){
+$('#reg-password2').keyup(function(){
   var pass1 = $(this).val();
-  var pass2 = $('#password').val();
+  var pass2 = $('#reg-password').val();
 
   if(pass1 != pass2)
   {
