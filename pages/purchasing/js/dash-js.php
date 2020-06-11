@@ -160,11 +160,6 @@ function SubmitPO()
       {
         if(response > 0)
         {
-          $('#add-success').html('<center><i class="fas fa-check"></i> PO Successfully submitted.</center>');
-          $('#add-success').show();
-          setTimeout(function(){
-            $('#add-success').fadeOut();
-          }, 3000)
           //get the updated list
           $.ajax({
             url: '../../controls/view_submit_po.php',
@@ -173,6 +168,7 @@ function SubmitPO()
               $('#page-body').fadeOut();
               $('#page-body').fadeIn();
               $('#page-body').html(html);
+              $('#PO-Modal').modal('hide');
             }
           })
         }

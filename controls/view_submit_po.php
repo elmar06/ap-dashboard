@@ -137,8 +137,13 @@ echo'
             <p>Company: '.$row['company-name'].'<br>
               Supplier: '.$row['supplier_name'].'
             </p>
-            <div class="mt-2 mb-0 text-xs" align="right">
-              <a class="text-success details" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-plus"></i> More Details</a>
+            <div class="row">
+              <div class="mt-2 mb-0 text-xs col-sm-6" align="left">
+                <a class="text-success details" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-plus"></i> More Details</a>
+              </div>
+              <div class="mt-2 mb-0 text-xs col-sm-6" align="right">
+                <a class="text-danger remove" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-trash"></i> Delete</a>
+              </div>
             </div>
           </div>
         </div>
