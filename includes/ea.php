@@ -116,6 +116,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             <!-- body goes here  -->
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="changePassLater()"><i class="fas fa-clock"></i> Change Later</button>
             <button id="btnChangePassword" type="button" class="btn btn-primary" onclick="changePassword()"><i class="fas fa-save"></i> Save</button>
           </div>
         </div>

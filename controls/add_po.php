@@ -22,6 +22,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     }
 }
 
+//check if dept is null
+// $department = $_POST['department'] ;
+// if($department== null)
+// {
+//     $department = 0;
+// }
 //get the Manila time by timezone
 date_default_timezone_set('Asia/Manila');
 //covert the date format for db
@@ -34,7 +40,7 @@ $po->po_num = $_POST['po_num'];
 $po->company = $_POST['company'];
 $po->supplier = $_POST['supplier'];
 $po->project = $_POST['project'];
-$po->department = $_POST['department'];
+$po->department =$_POST['department'];
 $po->bill_date = $bill_date;
 $po->terms = $_POST['terms'];
 $po->due_date = $due_date;

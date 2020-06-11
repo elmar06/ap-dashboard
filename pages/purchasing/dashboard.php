@@ -164,14 +164,21 @@
                   <div class="col-lg-4">
                     <div class="card mb-5">
                       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">PO/JO Number: '.$row['po_num'].'</h6>
+                        <div class="row">
+                            <h6 class="m-0 font-weight-bold text-primary">PO/JO Number: '.$row['po_num'].'</h6>  
+                        </div>
                       </div>
                       <div class="card-body">
                         <p>Company: '.$row['company-name'].'<br>
                           Supplier: '.$row['supplier_name'].'
                         </p>
-                        <div class="mt-2 mb-0 text-xs" align="right">
-                          <a class="text-success details" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-plus"></i> More Details</a>
+                        <div class="row">
+                          <div class="mt-2 mb-0 text-xs col-sm-6" align="left">
+                            <a class="text-success details" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-plus"></i> More Details</a>
+                          </div>
+                          <div class="mt-2 mb-0 text-xs col-sm-6" align="right">
+                            <a class="text-danger remove" href="#" value="'.$row['po-id'].'" data-toggle="modal"><i class="fas fa-trash"></i> Delete</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -405,6 +412,29 @@
         <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
         <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
         <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: red"><b>NOTICE</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="notf-msg" style="font-size: 18px;">Are you sure you want to remove this request?</div>
+        <input id="po-id" class="form-control" style="display: none;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+        <button id="btnSubmit" class="btn btn-danger" onclick="remove_po()"><i class="fas fa-trash"></i> Remove</button>
       </div>
     </div>
   </div>

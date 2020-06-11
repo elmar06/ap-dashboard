@@ -52,6 +52,14 @@ $('.details').click(function(e){
   })
 })
 
+//delete button
+$('.remove').on('click', function(e){
+  e.preventDefault();
+  var id = $(this).attr('value');
+  $('#notificationModal').modal('show');
+  $('#po-id').val(id);
+})
+
 //Edit button
 function EnableFields()
 {
@@ -77,6 +85,8 @@ function DisableFields()
   $('#upd-bill-date').attr('disabled', true);
   $('#upd-bill-no').attr('disabled', true);
   $('#upd-po-no').attr('disabled', true);
+  $('#upd-amount').attr('disabled', true);
+  $('#upd-sales-invoice').attr('disabled', true);
   $('#upd-company').attr('disabled', true);
   $('#upd-supplier').attr('disabled', true);
   $('#upd-project').attr('disabled', true);
@@ -129,10 +139,8 @@ function SubmitPO()
   var reports = $('#report').val();
   var submit_by = <?php echo $_SESSION['id'];?>;
   //check the department if null
-  if(department != 0)
+  if(department == 0 || department == null)
   {
-    var department = $('#department').val();
-  }else{
     var department = 0;
   }
 
@@ -258,6 +266,48 @@ function upd_po_details()
       $('#upd-warning').fadeOut();
     }, 3000)
   }
+}
+
+//remove or delete PO
+function remove_po()
+{  
+  var id = $('#po-id').val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/delete_po.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response > 0)
+      {
+        //get the updated list
+        $.ajax({
+          url: '../../controls/view_submit_po.php',
+          success: function(html)
+          {
+            $('#page-body').fadeOut();
+            $('#page-body').fadeIn();
+            $('#page-body').html(html);
+            $('#notificationModal').modal('hide');
+          }
+        })
+      }
+      else
+      {
+        //show Error message in modal
+        $('#notf-msg').html('<i class="fas fa-ban"></i> Remove Failed. Please contact the System Administrator at local 124.');
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
 }
 
 //set date format for due date
