@@ -8,6 +8,7 @@ $db = $database->connect();
 $sup = new Supplier($db);
 
 $sup->supplier_name = $_POST['supplier'];
+$sup->terms = $_POST['terms'];
 $add = $sup->add_supplier();
 
 if($add)

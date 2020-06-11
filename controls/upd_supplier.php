@@ -9,6 +9,7 @@ $sup = new Supplier($db);
 
 $sup->id = $_POST['id'];
 $sup->supplier_name = $_POST['name'];
+$sup->terms = $_POST['terms'];
 $add = $sup->upd_supplier();
 
 if($add)

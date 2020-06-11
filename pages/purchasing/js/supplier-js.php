@@ -9,7 +9,8 @@ $('#btnSave').click(function(e){
     e.preventDefault();
 
     var supplier_name = $('#name').val();
-    var myData = 'supplier=' + supplier_name; 
+    var terms = $('#terms').val();
+    var myData = 'supplier=' + supplier_name + '&terms=' + terms; 
     if(supplier_name != '')
     {
         $.ajax({
@@ -91,7 +92,8 @@ $('#btnUpdSupplier').click(function(e){
 
     var id = $('#upd-id').val();
     var name = $('#upd-name').val();
-    var myData = 'id=' + id + '&name=' + name;
+    var terms = $('#terms').val();
+    var myData = 'id=' + id + '&name=' + name + '&terms=' + terms;
 
     if(name != '')
     {

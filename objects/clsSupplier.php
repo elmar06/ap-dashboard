@@ -15,11 +15,12 @@ class Supplier
 
     public function add_supplier()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET supplier_name=?, status=1';
+        $query = 'INSERT INTO '.$this->table_name.' SET supplier_name=?, terms=?, status=1';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add = $this->conn->prepare($query);
 
         $add->bindParam(1, $this->supplier_name);
+        $add->bindParam(2, $this->terms);
 
         if($add->execute())
         {
@@ -33,12 +34,13 @@ class Supplier
 
     public function upd_supplier()
     {
-        $query = 'UPDATE '.$this->table_name.' SET supplier_name=? WHERE id=?';
+        $query = 'UPDATE '.$this->table_name.' SET supplier_name=?, terms=? WHERE id=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd =$this->conn->prepare($query);
 
         $upd->bindParam(1, $this->supplier_name);
-        $upd->bindParam(2, $this->id);
+        $upd->bindParam(2, $this->terms);
+        $upd->bindParam(3, $this->id);
 
         if($upd->execute())
         {

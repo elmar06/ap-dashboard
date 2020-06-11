@@ -109,7 +109,10 @@
         <div class="modal-body">
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control firstname" id="name" placeholder="Supplier Name">
+                  <input type="text" class="form-control firstname" id="name" placeholder="Supplier Name">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control firstname" id="terms" placeholder="Terms">
                 </div>
                 <!-- Alert -->
                 <div id="add-success" class="alert alert-success" role="alert" style="display: none"></div>
