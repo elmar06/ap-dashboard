@@ -160,6 +160,18 @@ class PO_Details
 		return $sel;
     }
 
+    public function get_details_for_releasing()
+    {
+        $query = 'SELECT check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, po_details.po_num, po_details.si_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.amount, supplier.supplier_name, company.company as "comp-name", bank.name as "bank-name" FROM check_details, po_details, supplier, company, bank WHERE check_details.bank = bank.id AND check_details.po_id = po_details.id AND po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.id = ?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+		$sel->execute();
+		return $sel;
+    }
+
     public function get_released_fo()
     {
         $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.bill_date, po_details.status, po_other_details.date_release, company.id, company.company as "comp-name", departments.id, departments.department, supplier.id, supplier.supplier_name, project.id, project.project, check_details.cv_no, check_details.check_no FROM po_details, po_other_details, company, departments, supplier, project, check_details WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.department = departments.id AND po_details.project = project.id AND po_details.id = check_details.po_id AND po_details.status = 11 AND po_details.id = po_other_details.po_id ORDER BY po_details.date_submit ASC';
@@ -340,7 +352,7 @@ class PO_Details
 
     public function get_for_verification()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_date, po_details.status, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name FROM po_details, company, supplier WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.status=8 ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_date, po_details.status, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, check_details.cv_no, check_details.check_no FROM po_details, company, supplier, check_details WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.id = check_details.po_id AND po_details.status=8 ORDER BY po_details.status ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

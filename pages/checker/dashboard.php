@@ -150,11 +150,11 @@
                         }
                         elseif($row['status'] == 9)
                         {
-                            $status = '<label style="color: red"><b> On Hold</b></label>';
+                          $status = '<label style="color: red"><b> On Hold</b></label>';
                         }
                         else
                         {
-                            $status = '<label style="color: green"><b> For Releasing</b></label>';
+                          $status = '<label style="color: green"><b> For Releasing</b></label>';
                         }
                         echo '
                         <tr>

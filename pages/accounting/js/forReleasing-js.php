@@ -55,6 +55,30 @@ $('.btnRelease').on('click', function(e){
     })
 })
 
+//view details
+$(document).on('dblclick', '#releasing-table tr', function(){
+  var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_po_for_release.php',
+    data: {id:id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#POmodalDetails').modal('show');
+      $('#details-body').html(html);
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
+})
+
 //submit and mark request released
 function submit()
 {
