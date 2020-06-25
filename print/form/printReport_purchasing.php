@@ -164,6 +164,7 @@ if($supplier_id != null)
 if($from != null && $to != null)
 {
 	$get_data = $report->generate_by_date_req($from, $to, $requestor_id);
+	$title_name = '';
 	while($row = $get_data->fetch(PDO::FETCH_ASSOC))
 	{
 		$po_num = $row['po_num'];

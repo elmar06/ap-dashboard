@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-lg-3"><br>
                         <br><label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger remove-data"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">

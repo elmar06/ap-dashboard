@@ -49,8 +49,8 @@ $('.btnRelease').on('click', function(e){
       data: {id:id},
       success: function(html)
       {
-        $('#releasedDetails').modal('show');
-        $('#details-body').html(html);
+        $('#ReleasingDetails').modal('show');
+        $('#release-body').html(html);
       }
     })
 })

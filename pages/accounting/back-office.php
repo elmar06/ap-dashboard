@@ -258,7 +258,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <div id="check-details">
+        <div id="check-details">
             <small><b><i>Check Information</i></b></small>
             <div class="row">
                 <div class="col-lg-6">
@@ -295,13 +295,7 @@
                 </div>
             </div>
             <div class="row">
-              <div class="col-lg-8">
-                <label><i style="color: red">*</i> Amount:</label>
-                <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter Amount">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
+              <div class="col-lg-12 mb-3">
                   <label><i style="color: red">*</i> Select a PO/JO number to process:</label>
                   <select id="multiReq" class="form-control mb-3 basic-multiple" multiple="multiple" style="width: 100%;">
                     <?php
@@ -312,6 +306,12 @@
                     }
                     ?>
                   </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-8">
+                <label><i style="color: red">*</i> Total Amount:</label>
+                <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter Amount">
               </div>
             </div>
         </div>

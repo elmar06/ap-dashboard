@@ -111,6 +111,30 @@
   </div>
 </div>
 
+
+
+<!-- Mark for Releasing Modal -->
+<div class="modal fade" id="ReleasingDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">PO Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="release-body" class="modal-body">
+        <!-- modal body goes here -->
+      </div>
+      <div class="modal-footer">
+      <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button class="btn btn-primary" onclick="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
