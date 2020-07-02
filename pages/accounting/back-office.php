@@ -147,7 +147,7 @@
             </div> <!-- end of card row -->
             <div class="row mb-3">
               <div class="col-lg-12">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#createCV" disabled><i class="fas fa-plus-square"></i> Create CV</button>
                 <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
               </div>
             </div>
@@ -263,7 +263,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number">
+                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
@@ -311,7 +311,7 @@
             <div class="row">
               <div class="col-lg-8">
                 <label><i style="color: red">*</i> Total Amount:</label>
-                <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter Amount">
+                <input id="totalAmount" class="form-control mb-3" type="text" placeholder="Enter Amount" onkeypress="return isNumberKey(event)">
               </div>
             </div>
         </div>

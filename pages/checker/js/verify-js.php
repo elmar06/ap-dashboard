@@ -30,7 +30,9 @@ function mark_on_hold()
         success: function(html)
         {
           toastr.warning('Request successfully mark as On Hold.');
-          $('#req-body').html(html);
+          $('#page-body').fadeOut();
+          $('#page-body').fadeIn();
+          $('#page-body').html(html);
         }
       })
     })
@@ -56,13 +58,78 @@ function mark_for_releasing()
         success: function(html)
         {
           toastr.success('Request is mark as For Releasing.');
-          $('#req-body').html(html);
+          $('#page-body').fadeOut();
+          $('#page-body').fadeIn();
+          $('#page-body').html(html);
         }
       })
     })
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   }
+}
+
+//get po for verification
+function get_for_verification()
+{
+  var stat = 8;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_for_verification.php',
+    data: {stat: stat},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get po on hold
+function get_on_hold()
+{
+  var stat = 9;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_on_hold.php',
+    data: {stat: stat},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get po for releasing
+function get_releasing()
+{
+  var stat = 10;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_for_releasing.php',
+    data: {stat: stat},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
 }
 </script>
 

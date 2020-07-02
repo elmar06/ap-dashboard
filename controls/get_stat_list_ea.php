@@ -7,7 +7,7 @@ $db = $database->connect();
 
 $po = new PO_Details($db);
 $status = $_POST['status'];
-if($status == 5)//get for signature
+if($status == 6)//get for signature
 {
     $po->status = $status;
     $view = $po->get_for_signature_ea();
@@ -28,7 +28,7 @@ if($status == 5)//get for signature
         </tr>';
     }
 }
-elseif($status == 6)//get request signed
+elseif($status == 7)//get request signed
 {
     $po->status = $status;
     $view = $po->get_signed_ea();

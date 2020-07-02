@@ -51,7 +51,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <span>Dashboard</span></a>
   </li>
   <hr class="sidebar-divider">
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link" href="on_hold.php">
       <i class="fas fa-fw fa-file-excel"></i>
       <span>On Hold Check</span>
@@ -62,7 +62,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <i class="fas fa-fw fa-money-check"></i>
       <span>For Releasing</span>
     </a>
-  </li>
+  </li> -->
   <li class="nav-item">
     <a class="nav-link" href="released.php">
       <i class="fas fa-fw fa-check-double"></i>

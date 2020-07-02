@@ -8,10 +8,10 @@ $db = $database->connect();
 $po = new PO_Details($db);
 
 $po->status = $_POST['stat'];
-$get = $po->get_for_verification();
+$get = $po->get_for_releasing_checker();
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
-  $status = '<label style="color: blue"><b> For Verification</b></label>';
+    $status = '<label style="color: green"><b> For Releasing</b></label>';
   echo '
   <tr>
     <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>

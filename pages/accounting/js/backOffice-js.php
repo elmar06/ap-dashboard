@@ -17,7 +17,7 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
-//process request
+//process request(create cv)
 $('.edit').click(function(e){
   e.preventDefault();
 
@@ -356,5 +356,27 @@ function changePassLater()
         }
     }
   })
+}
+
+//retrict user input in numbers & special char only
+function isNumber(evt)
+{
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if ((charCode < 48 || charCode > 57) && charCode != 45) {
+    return false;
+  }
+  return true;
+}
+
+//restrict user in number only
+function isNumberKey(evt)
+{
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode != 46 && charCode > 31 
+    && (charCode < 48 || charCode > 57))
+      return false;
+
+  return true;
 }
 </script>

@@ -36,7 +36,7 @@ function mark_signed()
               success: function(html)
               {
                 toastr.success('Request successfully mark as signed.');
-                $('#req-body').html(html);
+                $('#page-body').html(html);
               }
             })
           }else{
@@ -77,9 +77,9 @@ function mark_returned()
               url: '../../controls/get_list_ea.php',
               success: function(html)
               {
-                $('#req-body').fadeOut();
-                $('#req-body').fadeIn();
-                $('#req-body').html(html);
+                $('#page-body').fadeOut();
+                $('#page-body').fadeIn();
+                $('#page-body').html(html);
               }
             })
           }else{
@@ -100,7 +100,7 @@ function mark_returned()
 //get all req for signature
 function get_for_signature()
 {
-  var status = 5;
+  var status = 6;
   $.ajax({
     type: 'POST',
     url: '../../controls/get_stat_list_ea.php',

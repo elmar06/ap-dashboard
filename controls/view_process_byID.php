@@ -40,7 +40,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number">
+                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
