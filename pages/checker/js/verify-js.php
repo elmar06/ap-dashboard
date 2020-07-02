@@ -29,7 +29,7 @@ function mark_on_hold()
         data: {id: value},
         success: function(html)
         {
-          toastr.warning('Request successfully mark as On Hold.');
+          toastr.warning('Request successfully put On Hold.');
           $('#page-body').fadeOut();
           $('#page-body').fadeIn();
           $('#page-body').html(html);
@@ -57,7 +57,7 @@ function mark_for_releasing()
         data: {id: value},
         success: function(html)
         {
-          toastr.success('Request is mark as For Releasing.');
+          toastr.success('Request successfully mark as For Releasing.');
           $('#page-body').fadeOut();
           $('#page-body').fadeIn();
           $('#page-body').html(html);
