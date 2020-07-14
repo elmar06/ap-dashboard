@@ -32,8 +32,8 @@ $(document).on('dblclick', '#submitted-table tr', function(){
         },
         success: function(html)
         {
-            $('#POmodalDetails').modal('show');
-            $('#details-body').html(html);
+          $('#POmodalDetails').modal('show');
+          $('#details-body').html(html);
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
@@ -41,6 +41,79 @@ $(document).on('dblclick', '#submitted-table tr', function(){
         }
     })
 })
+
+//get list of pending po
+function get_pending_po()
+{
+  $.ajax({
+    url: '../../controls/get_pending_po.php',
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#po-body').fadeOut();
+      $('#po-body').fadeIn();
+      $('#po-body').html(html);
+    }
+  })
+}
+
+//get list of returned po
+function get_returned_po()
+{
+  $.ajax({
+    url: '../../controls/get_returned_po.php',
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#po-body').fadeOut();
+      $('#po-body').fadeIn();
+      $('#po-body').html(html);
+    }
+  })
+}
+
+//get list of on process po
+function get_process_po()
+{
+  $.ajax({
+    url: '../../controls/get_process_po.php',
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#po-body').fadeOut();
+      $('#po-body').fadeIn();
+      $('#po-body').html(html);
+    }
+  })
+}
+
+//get list of for releasing po
+function get_releasing_po()
+{
+  $.ajax({
+    url: '../../controls/get_releasing_po.php',
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#po-body').fadeOut();
+      $('#po-body').fadeIn();
+      $('#po-body').html(html);
+    }
+  })
+}
+
 
 //check if logcount is zero
 $(document).ready(function(){

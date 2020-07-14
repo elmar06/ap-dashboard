@@ -69,10 +69,10 @@ echo '
           <div class="col mr-2">
               <div class="text-xs font-weight-bold text-uppercase mb-1">For Verification</div>';
               $po->submitted_by = $_SESSION['id'];
-              $count = $po->count_on_process();
+              $count = $po->count_for_verification();
               if($row = $count->fetch(PDO::FETCH_ASSOC))
               {
-                  echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['process-count'].'</div>';
+                  echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
               }else{
                   echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
               }

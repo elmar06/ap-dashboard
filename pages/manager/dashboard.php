@@ -168,7 +168,7 @@
                         <th><center>Status</center></th>
                       </tr>
                     </thead>
-                    <tbody id="req-body">
+                    <tbody id="po-body">
                       <?php
                         $view = $po->get_submitted_po();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
@@ -182,11 +182,11 @@
                           {
                             $status = '<label style="color: orange"><b> Returned</b></label>';
                           }
-                          else if($row['status'] == 9)
+                          else if($row['status'] == 10)
                           {
                             $status = '<label style="color: green"><b> For Releasing</b></label>';
                           }
-                          else if($row['status'] == 8)
+                          else if($row['status'] == 9)
                           {
                             $status = '<label style="color: orange"><b> On Hold</b></label>';
                           }
