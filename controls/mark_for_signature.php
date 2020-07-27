@@ -22,6 +22,7 @@ $check->cv_no = $_POST['cv_no'];
 $check->bank = $_POST['bank'];
 $check->check_no = $_POST['check_no'];
 $check->check_date = $check_date;
+$check->amount = $_POST['amount'];
 
 $mark = $po->mark_bo_process();
 $save = $check->add_details();

@@ -103,9 +103,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               {
                   if($row['comp-id'] == $row1['id'])
                   {
-                      echo '<option value="'.$row1['id'].'" selected>'.$row1['company'].'</option>';
+                    echo '<option value="'.$row1['id'].'" selected>'.$row1['company'].'</option>';
                   }else{
-                      echo '<option value="'.$row1['id'].'">'.$row1['company'].'</option>';
+                    echo '<option value="'.$row1['id'].'">'.$row1['company'].'</option>';
                   }
               }
           echo '</select>
@@ -119,9 +119,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               {
                   if($row['supp-id'] == $row2['id'])
                   {
-                      echo '<option value="'.$row2['id'].'" selected>'.$row2['supplier_name'].'</option>';
+                    echo '<option value="'.$row2['id'].'" selected>'.$row2['supplier_name'].'</option>';
                   }else{
-                      echo '<option value="'.$row2['id'].'">'.$row2['supplier_name'].'</option>';
+                    echo '<option value="'.$row2['id'].'">'.$row2['supplier_name'].'</option>';
                   }
               }
           echo '</select>
@@ -137,9 +137,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               {
                   if($row['proj-id'] == $row3['id'])
                   {
-                      echo '<option value="'.$row3['id'].'" selected>'.$row3['project'].'</option>';
+                    echo '<option value="'.$row3['id'].'" selected>'.$row3['project'].'</option>';
                   }else{
-                      echo '<option value="'.$row3['id'].'">'.$row3['project'].'</option>';
+                    echo '<option value="'.$row3['id'].'">'.$row3['project'].'</option>';
                   }
               }
           echo '</select>
@@ -153,9 +153,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               {
                   if($row['dept-id'] == $row4['id'])
                   {
-                      echo '<option value="'.$row4['id'].'" selected>'.$row4['department'].'</option>';
+                    echo '<option value="'.$row4['id'].'" selected>'.$row4['department'].'</option>';
                   }else{
-                      echo '<option value="'.$row4['id'].'">'.$row4['department'].'</option>';
+                    echo '<option value="'.$row4['id'].'">'.$row4['department'].'</option>';
                   }
               }
           echo '</select>

@@ -10,7 +10,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 $access = new Access($db);
 
-$po->status = 8;
+$po->status = 10;
 $po->date_from_ea = date('Y-m-d');
 $po->po_id = $_POST['id'];
 $po->id = $_POST['id'];

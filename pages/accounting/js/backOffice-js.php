@@ -6,6 +6,13 @@ $(document).ready(function () {
   $(".select2").select2();
   //select2 multiple
   $('.basic-multiple').select2();
+  //datepicker
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "MM dd, yyyy",
+    setDate: new Date(),
+    autoClose: true
+  });
 })
 //toast
 function showToast(){
@@ -77,7 +84,8 @@ function submitForSignature()
   var bank = $('#bank').val();
   var check_no = $('#check-no').val();
   var checkdate = $('#checkdate').val();
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate;
+  var amount = $('#upd-amount').val();
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount;
 
   if(cv_no != '' && bank != '' && check_no != '' && checkdate != null)
   {
@@ -203,15 +211,19 @@ function mark_all_received()
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   }
 }
-
-//get all the po for verification
-function get_for_verification()
+//get the amount per selection in creating multiple cv
+function get_amount()
 {
+  var id = $('#multiReq').val();
+  var myData = 'id=' + id;
+
   $.ajax({
-    url: '../../controls/get_for_verification.php',
+    type: 'POST',
+    url: '../../controls/get_amount.php',
+    data: myData,
     success: function(html)
     {
-      $('#req-body').html(html);
+      $('#multi-Amount').val(html);
     }
   })
 }
@@ -220,7 +232,76 @@ function get_for_verification()
 function submit_cv()
 {
   var id = $('#multiReq').val();
-  alert(id);
+  var cv_no = $('#multi-cv-no').val();
+  var bank = $('#multi-bank').val();
+  var check_no = $('#multi-check-no').val();
+  var checkdate = $('#multi-checkdate').val();
+  var amount = $('#multi-Amount').val();
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount;
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/add_multi_cv.php',
+    data: myData,
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      alert(response);
+      if(response > 0)
+      {
+        alert('success');
+      }
+      else
+      {
+        alert('failed');
+      }
+    }
+  })
+}
+
+//get all request for processing(More Details button)
+function get_for_processing()
+{
+  $.ajax({
+    url: '../../controls/get_for_processing_bo.php',
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get all the po on Hold
+function get_for_verification()
+{
+  $.ajax({
+    url: '../../controls/get_for_verification.php',
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get all request for Releasing(More Details button)
+function get_for_releasing()
+{
+  $.ajax({
+    url: '../../controls/get_for_releasing_bo.php',
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
 }
 </script>
 
@@ -236,10 +317,12 @@ $('.checkboxall').change(function(){
       if(selected.length > 1)
       { 
         $('#btnAllReceive').attr('disabled', false);
+        //$('#btnCreate').attr('disabled', false);
       }
       else
       {
         $('#btnAllReceive').attr('disabled', true);
+        //$('#btnCreate').attr('disabled', true);
       }
     })
   }
@@ -249,6 +332,7 @@ $('.checkboxall').change(function(){
       $(this).prop('checked', false);
 
       $('#btnAllReceive').attr('disabled', true);
+      //$('#btnCreate').attr('disabled', true);
     })
   }
 });
@@ -260,10 +344,12 @@ $('.checklist').change(function(){
   if(selected.length > 1)
   {
     $('#btnAllReceive').attr('disabled', false);
+    //$('#btnCreate').attr('disabled', false);
   }
   else
   {
     $('#btnAllReceive').attr('disabled', true);
+    //$('#btnCreate').attr('disabled', true);
   }
 })
 

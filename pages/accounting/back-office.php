@@ -44,13 +44,13 @@
                         $count = $po->count_for_process_bo();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['pending-count'].'</div>';
+                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['pending-count'].'</div>';
                         }else{
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
                         }
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="process_po.php"><i class="fas fa-arrow-up"></i> More Details</a>
+                        <a class="text-success mr-2" href="#" onclick="get_for_processing()"><i class="fas fa-arrow-up"></i> More Details</a>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -78,7 +78,7 @@
                         }
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="#" onclick="get_returned_po()"><i class="fas fa-arrow-up"></i> More Details</a>
+                        <a class="text-success mr-2" href="process_po.php"><i class="fas fa-arrow-up"></i> More Details</a>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -94,10 +94,10 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">For Verification</div>
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">On Hold</div>
                         <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_for_verification();
+                        $count = $po->count_on_hold();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
                             echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
@@ -134,7 +134,7 @@
                         }
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="#" onclick="get_releasing_po()"><i class="fas fa-arrow-up"></i> More Details</a>
+                        <a class="text-success mr-2" href="#" onclick="get_for_releasing()"><i class="fas fa-arrow-up"></i> More Details</a>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -147,7 +147,7 @@
             </div> <!-- end of card row -->
             <div class="row mb-3">
               <div class="col-lg-12">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#createCV" disabled><i class="fas fa-plus-square"></i> Create CV</button>
+                <button id="btnCreate" class="btn btn-primary mb-1" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create Multi CV</button>
                 <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
               </div>
             </div>
@@ -263,17 +263,17 @@
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
+                    <input id="multi-cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
-                    <input id="check-no" class="form-control mb-3" type="text" placeholder="Enter Check Number">
+                    <input id="multi-check-no" class="form-control mb-3" type="text" placeholder="Enter Check Number">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Bank:</label>
-                    <select id="bank" class="form-control mb-3 select2" style="width: 100%;">
+                    <select id="multi-bank" class="form-control mb-3 select2" style="width: 100%;">
                       <option selected disabled>Select a Bank</option>
                       <?php
                       $get = $bank->get_all_banks();
@@ -290,20 +290,35 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <input id="checkdate" class="form-control datepicker" placeholder="Enter Check Date">
+                    <input id="multi-checkdate" class="form-control datepicker" placeholder="Enter Check Date">
                 </div>
                 </div>
             </div>
             <div class="row">
               <div class="col-lg-12 mb-3">
                   <label><i style="color: red">*</i> Select a PO/JO number to process:</label>
-                  <select id="multiReq" class="form-control mb-3 basic-multiple" multiple="multiple" style="width: 100%;">
+                  <select id="multiReq" class="form-control mb-3 basic-multiple" multiple="multiple" style="width: 100%;" onchange="get_amount()">
                     <?php
-                    $get = $bank->get_all_banks();
-                    while($row5 = $get->fetch(PDO::FETCH_ASSOC))
-                    {
-                      echo '<option value="'.$row5['id'].'">'.$row5['name'].'</option>';
-                    }
+                      //get the user company access
+                      $access->user_id = $user_id;
+                      $get = $access->get_company();
+                      while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //get the access company id
+                        $id = $row1['comp-access'];
+                        $array_id = explode(',', $id);
+                        foreach($array_id as $value)
+                        {
+                          $comp_id =  $value; 
+                          //display all the data by access
+                          $po->id = $comp_id;
+                          $view = $po->get_all_process_bo();
+                          while($row = $view->fetch(PDO::FETCH_ASSOC))
+                          {                            
+                            echo '<option value="'.$row['po-id'].'">'.$row['po_num'].' - '.$row['supplier_name'].'</option>';
+                          }  
+                        }
+                      }
                     ?>
                   </select>
               </div>
@@ -311,7 +326,7 @@
             <div class="row">
               <div class="col-lg-8">
                 <label><i style="color: red">*</i> Total Amount:</label>
-                <input id="totalAmount" class="form-control mb-3" type="text" placeholder="Enter Amount" onkeypress="return isNumberKey(event)">
+                <input id="multi-Amount" class="form-control mb-3" type="text" placeholder="Total Amount" disabled>
               </div>
             </div>
         </div>
