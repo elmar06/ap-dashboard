@@ -33,6 +33,10 @@ date_default_timezone_set('Asia/Manila');
 //covert the date format for db
 $bill_date = date('Y-m-d', strtotime($_POST['bill_date']));
 $due_date = date('Y-m-d', strtotime($_POST['due_date']));
+//remove the currency format
+$fmt = new NumberFormatter( 'en_US', NumberFormatter::DECIMAL );
+$num = $_POST['amount'];
+$amount = $fmt->parse($num);
 
 //save details to po_details table
 $po->bill_no = $_POST['bill_no'];
@@ -45,7 +49,7 @@ $po->bill_date = $bill_date;
 $po->terms = $_POST['terms'];
 $po->due_date = $due_date;
 $po->days_due = null;
-$po->amount = $_POST['amount'];
+$po->amount = $amount;
 $po->date_submit = date('Y-m-d');
 $po->reports = $_POST['reports'];
 $po->si_num = $_POST['si_num'];
