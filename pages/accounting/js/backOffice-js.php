@@ -249,14 +249,31 @@ function submit_cv()
     },
     success: function(response)
     {
-      alert(response);
       if(response > 0)
       {
-        alert('success');
+        $('#success').html('<center><i class="fas fa-check"></i> PO/JO are ready Signature.</center>');
+        $('#success').show();
+        setTimeout(function(){
+          $('#success').fadeOut();
+        }, 3000)
+        //get the new/latest list
+        $.ajax({
+          url: '../../controls/view_all_process_po.php',
+          success: function(html)
+          {
+            $('#page-body').fadeOut();
+            $('#page-body').fadeIn();
+            $('#page-body').html(html);
+          }
+        })
       }
       else
       {
-        alert('failed');
+        $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
+        $('#warning').show();
+        setTimeout(function(){
+          $('#warning').fadeOut();
+        }, 3000)
       }
     }
   })

@@ -44,10 +44,10 @@ echo '
           <div class="col mr-2">
               <div class="text-xs font-weight-bold text-uppercase mb-1">For Signature</div>';
               $po->submitted_by = $_SESSION['id'];
-              $count = $po->count_return();
+              $count = $po->count_for_signature();
               if($row = $count->fetch(PDO::FETCH_ASSOC))
               {
-                echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['return-count'].'</div>';
+                echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
               }else{
                 echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
               }
@@ -69,7 +69,7 @@ echo '
           <div class="col mr-2">
               <div class="text-xs font-weight-bold text-uppercase mb-1">For Verification</div>';
               $po->submitted_by = $_SESSION['id'];
-              $count = $po->count_for_verification();
+              $count = $po->count_on_hold();
               if($row = $count->fetch(PDO::FETCH_ASSOC))
               {
                   echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
@@ -184,6 +184,20 @@ echo '
 ?>
 
 <script>
+$(document).ready(function () {
+  $('#req-table').DataTable();// ID From dataTable with Hover
+  //select2 js
+  $(".select2").select2();
+  //select2 multiple
+  $('.basic-multiple').select2();
+  //datepicker
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "MM dd, yyyy",
+    setDate: new Date(),
+    autoClose: true
+  });
+})
 //process request
 $('.edit').click(function(e){
   e.preventDefault();

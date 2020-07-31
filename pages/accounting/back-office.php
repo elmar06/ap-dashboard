@@ -328,6 +328,10 @@
                 <label><i style="color: red">*</i> Total Amount:</label>
                 <input id="multi-Amount" class="form-control mb-3" type="text" placeholder="Total Amount" disabled>
               </div>
+              <div class="col-lg-12">
+                <div id="success" class="alert alert-success" role="alert" style="display: none"></div>
+                <div id="warning" class="alert alert-danger" role="alert" style="display: none"></div>
+              </div>
             </div>
         </div>
       </div>
