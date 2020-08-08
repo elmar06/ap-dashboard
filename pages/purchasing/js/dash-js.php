@@ -158,7 +158,6 @@ function SubmitPO()
       },
       success: function(response)
       {
-        alert(response);
         if(response > 0)
         {
           //get the updated list
