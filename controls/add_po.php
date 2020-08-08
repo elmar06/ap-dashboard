@@ -34,9 +34,7 @@ date_default_timezone_set('Asia/Manila');
 $bill_date = date('Y-m-d', strtotime($_POST['bill_date']));
 $due_date = date('Y-m-d', strtotime($_POST['due_date']));
 //remove the currency format
-$fmt = new NumberFormatter( 'en_US', NumberFormatter::DECIMAL );
-$num = $_POST['amount'];
-$amount = $fmt->parse($num);
+$amount = str_replace(',','', $_POST['amount']);
 
 //save details to po_details table
 $po->bill_no = $_POST['bill_no'];
