@@ -136,6 +136,7 @@
       setTimeout(function(){
         $('#reg-warning').hide();
       }, 4000)  
+      $('#register').attr('disabled', true);
     }
   })
 
@@ -163,7 +164,7 @@ $(document).ready(function(){
 $('#reg-password').keyup(function(){
   var pass1 = $(this).val();
   var pass2 = $('#reg-password2').val();
-
+  
   if(pass1 != pass2)
   {
     document.getElementById('pass_alert').innerHTML = '<label style="color: red"> ERROR! Password not match. </label>';

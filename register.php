@@ -95,7 +95,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <button id="register" class="btn btn-primary btn-block">Register</button>
+                      <button id="register" class="btn btn-primary btn-block" disabled>Register</button>
                     </div>
                     <!-- Registration ALERT -->
                     <div class="form-group">
