@@ -138,6 +138,24 @@
       }, 4000)  
     }
   })
+
+//border color control
+function controlBorderColor() {
+  if (this.value.length == 0 || this.value == 0) { this.style.borderColor = "red";}
+  else{
+   this.style.borderColor = "#d1d3e2";
+  }
+}
+
+//change the border color when empty
+$(document).ready(function(){
+  document.getElementById("firstname").addEventListener("keydown", controlBorderColor, false);
+  document.getElementById("lastname").addEventListener("keydown", controlBorderColor, false);
+  document.getElementById("email").addEventListener("keydown", controlBorderColor, false);
+  document.getElementById("department").addEventListener("keydown", controlBorderColor, false);
+  document.getElementById("reg-password").addEventListener("keydown", controlBorderColor, false);
+  document.getElementById("reg-password2").addEventListener("keydown", controlBorderColor, false);
+})
 </script>
 
 <script>
