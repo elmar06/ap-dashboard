@@ -86,6 +86,18 @@ class PO_Details
         }
     }
 
+    public function check_po_num()
+    {
+        $query = 'SELECT * FROM po_details WHERE po_num = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+        
+        $sel->bindParam(1, $this->po_num);
+
+        $sel->execute();
+		return $sel;
+    }
+
     public function update_check_details()
     {
         $query = 'UPDATE check_details SET cv_no=?, bank=?, check_no=?, check_date=? WHERE po_id = ?';
