@@ -82,7 +82,8 @@ function submit_for_process()
               $('#upd-success').show();
               setTimeout(function(){
                 $('#upd-success').fadeOut();
-              }, 3000)
+                $('#POmodalDetails').modal('hide');
+              }, 2000)
               $('#page-body').fadeOut();
               $('#page-body').fadeIn();
               $('#page-body').html(html);

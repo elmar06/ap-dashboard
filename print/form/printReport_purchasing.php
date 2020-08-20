@@ -82,6 +82,7 @@ $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'colo
 
 //initialize data
 $report_data = '';
+$title_name = '';
 $comp_id  = $_GET['company'];
 $supplier_id = $_GET['supplier'];
 $requestor_id = $_GET['requestor'];

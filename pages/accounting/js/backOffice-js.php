@@ -10,8 +10,8 @@ $(document).ready(function () {
   $('.datepicker').datepicker({
     clearBtn: true,
     format: "MM dd, yyyy",
-    setDate: new Date(),
-    autoClose: true
+    startDate: new Date(),
+    autoClose: true,
   });
 })
 //toast
@@ -87,7 +87,7 @@ function submitForSignature()
   var amount = $('#upd-amount').val();
   var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount;
 
-  if(cv_no != '' && bank != '' && check_no != '' && checkdate != null)
+  if(cv_no != '' && bank != null && check_no != '' && checkdate != '')
   {
     $.ajax({
     type: 'POST',
@@ -107,7 +107,7 @@ function submitForSignature()
             url: '../../controls/view_all_process_po.php',
             success: function(html)
             {
-              $('#upd-success').html('<center><i class="fas fa-check"></i> PO/JO is ready Signature.</center>');
+              $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
               $('#upd-success').show();
               setTimeout(function(){
                 $('#upd-success').fadeOut();

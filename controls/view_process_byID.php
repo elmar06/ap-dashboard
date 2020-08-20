@@ -204,7 +204,7 @@ $(".select2").select2();
 $('.datepicker').datepicker({
 clearBtn: true,
 format: "MM dd, yyyy",
-setDate: new Date(),
+startDate: new Date(),
 autoClose: true
 });
 </script>
