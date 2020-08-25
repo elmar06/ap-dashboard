@@ -24,7 +24,7 @@ if($_POST['status'] == 3)
       {
         $status = '<label style="color: orange"><b> Returned</b></label>';
       }
-      else if($row['status'] == 8)
+      else if($row['status'] == 10)
       {
         $status = '<label style="color: green"><b> For Releasing</b></label>';
       }
@@ -60,7 +60,7 @@ else
       {
         $status = '<label style="color: orange"><b> Returned</b></label>';
       }
-      else if($row['status'] == 8)
+      else if($row['status'] == 10)
       {
         $status = '<label style="color: green"><b> For Releasing</b></label>';
       }

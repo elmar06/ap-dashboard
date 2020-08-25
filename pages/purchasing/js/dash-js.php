@@ -422,10 +422,10 @@ function get_pending_po()
     },
     success: function(html)
     {
-      $('#req-list').fadeIn();
       $('#po-details-body').hide();
       $('#myBtn').hide();
       $('#btnClear').show();
+      $('#req-list').fadeIn();
       $('#req-body').html(html);
     }
   })

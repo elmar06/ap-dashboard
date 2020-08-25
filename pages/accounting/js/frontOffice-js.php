@@ -341,7 +341,7 @@ function get_process_po()
 //get po for releasing
 function get_releasing_po()
 {
-  var status = 6;
+  var status = 10;
   
   $.ajax({
     type: 'POST',
