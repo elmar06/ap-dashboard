@@ -64,65 +64,65 @@ if($details)
     if($save)
     {
         //get the list of front office staff
-        // $get = $user->get_fo_staff();
-        // while($row = $get->fetch(PDO::FETCH_ASSOC))
-        // {
-        //     //get the access of user per company
-        //     $id = $row['id'];
-        //     $firstname = $row['firstname'];
-        //     $email = $row['email'];
-        //     $array_id = explode(',', $id);
-        //     foreach($array_id as $value)
-        //     {
-        //         $user_id = $value;
-        //         $access->user_id = $user_id;
-        //         $view = $access->get_company();
-        //         while($row1 = $view->fetch(PDO::FETCH_ASSOC))
-        //         {
-        //             //check if fo staff have the access of company
-        //             $comp = $row1['comp-access'];
-        //             $array_comp = explode(',', $comp);
-        //             foreach($array_comp as $value)
-        //             {
-        //                 if($_POST['company'] == $value){
-        //                     //sent email to fo staff
-        //                     $from = "system.administrator<(noreply@innogroup.com.ph)>"; 
-        //                     $to = $email;
-        //                     $staff = $firstname;
+        $get = $user->get_fo_staff();
+        while($row = $get->fetch(PDO::FETCH_ASSOC))
+        {
+            //get the access of user per company
+            $id = $row['id'];
+            $firstname = $row['firstname'];
+            $email = $row['email'];
+            $array_id = explode(',', $id);
+            foreach($array_id as $value)
+            {
+                $user_id = $value;
+                $access->user_id = $user_id;
+                $view = $access->get_company();
+                while($row1 = $view->fetch(PDO::FETCH_ASSOC))
+                {
+                    //check if fo staff have the access of company
+                    $comp = $row1['comp-access'];
+                    $array_comp = explode(',', $comp);
+                    foreach($array_comp as $value)
+                    {
+                        if($_POST['company'] == $value){
+                            //sent email to fo staff
+                            $from = "system.administrator<(noreply@innogroup.com.ph)>"; 
+                            $to = $email;
+                            $staff = $firstname;
 
-        //                     $subject = "AP Dashboard Request Notification";
-        //                     $message = "<html>
-        //                                     <body style='margin: 0 auto; padding: 10px; border: 1px solid #e1e1e1; font-family:Calibri'>
-        //                                         <div style='background-color: #00C957; padding: 5px; color: white'>
-        //                                             <h3 style='padding: 0; margin: 0;'>Notice: </h3>
-        //                                         </div>
-        //                                         <div style='border: 1px solid #e1e1e1; padding: 5px'>    
-        //                                             Hi ".$staff.", <br><br>Greetings!<br><br>
-        //                                             You have a new request from purchasing department.<br><br>
-        //                                             Thank you. <br><br> Best Regards, <br>System Administrator
-        //                                         </div>
-        //                                         <br/>
-        //                                         <br/>
-        //                                     </body>
-        //                                 </html>";
+                            $subject = "AP Dashboard Request Notification";
+                            $message = "<html>
+                                            <body style='margin: 0 auto; padding: 10px; border: 1px solid #e1e1e1; font-family:Calibri'>
+                                                <div style='background-color: #00C957; padding: 5px; color: white'>
+                                                    <h3 style='padding: 0; margin: 0;'>Notice: </h3>
+                                                </div>
+                                                <div style='border: 1px solid #e1e1e1; padding: 5px'>    
+                                                    Hi ".$staff.", <br><br>Greetings!<br><br>
+                                                    You have a new request from purchasing department.<br><br>
+                                                    Thank you. <br><br> Best Regards, <br>System Administrator
+                                                </div>
+                                                <br/>
+                                                <br/>
+                                            </body>
+                                        </html>";
 
-        //                     $headers = "MIME-Version: 1.0" . "\r\n";
-        //                     $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
-        //                     $headers .= "From: ".$from."" . "\r\n" ;
+                            $headers = "MIME-Version: 1.0" . "\r\n";
+                            $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+                            $headers .= "From: ".$from."" . "\r\n" ;
 
-        //                     if(mail($to,$subject,$message,$headers))
-        //                     {
-        //                         echo 1;
-        //                     }
-        //                     else
-        //                     {
-        //                         echo 0;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                            if(mail($to,$subject,$message,$headers))
+                            {
+                                echo 1;
+                            }
+                            else
+                            {
+                                echo 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         echo 1;
     }else{
         echo 0;

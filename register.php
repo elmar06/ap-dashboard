@@ -52,7 +52,7 @@
                           <label><i style="color: red">*</i></label>
                         </div>
                         <div class="col-sm-11">
-                          <input type="email" class="form-control mb-3" id="email" placeholder="Email Address">
+                          <input type="email" class="form-control mb-3" id="email" placeholder="IGC Email Address">
                         </div>
                       </div>
                       <div class="row">
