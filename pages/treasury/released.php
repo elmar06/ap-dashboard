@@ -25,8 +25,8 @@
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Checker</li>
+              <li class="breadcrumb-item"><a href="#">Accounting</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Treasury</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->

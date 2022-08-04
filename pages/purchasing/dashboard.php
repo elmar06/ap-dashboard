@@ -150,6 +150,8 @@
             <div id="req-btn" class="row mb-3">
               <div class="col-md-12">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PO-Modal" id="#myBtn"> Submit PO/JO</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#UploadModal" id="#btnUpload"> Upload File</button>
+                <a type="button" class="btn btn-info" href="../../assets/sample/SampleCSV.xlsx"> Download CSV Sample</a>
                 <button type="button" class="btn btn-danger" id="btnClear" style="display: none" onclick="clear_list()"> Clear Search</button>
               </div>
             </div>
@@ -252,9 +254,8 @@
 <!-- Footer -->
 <?php include '../../includes/footer.php'; ?>
 
-
+<!-- MODAL SECTION -->
 <!-- Submit PO Modal -->
-<!-- Modal -->
 <div class="modal fade" id="PO-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -412,6 +413,43 @@
         <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
         <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
         <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div id="UploadModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><span class="fa fa-upload"></span> Upload File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="alert alert-info" role="alert"><span class="fa fa-info-circle"></span> Please select a file to upload in PO Detail's database. Please use CSV(Comma delimited) format.</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="exampleInputEmail1">Choose a File</label><br>
+              <form name="form" method="post" enctype="multipart/form-data">
+                <input type="file" id="filecover" name="worker_file" value="Browse" onchange="readURL(this);" accept=".csv" /><br>
+                <label id="upload-success" style="color: green; display:none"></label>
+                <label id="upload-warning" style="color: red; display:none"></label>
+              </form><br>
+          </div>
+        </div>
+        <div id="loading" style="display: none"><center><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnFileUpload" class="btn btn-primary" onclick="uploadFile()">Upload File</button>
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
       </div>
     </div>
   </div>

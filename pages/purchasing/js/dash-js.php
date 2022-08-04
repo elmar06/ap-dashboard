@@ -120,7 +120,59 @@ $('#supplier').on('change', function(){
     }
   })
 })
+//upload file
+function uploadFile()
+{
+  //initialize the form data for further validation
+  var file_data = $('#filecover').prop('files')[0];
+  var form_data = new FormData();
+  form_data.append('files', file_data);
 
+  if(file_data)
+  {
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/upload.php',
+      data: form_data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      beforeSend: function()
+      {
+        $('#loading').show();
+      },
+      success: function(response)
+      {
+        if(response > 0)
+        {
+          $('#loading').hide();
+          $('#upload-success').html("Request Details successfully uploaded in database.");
+          $('#upload-success').show();
+          setTimeout(function(){
+            $('#upload-success').hide();
+            window.location = 'home.php';
+          }, 2000);
+        }
+        else
+        {
+          $('#upload-warning').html("Upload Failed. Please contact the system administrator at local 124 for assistance.");
+          $('#upload-warning').show();
+          setTimeout(function(){
+            $('#upload-warning').hide();
+          }, 5000);
+        }
+      }
+    })
+  }
+  else
+  {
+    $('#upload-warning').html("Please select a CSV file to upload.");
+    $('#upload-warning').show();
+    setTimeout(function(){
+      $('#upload-warning').hide();
+    }, 3000);
+  }
+}
 //submit po
 function SubmitPO()
 {

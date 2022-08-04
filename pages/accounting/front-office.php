@@ -227,7 +227,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <h6 class="modal-title" id="exampleModalLabel">Request Detail</h6>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
           <span aria-hidden="true">&times;</span>
         </button>

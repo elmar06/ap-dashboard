@@ -22,7 +22,7 @@ elseif($_SESSION['access'] == 5)
 }
 elseif($_SESSION['access'] == 6)
 {
-    header('Location: ../pages/checker/dashboard.php');
+    header('Location: ../pages/treasury/dashboard.php');
 }
 else
 {

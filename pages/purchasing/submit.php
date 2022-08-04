@@ -34,7 +34,7 @@
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="table-responsive p-3">
-                  <table id="submitted-table" class="table align-items-center table-flush table-hover">
+                  <table id="submitted-table" class="table align-items-center table-hover">
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -43,6 +43,9 @@
                         <th>Invoice/Billing No</th>
                         <th>Supplier</th>
                         <th>Billing Date</th>
+                        <th>Check Date</th>
+                        <th>Check No.</th>
+                        <th>Date Sent to EA</th>
                         <th><center>Status</center></th>
                       </tr>
                     </thead>
@@ -74,7 +77,7 @@
                             $status = '<label style="color: blue"><b> On Process</b></label>';
                           }
                           //date format
-                          $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                          $bill_date = date('m/d/y', strtotime($row['bill_date']));
                           echo '
                           <tr>
                             <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
@@ -83,6 +86,9 @@
                             <td>'.$row['bill_no'].'</td>
                             <td>'.$row['supplier_name'].'</td>
                             <td>'.$bill_date.'</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td><center>'.$status.'</center></td>
                           </tr>';
                         }
@@ -99,8 +105,7 @@
 <?php include '../../includes/footer.php'; ?>
 
 <!-- Edit Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -123,9 +128,8 @@
 </div>
 
 <!-- View Only Details Modal -->
-<div class="modal fade" id="viewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+<div class="modal fade" id="viewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>

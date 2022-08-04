@@ -53,6 +53,38 @@ class PO_Details
         }
     }
 
+    public function upload_po()
+    {
+        $query = 'INSERT INTO '.$this->table_name.' SET bill_date=?, terms=?, due_date=?, days_due=?, bill_no=?, po_num=?, company=?, supplier=?, project=?, department=?, date_submit=?, submitted_by=?, reports=?, status=1, amount=?, si_num=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $add =$this->conn->prepare($query);
+
+        $add->bindParam(1, $this->bill_date);
+        $add->bindParam(2, $this->terms);
+        $add->bindParam(3, $this->due_date);
+        $add->bindParam(4, $this->days_due);
+        $add->bindParam(5, $this->bill_no);
+        $add->bindParam(6, $this->po_num);
+        $add->bindParam(7, $this->company);
+        $add->bindParam(8, $this->supplier);
+        $add->bindParam(9, $this->project);
+        $add->bindParam(10, $this->department);
+        $add->bindParam(11, $this->date_submit);
+        $add->bindParam(12, $this->submitted_by);
+        $add->bindParam(13, $this->reports);
+        $add->bindParam(14, $this->amount);
+        $add->bindParam(15, $this->si_num);
+        
+        if($add->execute())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function upd_details()
     {
         $query = 'UPDATE '.$this->table_name.' SET bill_date=?, terms=?, due_date=?, days_due=?, bill_no=?, po_num=?, company=?, supplier=?, project=?, department=?, amount=?, amount=?, si_num=?, status=? WHERE id=?';
@@ -845,6 +877,22 @@ class PO_Details
 
     //other_po_details
     public function save_other_details()
+    {
+        $query = 'INSERT INTO po_other_details set po_id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $add = $this->conn->prepare($query);
+
+        $add->bindParam(1, $this->po_id);
+
+        if($add->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function upload_other_details()
     {
         $query = 'INSERT INTO po_other_details set po_id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
