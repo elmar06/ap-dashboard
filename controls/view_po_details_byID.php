@@ -29,8 +29,8 @@ while($row = $check->fetch(PDO::FETCH_ASSOC))
       //get the Manila time by timezone
       date_default_timezone_set('Asia/Manila');
       //format the date for display
-      $bill_date = date('F d, yy', strtotime($row['bill_date']));
-      $due_date = date('F d, yy', strtotime($row['due_date']));
+      $bill_date = date('F d, Y', strtotime($row['bill_date']));
+      $due_date = date('F d, Y', strtotime($row['due_date']));
 
       //get the difference between bill_date & due_date
       $date1 = time();
@@ -190,8 +190,8 @@ while($row = $check->fetch(PDO::FETCH_ASSOC))
       //get the Manila time by timezone
       date_default_timezone_set('Asia/Manila');
       //format the date for display
-      $bill_date = date('F d, yy', strtotime($row['bill_date']));
-      $due_date = date('F d, yy', strtotime($row['due_date']));
+      $bill_date = date('F d, Y', strtotime($row['bill_date']));
+      $due_date = date('F d, Y', strtotime($row['due_date']));
 
       //get the difference between bill_date & due_date
       $date1 = time();

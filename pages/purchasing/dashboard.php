@@ -354,7 +354,7 @@
           </div>
           <div class="col-lg-4" style="margin-top: 17px">
             <label><i style="color: red">*</i> Terms:</label>
-            <input id="terms" class="form-control mb-3" type="text" placeholder="Enter Terms" onchange="getDueDate()" value="0">
+            <input id="terms" class="form-control mb-3" type="text" placeholder="Enter Terms" value="30 days">
           </div>
         </div>
         <div class="row">
@@ -373,6 +373,14 @@
             <div class="custom-control custom-switch">
               <input type="checkbox" class="custom-control-input" id="customSwitch1">
               <label class="custom-control-label" for="customSwitch1"> Credit Memo</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="remarks">
+              <label class="custom-control-label" for="remarks"> Share this records with SCM/PMC</label>
             </div>
           </div>
         </div>

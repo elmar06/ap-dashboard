@@ -37,7 +37,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <div class="row">
         <div class="col-lg-6">
             <label>CV No.</label>
-            <input id="upd-amount" class="form-control mb-3" type="text"  value="'.$row['cv_no'].'" disabled>
+            <input id="cv-no" class="form-control mb-3" type="text"  value="'.$row['cv_no'].'" disabled>
         </div>
         <div class="col-lg-6">
             <label>Check No.</label>
@@ -46,7 +46,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       </div>
       <div class="row">
         <div class="col-lg-6">
-            <label>CV No.</label>
+            <label>Bank</label>
             <input id="upd-amount" class="form-control mb-3" type="text"  value="'.$row['bank-name'].'" disabled>
         </div>
         <div class="col-lg-6">

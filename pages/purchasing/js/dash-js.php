@@ -99,27 +99,27 @@ function DisableFields()
 }
 
 //get the terms per supplier
-$('#supplier').on('change', function(){
-  var id = $(this).val();
+// $('#supplier').on('change', function(){
+//   var id = $(this).val();
   
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_terms.php',
-    data: {id:id},
-    dataType: 'json',
-    cache: false,
-    success: function(result)
-    {
-      var term = result[0];
-      if(term == null || term == '')
-      {
-        $('#terms').val('0');
-      }else{
-        $('#terms').val(term);
-      }
-    }
-  })
-})
+//   $.ajax({
+//     type: 'POST',
+//     url: '../../controls/get_terms.php',
+//     data: {id:id},
+//     dataType: 'json',
+//     cache: false,
+//     success: function(result)
+//     {
+//       var term = result[0];
+//       if(term == null || term == '')
+//       {
+//         $('#terms').val('0');
+//       }else{
+//         $('#terms').val(term);
+//       }
+//     }
+//   })
+// })
 //upload file
 function uploadFile()
 {
@@ -176,27 +176,34 @@ function uploadFile()
 //submit po
 function SubmitPO()
 {
-  var bill_no = $('#bill-no').val();
   var po_num = $('#po-no').val();
+  var si_num = $('#sales-invoice').val();
   var company = $('#company').val();
-  var supplier = $('#supplier').val();
   var project = $('#project').val();
   var department = $('#department').val();
+  var supplier = $('#supplier').val();
+  var bill_no = $('#bill-no').val();
   var bill_date = $('#bill-date').val();
   var terms = $('#terms').val();
+  var amount = $('#amount').val();
   var due_date = $('#due-date').val();
   var days_due = $('#days-due').val();
-  var amount = $('#amount').val();
-  var si_num = $('#sales-invoice').val();
   var reports = $('#report').val();
-  var submit_by = <?php echo $_SESSION['id'];?>;
+  var remark = '';
+  //check if it is shared
+  var check = $('#remarks').is(':checked');
+  if(check){
+    var remark = 1;
+  }else{
+    var remark = 0;
+  }
   //check the department if null
   if(department == 0 || department == null)
   {
     var department = 0;
   }
 
-  var myData = 'bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&submitted_by=' + submit_by + '&amount=' + amount + '&reports=' + reports + '&si_num=' + si_num;
+  var myData = 'po_num=' + po_num + '&si_num=' + si_num + '&company=' + company + '&project=' + project + '&department=' + department + '&supplier=' + supplier + '&bill_no=' + bill_no + '&bill_date=' + bill_date + '&terms=' + terms + '&amount=' + amount + '&due_date=' + due_date + '&days_due=' + days_due + '&reports=' + reports + '&remark=' + remark;
 
   if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
   {

@@ -39,6 +39,9 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
         <td>'.$row['bill_no'].'</td>
         <td>'.$row['supplier_name'].'</td>
         <td>'.$bill_date.'</td>
+        <td align="center"></td>
+        <td align="center"></td>
+        <td align="center"></td>
         <td><center>'.$status.'</center></td>
     </tr>';
 }

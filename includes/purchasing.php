@@ -12,6 +12,7 @@ include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -22,6 +23,7 @@ $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
+$check_details = new CheckDetails($db);
 
 //get the updated logcount
 $user->id = $_SESSION['id'];
@@ -48,8 +50,14 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   <hr class="sidebar-divider">
   <li class="nav-item">
     <a class="nav-link" href="submit.php">
-      <i class="far fa-fw fa-window-maximize"></i>
+      <i class="fas fa-fw fa-clipboard"></i>
       <span>Submitted PO/JO</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="shared.php">
+      <i class="fas fa-fw fa-handshake"></i>
+      <span>Shared PO/JO</span>
     </a>
   </li>
   <li class="nav-item">
@@ -68,6 +76,53 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <i class="fa fa-bars"></i>
       </button>
       <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <span class="badge badge-danger badge-counter">3+</span>
+          </a>
+          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">
+              Alerts Center
+            </h6>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                  <i class="fas fa-file-alt text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 12, 2019</div>
+                <span class="font-weight-bold">A new monthly report is ready to download!</span>
+              </div>
+            </a>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-success">
+                  <i class="fas fa-donate text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 7, 2019</div>
+                $290.29 has been deposited into your account!
+              </div>
+            </a>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <div class="mr-3">
+                <div class="icon-circle bg-warning">
+                  <i class="fas fa-exclamation-triangle text-white"></i>
+                </div>
+              </div>
+              <div>
+                <div class="small text-gray-500">December 2, 2019</div>
+                Spending Alert: We've noticed unusually high spending for your account.
+              </div>
+            </a>
+            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+          </div>
+        </li>
         <div class="topbar-divider d-none d-sm-block"></div>
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"

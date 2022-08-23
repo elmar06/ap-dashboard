@@ -25,8 +25,8 @@
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">Purchasing</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Submitted PO/JO List</li>
+              <li class="breadcrumb-item"><a href="#">Purchasing/PMC</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Shared PO/JO List</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -37,7 +37,7 @@
                 <div class="table1-responsive p-3">
                   <table id="submitted-table" class="table1 table-bordered table-hover" style="cursor:pointer;">
                     <thead class="thead-light">
-                      <tr>
+                    <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
@@ -53,7 +53,7 @@
                     <tbody id="po-submit-body">
                       <?php
                         $po->submitted_by = $_SESSION['id'];
-                        $view = $po->get_submitted_po_by_user();
+                        $view = $po->get_shared_po();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
                           //format of status
@@ -125,30 +125,6 @@
 </div>
 <!-- Footer -->
 <?php include '../../includes/footer.php'; ?>
-
-<!-- Edit Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="details-body" class="modal-body">
-        <!-- modal body goes here -->
-      </div>
-      <div class="modal-footer">
-        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
-        <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()">Resubmit</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- View Only Details Modal -->
 <div class="modal fade" id="viewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 11, 2020 at 02:28 AM
--- Server version: 10.4.10-MariaDB
--- PHP Version: 5.6.40
+-- Generation Time: Aug 23, 2022 at 03:34 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -97,22 +96,9 @@ CREATE TABLE IF NOT EXISTS `check_details` (
   `bank` int(11) NOT NULL,
   `check_no` varchar(50) NOT NULL,
   `check_date` datetime NOT NULL,
+  `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `check_details`
---
-
-INSERT INTO `check_details` (`id`, `po_id`, `cv_no`, `bank`, `check_no`, `check_date`) VALUES
-(1, 1, '441225', 2, '451323', '2020-03-11 00:00:00'),
-(2, 2, '33121', 1, '1212', '2020-03-11 00:00:00'),
-(6, 3, '112312', 4, '451122', '2020-03-18 00:00:00'),
-(7, 4, '665122', 2, '12344', '2020-03-19 00:00:00'),
-(8, 5, '1212', 1, '3312', '2020-03-18 00:00:00'),
-(9, 7, '12233', 3, '1122', '2020-03-20 00:00:00'),
-(10, 8, '121', 2, '331', '2020-03-20 00:00:00'),
-(11, 11, '3341', 4, '112', '2020-03-20 00:00:00');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -210,15 +196,7 @@ CREATE TABLE IF NOT EXISTS `old_check_details` (
   `check_no` varchar(20) NOT NULL,
   `check_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `old_check_details`
---
-
-INSERT INTO `old_check_details` (`id`, `po_id`, `cv_no`, `bank`, `check_no`, `check_date`) VALUES
-(1, 7, '22222', 2, '22222', '2020-03-20 00:00:00'),
-(2, 7, '1233', 4, '1233', '2020-03-20 00:00:00');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -245,26 +223,10 @@ CREATE TABLE IF NOT EXISTS `po_details` (
   `reports` varchar(250) DEFAULT NULL,
   `or_num` varchar(20) DEFAULT NULL,
   `submitted_by` int(11) NOT NULL,
+  `remark` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_details`
---
-
-INSERT INTO `po_details` (`id`, `po_num`, `si_num`, `company`, `project`, `department`, `supplier`, `bill_no`, `bill_date`, `terms`, `amount`, `due_date`, `days_due`, `date_submit`, `reports`, `or_num`, `submitted_by`, `status`) VALUES
-(1, '4235', '', 2, 17, 12, 20, '445674', '2020-03-10 00:00:00', '30', '32,000.00', '2020-04-09 00:00:00', '29 day/s', '2020-03-10', '', '12331-2020', 1, 9),
-(2, '125654', '5441122', 2, 18, 16, 1, '1231222', '2020-03-10 00:00:00', '30 days', '10,000.00', '2020-04-09 00:00:00', '28 day/s', '2020-03-10', '', '45112', 2, 11),
-(3, '112453', '451244', 2, 2, 4, 4, '474574', '2020-03-07 00:00:00', '30', '50,000.00', '2020-04-06 00:00:00', 'undefined', '2020-03-16', '', NULL, 1, 9),
-(4, '777941', '455745', 2, 5, 14, 3, '11746441', '2020-03-16 00:00:00', '30', '154,111.00', '2020-04-15 00:00:00', 'undefined', '2020-03-16', '', NULL, 1, 9),
-(5, '44512', '455664', 2, 8, 16, 21, '121433445', '2020-03-16 00:00:00', '20', '10,000.00', '2020-04-05 00:00:00', 'undefined', '2020-03-16', '', '121223', 1, 11),
-(6, '11234', '13341', 14, 17, 2, 3, '3131', '2020-03-18 00:00:00', '30', '45,661.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 3),
-(7, '44321', '31212', 2, 6, 6, 17, '885664', '2020-03-18 00:00:00', '20', '41,225.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5),
-(8, '33112', '121344', 2, 25, 2, 23, '1213213', '2020-03-18 00:00:00', '30 days', '1,211.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5),
-(9, '99412', '1541', 2, 17, 16, 18, '78994', '2020-03-18 00:00:00', '20', '120,000.00', '2020-04-07 00:00:00', NULL, '2020-03-18', '', NULL, 1, 4),
-(10, '44231', '144564', 2, 2, 3, 37, '55641', '2020-03-18 00:00:00', '30', '10,023.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 1),
-(11, '1212', '4561', 2, 2, 15, 4, '123132', '2020-03-18 00:00:00', '30', '10,000.00', '2020-04-17 00:00:00', NULL, '2020-03-18', '', NULL, 1, 5);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -290,29 +252,7 @@ CREATE TABLE IF NOT EXISTS `po_other_details` (
   `date_release` datetime DEFAULT NULL,
   `released_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `po_other_details`
---
-
-INSERT INTO `po_other_details` (`id`, `po_id`, `date_returned_req`, `remarks`, `2nd_date_received`, `date_received_fo`, `received_by_fo`, `date_received_bo`, `received_by_bo`, `date_to_ea`, `date_from_ea`, `date_on_hold`, `date_for_release`, `date_release`, `released_by`) VALUES
-(1, 1, '2020-03-10 00:00:00', 'lack of requirements', NULL, '2020-03-11 00:00:00', 4, '2020-03-11 00:00:00', 5, '2020-03-12 00:00:00', '2020-03-13 00:00:00', '2020-03-13 00:00:00', '2020-03-18 00:00:00', '2020-03-14 00:00:00', NULL),
-(2, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 2, '2020-03-11 00:00:00', 'Check the details again', NULL, '2020-03-11 00:00:00', 4, '2020-03-11 00:00:00', 5, '2020-03-12 00:00:00', NULL, '2020-03-13 00:00:00', '2020-03-18 00:00:00', '2020-03-19 00:00:00', 5),
-(6, 3, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, NULL),
-(7, 4, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, NULL, NULL),
-(8, 5, NULL, NULL, NULL, '2020-03-17 00:00:00', 4, '2020-03-18 00:00:00', 5, '2020-03-18 00:00:00', '2020-03-18 00:00:00', NULL, '2020-03-18 00:00:00', '2020-03-19 00:00:00', 4),
-(9, 6, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 7, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
-(13, 8, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
-(14, 9, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL),
-(15, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(16, 11, NULL, NULL, NULL, '2020-03-20 00:00:00', 4, '2020-03-20 00:00:00', 5, NULL, NULL, NULL, NULL, NULL, NULL);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -409,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `terms` varchar(20) DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=576 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=579 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `supplier`
@@ -987,7 +927,10 @@ INSERT INTO `supplier` (`id`, `supplier_name`, `terms`, `status`) VALUES
 (572, 'Yale Hardware Corp.', '30 days', 1),
 (573, 'Yandiesel Marketing ', '', 1),
 (574, 'Yes Marketing', '30 days', 1),
-(575, 'PRD Prime Concert & Design', '30 days', 1);
+(575, 'PRD Prime Concert & Design', '30 days', 1),
+(576, 'test supplier', NULL, 1),
+(577, 'Test Supplier I-edited', '', 1),
+(578, 'Another Supplier', '25 days', 1);
 
 -- --------------------------------------------------------
 
@@ -1007,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `access` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -1016,7 +959,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `username`, `password`, `logcount`, `access`, `status`) VALUES
 (1, 'Elmar', 'Malazarte', 'elmar.malazarte@innogroup.com.ph', 'elmar.malazarte', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, 1),
 (2, 'May Flor', 'Zafra', 'may.zafra@innogroup.com.ph', 'may.zafra', 'e10adc3949ba59abbe56e057f20f883e', 0, 1, 1),
-(3, 'Faye Ann', 'Tejamo', 'faye.tejamo@innogroup.com.ph', 'faye.tejamo', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 1),
+(3, 'Faye Ann', 'Tejamo', 'faye.tejamo@innogroup.com.ph', 'faye.tejamo', 'e10adc3949ba59abbe56e057f20f883e', 1, 2, 1),
 (4, 'Brigette', 'Trangia', 'brigette.trangia@innogroup.com.ph', 'brigette.trangia', 'e10adc3949ba59abbe56e057f20f883e', 1, 2, 1),
 (5, 'Alberr', 'Soreno', 'alberr.soreno@innogroup.com.ph', 'alberr.soreno', 'e10adc3949ba59abbe56e057f20f883e', 1, 3, 1),
 (6, 'John Karl', 'Morga', 'john.morga@innogroup.com.ph', 'john.morga', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
@@ -1025,12 +968,14 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `username`, `passwo
 (9, 'George', 'Mansueto', 'george.mansueto@innogroup.com.ph', 'george.mansueto', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (10, 'Madel', 'Senoran', 'madel.senoran@innogroup.com.ph', 'madel.senoran', 'e10adc3949ba59abbe56e057f20f883e', 0, 3, 1),
 (11, 'Katrina', 'Butil', 'katrina.butil@innogroup.com.ph', 'katrina.butil', 'e10adc3949ba59abbe56e057f20f883e', 0, 2, 1),
-(12, 'Carmela', 'Inocian', 'carmela.inocian@innogroup.com.ph', 'carmela.inocian', 'e10adc3949ba59abbe56e057f20f883e', 0, 4, 1),
+(12, 'Carmela', 'Inocian', 'carmela.inocian@innogroup.com.ph', 'carmela.inocian', 'e10adc3949ba59abbe56e057f20f883e', 1, 4, 1),
 (13, 'Elisa', 'Quezon', 'elisa.quezon@innogroup.com.ph', 'elisa.quezon', 'e10adc3949ba59abbe56e057f20f883e', 1, 4, 1),
-(14, 'Louise', 'Tan', 'louise.tan@innogroup.com.ph', 'louise.tan', 'e10adc3949ba59abbe56e057f20f883e', 0, 5, 1),
+(14, 'Louise', 'Tan', 'louise.tan@innogroup.com.ph', 'louise.tan', 'e10adc3949ba59abbe56e057f20f883e', 1, 5, 1),
 (15, 'Charisse', 'Ibon', 'charisse.ibon@innogroup.com.ph', 'charisse.ibon', 'e10adc3949ba59abbe56e057f20f883e', 0, 5, 1),
-(16, 'Anabelle', 'Ranolo', 'anabelle.ranolo@innogroup.com.ph', 'anabelle.ranolo', 'e10adc3949ba59abbe56e057f20f883e', 0, 6, 1),
-(17, 'Mark', 'Yu', 'mark.yu@innogroup.com.ph', 'mark.yu', 'e10adc3949ba59abbe56e057f20f883e', 0, 7, 1);
+(16, 'Anabelle', 'Ronolo', 'anabelle.ronolo@innogroup.com.ph', 'anabelle.ronolo', 'e10adc3949ba59abbe56e057f20f883e', 1, 6, 1),
+(17, 'Mark', 'Yu', 'mark.yu@innogroup.com.ph', 'mark.yu', 'e10adc3949ba59abbe56e057f20f883e', 0, 7, 1),
+(18, 'Elmar', 'Malazarte', 'elmar.malazarte@innogroup.com.ph', 'elmar.malazarte', 'e10adc3949ba59abbe56e057f20f883e', 0, 4, 1),
+(19, 'Elmar', 'Malazarte Jr', 'elmar.malazarte@innogroup.com.ph', 'elmar.malazartejr', '4297f44b13955235245b2497399d7a93', 0, 4, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsUser.php';
@@ -37,21 +38,22 @@ $due_date = date('Y-m-d', strtotime($_POST['due_date']));
 $amount = str_replace(',','', $_POST['amount']);
 
 //save details to po_details table
-$po->bill_no = $_POST['bill_no'];
 $po->po_num = $_POST['po_num'];
+$po->si_num = $_POST['si_num'];
 $po->company = $_POST['company'];
-$po->supplier = $_POST['supplier'];
 $po->project = $_POST['project'];
 $po->department =$_POST['department'];
+$po->supplier = $_POST['supplier'];
+$po->bill_no = $_POST['bill_no'];
 $po->bill_date = $bill_date;
 $po->terms = $_POST['terms'];
+$po->amount = $amount;
 $po->due_date = $due_date;
 $po->days_due = null;
-$po->amount = $amount;
 $po->date_submit = date('Y-m-d');
 $po->reports = $_POST['reports'];
-$po->si_num = $_POST['si_num'];
-$po->submitted_by = $_POST['submitted_by'];
+$po->submitted_by = $_SESSION['id'];
+$po->remark = $_POST['remark'];
 
 $save = $po->add_po();
 
