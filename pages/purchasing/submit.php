@@ -73,6 +73,10 @@
                           {
                             $status = '<label style="color: green"><b> For Releasing</b></label>';
                           }
+                          else if($row['status'] == 11)
+                          {
+                            $status = '<label style="color: green"><b> Released</b></label>';
+                          }
                           else
                           {
                             $status = '<label style="color: blue"><b> In Process</b></label>';

@@ -150,7 +150,7 @@ function uploadFile()
           $('#upload-success').show();
           setTimeout(function(){
             $('#upload-success').hide();
-            window.location = 'home.php';
+            window.location = 'dashboard.php';
           }, 2000);
         }
         else

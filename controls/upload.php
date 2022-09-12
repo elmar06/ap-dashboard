@@ -42,7 +42,7 @@ if($_FILES['files']['size'] > 0)
             $po->terms = $data[9];
             $po->due_date = $data[10];
             $po->date_submit = date('Y-m-d');
-            $po->submitted_by = $_SESSION['user-id'];
+            $po->submitted_by = $_SESSION['id'];
 
 			$save = $po->upload_po();
             //save other details

@@ -81,8 +81,12 @@
                             $dept = 'AP Back Office';
                           }elseif($row['access'] == 4){
                             $dept = 'Purchasing';
-                          }else{
+                          }elseif($row['access'] == 5){
                             $dept = 'EA';
+                          }elseif($row['access'] == 6){
+                            $dept = 'Treasury';
+                          }else{
+                            $dept = 'Manager';
                           }
                           echo '
                               <tr>
@@ -135,9 +139,14 @@
                 </div>
                 <div class="form-group">
                     <select id="department" class="form-control mb-3">
-                    <option value="0" selected disabled>Please select a Department</option>
-                    <option value="2">Accounts Payable</option>
-                    <option value="3">Purchasing</option>
+                      <option value="0" selected disabled>Please select a Role</option>
+                      <option value="1">Administrator</option>
+                      <option value="2">AP Front Office</option>
+                      <option value="3">AP Back Office</option>
+                      <option value="4">Purchasing</option>
+                      <option value="5">EA</option>
+                      <option value="6">Treasury</option>
+                      <option value="7">Manager</option>
                     </select>
                 </div>
                 <div class="form-group">
