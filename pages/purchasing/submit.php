@@ -79,7 +79,7 @@
                           }
                           else
                           {
-                            $status = '<label style="color: blue"><b> In Process</b></label>';
+                            $status = '<label style="color: blue"><b> On Process</b></label>';
                           }
                           //date format
                           $bill_date = date('m/d/y', strtotime($row['bill_date']));
