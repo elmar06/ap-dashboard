@@ -1,8 +1,7 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  $('#dataTable').DataTable(); // ID From dataTable 
-  $('#req-table').DataTable(); // ID From dataTable with Hover
+  $('.DataTable').DataTable(); // ID From dataTable 
 })
 //toast
 function showToast(){
@@ -275,93 +274,42 @@ function cancel_return()
 //get all the pending
 function get_pending_po()
 {  
-  var status = 1;
-
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').fadeIn();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').hide();
 }
 
 //get all the returned po
 function get_returned_po()
 {
-  var status = 2;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').fadeIn();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').hide();
 }
 
 //get in process po
 function get_process_po()
 {
-  var status = 3;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').fadeIn();
+  $('#tblSearch4').hide();
 }
 
 //get po for releasing
 function get_releasing_po()
 {
-  var status = 10;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').fadeIn();
 }
-
-//upd user details
-//get details
 </script>
 
 <!-- CHECKBOXALL-->

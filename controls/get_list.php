@@ -7,12 +7,11 @@ $db = $database->connect();
 
 $po = new PO_Details($db);
 
-$po->status = $_POST['status'];
 
 if($_POST['status'] == 3)
 {
+  $po->status = $_POST['status'];
   $get = $po->get_po_list_process();
-
   while($row = $get->fetch(PDO::FETCH_ASSOC))
   {
       //format of status
@@ -24,7 +23,7 @@ if($_POST['status'] == 3)
       {
         $status = '<label style="color: orange"><b> Returned</b></label>';
       }
-      else if($row['status'] == 10)
+      else if($row['status'] == 11)
       {
         $status = '<label style="color: green"><b> For Releasing</b></label>';
       }
@@ -48,6 +47,7 @@ if($_POST['status'] == 3)
 }
 else
 {
+  $po->status = $_POST['status'];
   $get = $po->get_po_list_by_status();
   while($row = $get->fetch(PDO::FETCH_ASSOC))
   {
@@ -60,7 +60,7 @@ else
       {
         $status = '<label style="color: orange"><b> Returned</b></label>';
       }
-      else if($row['status'] == 10)
+      else if($row['status'] == 11)
       {
         $status = '<label style="color: green"><b> For Releasing</b></label>';
       }

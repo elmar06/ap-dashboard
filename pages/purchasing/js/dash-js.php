@@ -1,8 +1,12 @@
 <!-- search box in drop down menu -->
 <script>
 $(document).ready(function () {
-  $('#submitted-table').DataTable(); // ID From dataTable 
-  $('#req-list').hide();
+  $('.DataTable').DataTable();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').hide();
+
 })
 
 //select2 js
@@ -469,95 +473,44 @@ function getDueDateEdit()
 //get all the pending
 function get_pending_po()
 {  
-  var status = 1;
-
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list_requestor.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#po-details-body').hide();
-      $('#myBtn').hide();
-      $('#btnClear').show();
-      $('#req-list').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#po-details-body').hide();
+  $('#tblSearch1').fadeIn();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').hide();
 }
 
 //get all the returned po
 function get_returned_po()
 {
-  var status = 2;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list_requestor.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-list').fadeIn();
-      $('#po-details-body').hide();
-      $('#btnClear').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#po-details-body').hide();
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').fadeIn();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').hide();
 }
 
 //get in process po
 function get_process_po()
 {
-  var status = 3;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list_requestor.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-list').fadeIn();
-      $('#po-details-body').hide();
-      $('#btnClear').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#po-details-body').hide();
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').fadeIn();
+  $('#tblSearch4').hide();
 }
 
 //get po for releasing
 function get_releasing_po()
 {
-  //window.location ='submit.php';
-  var status = 8;
-  
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_list_requestor.php',
-    data: {status: status},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-list').fadeIn();
-      $('#po-details-body').hide();
-      $('#btnClear').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  $('#po-details-body').hide();
+  $('#tblMain').fadeOut();
+  $('#tblSearch1').hide();
+  $('#tblSearch2').hide();
+  $('#tblSearch3').hide();
+  $('#tblSearch4').fadeIn();
 }
 
 //view details

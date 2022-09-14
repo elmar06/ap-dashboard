@@ -15,13 +15,14 @@ $supplier = new Supplier($db);
 $proj = new Project($db);
 $dept = new Department($db);
 
+//get the Manila time by timezone
+date_default_timezone_set('Asia/Manila');
+
 $po->id = $_POST['id'];
 $get = $po->get_po_by_id();
 
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
-  //get the Manila time by timezone
-  date_default_timezone_set('Asia/Manila');
   //format the date for display
   $bill_date = date('F d, Y', strtotime($row['bill_date']));
   $due_date = date('F d, Y', strtotime($row['due_date']));

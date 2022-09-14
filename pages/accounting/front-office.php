@@ -151,11 +151,11 @@
             <a id="btnAllRelease" type="button" class="btn btn-success mb-1" href="#" style="display: none" onclick="released_all()">Mark All Released</a>
           </div><br>
           <!-- DataTable with Hover -->
-          <div class="row mb-3">
+          <div id="tblMain" class="row mb-3">
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="req-table">
+                  <table class="table align-items-center table-flush table-hover DataTable">
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -188,8 +188,188 @@
                         }
                         else
                         {
-                          $status = '<label style="color: blue"><b> In Process</b></label>';
+                          $status = '<label style="color: blue"><b> On Process</b></label>';
                         }
+                        //date format
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                        echo '
+                        <tr>
+                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$row['po_num'].'</td>
+                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$bill_date.'</td>
+                          <td>'.$row['fullname'].'</td>
+                          <td><center>'.$status.'</center></td>
+                        </tr>';
+                      }
+                    ?>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div><!-- /column -->
+          </div><!-- /row --> 
+          <!-- search table -->
+          <!-- PENDING -->
+          <div id="tblSearch1" class="row mb-3" style="display: none;">
+            <div class="col-lg-12">
+              <div class="card mb-4">
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover DataTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Company</th>
+                        <th>PO/JO No</th>
+                        <th>Supplier</th>
+                        <th>Billing Date</th>
+                        <th>Submitted By</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="search-body">
+                    <?php  
+                      $po->status = 1;
+                      $get = $po->get_po_list_by_status();
+                      while($row = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //format of status
+                        $status = '<label style="color: red"><b> Pending</b></label>';
+                        //date format
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                        echo '
+                        <tr>
+                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$row['po_num'].'</td>
+                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$bill_date.'</td>
+                          <td>'.$row['fullname'].'</td>
+                          <td><center>'.$status.'</center></td>
+                        </tr>';
+                      }
+                    ?>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div><!-- /column -->
+          </div><!-- /row --> 
+          <!-- RETURNED -->
+          <div id="tblSearch2" class="row mb-3" style="display: none;">
+            <div class="col-lg-12">
+              <div class="card mb-4">
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover DataTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Company</th>
+                        <th>PO/JO No</th>
+                        <th>Supplier</th>
+                        <th>Billing Date</th>
+                        <th>Submitted By</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="search-body">
+                    <?php  
+                      $po->status = 2;
+                      $get = $po->get_po_list_by_status();
+                      while($row = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //format of status
+                        $status = '<label style="color: orange"><b> Returned</b></label>';
+                        //date format
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                        echo '
+                        <tr>
+                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$row['po_num'].'</td>
+                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$bill_date.'</td>
+                          <td>'.$row['fullname'].'</td>
+                          <td><center>'.$status.'</center></td>
+                        </tr>';
+                      }
+                    ?>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div><!-- /column -->
+          </div><!-- /row --> 
+          <!-- ON PROCESS -->
+          <div id="tblSearch3" class="row mb-3" style="display: none;">
+            <div class="col-lg-12">
+              <div class="card mb-4">
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover DataTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Company</th>
+                        <th>PO/JO No</th>
+                        <th>Supplier</th>
+                        <th>Billing Date</th>
+                        <th>Submitted By</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="search-body">
+                    <?php  
+                      $get = $po->get_po_list_process();
+                      while($row = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //format of status
+                        $status = '<label style="color: blue"><b> On Process</b></label>';
+                        //date format
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                        echo '
+                        <tr>
+                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$row['po_num'].'</td>
+                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$bill_date.'</td>
+                          <td>'.$row['fullname'].'</td>
+                          <td><center>'.$status.'</center></td>
+                        </tr>';
+                      }
+                    ?>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div><!-- /column -->
+          </div><!-- /row --> 
+          <!-- FOR RELEASING -->
+          <div id="tblSearch4" class="row mb-3" style="display: none;">
+            <div class="col-lg-12">
+              <div class="card mb-4">
+                <div class="table-responsive p-3">
+                  <table class="table align-items-center table-flush table-hover DataTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Company</th>
+                        <th>PO/JO No</th>
+                        <th>Supplier</th>
+                        <th>Billing Date</th>
+                        <th>Submitted By</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="search-body">
+                    <?php  
+                      $po->status = 11;
+                      $get = $po->get_po_list_by_status();
+                      while($row = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //format of status
+                        $status = '<label style="color: green"><b> For Releasing</b></label>';
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                         echo '

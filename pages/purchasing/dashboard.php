@@ -188,12 +188,102 @@
                 }
               ?>
             </div> <!-- end of po-details body -->
-            <div id="req-list" class="row mb-3">
-              <!-- DataTable with Hover -->
+            <!-- PENDING -->
+            <div id="tblSearch1" class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
                   <div class="table-responsive p-3">
-                    <table id="submitted-table" class="table align-items-center table-flush table-hover">
+                    <table class="table align-items-center table-flush table-hover DataTable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Company</th>
+                          <th>PO/JO No</th>
+                          <th>Invoice/Billing No</th>
+                          <th>Supplier</th>
+                          <th>Billing Date</th>
+                          <th><center>Status</center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="req-body">
+                        <?php
+                          $po->status = 1;
+                          $po->submitted_by = $_SESSION['id'];
+                          $get = $po->get_po_list_by_status_req();
+                          while($row = $get->fetch(PDO::FETCH_ASSOC))
+                          {
+                            $status = '<label style="color: red"><b> Pending</b></label>';
+                            //date format
+                            $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                            echo '
+                            <tr>
+                              <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$row['po_num'].'</td>
+                              <td>'.$row['bill_no'].'</td>
+                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$bill_date.'</td>
+                              <td><center>'.$status.'</center></td>
+                            </tr>';
+                          }
+                        ?>
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div>     
+            </div><!-- /end of req-table -->
+            <!-- RETURNED -->
+            <div id="tblSearch2" class="row mb-3">
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div class="table-responsive p-3">
+                    <table class="table align-items-center table-flush table-hover DataTable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Company</th>
+                          <th>PO/JO No</th>
+                          <th>Invoice/Billing No</th>
+                          <th>Supplier</th>
+                          <th>Billing Date</th>
+                          <th><center>Status</center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="req-body">
+                        <?php
+                          $po->status = 2;
+                          $po->submitted_by = $_SESSION['id'];
+                          $get = $po->get_po_list_by_status_req();
+                          while($row = $get->fetch(PDO::FETCH_ASSOC))
+                          {
+                            $status = '<label style="color: orange"><b> Returned</b></label>';
+                            //date format
+                            $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                            echo '
+                            <tr>
+                              <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$row['po_num'].'</td>
+                              <td>'.$row['bill_no'].'</td>
+                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$bill_date.'</td>
+                              <td><center>'.$status.'</center></td>
+                            </tr>';
+                          }
+                        ?>
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div>     
+            </div><!-- /end of req-table -->
+            <!-- ON PROCESS -->
+            <div id="tblSearch3" class="row mb-3">
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div class="table-responsive p-3">
+                    <table class="table align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -208,26 +298,55 @@
                       <tbody id="req-body">
                         <?php
                           $po->submitted_by = $_SESSION['id'];
-                          $view = $po->get_submitted_po_by_user();
-                          while($row = $view->fetch(PDO::FETCH_ASSOC))
+                          $get = $po->get_po_list_process_req();
+                          while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
-                            //format of status
-                            if($row['status'] == 1)
-                            {
-                              $status = '<label style="color: red"><b> Pending</b></label>';
-                            }
-                            else if($row['status'] == 2)
-                            {
-                              $status = '<label style="color: orange"><b> Returned</b></label>';
-                            }
-                            else if($row['status'] == 8)
-                            {
-                              $status = '<label style="color: green"><b> For Releasing</b></label>';
-                            }
-                            else
-                            {
-                              $status = '<label style="color: blue"><b> On Process</b></label>';
-                            }
+                            $status = '<label style="color: blue"><b> On Process</b></label>';
+                            //date format
+                            $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                            echo '
+                            <tr>
+                              <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$row['po_num'].'</td>
+                              <td>'.$row['bill_no'].'</td>
+                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$bill_date.'</td>
+                              <td><center>'.$status.'</center></td>
+                            </tr>';
+                          }
+                        ?>
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div>     
+            </div><!-- /end of req-table -->
+            <!-- FOR RELEASING -->
+            <div id="tblSearch4" class="row mb-3">
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div class="table-responsive p-3">
+                    <table class="table align-items-center table-flush table-hover DataTable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Company</th>
+                          <th>PO/JO No</th>
+                          <th>Invoice/Billing No</th>
+                          <th>Supplier</th>
+                          <th>Billing Date</th>
+                          <th><center>Status</center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="req-body">
+                        <?php
+                          $po->status = 11;
+                          $po->submitted_by = $_SESSION['id'];
+                          $get = $po->get_po_list_by_status_req();
+                          while($row = $get->fetch(PDO::FETCH_ASSOC))
+                          {
+                            $status = '<label style="color: green"><b> For Releasing</b></label>';
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                             echo '

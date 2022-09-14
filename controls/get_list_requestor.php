@@ -12,7 +12,6 @@ $po->status = $_POST['status'];
 if($_POST['status'] == 3)
 {
   $get = $po->get_po_list_process();
-
   while($row = $get->fetch(PDO::FETCH_ASSOC))
   {
       //format of status
