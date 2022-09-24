@@ -86,6 +86,7 @@ $title_name = '';
 $comp_id  = $_GET['company'];
 $supplier_id = $_GET['supplier'];
 $requestor_id = $_GET['requestor'];
+$status_id = $_GET['status'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 
@@ -158,6 +159,78 @@ if($supplier_id != null)
 				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$due_date.'</td>
 				<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$amount.'</td>
 			</tr>';
+	}
+}
+
+//GENERATE REPORT BY STATUS
+if($status_id != null)
+{
+	$title_name = '';
+	if($status_id == 3)//get all the transaction On Process
+	{
+		$title_name = 'Status: On Process';
+		$get_data = $report->get_all_on_process();
+		while($row = $get_data->fetch(PDO::FETCH_ASSOC))
+		{
+			$po_num = $row['po_num'];
+			$check_date = date('m/d/y', strtotime($row['check_date']));
+			$cv_num = $row['cv_no'];
+			$bank = $row['bank-name'];
+			$check_num = $row['check_no'];
+			$payee = $row['supplier_name'];
+			$bill_date =  date('m/d/y', strtotime($row['bill_date']));
+			$date_received =  date('m/d/y', strtotime($row['date_received_bo']));
+			$due_date =  date('m/d/y', strtotime($row['due_date']));
+			$amount = $row['amount'];
+
+			$report_data .= '
+				<tr>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$po_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$cv_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bank.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$payee.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bill_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$date_received.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$due_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$amount.'</td>
+				</tr>';
+		}
+	}
+	else//get transaction by status
+	{
+		$title_name = 'Status: On Process';
+		$report->status = $status_id;
+		$report->submitted_by = $requestor_id;
+		$get_data = $report->generate_by_status();
+		while($row = $get_data->fetch(PDO::FETCH_ASSOC))
+		{
+			$po_num = $row['po_num'];
+			$check_date = date('m/d/y', strtotime($row['check_date']));
+			$cv_num = $row['cv_no'];
+			$bank = $row['bank-name'];
+			$check_num = $row['check_no'];
+			$payee = $row['supplier_name'];
+			$bill_date =  date('m/d/y', strtotime($row['bill_date']));
+			$date_received =  date('m/d/y', strtotime($row['date_received_bo']));
+			$due_date =  date('m/d/y', strtotime($row['due_date']));
+			$amount = $row['amount'];
+
+			$report_data .= '
+				<tr>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$po_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$cv_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bank.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$check_num.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$payee.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$bill_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$date_received.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$due_date.'</td>
+					<td align="center" style="border-top-style:2px; border-left-style:2px; border-bottom-style:2px">'.$amount.'</td>
+				</tr>';
+		}
 	}
 }
 

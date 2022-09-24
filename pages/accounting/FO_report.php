@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -54,7 +53,7 @@
                         <br><label style="padding-bottom: 23px"> </label>
                         <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
-                </div>
+                </div>    
                 <div class="row">
                     <div class="col-lg-3">
                         <label>Supplier:</label>
@@ -67,6 +66,24 @@
                             echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
                             }
                         ?>
+                        </select>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 23px"> </label>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Status:</label>
+                        <select id="fo-status" class="form-control mb-3 select2">
+                            <option selected disabled>Select a Status</option>
+                            <option value="1">Pending</option>
+                            <option value="2">Returned</option>
+                            <option value="3">On Process</option>
+                            <option value="9">On Hold</option>
+                            <option value="10">For Releasing</option>
+                            <option value="11">Released</option>
                         </select>
                     </div>
                     <div class="col-lg-3"><br>

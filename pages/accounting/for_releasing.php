@@ -63,7 +63,7 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$row['comp-name'].'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td style="width: 180px">'.$row['supplier_name'].'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td>

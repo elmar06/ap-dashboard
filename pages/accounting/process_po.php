@@ -88,7 +88,7 @@
                                 <td>'.$row['comp-name'].'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td>'.$row['supplier_name'].'</td>
-                                <td><center>
+                                <td style="width: 180px"><center>
                                 <select class="form-control-sm action" style="width:120px">
                                   <option value="0" selected disabled>Mark Status</option>';
                                   if($row['po-stat'] == 5){

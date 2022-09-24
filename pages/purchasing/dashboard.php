@@ -341,7 +341,7 @@
                       </thead>
                       <tbody id="req-body">
                         <?php
-                          $po->status = 11;
+                          $po->status = 10;
                           $po->submitted_by = $_SESSION['id'];
                           $get = $po->get_po_list_by_status_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))

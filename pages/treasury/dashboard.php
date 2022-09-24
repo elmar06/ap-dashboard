@@ -119,7 +119,7 @@
             </div> <!-- end of card row -->
             <div>
               <a type="button" class="btn btn-primary mb-1" href="#" onclick="mark_on_hold()"><i class="fas fa-hand-paper"></i> Hold Check</a>
-              <a type="button" class="btn btn-success mb-1" href="#" onclick="mark_for_releasing()"><i class="fas fa-check-square"></i> Release Check</a>
+              <a type="button" class="btn btn-success mb-1" href="#" onclick="mark_for_releasing()"><i class="fas fa-check-square"></i> Mark as for Releasing</a>
             </div><br>
             <!-- DataTable with Hover -->
             <div class="row mb-3">
@@ -163,8 +163,8 @@
                             <td>'.$row['check_no'].'</td>
                             <td>'.$row['comp-name'].'</td>
                             <td>'.$row['po_num'].'</td>
-                            <td>'.$row['supplier_name'].'</td>
-                            <td><center>'.$status.'</center></td>
+                            <td style="width: 200px">'.$row['supplier_name'].'</td>
+                            <td style="width: 120px"><center>'.$status.'</center></td>
                           </tr>';
                         }
                       ?>

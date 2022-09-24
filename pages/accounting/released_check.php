@@ -40,7 +40,7 @@
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                        <th>CV No</th>
+                        <th>OR No</th>
                         <th>Check No</th>
                         <th>Company</th>
                         <th>PO/JO No</th>
@@ -59,11 +59,11 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['cv_no'].'</td>
+                          <td>'.$row['or_num'].'</td>
                           <td>'.$row['check_no'].'</td>
                           <td>'.$row['comp-name'].'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td style="width: 180px">'.$row['supplier_name'].'</td>
                           <td><center>'.$release.'</center></td>
                         </tr>';
                       }

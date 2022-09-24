@@ -364,7 +364,7 @@
                     </thead>
                     <tbody id="search-body">
                     <?php  
-                      $po->status = 11;
+                      $po->status = 10;
                       $get = $po->get_po_list_by_status();
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {

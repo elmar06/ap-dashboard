@@ -13,7 +13,7 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 //view details
-$(document).on('dblclick', '#req-table tr', function(){
+$(document).on('dblclick', '.DataTable tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
   
   $.ajax({

@@ -75,6 +75,24 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-lg-3">
+                        <label>Status:</label>
+                        <select id="fo-status" class="form-control mb-3 select2">
+                            <option selected disabled>Select a Status</option>
+                            <option value="1">Pending</option>
+                            <option value="2">Returned</option>
+                            <option value="3">On Process</option>
+                            <option value="9">On Hold</option>
+                            <option value="10">For Releasing</option>
+                            <option value="11">Released</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 23px"> </label>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-3"><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">

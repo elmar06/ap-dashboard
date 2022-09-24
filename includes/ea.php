@@ -60,7 +60,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <i class="fa fa-bars"></i>
       </button>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown no-arrow mx-1">
+        <!-- <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-bell fa-fw"></i>
@@ -106,7 +106,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             </a>
             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
           </div>
-        </li>
+        </li> -->
         <div class="topbar-divider d-none d-sm-block"></div>
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -117,7 +117,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $_SESSION['id']; ?>" style="display: none;">
           <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
-            <a class="dropdown-item" href="#">
+            <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
             </a>

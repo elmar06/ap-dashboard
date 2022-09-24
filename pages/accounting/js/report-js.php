@@ -18,6 +18,7 @@ $(document).ready(function(){
 
     $('#fo-company').append('<option selected disabled>Select a Company</option>');
     $('#fo-supplier').append('<option selected disabled>Select a Supplier</option>');
+    $('#fo-status').append('<option selected disabled>Select a Status</option>');
   })
 })
 
@@ -26,10 +27,11 @@ function generate_report()
 {
   var company = $('#fo-company').val();
   var supplier = $('#fo-supplier').val();
+  var status = $('#fo-status').val();
   var requestor = $('#user-id').val();
   var date_from = $('#from').val();
   var date_to = $('#to').val();
-  var myData = 'company=' + company + '&supplier=' + supplier + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to;
+  var myData = 'company=' + company + '&supplier=' + supplier + '&status=' + status + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to;
   //send data to report page
   if(date_from != null && date_to != null)
   {
