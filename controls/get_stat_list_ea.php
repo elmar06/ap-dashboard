@@ -21,6 +21,7 @@ if($status == 6)//get for signature
             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
             <td>'.$row['cv_no'].'</td>
             <td>'.$row['check_no'].'</td>
+            <td>'.number_format($row['cv_amount'], 2).'</td>
             <td>'.$row['comp-name'].'</td>
             <td>'.$row['po_num'].'</td>
             <td>'.$row['supplier_name'].'</td>
@@ -41,6 +42,7 @@ elseif($status == 7)//get request signed
             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
             <td>'.$row['cv_no'].'</td>
             <td>'.$row['check_no'].'</td>
+            <td>'.number_format($row['cv_amount'], 2).'</td>
             <td>'.$row['comp-name'].'</td>
             <td>'.$row['po_num'].'</td>
             <td>'.$row['supplier_name'].'</td>
@@ -62,6 +64,7 @@ else//get returned check to AP Team
             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
             <td>'.$row['cv_no'].'</td>
             <td>'.$row['check_no'].'</td>
+            <td>'.number_format($row['cv_amount'], 2).'</td>
             <td>'.$row['comp-name'].'</td>
             <td>'.$row['po_num'].'</td>
             <td>'.$row['supplier_name'].'</td>
