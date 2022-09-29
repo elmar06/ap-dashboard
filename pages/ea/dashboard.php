@@ -129,7 +129,7 @@
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th>CV No</th>
                           <th>Check #</th>
-                          <th>Amount</th>
+                          <th>CV Amount</th>
                           <th>Company</th>
                           <th>PO/JO #</th>
                           <th>Suppplier</th>
@@ -160,7 +160,7 @@
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                             <td>'.$row['cv_no'].'</td>
                             <td>'.$row['check_no'].'</td>
-                            <td>'.$row['cv_amount'].'</td>
+                            <td>'.number_format($row['cv_amount'],2).'</td>
                             <td>'.$row['comp-name'].'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 180px">'.$row['supplier_name'].'</td>

@@ -29,22 +29,89 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
             {
                 echo '<option value="0" selected disabled>Please select a Department</option>
                 <option value="1" selected>Administrator</option>
-                <option value="2">Accounts Payable</option>
-                <option value="3">Purchasing</option>';
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7">Manager</option>';
             }
             elseif($row['access'] == 2)
             {
                 echo '<option value="0" selected disabled>Please select a Department</option>
                 <option value="1">Administrator</option>
-                <option value="2" selected>Accounts Payable</option>
-                <option value="3">Purchasing</option>';
+                <option value="2" selected>Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7">Manager</option>';
+            }
+            elseif($row['access'] == 3)
+            {
+                echo '<option value="0" selected disabled>Please select a Department</option>
+                <option value="1">Administrator</option>
+                <option value="2">Accounting Front Office</option>
+                <option value="3" selected>Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7">Manager</option>';
+            }
+            elseif($row['access'] == 4)
+            {
+                echo '<option value="0" selected disabled>Please select a Department</option>
+                <option value="1">Administrator</option>
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4" selected>SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7">Manager</option>';
+            }
+            elseif($row['access'] == 5)
+            {
+                echo '<option value="0" selected disabled>Please select a Department</option>
+                <option value="1">Administrator</option>
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5" selected>EA</option>
+                <option value="6">Treasury</option>
+                <option value="7">Manager</option>';
+            }
+            elseif($row['access'] == 6)
+            {
+                echo '<option value="0" selected disabled>Please select a Department</option>
+                <option value="1">Administrator</option>
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6" selected>Treasury</option>
+                <option value="7">Manager</option>';
+            }
+            elseif($row['access'] == 7)
+            {
+                echo '<option value="0" selected disabled>Please select a Department</option>
+                <option value="1">Administrator</option>
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7" selected>Manager</option>';
             }
             else
             {
                 echo '<option value="0" selected disabled>Please select a Department</option>
                 <option value="1">Administrator</option>
-                <option value="2">Accounts Payable</option>
-                <option value="3" selected>Purchasing</option>';
+                <option value="2">Accounting Front Office</option>
+                <option value="3">Accounting Back Office</option>
+                <option value="4">SCM/PMC</option>
+                <option value="5">EA</option>
+                <option value="6">Treasury</option>
+                <option value="7" selected>Manager</option>';
             }
             echo '</select>
         </div>
