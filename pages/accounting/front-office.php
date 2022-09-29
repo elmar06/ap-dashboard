@@ -94,7 +94,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">In Process</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">On Process</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_on_process();

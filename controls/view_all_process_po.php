@@ -116,7 +116,7 @@ echo '
   </div> <!-- end of card row -->
   <div class="row mb-3">
   <div class="col-lg-12">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create CV</button>
+    <button id="btnCreate" class="btn btn-primary mb-1" data-toggle="modal" data-target="#createCV"><i class="fas fa-plus-square"></i> Create Multi CV</button>
     <button id="btnAllReceive" class="btn btn-success mb-1" onclick="mark_all_received()" disabled><i class="fas fa-check-circle"></i> Mark Receive</button>
   </div>
   </div>

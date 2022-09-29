@@ -13,30 +13,6 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
-//release all checked
-function released_all()
-{
-  var id = []
-  $('input:checkbox[name=checklist]:checked').each(function() { //itemid
-    id.push($(this).val())
-  })
-
-  if(id.length != 0)
-  {
-    $.each(id, function(key, value){
-      $.ajax({
-        type: 'POST',
-        url: '../../controls/mark_released.php',
-        data: {id:value},
-        success: function(html)
-        {
-          $('#released-body').html(html);
-        }
-      })
-    })
-  }
-}
-
 //mark release per po
 $('.btnRelease').on('click', function(e){
   e.preventDefault();

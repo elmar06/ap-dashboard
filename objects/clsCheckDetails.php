@@ -19,7 +19,7 @@ class CheckDetails
 
     public function add_details()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_id=?, cv_no=?, bank=?, check_no=?,  amount=?, check_date=?';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_id=?, cv_no=?, bank=?, check_no=?, check_date=?, amount=?, tax=?, cv_amount=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
@@ -27,9 +27,10 @@ class CheckDetails
         $add->bindParam(2, $this->cv_no);
         $add->bindParam(3, $this->bank);
         $add->bindParam(4, $this->check_no);
-        $add->bindParam(5, $this->amount);
-        $add->bindParam(6, $this->check_date);
-        
+        $add->bindParam(5, $this->check_date);
+        $add->bindParam(6, $this->amount);
+        $add->bindParam(7, $this->tax);
+        $add->bindParam(8, $this->cv_amount);
 
         if($add->execute())
         {

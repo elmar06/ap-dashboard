@@ -118,6 +118,8 @@ echo'
 <div id="req-btn" class="row mb-3">
   <div class="col-md-12">
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PO-Modal" id="#myBtn"> Submit PO/JO</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#UploadModal" id="#btnUpload"> Upload File</button>
+    <a type="button" class="btn btn-info" href="../../assets/sample/SampleCSV.xlsx"> Download CSV Sample</a>
     <button type="button" class="btn btn-danger" id="btnClear" style="display: none" onclick="clear_list()"> Clear Search</button>
   </div>
 </div>

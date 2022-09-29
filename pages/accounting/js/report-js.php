@@ -32,17 +32,18 @@ function generate_report()
   var date_from = $('#from').val();
   var date_to = $('#to').val();
   var myData = 'company=' + company + '&supplier=' + supplier + '&status=' + status + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to;
+
   //send data to report page
   if(date_from != null && date_to != null)
   {
     if(company != null && supplier != null && requestor != null)
     {
-      window.open('../../print/form/printReportAll_purchasing.php?' + myData);
+      window.open('../../print/form/printReport.php?' + myData);
     }else{
-      window.open('../../print/form/printReport_purchasing.php?' + myData);
+      window.open('../../print/form/printReport.php?' + myData);
     }
   }else{
-    window.open('../../print/form/printReport_purchasing.php?' + myData);
+    window.open('../../print/form/printReport.php?' + myData);
   }
 }
 </script>

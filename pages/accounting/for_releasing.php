@@ -31,9 +31,9 @@
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
           <div id="page-body">
-          <div>
+          <!-- <div>
             <button id="btnAllRelease" type="button" class="btn btn-success mb-1" href="#" onclick="released_all()" disabled>Mark All Released</button>
-          </div><br>
+          </div><br> -->
           <!-- DataTable with Hover -->
           <div class="row mb-3">
             <div class="col-lg-12">

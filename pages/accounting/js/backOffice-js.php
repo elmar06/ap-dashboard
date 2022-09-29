@@ -85,9 +85,11 @@ function submitForSignature()
   var check_no = $('#check-no').val();
   var checkdate = $('#checkdate').val();
   var amount = $('#upd-amount').val();
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount;
+  var tax = $('#cv-tax').val();
+  var cv_amount = $('#cv-amount').val();
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount;
 
-  if(cv_no != '' && bank != null && check_no != '' && checkdate != '')
+  if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
     $.ajax({
     type: 'POST',
@@ -198,7 +200,7 @@ function mark_all_received()
               url: '../../controls/view_all_process_po.php',
               success: function(html)
               {
-                $('#req-body').html(html);
+                $('#page-body').html(html);
               }
             })
           }else{

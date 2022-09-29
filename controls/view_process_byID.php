@@ -69,6 +69,16 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 </div>
                 </div>
             </div>
+            <div class="row">
+              <div class="col-lg-6">
+                  <label><i style="color: red">*</i> Withholding Tax:</label>
+                  <input id="cv-tax" class="form-control mb-3" type="text" placeholder="Enter Withholding Tax Amount">
+              </div>
+              <div class="col-lg-6">
+                  <label><i style="color: red">*</i> Voucher Amount:</label>
+                  <input id="cv-amount" class="form-control mb-3" type="text" placeholder="Enter Voucher Amount">
+              </div>
+            </div>
         </div>
     <hr> 
       <div class="row">
