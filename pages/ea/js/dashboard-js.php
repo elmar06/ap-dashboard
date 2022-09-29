@@ -2,6 +2,7 @@
 <script>
 $(document).ready(function () {
   $('#req-table').DataTable();// ID From dataTable with Hover
+  $(".sidebar").toggleClass("toggled");
 })
 //toast
 function showToast(){

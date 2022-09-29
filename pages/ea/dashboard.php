@@ -128,9 +128,10 @@
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th>CV No</th>
-                          <th>Check No</th>
+                          <th>Check #</th>
+                          <th>Amount</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
+                          <th>PO/JO #</th>
                           <th>Suppplier</th>
                           <th><center>Status</center></th>
                         </tr>
@@ -144,21 +145,22 @@
                           //format of status
                           if($row['status'] == 6)
                           {
-                              $status = '<label style="color: red"><b> For Signature</b></label>';
+                            $status = '<label style="color: red"><b> For Signature</b></label>';
                           }
                           elseif($row['status'] == 7)
                           {
-                              $status = '<label style="color: green"><b> Signed</b></label>';
+                            $status = '<label style="color: green"><b> Signed</b></label>';
                           }
                           else
                           {
-                              $status = '<label style="color: green"><b> Returned</b></label>';
+                            $status = '<label style="color: green"><b> Returned</b></label>';
                           }
                           echo '
                           <tr>
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                             <td>'.$row['cv_no'].'</td>
                             <td>'.$row['check_no'].'</td>
+                            <td>'.$row['cv_amount'].'</td>
                             <td>'.$row['comp-name'].'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 180px">'.$row['supplier_name'].'</td>
