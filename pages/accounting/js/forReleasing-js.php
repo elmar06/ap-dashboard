@@ -60,53 +60,52 @@ function submit()
 {
   var id = $('#po-id').val();
   var or_num = $('#or-num').val();
-  var myData = 'id=' + id + '&or_num=' + or_num;
+  var receipt = $('#receipt-no').val();
+  var myData = 'id=' + id + '&or_num=' + or_num + '&receipt=' + receipt;
 
-  if(or_num != '')
-  {
-    $.ajax({
-      type: 'POST',
-      url: '../../controls/mark_released.php',
-      data: myData,
-      beforeSend: function()
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_released.php',
+    data: myData,
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response != 0)
       {
-        showToast();
-      },
-      success: function(response)
-      {
-        if(response != 0)
-        {
-          //get the latest list
-          $.ajax({
-            url: '../../controls/view_all_for_releasing.php',
-            success: function(html)
-            {
-              $('#success').html('<center><i class="fas fa-check"></i> PO/JO is successfully marked as Release.</center>');
-                $('#success').show();
-                setTimeout(function(){
-                  $('#success').fadeOut();
-                }, 1500)
-              $('#released-body').fadeOut();
-              $('#released-body').fadeIn();
-              $('#released-body').html(html);
-            }
-          })
-        }else{
-          $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
-          $('#warning').show();
-          setTimeout(function(){
-            $('#warning').fadeOut();
-          }, 3000)
-        }
+        //get the latest list
+        $.ajax({
+          url: '../../controls/view_all_for_releasing.php',
+          success: function(html)
+          {
+            $('#success').html('<center><i class="fas fa-check"></i> PO/JO is successfully marked as Release.</center>');
+              $('#success').show();
+              setTimeout(function(){
+                $('#success').fadeOut();
+              }, 1500)
+            $('#released-body').fadeOut();
+            $('#released-body').fadeIn();
+            $('#released-body').html(html);
+          }
+        })
+      }else{
+        $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
+        $('#warning').show();
+        setTimeout(function(){
+          $('#warning').fadeOut();
+        }, 3000)
       }
-    })
-  }else{
-    $('#warning').html('<center><i class="fas fa-ban"></i> Please input OR/CR Number.</center>');
-    $('#warning').show();
-    setTimeout(function(){
-      $('#warning').fadeOut();
-    }, 2000)
-  }
+    }
+  })
+  // }else{
+  //   $('#warning').html('<center><i class="fas fa-ban"></i> Please input OR/CR Number.</center>');
+  //   $('#warning').show();
+  //   setTimeout(function(){
+  //     $('#warning').fadeOut();
+  //   }, 2000)
+  // }
 }
 </script>
 

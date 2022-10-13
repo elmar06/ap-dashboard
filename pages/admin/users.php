@@ -85,13 +85,15 @@
                             $dept = 'EA';
                           }elseif($row['access'] == 6){
                             $dept = 'Treasury';
-                          }else{
+                          }elseif($row['access'] == 7){
                             $dept = 'Manager';
+                          }else{
+                            $dept = 'AP FO & BO';
                           }
                           echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['id'].'"></td>
-                                <td>'.$row['fullname'].'</td>
+                                <td style="width: 200px">'.$row['fullname'].'</td>
                                 <td>'.$row['email'].'</td>
                                 <td>'.$row['username'].'</td>
                                 <td><center>'.$dept.'</center></td>
@@ -143,6 +145,7 @@
                       <option value="1">Administrator</option>
                       <option value="2">AP Front Office</option>
                       <option value="3">AP Back Office</option>
+                      <option value="8">AP FO & BO</option>
                       <option value="4">Purchasing</option>
                       <option value="5">EA</option>
                       <option value="6">Treasury</option>

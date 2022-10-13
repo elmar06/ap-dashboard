@@ -55,15 +55,37 @@
                     <?php
                       $view = $po->get_for_releasing_fo();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
-                      {                      
+                      { 
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }                     
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td style="width: 180px">'.$row['supplier_name'].'</td>
+                          <td style="width: 180px">'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td>
@@ -110,8 +132,6 @@
     </div>
   </div>
 </div>
-
-
 
 <!-- Mark for Releasing Modal -->
 <div class="modal fade" id="ReleasingDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

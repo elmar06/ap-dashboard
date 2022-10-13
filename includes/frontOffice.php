@@ -48,13 +48,13 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   <hr class="sidebar-divider">
   <li class="nav-item">
     <a class="nav-link" href="for_releasing.php">
-      <i class="fas fa-fw fa-coins"></i>
+      <i class="fas fa-fw fa-check-circle"></i>
       <span>For Releasing</span>
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="released_check.php">
-      <i class="fas fa-fw fa-check-circle"></i>
+      <i class="fas fa-fw fa-check-double"></i>
       <span>Released Check</span>
     </a>
   </li>
@@ -135,6 +135,14 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
             </a>
+            <?php
+              if($_SESSION['access'] == 8){
+                echo '<a class="dropdown-item" href="front-office.php">
+                        <i class="fas fa-exchange-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Switch access to Front Office
+                      </a>';
+              }
+            ?>
             <a class="dropdown-item" href="../../controls/logout.php">
               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
               Logout

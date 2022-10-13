@@ -181,7 +181,7 @@
                           {
                             $comp_id =  $value; 
                             //display all the data by access
-                            $po->id = $comp_id;
+                            $po->company = $comp_id;
                             $view = $po->get_all_process_bo();
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
@@ -193,13 +193,34 @@
                               }else{
                                 $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
                               }
-                              
+                              //get the COMPANY name if exist
+                              $company->id = $row['comp-id'];
+                              $get2 = $company->get_company_detail();
+                              while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                              {
+                                if($row['comp-id'] == $rowComp['id']){
+                                  $comp_name = $rowComp['company'];
+                                }else{
+                                  $comp_name = '-';
+                                }
+                              }
+                              //get the SUPPLIER name if exist
+                              $supplier->id = $row['supp-id'];
+                              $get3 = $supplier->get_supplier_details();
+                              while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                              {
+                                if($row['supp-id'] == $rowSupp['id']){
+                                  $sup_name = $rowSupp['supplier_name'];
+                                }else{
+                                  $sup_name = '-';
+                                }
+                              }
                               echo '
                               <tr>
                                 <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                                <td style="max-width: 15%">'.$row['comp-name'].'</td>
+                                <td style="max-width: 15%">'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
-                                <td>'.$row['supplier_name'].'</td>
+                                <td>'.$sup_name.'</td>
                                 <td>'.$bill_date.'</td>
                                 <td><center>'.$action.'</center></td>
                               </tr>';

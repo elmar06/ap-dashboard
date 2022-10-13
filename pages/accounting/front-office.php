@@ -173,21 +173,46 @@
                       $view = $po->get_submitted_po_acc();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }
                         //format of status
-                        if($row['status'] == 1)
-                        {
+                        if($row['status'] == 1){
                           $status = '<label style="color: red"><b> Pending</b></label>';
-                        }
-                        else if($row['status'] == 2)
-                        {
+                        }else if($row['status'] == 2){
                           $status = '<label style="color: orange"><b> Returned</b></label>';
-                        }
-                        else if($row['status'] == 9)
-                        {
-                          $status = '<label style="color: orange"><b> On Hold</b></label>';
-                        }
-                        else
-                        {
+                        }elseif($row['status'] == 5){
+                          $status = '<label style="color: blue"><b> For Signature</b></label>';
+                        }elseif($row['status'] == 6){
+                          $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+                        }elseif($row['status'] == 8){
+                          $status = '<label style="color: blue"><b> For Verification</b></label>';
+                        }elseif($row['status'] == 9){
+                          $status = '<label style="color: red"><b> On Hold</b></label>';
+                        }else if($row['status'] == 10){
+                          $status = '<label style="color: green"><b> For Releasing</b></label>';
+                        }else if($row['status'] == 11){
+                          $status = '<label style="color: green"><b> Released</b></label>';
+                        }else{
                           $status = '<label style="color: blue"><b> On Process</b></label>';
                         }
                         //date format
@@ -195,9 +220,9 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td><center>'.$status.'</center></td>
@@ -234,6 +259,28 @@
                       $get = $po->get_po_list_by_status();
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }
                         //format of status
                         $status = '<label style="color: red"><b> Pending</b></label>';
                         //date format
@@ -241,9 +288,9 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td><center>'.$status.'</center></td>
@@ -279,6 +326,28 @@
                       $get = $po->get_po_list_by_status();
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }
                         //format of status
                         $status = '<label style="color: orange"><b> Returned</b></label>';
                         //date format
@@ -286,9 +355,9 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td><center>'.$status.'</center></td>
@@ -323,6 +392,28 @@
                       $get = $po->get_po_list_process();
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }
                         //format of status
                         $status = '<label style="color: blue"><b> On Process</b></label>';
                         //date format
@@ -330,9 +421,9 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td><center>'.$status.'</center></td>
@@ -368,6 +459,28 @@
                       $get = $po->get_po_list_by_status();
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }
                         //format of status
                         $status = '<label style="color: green"><b> For Releasing</b></label>';
                         //date format
@@ -375,9 +488,9 @@
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
                           <td>'.$row['fullname'].'</td>
                           <td><center>'.$status.'</center></td>

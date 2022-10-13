@@ -11,9 +11,9 @@
   <title>AP Dashboard</title>
   <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
   <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -25,7 +25,7 @@
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">Purchasing</a></li>
+              <li class="breadcrumb-item"><a href="#">SCM-PMC</a></li>
               <li class="breadcrumb-item active" aria-current="page">Submitted PO/JO List</li>
             </ol>
           </div><!-- /Breadcrumbs -->
@@ -39,9 +39,9 @@
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Project</th>
                         <th>Company</th>
                         <th>PO/JO No</th>
-                        <th>Billing No</th>
                         <th style="max-width: 150px">Supplier</th>
                         <th>Billing Date</th>
                         <th>Check Date</th>
@@ -56,29 +56,59 @@
                         $view = $po->get_submitted_po_by_user();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
+                          //get the PROJECT name if exist
+                          $project->id = $row['proj-id'];
+                          $get1 = $project->get_proj_details();
+                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['proj-id'] == $rowProj['id']){
+                              $proj_name = $rowProj['project'];
+                            }else{
+                              $proj_name = '-';
+                            }
+                          }
+                          //get the COMPANY name if exist
+                          $company->id = $row['comp-id'];
+                          $get2 = $company->get_company_detail();
+                          while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['comp-id'] == $rowComp['id']){
+                              $comp_name = $rowComp['company'];
+                            }else{
+                              $comp_name = '-';
+                            }
+                          }
+                          //get the SUPPLIER name if exist
+                          $supplier->id = $row['supp-id'];
+                          $get3 = $supplier->get_supplier_details();
+                          while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['supp-id'] == $rowSupp['id']){
+                              $sup_name = $rowSupp['supplier_name'];
+                            }else{
+                              $sup_name = '-';
+                            }
+                          }
                           //format of status
-                          if($row['status'] == 1)
-                          {
+                          if($row['status'] == 1){
                             $status = '<label style="color: red"><b> Pending</b></label>';
-                          }
-                          else if($row['status'] == 2)
-                          {
+                          }else if($row['status'] == 2){
                             $status = '<label style="color: orange"><b> Returned</b></label>';
-                          }
-                          elseif($row['status'] == 9)
-                          {
+                          }elseif($row['status'] == 5){
+                            $status = '<label style="color: blue"><b> For Signature</b></label>';
+                          }elseif($row['status'] == 6){
+                            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+                          }elseif($row['status'] == 7){
+                            $status = '<label style="color: blue"><b> Signed</b></label>';
+                          }elseif($row['status'] == 8){
+                            $status = '<label style="color: blue"><b> For Verification</b></label>';
+                          }elseif($row['status'] == 9){
                             $status = '<label style="color: red"><b> On Hold</b></label>';
-                          }
-                          else if($row['status'] == 10)
-                          {
+                          }else if($row['status'] == 10){
                             $status = '<label style="color: green"><b> For Releasing</b></label>';
-                          }
-                          else if($row['status'] == 11)
-                          {
+                          }else if($row['status'] == 11){
                             $status = '<label style="color: green"><b> Released</b></label>';
-                          }
-                          else
-                          {
+                          }else{
                             $status = '<label style="color: blue"><b> On Process</b></label>';
                           }
                           //date format
@@ -107,10 +137,10 @@
                           echo '
                           <tr>
                             <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                            <td>'.$row['comp-name'].'</td>
+                            <td align="center">'.$proj_name.'</td>
+                            <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
-                            <td>'.$row['bill_no'].'</td>
-                            <td style="max-width: 150px">'.$row['supplier_name'].'</td>
+                            <td style="max-width: 150px">'.$sup_name.'</td>
                             <td align="center">'.$bill_date.'</td>
                             <td align="center">'.$check_date.'</td>
                             <td align="center">'.$check_no.'</td>
@@ -179,6 +209,7 @@
   </a>
 
   <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+  <script src="../../assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js"></script>
   <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="../../assets/js/ruang-admin.min.js"></script>
@@ -187,8 +218,6 @@
   <script src="../../assets/vendor/select2/js/select2.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/jquery.dataTables.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/dataTables.bootstrap.min.js"></script>
-  <!-- <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
   <script src="../../assets/js/jquery.toast.js"></script>
   <?php include "js/submit-js.php"; ?>
 </body>

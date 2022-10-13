@@ -3,12 +3,16 @@ session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsAccess.php';
+include '../objects/clsSupplier.php';
+include '../objects/clsCompany.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
 $po = new PO_Details($db);
 $access = new Access($db);
+$supplier = new Supplier($db);
+$company = new Company($db);
 
 echo '
   <div class="row mb-3">
@@ -52,7 +56,7 @@ echo '
                 echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
               }
               echo '<div class="mt-2 mb-0 text-muted text-xs">
-              <a class="text-success mr-2" href="#" onclick="get_returned_po()"><i class="fas fa-arrow-up"></i> More Details</a>
+              <a class="text-success mr-2" href="process_po.php" onclick="get_returned_po()"><i class="fas fa-arrow-up"></i> More Details</a>
               </div>
           </div>
           <div class="col-auto">
@@ -149,7 +153,7 @@ echo '
               {
                 $comp_id =  $value; 
                 //display all the data by access
-                $po->id = $comp_id;
+                $po->company = $comp_id;
                 $view = $po->get_all_process_bo();
                 while($row = $view->fetch(PDO::FETCH_ASSOC))
                 {
@@ -161,13 +165,34 @@ echo '
                   }else{
                     $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
                   }
-                  
+                  //get the COMPANY name if exist
+                  $company->id = $row['comp-id'];
+                  $get2 = $company->get_company_detail();
+                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                  {
+                    if($row['comp-id'] == $rowComp['id']){
+                      $comp_name = $rowComp['company'];
+                    }else{
+                      $comp_name = '-';
+                    }
+                  }
+                  //get the SUPPLIER name if exist
+                  $supplier->id = $row['supp-id'];
+                  $get3 = $supplier->get_supplier_details();
+                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                  {
+                    if($row['supp-id'] == $rowSupp['id']){
+                      $sup_name = $rowSupp['supplier_name'];
+                    }else{
+                      $sup_name = '-';
+                    }
+                  }
                   echo '
                   <tr>
                     <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                    <td style="max-width: 15%">'.$row['comp-name'].'</td>
+                    <td style="max-width: 15%">'.$comp_name.'</td>
                     <td>'.$row['po_num'].'</td>
-                    <td>'.$row['supplier_name'].'</td>
+                    <td>'.$sup_name.'</td>
                     <td>'.$bill_date.'</td>
                     <td><center>'.$action.'</center></td>
                   </tr>';
@@ -260,5 +285,51 @@ $('.btnReceived').on('click', function(e){
       }
     }
   })
+})
+//CHECKBOXALL
+$('.checkboxall').change(function(){
+  if($(this).prop('checked'))
+  {
+    $('tbody tr td input[type="checkbox"]').each(function(){
+      $(this).prop('checked', true);
+
+      var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value});
+      if(selected.length > 1)
+      { 
+        $('#btnAllReceive').attr('disabled', false);
+        //$('#btnCreate').attr('disabled', false);
+      }
+      else
+      {
+        $('#btnAllReceive').attr('disabled', true);
+        //$('#btnCreate').attr('disabled', true);
+      }
+    })
+  }
+  else
+  {
+    $('tbody tr td input[type="checkbox"]').each(function(){
+      $(this).prop('checked', false);
+
+      $('#btnAllReceive').attr('disabled', true);
+      //$('#btnCreate').attr('disabled', true);
+    })
+  }
+});
+
+//check list
+$('.checklist').change(function(){
+  var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});
+
+  if(selected.length > 1)
+  {
+    $('#btnAllReceive').attr('disabled', false);
+    //$('#btnCreate').attr('disabled', false);
+  }
+  else
+  {
+    $('#btnAllReceive').attr('disabled', true);
+    //$('#btnCreate').attr('disabled', true);
+  }
 })
 </script>

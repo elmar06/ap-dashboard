@@ -2,6 +2,7 @@
 <script>
 $(document).ready(function () {
   $('#req-table').DataTable();// ID From dataTable with Hover
+  $(".sidebar").toggleClass("toggled");
 })
 //toast
 function showToast(){
@@ -118,6 +119,27 @@ function get_releasing()
   $.ajax({
     type: 'POST',
     url: '../../controls/get_for_releasing.php',
+    data: {stat: stat},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get po for released
+function get_released()
+{
+  var stat = 10;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_released.php',
     data: {stat: stat},
     beforeSend: function()
     {

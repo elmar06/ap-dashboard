@@ -130,10 +130,18 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $user_id; ?>" style="display: none;">
           <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
-          <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
+            <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
             </a>
+            <?php
+              if($_SESSION['access'] == 8){
+                echo '<a class="dropdown-item" href="front-office.php">
+                        <i class="fas fa-exchange-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Switch access to Front Office
+                      </a>';
+              }
+            ?>
             <a class="dropdown-item" href="../../controls/logout.php">
               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
               Logout

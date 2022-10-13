@@ -33,7 +33,7 @@
           <!-- Pending Card -->
           <div id="page-body">
             <div class="row mb-3">
-              <div class="col-xl-3 col-md-6 mb-4">
+              <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row align-items-center">
@@ -60,7 +60,7 @@
                 </div>
               </div>
               <!-- Received by Accounting Payable -->
-              <div class="col-xl-3 col-md-6 mb-4">
+              <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -87,7 +87,7 @@
                 </div>
               </div>
               <!-- Received by Accounting Payable -->
-              <div class="col-xl-3 col-md-6 mb-4">
+              <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -164,7 +164,7 @@
                             <td>'.$row['comp-name'].'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 180px">'.$row['supplier_name'].'</td>
-                            <td><center>'.$status.'</center></td>
+                            <td style="width: 95px"><center>'.$status.'</center></td>
                           </tr>';
                         }
                       ?>

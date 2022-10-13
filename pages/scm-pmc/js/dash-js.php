@@ -6,7 +6,6 @@ $(document).ready(function () {
   $('#tblSearch2').hide();
   $('#tblSearch3').hide();
   $('#tblSearch4').hide();
-
 })
 
 //select2 js
@@ -103,27 +102,27 @@ function DisableFields()
 }
 
 //get the terms per supplier
-// $('#supplier').on('change', function(){
-//   var id = $(this).val();
+$('#supplier').on('change', function(){
+  var id = $(this).val();
   
-//   $.ajax({
-//     type: 'POST',
-//     url: '../../controls/get_terms.php',
-//     data: {id:id},
-//     dataType: 'json',
-//     cache: false,
-//     success: function(result)
-//     {
-//       var term = result[0];
-//       if(term == null || term == '')
-//       {
-//         $('#terms').val('0');
-//       }else{
-//         $('#terms').val(term);
-//       }
-//     }
-//   })
-// })
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_terms.php',
+    data: {id:id},
+    dataType: 'json',
+    cache: false,
+    success: function(result)
+    {
+      var term = result[0];
+      if(term == null || term == '')
+      {
+        $('#terms').val('0');
+      }else{
+        $('#terms').val(term);
+      }
+    }
+  })
+})
 //upload file
 function uploadFile()
 {
@@ -181,17 +180,18 @@ function uploadFile()
 function SubmitPO()
 {
   var po_num = $('#po-no').val();
-  var si_num = $('#sales-invoice').val();
+  var po_amount = $('#po-amount').val();
+  var po_date = $('#po-date').val();
+  var si_num = $('#si-num').val();
+  var amount = $('#si-amount').val();
   var company = $('#company').val();
+  var supplier = $('#supplier').val();
   var project = $('#project').val();
   var department = $('#department').val();
-  var supplier = $('#supplier').val();
-  var bill_no = $('#bill-no').val();
   var bill_date = $('#bill-date').val();
   var terms = $('#terms').val();
-  var amount = $('#amount').val();
   var due_date = $('#due-date').val();
-  var days_due = $('#days-due').val();
+  var memo_no = $('#memo-no').val();
   var reports = $('#report').val();
   var remark = '';
   //check if it is shared
@@ -206,10 +206,15 @@ function SubmitPO()
   {
     var department = 0;
   }
+  //check the department if null
+  if(project == 0 || project == null)
+  {
+    var project = 0;
+  }
 
-  var myData = 'po_num=' + po_num + '&si_num=' + si_num + '&company=' + company + '&project=' + project + '&department=' + department + '&supplier=' + supplier + '&bill_no=' + bill_no + '&bill_date=' + bill_date + '&terms=' + terms + '&amount=' + amount + '&due_date=' + due_date + '&days_due=' + days_due + '&reports=' + reports + '&remark=' + remark;
+  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no;
 
-  if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
+  if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
     //check if PO/JO number is already exist
     $.ajax({
@@ -273,8 +278,8 @@ function SubmitPO()
     $('#add-warning').html('<center><i class="fas fa-ban"></i> Submit Failed. Please input all the data needed.</center>');
     $('#add-warning').show();
     setTimeout(function(){
-      $('#add-warning').fadeOut();
-    }, 5000)
+      $('#add-warning').hide();
+    }, 3000)
   }
 }
 
@@ -513,6 +518,12 @@ function get_releasing_po()
   $('#tblSearch4').fadeIn();
 }
 
+//set request for Credit Memo
+function mark_as_credit_memo()
+{
+  $('.report').toggle();
+}
+
 //view details
 $(document).on('dblclick', '#submitted-table tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
@@ -577,7 +588,7 @@ function clear_list()
 }
 
 //format currency value of Amount
-$('#amount').on('blur', function() {
+$('.amount').on('blur', function() {
   const value = this.value.replace(/,/g, '');
   this.value = parseFloat(value).toLocaleString('en-US', {
     style: 'decimal',

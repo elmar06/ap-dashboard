@@ -27,17 +27,11 @@ while($row1 = $get->fetch(PDO::FETCH_ASSOC))
     $comp_id =  $value; 
     //display all the data by access
     $po->company = $comp_id;
-    $view = $po->get_all_process_bo();
-    while($row = $view->fetch(PDO::FETCH_ASSOC))
+    $get = $po->get_for_released_checker();
+    while($row = $get->fetch(PDO::FETCH_ASSOC))
     {
-      //date format
+      $status = '<label style="color: green"><b>For Releasing</b></label>';
       $bill_date = date('m/d/Y', strtotime($row['bill_date']));
-      if($row['status'] == 3)
-      {
-        $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
-      }else{
-        $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
-      }
       //get the COMPANY name if exist
       $company->id = $row['comp-id'];
       $get2 = $company->get_company_detail();
@@ -62,14 +56,16 @@ while($row1 = $get->fetch(PDO::FETCH_ASSOC))
       }
       echo '
       <tr>
-        <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-        <td style="max-width: 15%">'.$comp_name.'</td>
+        <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+        <td>'.$row['cv_no'].'</td>
+        <td>'.$row['check_no'].'</td>
+        <td>'.number_format($row['cv_amount'], 2).'</td>
+        <td>'.$comp_name.'</td>
         <td>'.$row['po_num'].'</td>
-        <td>'.$sup_name.'</td>
-        <td>'.$bill_date.'</td>
-        <td><center>'.$action.'</center></td>
+        <td style="width: 180px">'.$sup_name.'</td>
+        <td style="width: 95px"><center>'.$status.'</center></td>
       </tr>';
-    }  
+    }
   }
 }
 ?>

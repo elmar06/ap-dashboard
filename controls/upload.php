@@ -30,17 +30,18 @@ if($_FILES['files']['size'] > 0)
                 }
             }
             //po_details table
-            $po->bill_no = $data[0];
+            $po->supplier = $data[0];
             $po->po_num = $data[1];
-            $po->amount = $data[2];
-            $po->si_num = $data[3];
-            $po->company = $data[4];
-            $po->supplier = $data[5];
-            $po->project = $data[6];
-            $po->department = $data[7];
-            $po->bill_date = $data[8];
-            $po->terms = $data[9];
-            $po->due_date = $data[10];
+            $po->po_date = $data[2];
+            $po->po_amount = $data[3];
+            $po->bill_date = $data[4];
+            $po->si_num = $data[5];
+            $po->amount = $data[6];
+            $po->company = $data[7];
+            $po->project = $data[8];
+            $po->department = $data[9];
+            $po->terms = $data[10];
+            $po->due_date = $data[11];
             $po->date_submit = date('Y-m-d');
             $po->submitted_by = $_SESSION['id'];
 

@@ -1,6 +1,7 @@
 <script>
 //datatable
 $('#req-table').DataTable();
+$(".sidebar").toggleClass("toggled");
 
 //toast
 function showToast(){
@@ -12,27 +13,70 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
-//view details
-// $(document).on('dblclick', '#req-table tr', function(){
-//   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
+$('.btnAdd').on('click', function(e){
+  e.preventDefault();
 
-//   $.ajax({
-//     type: 'POST',
-//     url: '../../controls/view_po_released_fo.php',
-//     data: {id:id},
-//     beforeSend: function()
-//     {
-//       showToast();
-//     },
-//     success: function(html)
-//     {
-//       $('#POmodalDetails').modal('show');
-//       $('#details-body').html(html);
-//     },
-//     error: function(xhr, ajaxOptions, thrownError)
-//     {
-//       alert(thrownError);
-//     }
-//   })
-// })
+  var id = $(this).val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_check_details.php',
+    data: {id:id},
+    success: function(html)
+    {
+      $('#AddORModal').modal('show');
+      $('#release-body').html(html);
+    }
+  })
+})
+//submit/save OR Number
+function submit_OR()
+{
+  var id = $('#po-id').val();
+  var or_num = $('#or-num').val();
+  var myData = 'id=' + id + '&or_num=' + or_num;
+
+  if(or_num != '' || or_num != null){
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/upd_or_num.php',
+      data: myData,
+      success: function(response)
+      {
+        if(response > 0)
+        {
+          //get the latest list
+          $.ajax({
+            url: '../../controls/view_all_released.php',
+            success: function(html)
+            {
+              $('#success').html('<center><i class="fas fa-check"></i> OR/CR successfully added.</center>');
+                $('#success').show();
+                setTimeout(function(){
+                  $('#success').fadeOut();
+                }, 1500)
+              $('#released-body').fadeOut();
+              $('#released-body').fadeIn();
+              $('#released-body').html(html);
+            }
+          })
+        }
+        else
+        {
+          $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
+          $('#warning').show();
+          setTimeout(function(){
+            $('#warning').fadeOut();
+          }, 3000)
+        }
+      }
+    })
+  }else{
+    $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please input OR/CR No.</center>');
+    $('#warning').show();
+    setTimeout(function(){
+      $('#warning').fadeOut();
+    }, 3000)
+  }
+}
 </script>

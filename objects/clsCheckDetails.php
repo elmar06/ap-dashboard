@@ -81,11 +81,12 @@ class CheckDetails
 
     public function get_details_byID()
     {
-        $query = 'SELECT check_details.po_id, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, bank.id, bank.name FROM check_details, bank WHERE check_details.bank = bank.id AND check_details.po_id = ?';
+        $query = 'SELECT check_details.po_id, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = ? AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
         $sel->bindParam(1, $this->po_id);
+        $sel->bindParam(2, $this->id);
 
         $sel->execute();
         return $sel;

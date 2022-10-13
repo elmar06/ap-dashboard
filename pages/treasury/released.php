@@ -40,32 +40,69 @@
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                        <th>CV No</th>
-                        <th>Check No</th>
+                        <th>CV #</th>
+                        <th>Check #</th>
+                        <th>CV Amount</th>
                         <th>Company</th>
-                        <th>PO/JO No</th>
+                        <th>PO/JO #</th>
                         <th>Payee</th>
                         <th><center>Date Released</center></th>
                       </tr>
                     </thead>
                     <tbody id="req-body">
                     <?php
-                      $po->submitted_by = $_SESSION['id'];
-                      $view = $po->get_released_fo();
-                      while($row = $view->fetch(PDO::FETCH_ASSOC))
+                      $po->submitted_by = $user_id;
+                      $get = $access->get_company();
+                      while($row1 = $get->fetch(PDO::FETCH_ASSOC))
                       {
-                        //date format
-                        $release = date('m/d/Y', strtotime($row['date_release']));
-                        echo '
-                        <tr>
-                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['cv_no'].'</td>
-                          <td>'.$row['check_no'].'</td>
-                          <td>'.$row['comp-name'].'</td>
-                          <td>'.$row['po_num'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
-                          <td><center>'.$release.'</center></td>
-                        </tr>';
+                        //get the access company id
+                        $id = $row1['comp-access'];
+                        $array_id = explode(',', $id);
+                        foreach($array_id as $value)
+                        {
+                          $comp_id =  $value; 
+                          //display all the data by access
+                          $po->company = $comp_id;
+                          $view = $po->get_released_checker();
+                          while($row = $view->fetch(PDO::FETCH_ASSOC))
+                          {
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
+                            //date format
+                            $date = date('m/d/y', strtotime($row['date_released']));
+                            echo '
+                            <tr>
+                              <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td>'.$row['cv_no'].'</td>
+                              <td>'.$row['check_no'].'</td>
+                              <td>'.number_format($row['cv_amount'], 2).'</td>
+                              <td>'.$comp_name.'</td>
+                              <td>'.$row['po_num'].'</td>
+                              <td style="width: 180px">'.$sup_name.'</td>
+                              <td style="width: 95px"><center>'.$date.'</center></td>
+                            </tr>';
+                          }
+                        }
                       }
                     ?>
                     </tbody>

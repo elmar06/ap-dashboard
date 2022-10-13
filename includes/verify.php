@@ -29,7 +29,7 @@ $user = new Users($db);
 
 $user_id = $_SESSION['id'];
 //get the updated logcount
-$user->id = $_SESSION['id'];
+$user->id = $user_id;
 $get = $user->get_logcount();
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {

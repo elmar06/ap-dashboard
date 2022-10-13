@@ -146,4 +146,53 @@ echo '
 $(document).ready(function () {
   $('#req-table').DataTable();// ID From dataTable with Hover
 })
+
+//CHECKBOXALL
+$('.checkboxall').change(function(){
+  if($(this).prop('checked'))
+  {
+    $('tbody tr td input[type="checkbox"]').each(function(){
+      $(this).prop('checked', true);
+
+      var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value});
+      if(selected.length > 1)
+      { 
+        $('#btnSigned').attr('disabled', false);
+        $('#btnReturn').attr('disabled', false);
+      }
+      else
+      {
+        $('#btnSigned').attr('disabled', false);
+        $('#btnReturn').attr('disabled', false);
+      }
+    })
+  }
+  else
+  {
+    $('tbody tr td input[type="checkbox"]').each(function(){
+      $(this).prop('checked', false);
+
+      $('#btnSigned').attr('disabled', false);
+      $('#btnReturn').attr('disabled', false);
+    })
+  }
+})
+</script>
+
+<!-- checklist -->
+<script>
+$('.checklist').change(function(){
+  var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});
+
+  if(selected.length > 1)
+  {
+    $('#btnSigned').attr('disabled', false);
+    $('#btnReturn').attr('disabled', false);
+  }
+  else
+  {
+    $('#btnSigned').attr('disabled', false);
+    $('#btnReturn').attr('disabled', false);
+  }
+})
 </script>

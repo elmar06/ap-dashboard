@@ -25,7 +25,7 @@
         <div class="container-fluid">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">Purchasing</a></li>
+              <li class="breadcrumb-item"><a href="#">SCM-PMC</a></li>
               <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
             </ol>
           </div><!-- /Breadcrumbs -->
@@ -151,7 +151,7 @@
               <div class="col-md-12">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PO-Modal" id="#myBtn"> Submit PO/JO</button>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#UploadModal" id="#btnUpload"> Upload File</button>
-                <a type="button" class="btn btn-info" href="../../assets/sample/SampleCSV.xlsx"> Download CSV Sample</a>
+                <a type="button" class="btn btn-info" href="../../assets/sample/SampleCSV-v1.xlsx"> Download CSV Sample</a>
                 <button type="button" class="btn btn-danger" id="btnClear" style="display: none" onclick="clear_list()"> Clear Search</button>
               </div>
             </div>
@@ -387,22 +387,33 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-6">
-            <label><i style="color: red">*</i> Billing No:</label>
-            <input id="bill-no" class="form-control mb-3" type="text" placeholder="Enter Billing number">
-          </div>
-          <div class="col-lg-6">
             <label><i style="color: red">*</i> PO/JO Number:</label>
             <input id="po-no" class="form-control mb-3" type="text" placeholder="Enter PO/JO number">
           </div>
         </div>
         <div class="row">
           <div class="col-lg-6">
-            <label><i style="color: red">*</i> Amount</label>
-            <input id="amount" class="form-control mb-3" type="text" placeholder="Amount">
+            <label><i style="color: red">*</i> PO/Contract Amount:</label>
+            <input id="po-amount" class="form-control mb-3 amount" type="text" placeholder="Enter Amount">
           </div>
           <div class="col-lg-6">
-            <label><i style="color: red">*</i> Sales Invoice No.</label>
-            <input id="sales-invoice" class="form-control mb-3" type="text" placeholder="Sales Invoice here..">
+            <label></i> PO Date:</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+              </div>
+              <input id="po-date" class="form-control datepicker" placeholder="Enter PO Date">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label><i style="color: red">*</i> SI No/Type of Billing:</label>
+            <input id="si-num" class="form-control mb-3" type="text" placeholder="Enter Billing number">
+          </div>
+          <div class="col-lg-6">
+            <label><i style="color: red">*</i> SI/Billing Amount</label>
+            <input id="si-amount" class="form-control mb-3 amount" type="text" placeholder="Enter Amount">
           </div>
         </div>
         <div class="row">
@@ -435,7 +446,7 @@
         </div>
         <div class="row">
           <div class="col-lg-6"  style="margin-top: 16px">
-            <label><i style="color: red">*</i> Project:</label>
+            <label> Project:</label>
             <select id="project" class="form-control mb-3 select2" style="width: 100%;">
               <option selected disabled>Select a Project</option>
               <?php
@@ -463,7 +474,7 @@
         </div>
         <div class="row">
           <div class="col-lg-8" style="margin-top: 17px">
-            <label><i style="color: red">*</i> Billing/Invoice Date:</label>
+            <label><i style="color: red">*</i> Billing/SI Date:</label>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -473,7 +484,7 @@
           </div>
           <div class="col-lg-4" style="margin-top: 17px">
             <label><i style="color: red">*</i> Terms:</label>
-            <input id="terms" class="form-control mb-3" type="text" placeholder="Enter Terms" value="30 days">
+            <input id="terms" class="form-control mb-3" type="text" placeholder="Enter Terms" value="30 days" onchange="getDueDate()">
           </div>
         </div>
         <div class="row">
@@ -483,16 +494,21 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
               </div>
-              <input id="due-date" class="form-control datepicker" placeholder="PO Due Date" disabled >
+              <input id="due-date" class="form-control datepicker" placeholder="Due Date">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-4">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch1">
+              <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="mark_as_credit_memo()">
               <label class="custom-control-label" for="customSwitch1"> Credit Memo</label>
             </div>
+          </div>
+        </div>
+        <div class="row report" style="display: none;">
+          <div class="col-lg-12">
+            <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here"></textarea>
           </div>
         </div>
         <div class="row">
@@ -501,12 +517,6 @@
               <input type="checkbox" class="custom-control-input" id="remarks">
               <label class="custom-control-label" for="remarks"> Share this records with SCM/PMC</label>
             </div>
-          </div>
-        </div>
-        <div class="row report" style="display:none">
-          <div class="col-lg-12">
-            <label style="padding-top: 15px"><i style="color: red">*</i>Incident Report</label>
-            <textarea id="report" class="form-control mb-3" type="text" placeholder="Report here.."></textarea>
           </div>
         </div>
         <!-- Alert -->

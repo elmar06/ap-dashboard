@@ -45,25 +45,56 @@
                         <th>Company</th>
                         <th>PO/JO No</th>
                         <th>Payee</th>
+                        <th>Amount</th>
                         <th><center>Date Released</center></th>
                       </tr>
                     </thead>
-                    <tbody id="req-body">
+                    <tbody id="released-body">
                     <?php
                       $po->submitted_by = $_SESSION['id'];
                       $view = $po->get_released_fo();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }else{
+                            $comp_name = '-';
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }else{
+                            $sup_name = '-';
+                          }
+                        }  
                         //date format
                         $release = date('m/d/Y', strtotime($row['date_release']));
+                        $amount = number_format($row['cv_amount'], 2);
+                        //check if OR No is null/empty
+                        if($row['or_num'] == '' || $row['or_num'] == null){
+                          $or_num = '<button class="btn btn-info btn-sm btnAdd" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Add OR</button>';
+                        }else{
+                          $or_num = $row['or_num'];
+                        }
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$row['or_num'].'</td>
+                          <td>'.$or_num.'</td>
                           <td>'.$row['check_no'].'</td>
-                          <td>'.$row['comp-name'].'</td>
+                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td style="width: 180px">'.$row['supplier_name'].'</td>
+                          <td style="width: 150px">'.$sup_name.'</td>
+                          <td>'.$amount.'</td>
                           <td><center>'.$release.'</center></td>
                         </tr>';
                       }
@@ -85,22 +116,23 @@
   <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- View Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- Add OR Num Modal -->
+<div class="modal fade" id="AddORModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
+        <h5 class="modal-title" id="exampleModalLabel">PO Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div id="details-body" class="modal-body">
+      <div id="release-body" class="modal-body">
         <!-- modal body goes here -->
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-toggle="dismiss">Close</button>
+      <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button class="btn btn-primary" onclick="submit_OR()">Submit</button>
       </div>
     </div>
   </div>

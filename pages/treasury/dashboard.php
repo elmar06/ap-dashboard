@@ -33,7 +33,7 @@
           <!-- Pending Card -->
           <div id="page-body">
             <div class="row mb-3">
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row align-items-center">
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <!-- For Releasing Card -->
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -89,7 +89,7 @@
                 </div>
               </div>
               <!-- Total Submitted PO/JO Card-->
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -116,6 +116,34 @@
                   </div>
                 </div>
               </div>
+              <!-- Total Released PO/JO Card-->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Released</div>
+                        <?php
+                          $po->submitted_by = $_SESSION['id'];
+                          $count = $po->count_released();
+                          if($row = $count->fetch(PDO::FETCH_ASSOC))
+                          {
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['released-count'].'</div>';
+                          }else{
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                          }
+                        ?>
+                        <div class="mt-2 mb-0 text-muted text-xs">
+                          <a class="text-success mr-2" href="released.php"><i class="fas fa-arrow-up"></i> More Details</a>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-check-double fa-2x text-success"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div> <!-- end of card row -->
             <div>
               <a type="button" class="btn btn-primary mb-1" href="#" onclick="mark_on_hold()"><i class="fas fa-hand-paper"></i> Hold Check</a>
@@ -130,42 +158,81 @@
                       <thead class="thead-light">
                         <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                          <th>CV No</th>
-                          <th>Check No</th>
+                          <th>CV #</th>
+                          <th>Check #</th>
+                          <th>CV Amount</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
+                          <th>PO/JO #</th>
                           <th>Suppplier</th>
                           <th><center>Status</center></th>
                         </tr>
                       </thead>
                       <tbody id="req-body">
                       <?php
-                        $view = $po->get_list_checker();
-                        while($row = $view->fetch(PDO::FETCH_ASSOC))
+                        //get the user company access
+                        $access->user_id = $user_id;
+                        $get = $access->get_company();
+                        while($row1 = $get->fetch(PDO::FETCH_ASSOC))
                         {
-                          //format of status
-                          if($row['status'] == 8)
+                          //get the access company id
+                          $id = $row1['comp-access'];
+                          $array_id = explode(',', $id);
+                          foreach($array_id as $value)
                           {
-                            $status = '<label style="color: blue"><b> For Verification</b></label>';
+                            $comp_id =  $value; 
+                            //display all the data by access
+                            $po->company = $comp_id;
+                            $view = $po->get_list_checker();
+                            while($row = $view->fetch(PDO::FETCH_ASSOC))
+                            {
+                              //get the COMPANY name if exist
+                              $company->id = $row['comp-id'];
+                              $get2 = $company->get_company_detail();
+                              while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                              {
+                                if($row['comp-id'] == $rowComp['id']){
+                                  $comp_name = $rowComp['company'];
+                                }else{
+                                  $comp_name = '-';
+                                }
+                              }
+                              //get the SUPPLIER name if exist
+                              $supplier->id = $row['supp-id'];
+                              $get3 = $supplier->get_supplier_details();
+                              while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                              {
+                                if($row['supp-id'] == $rowSupp['id']){
+                                  $sup_name = $rowSupp['supplier_name'];
+                                }else{
+                                  $sup_name = '-';
+                                }
+                              }
+                              //format of status
+                              if($row['status'] == 8)
+                              {
+                                $status = '<label style="color: blue"><b>For Verification</b></label>';
+                              }
+                              elseif($row['status'] == 9)
+                              {
+                                $status = '<label style="color: red"><b>On Hold</b></label>';
+                              }
+                              else
+                              {
+                                $status = '<label style="color: green"><b>For Releasing</b></label>';
+                              }
+                              echo '
+                              <tr>
+                                <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td>'.$row['cv_no'].'</td>
+                                <td>'.$row['check_no'].'</td>
+                                <td>'.number_format($row['cv_amount'], 2).'</td>
+                                <td>'.$comp_name.'</td>
+                                <td>'.$row['po_num'].'</td>
+                                <td style="width: 180px">'.$sup_name.'</td>
+                                <td style="width: 95px"><center>'.$status.'</center></td>
+                              </tr>';
+                            }
                           }
-                          elseif($row['status'] == 9)
-                          {
-                            $status = '<label style="color: red"><b> On Hold</b></label>';
-                          }
-                          else
-                          {
-                            $status = '<label style="color: green"><b> For Releasing</b></label>';
-                          }
-                          echo '
-                          <tr>
-                            <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                            <td>'.$row['cv_no'].'</td>
-                            <td>'.$row['check_no'].'</td>
-                            <td>'.$row['comp-name'].'</td>
-                            <td>'.$row['po_num'].'</td>
-                            <td style="width: 200px">'.$row['supplier_name'].'</td>
-                            <td style="width: 120px"><center>'.$status.'</center></td>
-                          </tr>';
                         }
                       ?>
                       </tbody>

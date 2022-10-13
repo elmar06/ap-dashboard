@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function () {
   $('#submitted-table').DataTable(); // ID From dataTable 
+  
 })
 //toast function
 function showToast(){
@@ -70,24 +71,43 @@ $(document).on('dblclick', '#submitted-table tr', function(){
 //resubmit
 function upd_po_details()
 {
-  var id = $('#upd-id').val();
-  var bill_no = $('#upd-bill-no').val();
-  var po_num = $('#upd-po-no').val();
-  var company = $('#upd-company').val();
-  var supplier = $('#upd-supplier').val();
-  var project = $('#upd-project').val();
-  var department = $('#upd-department').val();
-  var bill_date = $('#upd-bill-date').val();
-  var terms = $('#upd-terms').val();
-  var due_date = $('#upd-due-date').val();
-  var days_due = $('#upd-days-due').val();
-  var amount = $('#upd-amount').val();
-  var si_num = $('#upd-sales-invoice').val();
-  var status = 1;
+  var po_id = $('#po-id').val();
+  var po_num = $('#po-no').val();
+  var po_amount = $('#po-amount').val();
+  var po_date = $('#po-date').val();
+  var si_num = $('#si-num').val();
+  var amount = $('#si-amount').val();
+  var company = $('#company').val();
+  var supplier = $('#supplier').val();
+  var project = $('#project').val();
+  var department = $('#department').val();
+  var bill_date = $('#bill-date').val();
+  var terms = $('#terms').val();
+  var due_date = $('#due-date').val();
+  var memo_no = $('#memo-no').val();
+  var reports = $('#report').val();
+  var remark = '';
+  //check if it is shared
+  var check = $('#remarks').is(':checked');
+  if(check){
+    var remark = 1;
+  }else{
+    var remark = 0;
+  }
+  //check the department if null
+  if(department == 0 || department == null)
+  {
+    var department = 0;
+  }
+  //check the department if null
+  if(project == 0 || project == null)
+  {
+    var project = 0;
+  }
 
-  var myData = 'id=' + id + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&status=' + status + '&amount=' + amount + '&si_num=' + si_num;
+  var myData = 'po_id=' + po_id + '&po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no;
 
-  if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
+  if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
     $.ajax({
       type: 'POST',
@@ -103,6 +123,8 @@ function upd_po_details()
         {
           $('#upd-success').html('<center><i class="fas fa-check"></i> Request Successfully resubmitted.</center>');
           $('#upd-success').show();
+          $('#btnEdit').prop('disabled', false);
+          DisableFields();
           setTimeout(function(){
             $('#upd-success').fadeOut();
           }, 3000)
@@ -137,20 +159,71 @@ function upd_po_details()
     }, 3000)
   }
 }
+//set date format for due date
+function formatDate(date)
+{
+  var monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var d = new Date(date),
+      month = d.getMonth(),
+      day = d.getDate(),
+      year = d.getFullYear();
+
+  if(month.length < 2)
+    month = '0' + month;
+  if(day.length < 2)
+    day = '0' + day;
+  //return [year, month, day].join('-');
+  return monthName[month] + ' ' + day + ', ' + year;
+}
+
+//format date for calculation
+function formatDateCal(date)
+{
+  var d = new Date(date),
+      month = d.getMonth() + 1,
+      day = d.getDate(),
+      year = d.getFullYear();
+
+  if(month.length < 2)
+    month = '0' + month;
+  if(day.length < 2)
+    day = '0' + day;
+  return [year + '/' + month + '/' + day];
+}
+
+//add days base on term
+Date.prototype.addDays = function(days)
+{
+  this.setDate(this.getDate() + parseInt(days));
+  return this;
+}
+
+//get the due date base on terms(Add Request)
+function getDueDate()
+{
+  var bill_date = formatDateCal($('#bill-date').val());
+  var days = $('#terms').val();
+  var date = new Date(bill_date);
+
+  if(days == null || days == '')
+  {
+    var days = '0';
+    var due = date.addDays(days)
+    var due_date = formatDate(due);
+    $('#due-date').val('');
+  }else{
+    var due = date.addDays(days)
+    var due_date = formatDate(due);
+    $('#due-date').val(due_date);
+  }
+} 
 
 //Edit button
 function EnableFields()
 {
-  $('#upd-bill-date').attr('disabled', false);
-  $('#upd-bill-no').attr('disabled', false);
-  $('#upd-po-no').attr('disabled', false);
-  $('#upd-company').attr('disabled', false);
-  $('#upd-supplier').attr('disabled', false);
-  $('#upd-project').attr('disabled', false);
-  $('#upd-department').attr('disabled', false);
-  $('#upd-terms').attr('disabled', false);
-  $('#upd-amount').attr('disabled', false);
-  $('#upd-sales-invoice').attr('disabled', false);
+  $('input[type=text]').prop('disabled', false);
+  $('.select2').prop('disabled', false);
+  $('.datepicker').prop('disabled', false);
   $('#btnEdit').attr('disabled', true);
   $('#btnClose').hide();
   $('#btnCancel').show();
@@ -159,16 +232,9 @@ function EnableFields()
 //Cancel button
 function DisableFields()
 {
-  $('#upd-bill-date').attr('disabled', true);
-  $('#upd-bill-no').attr('disabled', true);
-  $('#upd-po-no').attr('disabled', true);
-  $('#upd-company').attr('disabled', true);
-  $('#upd-supplier').attr('disabled', true);
-  $('#upd-project').attr('disabled', true);
-  $('#upd-department').attr('disabled', true);
-  $('#upd-terms').attr('disabled', true);
-  $('#upd-amount').attr('disabled', false);
-  $('#upd-sales-invoice').attr('disabled', false);
+  $('input[type=text]').prop('disabled', true);
+  $('.select2').prop('disabled', true);
+  $('.datepicker').prop('disabled', true);
   $('#btnEdit').attr('disabled', false);
   $('#btnClose').show();
   $('#btnCancel').hide();

@@ -10,10 +10,16 @@ $check = new CheckDetails($db);
 $bank = new Banks($db);
 
 $check->po_id = $_POST['id'];
+$check->id = $_POST['id'];
 $get = $check->get_details_byID();
 
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
+    if($row['receipt'] == null || $row['receipt'] == ''){
+        $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" placeholder="Input Receipt number">';
+    }else{
+        $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" value="'.$row['receipt'].'" disabled>';
+    }
     //format the date for display
     $check_date = date('F d, yy', strtotime($row['check_date']));
     echo '<small><b><i>Check Information</i></b></small>
@@ -56,9 +62,13 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <label><i style="color: red">*</i> OR/CR Number:</label>
             <input id="or-num" class="form-control mb-3" type="text" placeholder="Enter OR/CR Number">
+        </div>
+        <div class="col-lg-6">
+            <label> Probitionary Receipt:</label>
+            '.$receipt.'
         </div>
     </div>
     <div id="success" class="alert alert-success" role="alert" style="display: none"></div>

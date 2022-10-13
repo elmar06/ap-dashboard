@@ -14,7 +14,7 @@ elseif($_SESSION['access'] == 3)
 }
 elseif($_SESSION['access'] == 4)
 {
-    header('Location: ../pages/purchasing/dashboard.php');
+    header('Location: ../pages/scm-pmc/dashboard.php');
 }
 elseif($_SESSION['access'] == 5)
 {
@@ -24,8 +24,13 @@ elseif($_SESSION['access'] == 6)
 {
     header('Location: ../pages/treasury/dashboard.php');
 }
-else
+elseif($_SESSION['access'] == 7)
 {
     header('Location: ../pages/manager/dashboard.php');
+}
+else
+{
+    header('Location: ../pages/accounting/access.php');
+
 }
 ?>

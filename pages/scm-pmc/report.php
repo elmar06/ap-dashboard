@@ -26,7 +26,7 @@
         <div class="container-fluid" id="container-wrapper">
             <div class="d-sm-flex justify-content-between mb-4">
                 <ol class="breadcrumb" align="right">
-                    <li class="breadcrumb-item"><a href="dashboard.php">Administrator</a></li>
+                    <li class="breadcrumb-item"><a href="dashboard.php">SCM-PMC</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Reports</li>
                 </ol>
             </div><!-- /Breadcrumbs -->

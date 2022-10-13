@@ -23,7 +23,7 @@
       <div class="container-fluid" id="container-wrapper">
         <div class="d-sm-flex justify-content-between mb-4">
           <ol class="breadcrumb" align="right">
-            <li class="breadcrumb-item"><a href="dashboard.php">Purchasing</a></li>
+            <li class="breadcrumb-item"><a href="dashboard.php">SCM-PMC</a></li>
             <li class="breadcrumb-item">Pages</li>
             <li class="breadcrumb-item active" aria-current="page">Users</li>
           </ol>
@@ -31,11 +31,11 @@
           <!-- DataTable with Hover -->
           <div class="col-lg-12">
             <div class="form-group">
-              <div class="row">
+              <!-- <div class="row">
                 &nbsp;&nbsp;&nbsp;
                 <button id="btnAdd" class="btn btn-primary btn-block" style="width: 13%" data-toggle="modal" data-target="#newUser"><i class="fas fa-plus"></i> Add Supplier</button>&nbsp;
                 <button id="btnMultiRemove" type="button" class="btn btn-danger" style="display: none"><i class="fas fa-trash"></i> Remove Multiple</button>&nbsp;
-              </div>
+              </div> -->
             </div>
             <div class="card mb-5">
               <div class="table-responsive p-3">
@@ -45,7 +45,6 @@
                       <th style="width: 3%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                       <th style="width: 50%"><center>Supplier Name</center></th>
                       <th style="width: 15%"><center>Status</center></th>
-                      <th style="width: 20%"><center>Action</center></th>
                     </tr>
                   </thead>
                   <tbody id="supplier-body">
@@ -65,18 +64,6 @@
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['id'].'"></td>
                             <td>'.$row['supplier_name'].'</td>
                             <td><center>'.$status.'</center></td>
-                            <td>';
-                              if($row['status'] == 1)
-                              {
-                                echo '<center><button class="btn btn-info btn-sm btnEdit" value="'.$row['id'].'"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="btn btn-danger btn-sm btnRemove" value="'.$row['id'].'"><i class="fas fa-trash"></i> Remove</button></center>';
-                              }
-                              else
-                              {
-                                echo '<center><button class="btn btn-info btn-sm btnEdit" value="'.$row['id'].'"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="btn btn-success btn-sm btnActivate" value="'.$row['id'].'"><i class="fas fa-check"></i> Activate</button></center>';
-                              }
-                              echo '</td>
                           </tr>';
                       }
                     ?>

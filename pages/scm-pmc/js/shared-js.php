@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function () {
-  $('#submitted-table').DataTable(); // ID From dataTable 
+  $('#shared-table').DataTable(); // ID From dataTable 
 })
 //toast function
 function showToast(){
@@ -13,7 +13,7 @@ function hideLoading(){
 }
 
 //view details
-$(document).on('dblclick', '#submitted-table tr', function(){
+$(document).on('dblclick', '#shared-table tr', function(){
     var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
 
     //check the status of a po
@@ -36,8 +36,8 @@ $(document).on('dblclick', '#submitted-table tr', function(){
             },
             success: function(html)
             {
-              $('#POmodalDetails').modal('show');
-              $('#details-body').html(html);
+              $('#viewDetails').modal('show');
+              $('#view-body').html(html);
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
