@@ -44,16 +44,17 @@ class CheckDetails
 
     public function upd_details()
     {
-        $query = 'UPDATE '.$this->table_name.' set cv_no=?, bank=?, check_no=?, check_date=? WHERE id=?';
+        $query = 'UPDATE '.$this->table_name.' set cv_no=?, bank=?, check_no=?, check_date=?, tax=?, cv_amount=? WHERE po_id=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
         
-        $upd->bindParam(1, $this->po_id);
-        $upd->bindParam(2, $this->cv_no);
-        $upd->bindParam(3, $this->bank);
-        $upd->bindParam(4, $this->check_no);
-        $upd->bindParam(5, $this->check_date);
-        $upd->bindParam(6, $this->id);
+        $upd->bindParam(1, $this->cv_no);
+        $upd->bindParam(2, $this->bank);
+        $upd->bindParam(3, $this->check_no);
+        $upd->bindParam(4, $this->check_date);
+        $upd->bindParam(5, $this->tax);
+        $upd->bindParam(6, $this->cv_amount);
+        $upd->bindParam(7, $this->po_id);
 
         if($upd->execute())
         {
@@ -81,12 +82,11 @@ class CheckDetails
 
     public function get_details_byID()
     {
-        $query = 'SELECT check_details.po_id, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = ? AND po_details.id = ?';
+        $query = 'SELECT check_details.po_id, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
         $sel->bindParam(1, $this->po_id);
-        $sel->bindParam(2, $this->id);
 
         $sel->execute();
         return $sel;

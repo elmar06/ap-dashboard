@@ -40,7 +40,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
+                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
@@ -55,7 +55,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
-                        echo '<option value="'.$row5['id'].'">'.$row5['name'].'</option>';
+                        echo '<option value="'.$row5['id'].'"><b>'.$row5['name'].'</b> - '.$row5['account'].'</option>';
                       }
                     echo '</select>
                 </div>
@@ -67,7 +67,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                     </div>
                     <input id="checkdate" class="form-control datepicker" placeholder="Enter Check Date">
                 </div>
-                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-lg-6">

@@ -197,9 +197,9 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Project</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
-                          <th>Invoice/Billing No</th>
+                          <th>PO/JO No</th>                          
                           <th>Supplier</th>
                           <th>Billing Date</th>
                           <th><center>Status</center></th>
@@ -212,16 +212,52 @@
                           $get = $po->get_po_list_by_status_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
+                            $proj_name = '';
+                            //get the PROJECT name if exist
+                            $project->id = $row['proj-id'];
+                            $get1 = $project->get_proj_details();
+                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['proj-id'] == $rowProj['id']){
+                                $proj_name = $rowProj['project'];
+                              }else{
+                                $proj_name = '-';
+                              }
+                            }
+                            $comp_name = '';
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            $sup_name = '';
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
                             $status = '<label style="color: red"><b> Pending</b></label>';
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                             echo '
                             <tr>
                               <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$proj_name.'</td>
+                              <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
-                              <td>'.$row['bill_no'].'</td>
-                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$sup_name.'</td>
                               <td>'.$bill_date.'</td>
                               <td><center>'.$status.'</center></td>
                             </tr>';
@@ -242,9 +278,9 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Project</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
-                          <th>Invoice/Billing No</th>
+                          <th>PO/JO No</th>                          
                           <th>Supplier</th>
                           <th>Billing Date</th>
                           <th><center>Status</center></th>
@@ -257,16 +293,52 @@
                           $get = $po->get_po_list_by_status_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
+                            $proj_name = '';
+                            //get the PROJECT name if exist
+                            $project->id = $row['proj-id'];
+                            $get1 = $project->get_proj_details();
+                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['proj-id'] == $rowProj['id']){
+                                $proj_name = $rowProj['project'];
+                              }else{
+                                $proj_name = '-';
+                              }
+                            }
+                            $comp_name = '';
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            $sup_name = '';
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
                             $status = '<label style="color: orange"><b> Returned</b></label>';
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                             echo '
                             <tr>
                               <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$proj_name.'</td>
+                              <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
-                              <td>'.$row['bill_no'].'</td>
-                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$sup_name.'</td>
                               <td>'.$bill_date.'</td>
                               <td><center>'.$status.'</center></td>
                             </tr>';
@@ -287,9 +359,9 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Project</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
-                          <th>Invoice/Billing No</th>
+                          <th>PO/JO No</th>                          
                           <th>Supplier</th>
                           <th>Billing Date</th>
                           <th><center>Status</center></th>
@@ -301,16 +373,52 @@
                           $get = $po->get_po_list_process_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
+                            $proj_name = '';
+                            //get the PROJECT name if exist
+                            $project->id = $row['proj-id'];
+                            $get1 = $project->get_proj_details();
+                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['proj-id'] == $rowProj['id']){
+                                $proj_name = $rowProj['project'];
+                              }else{
+                                $proj_name = '-';
+                              }
+                            }
+                            $comp_name = '';
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            $sup_name = '';
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
                             $status = '<label style="color: blue"><b> On Process</b></label>';
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                             echo '
                             <tr>
                               <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$proj_name.'</td>
+                              <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
-                              <td>'.$row['bill_no'].'</td>
-                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$sup_name.'</td>
                               <td>'.$bill_date.'</td>
                               <td><center>'.$status.'</center></td>
                             </tr>';
@@ -331,9 +439,9 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th>Project</th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
-                          <th>Invoice/Billing No</th>
+                          <th>PO/JO No</th>                          
                           <th>Supplier</th>
                           <th>Billing Date</th>
                           <th><center>Status</center></th>
@@ -346,16 +454,52 @@
                           $get = $po->get_po_list_by_status_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
+                            $proj_name = '';
+                            //get the PROJECT name if exist
+                            $project->id = $row['proj-id'];
+                            $get1 = $project->get_proj_details();
+                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['proj-id'] == $rowProj['id']){
+                                $proj_name = $rowProj['project'];
+                              }else{
+                                $proj_name = '-';
+                              }
+                            }
+                            $comp_name = '';
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            $sup_name = '';
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
                             $status = '<label style="color: green"><b> For Releasing</b></label>';
                             //date format
                             $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                             echo '
                             <tr>
                               <td style="display: none"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td>'.$row['comp-name'].'</td>
+                              <td>'.$proj_name.'</td>
+                              <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
-                              <td>'.$row['bill_no'].'</td>
-                              <td>'.$row['supplier_name'].'</td>
+                              <td>'.$sup_name.'</td>
                               <td>'.$bill_date.'</td>
                               <td><center>'.$status.'</center></td>
                             </tr>';
@@ -376,7 +520,7 @@
 <!-- MODAL SECTION -->
 <!-- Submit PO Modal -->
 <div class="modal fade" id="PO-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -534,7 +678,7 @@
 <!-- View Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>

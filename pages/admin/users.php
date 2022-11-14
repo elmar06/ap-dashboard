@@ -48,7 +48,6 @@
                     <tr>
                       <th style="width: 3%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                       <th>Fullname</th>
-                      <th>Email</th>
                       <th>Username</th>
                       <th><center>Department</center></th>
                       <th>Status</th>
@@ -94,7 +93,6 @@
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['id'].'"></td>
                                 <td style="width: 200px">'.$row['fullname'].'</td>
-                                <td>'.$row['email'].'</td>
                                 <td>'.$row['username'].'</td>
                                 <td><center>'.$dept.'</center></td>
                                 <td>'.$status.'</td>

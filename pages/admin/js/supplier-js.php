@@ -9,7 +9,11 @@ $('#btnSave').click(function(e){
     e.preventDefault();
 
     var supplier_name = $('#name').val();
-    var myData = 'supplier=' + supplier_name; 
+    var terms = $('#terms').val();
+    if(terms == null || terms == ''){
+        var terms = 0;
+    }
+    var myData = 'supplier=' + supplier_name + '&terms=' + terms; 
     if(supplier_name != '')
     {
         $.ajax({

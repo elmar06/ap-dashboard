@@ -9,11 +9,7 @@ $db = $database->connect();
 $access = new Access($db);
 $company = new Company($db);
 
-$access->user_id = $_POST['id'];
-$get = $access->get_company();
-while($row = $get->fetch(PDO::FETCH_ASSOC))
-{   
-    echo '
+echo '
     <div class="form-group">
         <div class="row">
             <div class="col-lg-10">
@@ -45,22 +41,27 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             </tr>
         </thead>
         <tbody>';
-            $comp = $row['comp-access'];
-            $array_id = explode(',', $comp);
-            foreach($array_id as $value)
-            {
-                //get the list of company
-                $id = $value;
-                $company->id = $id;
-                $view = $company->get_company_detail();
-                while($row2 = $view->fetch(PDO::FETCH_ASSOC))
+            $access->user_id = $_POST['id'];
+            $get = $access->get_company();
+            while($row = $get->fetch(PDO::FETCH_ASSOC))
+            {   
+                $comp = $row['comp-access'];
+                $array_id = explode(',', $comp);
+                foreach($array_id as $value)
                 {
-                    echo '
-                    <tr>
-                        <td hidden><input type="checkbox" name="access" value="'.$row2['id'].'" checked></td>
-                        <td>'.$row2['company'].'</td>
-                        <td><center><button class="btn-sm btn-danger remove"><i class="fas fa-times-circle"></i></button></center></td>
-                    <tr>';
+                    //get the list of company
+                    $id = $value;
+                    $company->id = $id;
+                    $view = $company->get_company_detail();
+                    while($row2 = $view->fetch(PDO::FETCH_ASSOC))
+                    {
+                        echo '
+                        <tr>
+                            <td hidden><input type="checkbox" name="access" value="'.$row2['id'].'" checked></td>
+                            <td>'.$row2['company'].'</td>
+                            <td><center><button class="btn-sm btn-danger remove"><i class="fas fa-times-circle"></i></button></center></td>
+                        <tr>';
+                    }
                 }
             }
         echo '</tbody>
@@ -70,7 +71,6 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <br><div id="access-success" class="alert alert-success" role="alert" style="display: none"></div>
         <div id="access-warning" class="alert alert-danger" role="alert" style="display: none"></div>
     </div>';
-}
 ?>
 
 <script>

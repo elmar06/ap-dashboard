@@ -56,6 +56,7 @@
                         $view = $po->get_submitted_po_by_user();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
+                          $proj_name = '';
                           //get the PROJECT name if exist
                           $project->id = $row['proj-id'];
                           $get1 = $project->get_proj_details();
@@ -67,6 +68,7 @@
                               $proj_name = '-';
                             }
                           }
+                          $comp_name = '';
                           //get the COMPANY name if exist
                           $company->id = $row['comp-id'];
                           $get2 = $company->get_company_detail();
@@ -78,6 +80,7 @@
                               $comp_name = '-';
                             }
                           }
+                          $sup_name = '';
                           //get the SUPPLIER name if exist
                           $supplier->id = $row['supp-id'];
                           $get3 = $supplier->get_supplier_details();
@@ -162,7 +165,7 @@
 
 <!-- Edit Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -185,7 +188,7 @@
 
 <!-- View Only Details Modal -->
 <div class="modal fade" id="viewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -214,9 +217,9 @@
   <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="../../assets/js/ruang-admin.min.js"></script>
   <!-- Datatable plugins -->
-  <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
   <script src="../../assets/vendor/select2/js/select2.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/jquery.dataTables.min.js"></script>
+  <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/dataTables.bootstrap.min.js"></script>
   <script src="../../assets/js/jquery.toast.js"></script>
   <?php include "js/submit-js.php"; ?>

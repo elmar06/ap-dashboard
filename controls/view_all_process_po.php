@@ -129,14 +129,16 @@ echo '
   <div class="col-lg-12">
     <div class="card mb-4">
       <div class="table-responsive p-3">
-        <table class="table align-items-center table-flush table-hover" id="req-table">
+        <table class="table1 align-items-center table-flush table-hover" id="req-table">
           <thead class="thead-light">
             <tr>
               <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
               <th>Company</th>
-              <th>PO/JO No</th>
+              <th>PO/JO #</th>
+              <th>SI #</th>
               <th>Supplier</th>
               <th>Billing Date</th>
+              <th>Amount</th>
               <th><center>Action</center></th>
             </tr>
           </thead>
@@ -192,8 +194,10 @@ echo '
                     <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                     <td style="max-width: 15%">'.$comp_name.'</td>
                     <td>'.$row['po_num'].'</td>
+                    <td>'.$row['si_num'].'</td>
                     <td>'.$sup_name.'</td>
-                    <td>'.$bill_date.'</td>
+                    <td style="max-width: 20%">'.$bill_date.'</td>
+                    <td>'.number_format($row['amount'], 2).'</td>
                     <td><center>'.$action.'</center></td>
                   </tr>';
                 }  

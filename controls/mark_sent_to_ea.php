@@ -75,17 +75,25 @@ if($upd)
             <option value="0" selected disabled>Mark Status</option>';
             if($row['po-stat'] == 5){
               echo '<option value="1">Sent to EA</option>
-                    <option value="2">Returned from EA</option>';
+                    <option value="2">Returned from EA</option>
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 6){
               echo '<option value="1" disabled selected>Sent to EA</option>
-                    <option value="2">Returned from EA</option>';
+                    <option value="2">Returned from EA</option>
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 7){
               echo '<option value="1" disabled>Sent to EA</option>
                     <option value="1" disabled selected>For Pick Up in EA</option>
-                    <option value="2">Returned from EA</option>';
+                    <option value="2">Returned from EA</option>
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 8){
               echo '<option value="1" disabled>Sent to EA</option>
-                    <option value="2" disabled selected>Returned from EA</option>';
+                    <option value="2" disabled selected>Returned from EA</option>
+                    <option value="13">Cancel Check</option>';
+            }elseif($row['po-stat'] == 13){
+              echo '<option value="1" disabled>Sent to EA</option>
+                    <option value="2" disabled>Returned from EA</option>
+                    <option value="13" disabled selected>Canceled Check</option>';
             }else{
               echo '<option value="1">Sent to EA</option>
                     <option value="2">Returned from EA</option>';
@@ -108,7 +116,7 @@ if($upd)
   e.preventDefault();
   var id = $(this).val();
   var action =$(this).closest('tr').find('.action').val();
-
+ 
   //update date_to_ea in po_other_details
   if(action == 1)
   {
@@ -147,24 +155,25 @@ if($upd)
       }
     })
   }
-  // //update status into for verification
-  if(action == 3)
-  {
-    $.ajax({
-      type: 'POST',
-      url: '../../controls/mark_verification.php',
-      data: {id:id},
-      success: function(html)
-      {
-        if(html == 0)
-        {
-          toastr.error('Action Failed. Please contact the system administrator at local 124 for assistance.');
-        }else{
-          $('#process-body').html(html);
-        }
-      }
-    })
-  }
+  
+  // // //update status into for verification
+  // if(action == 3)
+  // {
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '../../controls/mark_verification.php',
+  //     data: {id:id},
+  //     success: function(html)
+  //     {
+  //       if(html == 0)
+  //       {
+  //         toastr.error('Action Failed. Please contact the system administrator at local 124 for assistance.');
+  //       }else{
+  //         $('#process-body').html(html);
+  //       }
+  //     }
+  //   })
+  // }
   //update status for releasing
   if(action == 4)
   {

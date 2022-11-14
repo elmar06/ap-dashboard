@@ -1,7 +1,8 @@
 <script>
-//datatable
-$('#req-table').DataTable();
-$(".sidebar").toggleClass("toggled");
+$(document).ready(function(){
+  $('#req-table').DataTable();
+  $(".sidebar").toggleClass("toggled");
+})
 
 //toast
 function showToast(){

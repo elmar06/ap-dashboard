@@ -216,62 +216,63 @@ function SubmitPO()
 
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
-    //check if PO/JO number is already exist
+    //save the details
     $.ajax({
       type: 'POST',
-      url: '../../controls/check_po_num.php',
-      data: {po_num: po_num},
+      url: '../../controls/add_po.php',
+      data: myData,
+      beforeSend: function()
+      {
+        showToast();
+      },
       success: function(response)
       {
         if(response > 0)
         {
-          //display error if number is already exist
-          $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. PO/JO number already exist in database.</center>');
+          //get the updated list
+          $.ajax({
+            url: '../../controls/view_submit_po.php',
+            success: function(html)
+            {
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
+              $('#PO-Modal').modal('hide');
+            }
+          })
+        }
+        else
+        {
+          $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. Please contact the Administrator at local 124.</center>');
           $('#add-warning').show();
           setTimeout(function(){
             $('#add-warning').fadeOut();
           }, 5000)
         }
-        else
-        {
-          //save the details if false
-          $.ajax({
-            type: 'POST',
-            url: '../../controls/add_po.php',
-            data: myData,
-            beforeSend: function()
-            {
-              showToast();
-            },
-            success: function(response)
-            {
-              if(response > 0)
-              {
-                //get the updated list
-                $.ajax({
-                  url: '../../controls/view_submit_po.php',
-                  success: function(html)
-                  {
-                    $('#page-body').fadeOut();
-                    $('#page-body').fadeIn();
-                    $('#page-body').html(html);
-                    $('#PO-Modal').modal('hide');
-                  }
-                })
-              }
-              else
-              {
-                $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. Please contact the Administrator at local 124.</center>');
-                $('#add-warning').show();
-                setTimeout(function(){
-                  $('#add-warning').fadeOut();
-                }, 5000)
-              }
-            }
-          })
-        }
       }
     })
+    //check if PO/JO number is already exist
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '../../controls/check_po_num.php',
+    //   data: {po_num: po_num},
+    //   success: function(response)
+    //   {
+    //     if(response > 0)
+    //     {
+    //       //display error if number is already exist
+    //       $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. PO/JO number already exist in database.</center>');
+    //       $('#add-warning').show();
+    //       setTimeout(function(){
+    //         $('#add-warning').fadeOut();
+    //       }, 5000)
+    //     }
+    //     else
+    //     {
+          
+    //     }
+    //   }
+    // })
   }
   else
   {

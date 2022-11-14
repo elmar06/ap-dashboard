@@ -40,8 +40,6 @@
                   <option value="2">Received from EA</option>
                 </select>
               </div>
-              <a type="button" class="btn btn-success mb-1" href="#" onclick="apply()" ><i class="fas fa-check"></i> Apply</a>&nbsp;
-              <a id="btnCancel" type="button" class="btn btn-danger mb-1" href="#" onclick="cancel_bulk()"><i class="fas fa-times"></i> Cancel</a>
             </div><br>
             <!-- DataTable with Hover -->
             <div class="row mb-3">
@@ -75,7 +73,7 @@
                             $comp_id =  $value; 
                             //display all the data by access
                             $po->company = $comp_id;
-                            $view = $po->get_all_for_signature_bo($comp_id);
+                            $view = $po->get_all_cancel($comp_id);
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
                               //get the COMPANY name if exist
@@ -110,38 +108,8 @@
                                 <td>'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td>'.$sup_name.'</td>
-                                <td style="width: 180px"><center>
-                                <select class="form-control-sm action" style="width:120px">
-                                  <option value="0" selected disabled>Mark Status</option>';
-                                  if($row['po-stat'] == 5){
-                                    echo '<option value="1">Sent to EA</option>
-                                          <option value="2">Returned from EA</option>
-                                          <option value="3">Cancel Check</option>';
-                                  }elseif($row['po-stat'] == 6){
-                                    echo '<option value="1" disabled selected>Sent to EA</option>
-                                          <option value="2">Returned from EA</option>
-                                          <option value="3">Cancel Check</option>';
-                                  }elseif($row['po-stat'] == 7){
-                                    echo '<option value="1" disabled>Sent to EA</option>
-                                          <option value="1" disabled selected>For Pick Up in EA</option>
-                                          <option value="2">Returned from EA</option>
-                                          <option value="3">Cancel Check</option>';
-                                  }elseif($row['po-stat'] == 8){
-                                    echo '<option value="1" disabled>Sent to EA</option>
-                                          <option value="2" disabled selected>Returned from EA</option>
-                                          <option value="3">Cancel Check</option>';
-                                  }elseif($row['po-stat'] == 13){
-                                    echo '<option value="1" disabled>Sent to EA</option>
-                                          <option value="2" disabled>Returned from EA</option>
-                                          <option value="3" disabled selected>Canceled Check</option>';
-                                  }else{
-                                    echo '<option value="1">Sent to EA</option>
-                                          <option value="2">Returned from EA</option>
-                                          <option value="3">Canceled Check</option>';
-                                  }
-                                  echo '</select>
-                                  <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
-                                  <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
+                                <td style="width: 115px"><center>
+                                  <button class="btn-sm btn-success create" value="'.$row['po-id'].'"><i class="fas fa-check"></i> Create new CV</button>
                                 </td>
                               </tr>';
                             }  
@@ -168,7 +136,7 @@
 <!-- View Details Modal -->
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Check Detail</h5>
@@ -198,7 +166,7 @@
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
 <script src="../../assets/vendor/toastr/toastr.js"></script>
-<?php include_once 'js/processPO-js.php';?>
+<?php include_once 'js/cancel-js.php';?>
 
 </body>
 </html>

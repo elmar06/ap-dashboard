@@ -1,7 +1,8 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  $('.DataTable').DataTable(); // ID From dataTable 
+  $('.DataTable').DataTable(); // class From dataTable 
+  $(".sidebar").toggleClass("toggled");
 })
 //toast
 function showToast(){

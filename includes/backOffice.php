@@ -58,6 +58,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="cancel.php">
+      <i class="fas fa-fw fa-ban"></i>
+      <span>Cancel Check</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="BO_report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>

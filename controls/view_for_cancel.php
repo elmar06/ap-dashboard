@@ -52,23 +52,33 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Bank:</label>
                     <select id="new-bank" class="form-control mb-3 select2" style="width: 100%;">
-                    <option selected disabled>Select a Bank</option>';
-                    $get = $bank->get_all_banks();
-                    while($row5 = $get->fetch(PDO::FETCH_ASSOC))
-                    {
-                        echo '<option value="'.$row5['id'].'">'.$row5['name'].'</option>';
-                    }
+                      <option selected disabled>Select a Bank</option>';
+                      $get = $bank->get_all_banks();
+                      while($row5 = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        echo '<option value="'.$row5['id'].'"><b>'.$row5['name'].'</b> - '.$row5['account'].'</option>';
+                      }
                     echo '</select>
                 </div>
                 <div class="col-lg-6">
                 <label><i style="color: red">*</i> Check Date:</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input id="new-checkdate" class="form-control datepicker" placeholder="Enter Check Date">
                     </div>
-                    <input id="new-checkdate" class="form-control datepicker" placeholder="Enter Check Date">
                 </div>
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                  <label><i style="color: red">*</i> Withholding Tax:</label>
+                  <input id="cv-tax" class="form-control mb-3" type="text" placeholder="Enter Withholding Tax Amount">
+              </div>
+              <div class="col-lg-6">
+                  <label><i style="color: red">*</i> Voucher Amount:</label>
+                  <input id="cv-amount" class="form-control mb-3" type="text" placeholder="Enter Voucher Amount">
+              </div>
             </div><hr>
             <small><b><i>Old Check Information</i></b></small>
             <div class="row">
@@ -91,7 +101,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
                           if($row['bank-id'] == $row5['id'])
                           {
-                            echo '<option value="'.$row5['id'].'" selected>'.$row5['name'].'</option>';
+                            echo '<option value="'.$row5['id'].'" selected>'.$row5['name'].' - '.$row5['account'].'</option>';
                           }  
                       }
                     echo '</select>

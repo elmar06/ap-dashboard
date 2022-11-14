@@ -14,7 +14,7 @@ $access = new Access($db);
 $supplier = new Supplier($db);
 $company = new Company($db);
 
-$po->status = 8;
+$po->status = 13;
 $po->date_from_ea = date('Y-m-d');
 $po->po_id = $_POST['id'];
 $po->id = $_POST['id'];
@@ -75,30 +75,29 @@ if($upd)
           <select class="form-control-sm action" style="width:120px">
             <option value="0" selected disabled>Mark Status</option>';
             if($row['po-stat'] == 5){
-              echo '<option value="1">Sent to EA</option>
+            echo '<option value="1">Sent to EA</option>
                     <option value="2">Returned from EA</option>
-                    <option value="3">Cancel Check</option>';
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 6){
-              echo '<option value="1" disabled selected>Sent to EA</option>
+            echo '<option value="1" disabled selected>Sent to EA</option>
                     <option value="2">Returned from EA</option>
-                    <option value="3">Cancel Check</option>';
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 7){
-              echo '<option value="1" disabled>Sent to EA</option>
+            echo '<option value="1" disabled>Sent to EA</option>
                     <option value="1" disabled selected>For Pick Up in EA</option>
                     <option value="2">Returned from EA</option>
-                    <option value="3">Cancel Check</option>';
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 8){
-              echo '<option value="1" disabled>Sent to EA</option>
+            echo '<option value="1" disabled>Sent to EA</option>
                     <option value="2" disabled selected>Returned from EA</option>
-                    <option value="3">Cancel Check</option>';
+                    <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 13){
-              echo '<option value="1" disabled>Sent to EA</option>
+            echo '<option value="1" disabled>Sent to EA</option>
                     <option value="2" disabled>Returned from EA</option>
-                    <option value="3" disabled selected>Canceled Check</option>';
+                    <option value="13" disabled selected>Canceled Check</option>';
             }else{
-              echo '<option value="1">Sent to EA</option>
-                    <option value="2">Returned from EA</option>
-                    <option value="3">Canceled Check</option>';
+            echo '<option value="1">Sent to EA</option>
+                    <option value="2">Returned from EA</option>';
             }
             echo '</select>
             <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
@@ -150,18 +149,25 @@ $('.apply').on('click', function(e){
   }
 })
 
-//mark as check canceled
-if(action == 3)
-{
+//cancel check function
+$('.cancel').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  
   $.ajax({
     type: 'POST',
-    url: '../../controls/mark_cancel_check.php',
-    data: {id:id},
+    url: '../../controls/view_for_cancel.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
     success: function(html)
     {
-      toastr.success('Check successfully mark as canceled.');
-      $('#process-body').html(html);
+      $('#cancelModal').modal('show');
+      $('#details-body').html(html);
     }
   })
-}
+})
 </script>

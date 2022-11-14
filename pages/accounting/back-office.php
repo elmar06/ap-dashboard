@@ -33,6 +33,33 @@
           <!-- Pending Card -->
           <div id="page-body">
             <div class="row mb-3">
+              <!-- Total Submitted PO/JO Card-->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">For Receiving</div>
+                        <?php
+                        $count = $po->count_for_receive_bo();
+                        if($row = $count->fetch(PDO::FETCH_ASSOC))
+                        {
+                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['receiving-count'].'</div>';
+                        }else{
+                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                        }
+                        ?>
+                        <div class="mt-2 mb-0 text-muted text-xs">
+                        <a class="text-success mr-2" href="#" onclick="get_for_releasing()"><i class="fas fa-arrow-up"></i> More Details</a>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                 <div class="card-body">
@@ -116,34 +143,6 @@
                 </div>
                 </div>
             </div>
-            <!-- Total Submitted PO/JO Card-->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card h-100">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
-                        <?php
-                        $po->submitted_by = $_SESSION['id'];
-                        $count = $po->count_releasing();
-                        if($row = $count->fetch(PDO::FETCH_ASSOC))
-                        {
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['releasing-count'].'</div>';
-                        }else{
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                        }
-                        ?>
-                        <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="#" onclick="get_for_releasing()"><i class="fas fa-arrow-up"></i> More Details</a>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-check-circle fa-2x text-success"></i>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
             </div> <!-- end of card row -->
             <div class="row mb-3">
               <div class="col-lg-12">
@@ -156,14 +155,16 @@
               <div class="col-lg-12">
                 <div class="card mb-4">
                   <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover" id="req-table">
+                    <table id="mainTable" class="table1 align-items-center table-flush table-hover" id="req-table">
                       <thead class="thead-light">
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th>Company</th>
-                          <th>PO/JO No</th>
+                          <th>PO/JO #</th>
+                          <th>SI #</th>
                           <th>Supplier</th>
                           <th>Billing Date</th>
+                          <th>Amount</th>
                           <th><center>Action</center></th>
                         </tr>
                       </thead>
@@ -186,7 +187,7 @@
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
                               //date format
-                              $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                              $bill_date = date('m/d/y', strtotime($row['bill_date']));
                               if($row['status'] == 3)
                               {
                                 $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
@@ -220,8 +221,10 @@
                                 <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                                 <td style="max-width: 15%">'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
+                                <td>'.$row['si_num'].'</td>
                                 <td>'.$sup_name.'</td>
-                                <td>'.$bill_date.'</td>
+                                <td style="max-width: 20%">'.$bill_date.'</td>
+                                <td>'.number_format($row['amount'], 2).'</td>
                                 <td><center>'.$action.'</center></td>
                               </tr>';
                             }  
@@ -248,7 +251,7 @@
 <!-- View Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -270,7 +273,7 @@
 <!-- Create one CV in multiple request Modal -->
 <div class="modal fade" id="createCV" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -284,7 +287,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="multi-cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" onkeypress="return isNumber(event)">
+                    <input id="multi-cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
@@ -300,7 +303,7 @@
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
-                        echo '<option value="'.$row5['id'].'">'.$row5['name'].'</option>';
+                        echo '<option value="'.$row5['id'].'">'.$row5['name'].' - '.$row5['account'].'</option>';
                       }
                       ?>
                     </select>

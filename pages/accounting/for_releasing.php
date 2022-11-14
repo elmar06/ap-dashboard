@@ -42,12 +42,11 @@
                   <table class="table align-items-center table-flush table-hover" id="releasing-table">
                     <thead class="thead-light">
                       <tr>
-                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Project</th>
                         <th>Company</th>
                         <th>PO/JO No</th>
                         <th>Payee</th>
                         <th>Billing Date</th>
-                        <th>Submitted By</th>
                         <th><center>Action</center></th>
                       </tr>
                     </thead>
@@ -77,17 +76,28 @@
                           }else{
                             $sup_name = '-';
                           }
-                        }                     
+                        }    
+                        $proj_name = '';
+                        //get the PROJECT name if exist
+                        $project->id = $row['proj-id'];
+                        $get1 = $project->get_proj_details();
+                        while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['proj-id'] == $rowProj['id']){
+                            $proj_name = $rowProj['project'];
+                          }else{
+                            $proj_name = '-';
+                          }
+                        }                 
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                         echo '
                         <tr>
-                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$proj_name.'</td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td style="width: 180px">'.$sup_name.'</td>
+                          <td style="width: 200px">'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
                           <td>
                           <center>
                             <button class="btn btn-success btn-sm btnRelease" value="'.$row['po-id'].'"><i class="fas fa-check-circle"></i> Released</button>

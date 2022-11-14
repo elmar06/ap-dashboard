@@ -40,10 +40,12 @@
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-uppercase mb-1">Pending PO/JO</div>
                       <?php
-                        $po->submitted_by = $_SESSION['id'];
+                        //get the company
+                        //get the count per company
                         $count = $po->count_pending();
                         if($row = $count->fetch(PDO::FETCH_ASSOC))
                         {
+                          
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['pending-count'].'</div>';
                         }else{
                           echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
@@ -161,16 +163,16 @@
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
+                        <th>SI No</th>
                         <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Submitted By</th>
+                        <th>Billing Date</th>   
+                        <th>Amount</th>                  
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody id="req-body">
                     <?php
-                      $po->submitted_by = $_SESSION['id'];
-                      $view = $po->get_submitted_po_acc();
+                      $view = $po->get_submitted_po();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
                         //get the COMPANY name if exist
@@ -222,9 +224,10 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
+                          <td>'.number_format($row['amount'], 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -247,9 +250,10 @@
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
+                        <th>SI No</th>
                         <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Submitted By</th>
+                        <th>Billing Date</th>   
+                        <th>Amount</th>                  
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -290,9 +294,10 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
+                          <td>'.$row['amount'].'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -314,9 +319,10 @@
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
+                        <th>SI No</th>
                         <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Submitted By</th>
+                        <th>Billing Date</th>   
+                        <th>Amount</th>                  
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -357,9 +363,10 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
+                          <td>'.$row['amount'].'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -381,9 +388,10 @@
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
+                        <th>SI No</th>
                         <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Submitted By</th>
+                        <th>Billing Date</th>   
+                        <th>Amount</th>                  
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -423,9 +431,10 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
+                          <td>'.$row['amount'].'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -447,9 +456,10 @@
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                         <th>Company</th>
                         <th>PO/JO No</th>
+                        <th>SI No</th>
                         <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Submitted By</th>
+                        <th>Billing Date</th>   
+                        <th>Amount</th>                  
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -490,9 +500,10 @@
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['fullname'].'</td>
+                          <td>'.$row['amount'].'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -517,7 +528,7 @@
 <!-- View Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title" id="exampleModalLabel">Request Detail</h6>

@@ -12,6 +12,7 @@ include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsAccess.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -22,9 +23,11 @@ $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
+$access = new Access($db);
 
 //get the updated logcount
-$user->id = $_SESSION['id'];
+$user_id = $_SESSION['id'];
+$user->id = $user_id;
 $get = $user->get_logcount();
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
@@ -137,9 +140,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             </a>
             <?php
               if($_SESSION['access'] == 8){
-                echo '<a class="dropdown-item" href="front-office.php">
+                echo '<a class="dropdown-item" href="back-office.php">
                         <i class="fas fa-exchange-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Switch access to Front Office
+                        Switch access to Back Office
                       </a>';
               }
             ?>

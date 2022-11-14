@@ -11,8 +11,8 @@
   <title>AP Dashboard</title>
   <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
+  <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
 </head>
@@ -29,17 +29,18 @@
               <li class="breadcrumb-item active" aria-current="page">Released Check (Front Office)</li>
             </ol>
           </div><!-- /Breadcrumbs -->
-          <!-- Pending Card -->
           <div id="page-body">
           <!-- DataTable with Hover -->
           <div class="row mb-3">
             <div class="col-lg-12">
               <div class="card mb-4">
-                <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="req-table">
+                <div class="table1-responsive p-3">
+                  <table id="req-table" class="table1 align-items-center table-flush table-hover">
                     <thead class="thead-light">
                       <tr>
-                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th style="max-width: 2%" hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Project</th>
+                        <th>SI #</th>
                         <th>OR No</th>
                         <th>Check No</th>
                         <th>Company</th>
@@ -77,6 +78,18 @@
                             $sup_name = '-';
                           }
                         }  
+                        $proj_name = '';
+                        //get the PROJECT name if exist
+                        $project->id = $row['proj-id'];
+                        $get1 = $project->get_proj_details();
+                        while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['proj-id'] == $rowProj['id']){
+                            $proj_name = $rowProj['project'];
+                          }else{
+                            $proj_name = '-';
+                          }
+                        }
                         //date format
                         $release = date('m/d/Y', strtotime($row['date_release']));
                         $amount = number_format($row['cv_amount'], 2);
@@ -88,7 +101,9 @@
                         }
                         echo '
                         <tr>
-                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td>'.$proj_name.'</td>
+                          <td>'.$row['si_num'].'</td>
                           <td>'.$or_num.'</td>
                           <td>'.$row['check_no'].'</td>
                           <td>'.$comp_name.'</td>
@@ -142,8 +157,8 @@
 <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="../../assets/js/ruang-admin.min.js"></script>
-<script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../../assets/vendor/dataTables1/js/jquery.dataTables.min.js"></script>
+<script src="../../assets/vendor/dataTables1/js/dataTables.bootstrap.min.js"></script>
 <script src="../../assets/vendor/datetimepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>

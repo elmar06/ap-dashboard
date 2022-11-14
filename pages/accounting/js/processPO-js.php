@@ -20,7 +20,7 @@ $('.apply').on('click', function(e){
   e.preventDefault();
   var id = $(this).val();
   var action =$(this).closest('tr').find('.action').val();
-
+  
   //update date_to_ea in po_other_details(MARK AS SENT TO EA)
   if(action == 1)
   {
@@ -135,7 +135,8 @@ $('.cancel').on('click', function(e){
   
   $.ajax({
     type: 'POST',
-    url: '../../controls/view_for_cancel.php',
+    //url: '../../controls/view_for_cancel.php',
+    url: '../../controls/mark_cancel_check.php',
     data: {id: id},
     beforeSend: function()
     {
@@ -143,8 +144,10 @@ $('.cancel').on('click', function(e){
     },
     success: function(html)
     {
-      $('#cancelModal').modal('show');
-      $('#details-body').html(html);
+      // $('#cancelModal').modal('show');
+      // $('#details-body').html(html);
+      toastr.warning('Check successfully mark as CANCELLED');
+      $('#process-body').html(html);
     }
   })
 })

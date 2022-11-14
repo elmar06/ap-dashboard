@@ -72,7 +72,7 @@ class Banks
 
     public function get_all_banks()
     {
-        $query = 'SELECT id, name, status FROM '.$this->table_name.' WHERE status != 0 ORDER BY name ASC';
+        $query = 'SELECT id, name, account, status FROM '.$this->table_name.' WHERE status != 0 ORDER BY name ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

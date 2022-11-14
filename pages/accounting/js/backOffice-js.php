@@ -1,7 +1,9 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
+  $(".sidebar").toggleClass("toggled");
   $('#req-table').DataTable();// ID From dataTable with Hover
+  $('#mainTable').DataTable();
   //select2 js
   $(".select2").select2();
   //select2 multiple
@@ -52,7 +54,7 @@ $('.edit').click(function(e){
 })
 
 //view details
-$(document).on('dblclick', '#req-table tr', function(){
+$(document).on('dblclick', '#mainTable tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
   
   $.ajax({
