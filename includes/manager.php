@@ -47,9 +47,21 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
+    <a class="nav-link" href="submit.php">
+      <i class="fas fa-fw fa-clipboard"></i>
+      <span>Submitted PO/JO</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="supplier.php">
       <i class="fas fa-fw fa-store"></i>
       <span>Supplier</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="report.php">
+      <i class="fas fa-fw fa-chart-pie"></i>
+      <span>Reports</span>
     </a>
   </li>
 </ul>

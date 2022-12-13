@@ -20,13 +20,13 @@
 
 <body id="page-top">
     <div id="wrapper">
-    <?php include '../../includes/admin.php'; ?><!-- page header -->
+    <?php include '../../includes/manager.php'; ?><!-- page header -->
       <!-- Container Fluid-->
       <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
             <div class="d-sm-flex justify-content-between mb-4">
                 <ol class="breadcrumb" align="right">
-                    <li class="breadcrumb-item"><a href="dashboard.php">Administrator</a></li>
+                    <li class="breadcrumb-item"><a href="dashboard.php">Manager</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Reports</li>
                 </ol>
             </div><!-- /Breadcrumbs -->
@@ -38,27 +38,46 @@
                 </div>  
                 <div class="row">
                     <div class="col-lg-3"><br>
+                        <label> Project:</label>
+                        <select id="project" class="form-control mb-3 select2" style="width: 100%;">
+                        <option selected disabled>Select a Project</option>
+                        <?php
+                            $get = $project->get_active_project();
+                            while($row = $get->fetch(PDO::FETCH_ASSOC))
+                            {
+                            echo '<option value="'.$row['id'].'">'.$row['project'].'</option>';
+                            }
+                        ?>
+                        </select>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <br><label style="padding-bottom: 23px"> </label>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-lg-3">
                         <label>Company:</label>
-                        <select id="company" class="form-control mb-3 select2">
+                        <select id="company" class="form-control mb-3 select2" style="width: 100%;">
                         <option selected disabled>Select a Company</option>
                             <?php
                                 $get = $company->get_active_company();
-                                while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                while($row = $get->fetch(PDO::FETCH_ASSOC))
                                 {
-                                echo '<option value="'.$row1['id'].'">'.$row1['company'].'</option>';
+                                echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
                                 }
                             ?>
                         </select>
                     </div>
                     <div class="col-lg-3"><br>
-                        <br><label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <label style="padding-bottom: 23px"> </label>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>Supplier:</label>
-                        <select id="supplier" class="form-control mb-3 select2">
+                        <label>Supplier/Vendor:</label>
+                        <select id="supplier" class="form-control mb-3 select2" style="width: 100%;">
                         <option selected disabled>Select a Supplier</option>
                         <?php
                             $get = $supplier->get_active_supplier();
@@ -71,26 +90,25 @@
                     </div>
                     <div class="col-lg-3"><br>
                         <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>Requestor:</label>
-                        <select id="requestor" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Requestor</option>
-                        <?php
-                            $get = $user->view_all_user();
-                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row1['id'].'">'.$row1['fullname'].'</option>';
-                            }
-                        ?>
+                        <label>Status:</label>
+                        <select id="status" class="form-control mb-3 select2">
+                            <option selected disabled>Select a Status</option>
+                            <option value="1">Pending</option>
+                            <option value="2">Returned</option>
+                            <option value="3">On Process</option>
+                            <option value="9">On Hold</option>
+                            <option value="10">For Releasing</option>
+                            <option value="11">Released</option>
                         </select>
                     </div>
                     <div class="col-lg-3"><br>
                         <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
@@ -113,7 +131,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
-                        <button class="btn btn-success" onclick="generate_report()"><i class="fas fa-check"></i> Generate</button>
+                        <button class="btn btn-success" onclick="generate_report()" value="1"><i class="fas fa-check"></i> Generate</button>
                     </div>
                 </div>
             </div>

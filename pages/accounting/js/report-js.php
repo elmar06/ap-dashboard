@@ -11,6 +11,16 @@ $(document).ready(function(){
   $('.select2').select2();
 })
 
+//toast
+function showToast(){
+  var title = 'Loading...';
+  var duration = 500;
+  $.Toast.showToast({title: title,duration: duration, image: '../../assets/img/loading.gif'});
+}
+function hideLoading(){
+  $.Toast.hideToast();
+}
+
 //clear or reset the dropdown box
 $(document).ready(function(){
   $('.remove-data').on('click', function(e){
@@ -22,28 +32,47 @@ $(document).ready(function(){
   })
 })
 
+//button event handler
+//CHECK FOR RELEASING
+$('#for-releasing').on('click', function(e){
+  e.preventDefault();
+
+  $('#check').show();
+  $('#disbursement').hide();
+})
+//DISBURSEMENT REPORT
+$('#report').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').show();
+  $('#check').hide();
+})
+
 //generate report function
-function generate_report()
+function for_releasing_report()
 {
+  var project = $('#fo-porject').val();
   var company = $('#fo-company').val();
   var supplier = $('#fo-supplier').val();
   var status = $('#fo-status').val();
   var requestor = $('#user-id').val();
   var date_from = $('#from').val();
   var date_to = $('#to').val();
-  var myData = 'company=' + company + '&supplier=' + supplier + '&status=' + status + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to;
+  var action = 1;
+  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&requestor=' + requestor + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
 
-  //send data to report page
-  if(date_from != null && date_to != null)
-  {
-    if(company != null && supplier != null && requestor != null)
-    {
-      window.open('../../print/form/printReport.php?' + myData);
-    }else{
-      window.open('../../print/form/printReport.php?' + myData);
-    }
-  }else{
-    window.open('../../print/form/printReport.php?' + myData);
-  }
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+
+//generate report function
+function disbursement_report()
+{
+  var date_from = $('#dis-from').val();
+  var date_to = $('#dis-to').val();
+  var action = 2;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
 }
 </script>
