@@ -373,8 +373,8 @@
                           $get = $po->get_po_list_process_req();
                           while($row = $get->fetch(PDO::FETCH_ASSOC))
                           {
-                            $proj_name = '';
                             //get the PROJECT name if exist
+                            $proj_name = '';
                             $project->id = $row['proj-id'];
                             $get1 = $project->get_proj_details();
                             while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
@@ -384,9 +384,9 @@
                               }else{
                                 $proj_name = '-';
                               }
-                            }
-                            $comp_name = '';
+                            }                            
                             //get the COMPANY name if exist
+                            $comp_name = '';
                             $company->id = $row['comp-id'];
                             $get2 = $company->get_company_detail();
                             while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
@@ -397,8 +397,8 @@
                                 $comp_name = '-';
                               }
                             }
-                            $sup_name = '';
                             //get the SUPPLIER name if exist
+                            $sup_name = '';
                             $supplier->id = $row['supp-id'];
                             $get3 = $supplier->get_supplier_details();
                             while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
