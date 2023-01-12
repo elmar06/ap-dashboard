@@ -49,7 +49,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <div class="row">
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Amount</label>
-            <input id="upd-amount" class="form-control mb-3" type="text" placeholder="Amount" value="'.$row['amount'].'" disabled>
+            <input id="upd-amount" class="form-control mb-3" type="text" placeholder="Amount" value="'.number_format(floatval($row['amount']), 2).'" disabled>
           </div>
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Sales Invoice No.</label>

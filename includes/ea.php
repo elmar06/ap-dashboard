@@ -6,14 +6,24 @@ if(!(isset($_SESSION['fullname'])))
 }
 
 include '../../config/clsConnection.php';
+include '../../objects/clsSupplier.php';
+include '../../objects/clsCompany.php';
 include '../../objects/clsPODetails.php';
+include '../../objects/clsDepartment.php';
+include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsAccess.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
+$supplier = new Supplier($db);
+$company = new Company($db);
 $po = new PO_Details($db);
+$dept = new Department($db);
+$project = new Project($db);
 $user = new Users($db);
+$access = new Access($db);
 
 //get the updated logcount
 $user->id = $_SESSION['id'];

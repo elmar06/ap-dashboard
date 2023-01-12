@@ -29,6 +29,25 @@ $(document).on('dblclick', '.DataTable tr', function(){
     {
       $('#POmodalDetails').modal('show');
       $('#details-body').html(html);
+      //disable the button if status is on process
+      $.ajax({
+        type: 'POST',
+        url: '../../controls/check_po_stat.php',
+        data: {id: id},
+        success: function(response)
+        {
+          if(response == 1 ){
+            $('#returned').attr('disabled', false);
+            $('#received').attr('disabled', false);
+          }else if(response == 2){
+            $('#returned').attr('disabled', true);
+            $('#received').attr('disabled', false);
+          }else{
+            $('#returned').attr('disabled', true);
+            $('#received').attr('disabled', true);
+          }
+        }
+      })
     },
     error: function(xhr, ajaxOptions, thrownError)
     {

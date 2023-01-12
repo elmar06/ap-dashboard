@@ -205,7 +205,7 @@ class PO_Details
 
     public function get_submitted_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 11 ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 11 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -269,7 +269,7 @@ class PO_Details
 
     public function get_released_checker()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.or_num, po_other_details.date_release, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 11 AND po_details.id = po_other_details.po_id AND po_details.company = ? ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.or_num, po_other_details.date_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 11 AND po_details.id = po_other_details.po_id AND po_details.company = ? ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -438,7 +438,7 @@ class PO_Details
 
     public function get_po_list_process()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, company.id, company.company as "comp-name", departments.id, departments.department, supplier.id, supplier.supplier_name, project.id, project.project, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, company, departments, supplier, project, users WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.department = departments.id AND po_details.project = project.id AND po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status)) ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.bill_date, po_details.terms, po_details.amount, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, company.id as "comp-id", company.company as "comp-name", departments.id, departments.department, supplier.id as "supp-id", supplier.supplier_name, project.id, project.project, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, company, departments, supplier, project, users WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.department = departments.id AND po_details.project = project.id AND po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status)) AND po_details.status != 0 ORDER BY po_details.status ASC';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -495,7 +495,7 @@ class PO_Details
 
     public function get_list_for_ea()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company, po_details.supplier, po_details.bill_no, po_details.status, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, check_details.po_id, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, company, supplier, check_details WHERE po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.id = check_details.po_id AND (find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.status, check_details.po_id, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(6, po_details.status) || find_in_set(7, po_details.status)) ORDER BY po_details.status ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -535,7 +535,7 @@ class PO_Details
 
     public function get_list_checker()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.company = ? AND (find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.company = ? AND (find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) ORDER BY po_details.amount DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -638,7 +638,7 @@ class PO_Details
 
     public function count_on_process()
     {
-        $query = 'SELECT count(id) as "process-count" FROM '.$this->table_name.' WHERE (find_in_set(3, status) || find_in_set(4, status) || find_in_set(5, status) || find_in_set(6, status) || find_in_set(7, status) || find_in_set(8, status) || find_in_set(9, status))';
+        $query = 'SELECT count(id) as "process-count" FROM '.$this->table_name.' WHERE (find_in_set(3, status) || find_in_set(4, status) || find_in_set(5, status) || find_in_set(6, status) || find_in_set(7, status) || find_in_set(8, status) || find_in_set(9, status)) AND status != 0';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -1279,7 +1279,7 @@ class PO_Details
     //SCM-PMC REPORT QUERY
     public function get_by_date_scm($from, $to)
     {
-        $query = 'SELECT supplier, po_num, si_num, amount, company, project, department, terms, due_date FROM po_details WHERE (date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT supplier, po_num, po_amount, po_date, si_num, amount, bill_date, company, project, department, terms, due_date FROM po_details WHERE (date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1289,7 +1289,7 @@ class PO_Details
 
     public function get_by_proj_date_scm($proj, $from, $to)
     {
-        $query = 'SELECT supplier, po_num, si_num, amount, company, project, department, terms, due_date FROM po_details WHERE project = ? AND (date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT supplier, po_num, po_amount, po_date, si_num, amount, bill_date, company, project, department, terms, due_date FROM po_details WHERE project = ? AND (date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1299,7 +1299,7 @@ class PO_Details
 
     public function get_by_comp_date_scm($comp, $from, $to)
     {
-        $query = 'SELECT supplier, po_num, si_num, amount, company, project, department, terms, due_date FROM po_details WHERE company = ? AND (date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT supplier, po_num, po_amount, po_date, si_num, amount, bill_date, company, project, department, terms, due_date FROM po_details WHERE company = ? AND (date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1309,7 +1309,7 @@ class PO_Details
 
     public function get_by_supp_date_scm($supp, $from, $to)
     {
-        $query = 'SELECT supplier, po_num, si_num, amount, company, project, department, terms, due_date FROM po_details WHERE supplier = ? AND (date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT supplier, po_num, po_amount, po_date, si_num, amount, bill_date, company, project, department, terms, due_date FROM po_details WHERE supplier = ? AND (date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1319,7 +1319,7 @@ class PO_Details
     
     public function get_by_stat_date_scm($stat, $from, $to)
     {
-        $query = 'SELECT supplier, po_num, si_num, amount, company, project, department, terms, due_date FROM po_details WHERE status = ? AND (date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT supplier, po_num, po_amount, po_date, si_num, amount, bill_date, company, project, department, terms, due_date FROM po_details WHERE status = ? AND (date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

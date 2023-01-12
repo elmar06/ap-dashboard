@@ -176,25 +176,23 @@
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
                         //get the COMPANY name if exist
+                        $comp_name = '-';
                         $company->id = $row['comp-id'];
                         $get2 = $company->get_company_detail();
                         while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['comp-id'] == $rowComp['id']){
                             $comp_name = $rowComp['company'];
-                          }else{
-                            $comp_name = '-';
                           }
                         }
                         //get the SUPPLIER name if exist
+                        $sup_name = '-';
                         $supplier->id = $row['supp-id'];
                         $get3 = $supplier->get_supplier_details();
                         while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['supp-id'] == $rowSupp['id']){
                             $sup_name = $rowSupp['supplier_name'];
-                          }else{
-                            $sup_name = '-';
                           }
                         }
                         //format of status
@@ -227,7 +225,7 @@
                           <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.number_format($row['amount'], 2).'</td>
+                          <td>'.number_format(floatval($row['amount']), 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -264,25 +262,23 @@
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
                         //get the COMPANY name if exist
+                        $comp_name = '-';
                         $company->id = $row['comp-id'];
                         $get2 = $company->get_company_detail();
                         while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['comp-id'] == $rowComp['id']){
                             $comp_name = $rowComp['company'];
-                          }else{
-                            $comp_name = '-';
                           }
                         }
                         //get the SUPPLIER name if exist
+                        $sup_name = '-';
                         $supplier->id = $row['supp-id'];
                         $get3 = $supplier->get_supplier_details();
                         while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['supp-id'] == $rowSupp['id']){
                             $sup_name = $rowSupp['supplier_name'];
-                          }else{
-                            $sup_name = '-';
                           }
                         }
                         //format of status
@@ -297,7 +293,7 @@
                           <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['amount'].'</td>
+                          <td>'.number_format(floatval($row['amount']), 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -366,7 +362,7 @@
                           <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['amount'].'</td>
+                          <td>'.number_format(floatval($row['amount']), 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -401,25 +397,23 @@
                       while($row = $get->fetch(PDO::FETCH_ASSOC))
                       {
                         //get the COMPANY name if exist
+                        $comp_name = '-';
                         $company->id = $row['comp-id'];
                         $get2 = $company->get_company_detail();
                         while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['comp-id'] == $rowComp['id']){
                             $comp_name = $rowComp['company'];
-                          }else{
-                            $comp_name = '-';
                           }
                         }
                         //get the SUPPLIER name if exist
+                        $sup_name = '-';
                         $supplier->id = $row['supp-id'];
                         $get3 = $supplier->get_supplier_details();
                         while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                         {
                           if($row['supp-id'] == $rowSupp['id']){
                             $sup_name = $rowSupp['supplier_name'];
-                          }else{
-                            $sup_name = '-';
                           }
                         }
                         //format of status
@@ -434,7 +428,7 @@
                           <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['amount'].'</td>
+                          <td>'.number_format(floatval($row['amount']), 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -503,7 +497,7 @@
                           <td>'.$row['si_num'].'</td>
                           <td>'.$sup_name.'</td>
                           <td>'.$bill_date.'</td>
-                          <td>'.$row['amount'].'</td>
+                          <td>'.number_format(floatval($row['amount']), 2).'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }
@@ -540,9 +534,10 @@
         <!-- modal body goes here -->
       </div>
       <div class="modal-footer">
-        <a href="#" id="returned" class="btn btn-danger" onclick="mark_returned()"><i class="fas fa-undo-alt"></i></a>
-        <a href="#" id="received" class="btn btn-success" onclick="mark_received()"><i class="fas fa-check"></i></a>
-        <a href="#" id="cancel" class="btn btn-danger" onclick="cancel_return()" style="display: none"><i class="fas fa-times"></i></a>
+      <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
+        <button href="#" id="returned" class="btn btn-danger" onclick="mark_returned()"><i class="fas fa-undo-alt"></i></button>
+        <button href="#" id="received" class="btn btn-success" onclick="mark_received()"><i class="fas fa-check"></i></button>        
+        <button href="#" id="cancel" class="btn btn-danger" onclick="cancel_return()" style="display: none"><i class="fas fa-times"></i></button>
         <button id="btnSubmit" class="btn btn-primary" style="display: none">Submit</button>
       </div>
     </div>

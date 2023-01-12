@@ -51,7 +51,7 @@
                     </thead>
                     <tbody id="req-body">
                     <?php
-                      $po->submitted_by = $user_id;
+                      $access->user_id = $user_id;
                       $get = $access->get_company();
                       while($row1 = $get->fetch(PDO::FETCH_ASSOC))
                       {
@@ -67,35 +67,33 @@
                           while($row = $view->fetch(PDO::FETCH_ASSOC))
                           {
                             //get the COMPANY name if exist
+                            $comp_name = '-';
                             $company->id = $row['comp-id'];
                             $get2 = $company->get_company_detail();
                             while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                             {
                               if($row['comp-id'] == $rowComp['id']){
                                 $comp_name = $rowComp['company'];
-                              }else{
-                                $comp_name = '-';
                               }
                             }
                             //get the SUPPLIER name if exist
+                            $sup_name = '-';
                             $supplier->id = $row['supp-id'];
                             $get3 = $supplier->get_supplier_details();
                             while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                             {
                               if($row['supp-id'] == $rowSupp['id']){
                                 $sup_name = $rowSupp['supplier_name'];
-                              }else{
-                                $sup_name = '-';
                               }
                             }
                             //date format
-                            $date = date('m/d/y', strtotime($row['date_released']));
+                            $date = date('m/d/y', strtotime($row['date_release']));
                             echo '
                             <tr>
                               <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                               <td>'.$row['cv_no'].'</td>
                               <td>'.$row['check_no'].'</td>
-                              <td>'.number_format($row['cv_amount'], 2).'</td>
+                              <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
                               <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
                               <td style="width: 180px">'.$sup_name.'</td>
