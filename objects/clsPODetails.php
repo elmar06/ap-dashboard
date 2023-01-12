@@ -450,7 +450,7 @@ class PO_Details
 
     public function get_po_list_process_req()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, company.id, company.company as "comp-name", departments.id, departments.department, supplier.id, supplier.supplier_name, project.id, project.project, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, company, departments, supplier, project, users WHERE po_details.department = departments.id AND po_details.project = project.id AND po_details.submitted_by = users.id AND po_details.submitted_by = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status)) ORDER BY po_details.status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.submitted_by = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status)) ORDER BY po_details.status ASC';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
