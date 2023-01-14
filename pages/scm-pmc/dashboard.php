@@ -420,7 +420,7 @@
                               <td>'.$row['po_num'].'</td>
                               <td>'.$sup_name.'</td>
                               <td>'.$bill_date.'</td>
-                              <td><center>'.$status.'</center></td>
+                              <td style="width: 13%"><center>'.$status.'</center></td>
                             </tr>';
                           }
                         ?>

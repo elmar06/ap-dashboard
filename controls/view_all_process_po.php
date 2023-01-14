@@ -168,25 +168,23 @@ echo '
                     $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
                   }
                   //get the COMPANY name if exist
+                  $comp_name = '-';
                   $company->id = $row['comp-id'];
                   $get2 = $company->get_company_detail();
                   while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                   {
                     if($row['comp-id'] == $rowComp['id']){
                       $comp_name = $rowComp['company'];
-                    }else{
-                      $comp_name = '-';
                     }
                   }
                   //get the SUPPLIER name if exist
+                  $sup_name = '-';
                   $supplier->id = $row['supp-id'];
                   $get3 = $supplier->get_supplier_details();
                   while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                   {
                     if($row['supp-id'] == $rowSupp['id']){
                       $sup_name = $rowSupp['supplier_name'];
-                    }else{
-                      $sup_name = '-';
                     }
                   }
                   echo '
@@ -197,7 +195,7 @@ echo '
                     <td>'.$row['si_num'].'</td>
                     <td>'.$sup_name.'</td>
                     <td style="max-width: 20%">'.$bill_date.'</td>
-                    <td>'.number_format($row['amount'], 2).'</td>
+                    <td>'.number_format(floatval($row['amount']), 2).'</td>
                     <td><center>'.$action.'</center></td>
                   </tr>';
                 }  

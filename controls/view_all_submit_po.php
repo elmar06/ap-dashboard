@@ -22,7 +22,8 @@ $po->submitted_by = $_SESSION['id'];
 $view = $po->get_submitted_po_by_user();
 while($row = $view->fetch(PDO::FETCH_ASSOC))
 {
-    //get the PROJECT name is exist
+    $proj_name = '';
+    //get the PROJECT name if exist
     $project->id = $row['proj-id'];
     $get1 = $project->get_proj_details();
     while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
@@ -33,6 +34,7 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
         $proj_name = '-';
     }
     }
+    $comp_name = '';
     //get the COMPANY name if exist
     $company->id = $row['comp-id'];
     $get2 = $company->get_company_detail();
@@ -44,6 +46,7 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
         $comp_name = '-';
     }
     }
+    $sup_name = '';
     //get the SUPPLIER name if exist
     $supplier->id = $row['supp-id'];
     $get3 = $supplier->get_supplier_details();
@@ -64,6 +67,8 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     $status = '<label style="color: blue"><b> For Signature</b></label>';
     }elseif($row['status'] == 6){
     $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+    }elseif($row['status'] == 7){
+    $status = '<label style="color: blue"><b> Signed</b></label>';
     }elseif($row['status'] == 8){
     $status = '<label style="color: blue"><b> For Verification</b></label>';
     }elseif($row['status'] == 9){
@@ -84,8 +89,8 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     $get = $check_details->get_details_byID();
     while($row1 = $get->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row1['check_date']));
-        $check_no = $row1['check_no'];
+    $check_date = date('m/d/y', strtotime($row1['check_date']));
+    $check_no = $row1['check_no'];
     }
     //get the date sent to EA
     $po->po_id = $row['po-id'];
