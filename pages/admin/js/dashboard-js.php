@@ -4,6 +4,61 @@ $(document).ready(function () {
   $('#req-table').DataTable(); // ID From dataTable with Hover
 });
 
+//view details
+$(document).on('dblclick', '#req-table tr', function(){
+  var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
+
+  //check the status of a po
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/check_po_stat.php',
+    data: {id:id},
+    success: function(response)
+    {
+      if(response == 1 || response == 2)
+      {
+        //show the edit modal
+        $.ajax({
+          type: 'POST',
+          url: '../../controls/view_po_details_admin.php',
+          data: {id:id},
+          beforeSend: function()
+          {
+            showToast();
+          },
+          success: function(html)
+          {
+            $('#POmodalDetails').modal('show');
+            $('#details-body').html(html);
+          },
+          error: function(xhr, ajaxOptions, thrownError)
+          {
+            alert(thrownError);
+          }
+        })
+      }
+      else
+      {
+        //show the view only modal
+        $.ajax({
+          type: 'POST',
+          url: '../../controls/view_po_details_admin.php',
+          data: {id:id},
+          beforeSend: function()
+          {
+            showToast();
+          },
+          success: function(html)
+          {
+            $('#viewDetails').modal('show');
+            $('#view-body').html(html);
+          }
+        })
+      }
+    }
+  })
+})
+
 //toast
 function showToast(){
   var title = 'Loading...';

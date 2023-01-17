@@ -248,7 +248,7 @@
 <!-- View Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
@@ -260,10 +260,7 @@
         <!-- modal body goes here -->
       </div>
       <div class="modal-footer">
-        <a href="#" id="returned" class="btn btn-danger" onclick="mark_returned()"><i class="fas fa-undo-alt"></i></a>
-        <a href="#" id="received" class="btn btn-success" onclick="mark_received()"><i class="fas fa-check"></i></a>
-        <a href="#" id="cancel" class="btn btn-danger" onclick="cancel_return()" style="display: none"><i class="fas fa-times"></i></a>
-        <button id="btnSubmit" class="btn btn-primary" style="display: none">Submit</button>
+        <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
       </div>
     </div>
   </div>

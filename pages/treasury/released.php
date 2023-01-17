@@ -36,7 +36,7 @@
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="table-responsive p-3">
-                  <table class="table align-items-center table-flush table-hover" id="req-table">
+                  <table class="table1 align-items-center table-flush table-hover" id="req-table">
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
