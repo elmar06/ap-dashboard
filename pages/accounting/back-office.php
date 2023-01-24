@@ -301,7 +301,7 @@
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
-                        echo '<option value="'.$row5['id'].'">'.$row5['name'].' - '.$row5['account'].'</option>';
+                        echo '<option value="'.$row5['id'].'">'.$row5['account'].'</option>';
                       }
                       ?>
                     </select>
