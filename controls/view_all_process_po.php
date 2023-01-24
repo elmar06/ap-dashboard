@@ -165,7 +165,7 @@ echo '
                   {
                     $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a>';
                   }else{
-                    $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a>';
+                    $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
                   }
                   //get the COMPANY name if exist
                   $comp_name = '-';
@@ -318,7 +318,44 @@ $('.checkboxall').change(function(){
     })
   }
 });
+//MARK AS RETURN TO FRONT OFFICE EVENT HANDLER
+$('.return').on('click', function(e){
+  e.preventDefault();
 
+  var id = $(this).attr('value');
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_return_toFO.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response)
+      {
+        toastr.success('Request successfully mark as Returned to Front Office.')
+        //display the new list
+        $.ajax({
+            type: 'POST',
+            url: '../../controls/view_all_process_po.php',
+            success: function(html)
+            {
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
+            }
+          })
+      }
+      else
+      {
+        toastr.warning('Returned Failed. Please contact the System Administrator at local 124.')
+      }
+    }
+  })
+})
 //check list
 $('.checklist').change(function(){
   var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});

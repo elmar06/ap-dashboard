@@ -25,20 +25,11 @@ $('#btnSave').click(function(e){
             {
                 if(response > 0)
                 {
-                    //display the new list of supplier
-                    $.ajax({
-                        url: '../../controls/view_all_supplier.php',
-                        success: function(html)
-                        {
-                            $('#add-success').html('<center><i class="fas fa-check"></i> Supplier successfully added.</center>');
-                            $('#add-success').show();
-                            $('#supplier-body').html(html);
-                            //hide the message after 3 sec
-                            setTimeout(function(){
-                                $('#add-success').fadeOut();
-                            }, 3000)
-                        }
-                    })
+                    $('#add-success').html('<center><i class="fas fa-check"></i> Supplier successfully added.</center>');
+                    $('#add-success').show();
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000)
                 }
                 else
                 {

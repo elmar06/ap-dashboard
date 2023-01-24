@@ -206,15 +206,19 @@
                                 }
                               }
                               //format of status
-                              if($row['status'] == 8)
-                              {
+                              if($row['status'] == 4){
+                                $status = '<label style="color: blue"><b>On Process by BO</b></label>';
+                              }elseif($row['status'] == 5){
+                                $status = '<label style="color: blue"><b>For Signature</b></label>';
+                              }elseif($row['status'] == 6){
+                                $status = '<label style="color: blue"><b>Sent To EA</b></label>';
+                              }elseif($row['status'] == 7){
+                                $status = '<label style="color: blue"><b>Signed</b></label>';
+                              }elseif($row['status'] == 8){
                                 $status = '<label style="color: blue"><b>For Verification</b></label>';
-                              }
-                              elseif($row['status'] == 9)
-                              {
+                              }elseif($row['status'] == 9){
                                 $status = '<label style="color: red"><b>On Hold</b></label>';
-                              }
-                              else
+                              }else
                               {
                                 $status = '<label style="color: green"><b>For Releasing</b></label>';
                               }

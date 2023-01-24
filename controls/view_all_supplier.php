@@ -8,7 +8,6 @@ $db = $database->connect();
 $sup = new Supplier($db);
 
 $view = $sup->view_suppliers();
-
 while($row = $view->fetch(PDO::FETCH_ASSOC))
 {
     if($row['status'] == 1)
@@ -19,21 +18,9 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     }
         echo '
         <tr>
-        <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['id'].'"></td>
-        <td>'.$row['supplier_name'].'</td>
-        <td><center>'.$status.'</center></td>
-        <td>';
-            if($row['status'] == 1)
-            {
-            echo '<center><button class="btn btn-info btn-sm btnEdit" value="'.$row['id'].'"><i class="fas fa-edit"></i> Edit</button>
-            <button class="btn btn-danger btn-sm btnRemove" value="'.$row['id'].'"><i class="fas fa-trash"></i> Remove</button></center>';
-            }
-            else
-            {
-            echo '<center><button class="btn btn-info btn-sm btnEdit" value="'.$row['id'].'"><i class="fas fa-edit"></i> Edit</button>
-            <button class="btn btn-success btn-sm btnActivate" value="'.$row['id'].'"><i class="fas fa-check"></i> Activate</button></center>';
-            }
-        echo '</td>
+            <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['id'].'"></td>
+            <td>'.$row['supplier_name'].'</td>
+            <td><center>'.$status.'</center></td>
         </tr>';
 }
 ?>

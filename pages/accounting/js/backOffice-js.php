@@ -12,7 +12,8 @@ $(document).ready(function () {
   $('.datepicker').datepicker({
     clearBtn: true,
     format: "MM dd, yyyy",
-    startDate: new Date(),
+    //startDate: new Date(),
+    minDate: 0,
     autoClose: true,
   });
 })
@@ -52,7 +53,44 @@ $('.edit').click(function(e){
     }
   })
 })
+//MARK AS RETURN TO FRONT OFFICE EVENT HANDLER
+$('.return').on('click', function(e){
+  e.preventDefault();
 
+  var id = $(this).attr('value');
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_return_toFO.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response)
+      {
+        toastr.success('Request successfully mark as Returned to Front Office.')
+        //display the new list
+        $.ajax({
+            type: 'POST',
+            url: '../../controls/view_all_process_po.php',
+            success: function(html)
+            {
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
+            }
+          })
+      }
+      else
+      {
+        toastr.warning('Returned Failed. Please contact the System Administrator at local 124.')
+      }
+    }
+  })
+})
 //view details
 $(document).on('dblclick', '#mainTable tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
@@ -105,22 +143,27 @@ function submitForSignature()
       {
         if(response > 0)
         {
-          //display the new list
-          $.ajax({
-            type: 'POST',
-            url: '../../controls/view_all_process_po.php',
-            success: function(html)
-            {
-              $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
+          $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
               $('#upd-success').show();
-              setTimeout(function(){
-                $('#upd-success').fadeOut();
-              }, 3000)
-              $('#page-body').fadeOut();
-              $('#page-body').fadeIn();
-              $('#page-body').html(html);
-            }
-          })
+          setTimeout(function(){
+            location.reload();
+          }, 1000)
+          // //display the new list
+          // $.ajax({
+          //   type: 'POST',
+          //   url: '../../controls/view_all_process_po.php',
+          //   success: function(html)
+          //   {
+          //     $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
+          //     $('#upd-success').show();
+          //     setTimeout(function(){
+          //       $('#upd-success').fadeOut();
+          //     }, 3000)
+          //     $('#page-body').fadeOut();
+          //     $('#page-body').fadeIn();
+          //     $('#page-body').html(html);
+          //   }
+          // })
         }
         else
         {
