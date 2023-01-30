@@ -232,6 +232,47 @@ class Reports
 		$sel->execute(array($from, $to, $requestor_id,  $comp_id, $supplier_id));
 		return $sel;
     }
+
+    //Treasury 
+    public function generate_by_comp_treasury($from, $to, $comp_id)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_details.due_date, check_details.cv_amount, supplier.id, supplier.supplier_name FROM po_details, po_other_details, check_details, supplier WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ? AND po_details.company = ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to, $comp_id));
+		return $sel;
+    }
+
+    public function generate_by_supp_treasury($from, $to, $supplier_id)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_details.due_date, check_details.cv_amount, supplier.id, supplier.supplier_name FROM po_details, po_other_details, check_details, supplier WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ? AND po_details.supplier = ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to, $supplier_id));
+		return $sel;
+    }
+
+    public function generate_all_treasury($from, $to, $comp_id, $supplier_id)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_details.due_date, check_details.cv_amount, supplier.id, supplier.supplier_name FROM po_details, po_other_details, check_details, supplier WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ? AND po_details.company = ? AND po_details.supplier = ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to, $comp_id, $supplier_id));
+		return $sel;
+    }
+
+    public function generate_by_date_treasury($from, $to)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_details.due_date, check_details.cv_amount, supplier.id, supplier.supplier_name FROM po_details, po_other_details, check_details, supplier WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
 }
 
 ?>

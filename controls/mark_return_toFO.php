@@ -8,7 +8,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 
 //po details
-$po->status = 3;
+$po->status = 1;
 $po->id = $_POST['id'];
 $mark = $po->mark_return_toFO();
 

@@ -33,7 +33,7 @@
             <div class="form-group">
               <div class="row">
                 &nbsp;&nbsp;&nbsp;
-                <button id="btnAdd" class="btn btn-primary btn-block" style="width: 13%" data-toggle="modal" data-target="#newUser"><i class="fas fa-plus"></i> Add Supplier</button>&nbsp;
+                <!-- <button id="btnAdd" class="btn btn-primary btn-block" style="width: 13%" data-toggle="modal" data-target="#newUser"><i class="fas fa-plus"></i> Add Supplier</button>&nbsp; -->
                 <!-- <button id="btnMultiRemove" type="button" class="btn btn-danger" style="display: none"><i class="fas fa-trash"></i> Remove Multiple</button>&nbsp; -->
               </div>
             </div>

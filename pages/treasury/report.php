@@ -75,25 +75,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3">
-                        <label>Requestor:</label>
-                        <select id="requestor" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Requestor</option>
-                        <?php
-                            $get = $user->view_all_user();
-                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row1['id'].'">'.$row1['fullname'].'</option>';
-                            }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-3"><br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
