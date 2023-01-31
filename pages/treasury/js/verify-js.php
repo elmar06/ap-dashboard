@@ -1,7 +1,10 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  $('#req-table').DataTable();// ID From dataTable with Hover
+  // ID From dataTable with Hover
+  $('#req-table').DataTable({
+    scrollX: true
+  });
   $(".sidebar").toggleClass("toggled");
 })
 //toast

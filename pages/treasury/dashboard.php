@@ -153,18 +153,21 @@
             <div class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover" id="req-table">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover" id="req-table">
                       <thead class="thead-light">
                         <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th><center>Status</center></th>
                           <th>CV #</th>
                           <th>Check #</th>
                           <th>CV Amount</th>
                           <th>Company</th>
                           <th>PO/JO #</th>
                           <th>Suppplier</th>
-                          <th><center>Status</center></th>
+                          <th>Due Date</th>
+                          <th>Received by FO</th>
+                          <th>Project</th>
                         </tr>
                       </thead>
                       <tbody id="req-body">
@@ -205,6 +208,16 @@
                                   $sup_name = $rowSupp['supplier_name'];
                                 }
                               }
+                              $proj_name = '';
+                              //get the PROJECT name if exist
+                              $project->id = $row['proj-id'];
+                              $get1 = $project->get_proj_details();
+                              while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                              {
+                                if($row['proj-id'] == $rowProj['id']){
+                                  $proj_name = $rowProj['project'];
+                                }
+                              }
                               //format of status
                               if($row['status'] == 4){
                                 $status = '<label style="color: blue"><b>On Process by BO</b></label>';
@@ -222,16 +235,27 @@
                               {
                                 $status = '<label style="color: green"><b>For Releasing</b></label>';
                               }
+                              //date format
+                              $due = date('m/d/Y', strtotime($row['due_date']));
+                              if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
+                                $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
+                              }else{
+                                $received_fo = '-';
+                              }
+                              
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td style="width: 95px"><center>'.$status.'</center></td>
                                 <td>'.$row['cv_no'].'</td>
                                 <td>'.$row['check_no'].'</td>
                                 <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
                                 <td>'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td style="width: 180px">'.$sup_name.'</td>
-                                <td style="width: 95px"><center>'.$status.'</center></td>
+                                <td>'.$due.'</td>
+                                <td>'.$received_fo.'</td>
+                                <td>'.$proj_name.'</td>
                               </tr>';
                             }
                           }

@@ -2,8 +2,12 @@
 <script>
 $(document).ready(function () {
   $(".sidebar").toggleClass("toggled");
-  $('#req-table').DataTable();// ID From dataTable with Hover
-  $('#mainTable').DataTable();
+  $('#req-table').DataTable({
+    scrollX: true
+  });// ID From dataTable with Hover
+  $('#mainTable').DataTable({
+    scrollX: true
+  });
   //select2 js
   $(".select2").select2();
   //select2 multiple

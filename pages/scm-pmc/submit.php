@@ -35,19 +35,19 @@
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="table1-responsive p-3">
-                  <table id="submitted-table" class="table1 table-bordered table-hover" style="cursor:pointer;">
+                  <table id="submitted-table" class="table1 table-bordered table-flush table-hover" style="cursor:pointer;">
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th><center>Status</center></th>
                         <th>Project</th>
                         <th>Company</th>
                         <th>PO/JO No</th>
-                        <th style="max-width: 150px">Supplier</th>
+                        <th>Supplier</th>
                         <th>Billing Date</th>
                         <th>Check Date</th>
                         <th>Check No.</th>
                         <th>Sent to EA</th>
-                        <th><center>Status</center></th>
                       </tr>
                     </thead>
                     <tbody id="po-submit-body">
@@ -140,15 +140,15 @@
                           echo '
                           <tr>
                             <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                            <td><center>'.$status.'</center></td>
                             <td align="center">'.$proj_name.'</td>
                             <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
-                            <td style="max-width: 150px">'.$sup_name.'</td>
+                            <td>'.$sup_name.'</td>
                             <td align="center">'.$bill_date.'</td>
                             <td align="center">'.$check_date.'</td>
                             <td align="center">'.$check_no.'</td>
-                            <td align="center">'.$date_ea.'</td>
-                            <td><center>'.$status.'</center></td>
+                            <td align="center">'.$date_ea.'</td>                            
                           </tr>';
                         }
                       ?>

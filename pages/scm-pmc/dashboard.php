@@ -192,8 +192,8 @@
             <div id="tblSearch1" class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover DataTable">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -273,8 +273,8 @@
             <div id="tblSearch2" class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover DataTable">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -354,8 +354,8 @@
             <div id="tblSearch3" class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover DataTable">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -434,8 +434,8 @@
             <div id="tblSearch4" class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover DataTable">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="display: none"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>

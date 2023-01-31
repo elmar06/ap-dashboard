@@ -1,7 +1,9 @@
 <!-- search box in drop down menu -->
 <script>
 $(document).ready(function () {
-  $('.DataTable').DataTable();
+  $('.DataTable').DataTable({
+    scrollX: true
+  });
   $('#tblSearch1').hide();
   $('#tblSearch2').hide();
   $('#tblSearch3').hide();

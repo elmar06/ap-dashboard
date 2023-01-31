@@ -1,6 +1,8 @@
 <script>
 $(document).ready(function () {
-  $('#process-table').DataTable();// ID From dataTable with Hover
+  $('#process-table').DataTable({
+    scrollX: true
+  });// ID From dataTable with Hover
   $(".sidebar").toggleClass("toggled");
   $('.select2').select2();
 })

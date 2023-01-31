@@ -154,7 +154,7 @@
             <div class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
+                  <div class="table1-responsive p-3">
                     <table id="mainTable" class="table1 align-items-center table-flush table-hover" id="req-table">
                       <thead class="thead-light">
                         <tr>

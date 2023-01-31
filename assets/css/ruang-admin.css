@@ -1975,7 +1975,7 @@ body.sidebar-toggled footer.sticky-footer {
     padding: 5px 5px;
     vertical-align: middle;
     border-top: 1px solid #ECECEC;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
     white-space: nowrap; }
   .table1 thead th {
@@ -2171,7 +2171,7 @@ body.sidebar-toggled footer.sticky-footer {
 .table1-responsive {
   display: block;
   width: 100%;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar; }
   .table1-responsive > .table1-bordered {

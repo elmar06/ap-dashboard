@@ -11,7 +11,7 @@
   <title>AP Dashboard</title>
   <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">

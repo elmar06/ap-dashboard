@@ -1,7 +1,9 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  $('.DataTable').DataTable(); // class From dataTable 
+  $('.DataTable').DataTable({
+    scrollX: true
+  }); // class From dataTable 
   $(".sidebar").toggleClass("toggled");
 })
 //toast
