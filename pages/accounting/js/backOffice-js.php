@@ -288,46 +288,60 @@ function submit_cv()
   var check_no = $('#multi-check-no').val();
   var checkdate = $('#multi-checkdate').val();
   var amount = $('#multi-Amount').val();
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount;
+  var cv_amount = $('#multi-cvAmount').val();
+  var tax = $('#multi-Tax').val();
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount;
 
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/add_multi_cv.php',
-    data: myData,
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(response)
-    {
-      if(response > 0)
+  //validation check
+  if(id != '' && cv_no != null && bank != null && check_no != null && checkdate != '' && amount != null && tax != null && cv_amount != null)
+  {
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/add_multi_cv.php',
+      data: myData,
+      beforeSend: function()
       {
-        $('#success').html('<center><i class="fas fa-check"></i> PO/JO are ready Signature.</center>');
-        $('#success').show();
-        setTimeout(function(){
-          $('#success').fadeOut();
-        }, 3000)
-        //get the new/latest list
-        $.ajax({
-          url: '../../controls/view_all_process_po.php',
-          success: function(html)
-          {
-            $('#page-body').fadeOut();
-            $('#page-body').fadeIn();
-            $('#page-body').html(html);
-          }
-        })
-      }
-      else
+        showToast();
+      },
+      success: function(response)
       {
-        $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
-        $('#warning').show();
-        setTimeout(function(){
-          $('#warning').fadeOut();
-        }, 3000)
+        if(response > 0)
+        {
+          $('#success').html('<center><i class="fas fa-check"></i> PO/JO are ready Signature.</center>');
+          $('#success').show();
+          setTimeout(function(){
+            $('#success').fadeOut();
+          }, 3000)
+          //get the new/latest list
+          $.ajax({
+            url: '../../controls/view_all_process_po.php',
+            success: function(html)
+            {
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
+            }
+          })
+        }
+        else
+        {
+          $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
+          $('#warning').show();
+          setTimeout(function(){
+            $('#warning').fadeOut();
+          }, 3000)
+        }
       }
-    }
-  })
+    })
+  }
+  else
+  {
+    $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please complete all the data needed to proceed.</center>');
+    $('#warning').show();
+    setTimeout(function(){
+      $('#warning').fadeOut();
+    }, 3000)
+  }
 }
 
 //get all request for processing(More Details button)

@@ -16,8 +16,9 @@ $check->cv_no = $_POST['cv_no'];
 $check->bank = $_POST['bank'];
 $check->check_no = $_POST['check_no'];
 $check->check_date = $check_date;
-$check->amount = $_POST['amount'];
-
+$check->amount = str_replace(',', '', $_POST['amount']);
+$check->tax = $_POST['tax'];
+$check->cv_amount = str_replace(',', '', $_POST['amount']);
 
 $save = $check->add_details();
 

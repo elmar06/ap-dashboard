@@ -11,7 +11,7 @@
   <title>AP Dashboard</title>
   <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
+  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Process PO/JO(Back Office)</li>
+              <li class="breadcrumb-item active" aria-current="page">For Signature (Back Office)</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -47,17 +47,18 @@
             <div class="row mb-3">
               <div class="col-lg-12">
                 <div class="card mb-4">
-                  <div class="table-responsive p-3">
-                    <table class="table align-items-center table-flush table-hover" id="process-table">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover processTable">
                       <thead class="thead-light">
                         <tr>
                           <th style="max-width: 1%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th><center>Status</center></th>
+                          <th>SI No</th>
                           <th>CV No</th>
                           <th>Check No</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
                           <th>Payee</th>
-                          <th><center>Status</center></th>
                         </tr>
                       </thead>
                       <tbody id="process-body">
@@ -75,7 +76,7 @@
                             $comp_id =  $value; 
                             //display all the data by access
                             $po->company = $comp_id;
-                            $view = $po->get_all_for_signature_bo($comp_id);
+                            $view = $po->get_all_for_signature_bo();
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
                               //get the COMPANY name if exist
@@ -103,11 +104,6 @@
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                                <td>'.$row['cv_no'].'</td>
-                                <td>'.$row['check_no'].'</td>
-                                <td>'.$comp_name.'</td>
-                                <td>'.$row['po_num'].'</td>
-                                <td>'.$sup_name.'</td>
                                 <td style="width: 180px"><center>
                                 <select class="form-control-sm action" style="width:120px">
                                   <option value="0" selected disabled>Mark Status</option>';
@@ -141,6 +137,12 @@
                                   <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
                                   <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
                                 </td>
+                                <td>'.$row['si_num'].'</td>
+                                <td>'.$row['cv_no'].'</td>
+                                <td>'.$row['check_no'].'</td>
+                                <td>'.$comp_name.'</td>
+                                <td>'.$row['po_num'].'</td>
+                                <td>'.$sup_name.'</td>
                               </tr>';
                             }  
                           }
@@ -196,7 +198,7 @@
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
 <script src="../../assets/vendor/toastr/toastr.js"></script>
-<?php include_once 'js/processPO-js.php';?>
+<?php include_once 'js/forSignature-js.php';?>
 
 </body>
 </html>

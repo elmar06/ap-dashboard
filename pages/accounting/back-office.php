@@ -307,7 +307,7 @@
                     </select>
                 </div>
                 <div class="col-lg-6">
-                <label><i style="color: red">*</i> Billing/Invoice Date:</label>
+                <label><i style="color: red">*</i> Check Date:</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
@@ -333,11 +333,11 @@
                         {
                           $comp_id =  $value; 
                           //display all the data by access
-                          $po->id = $comp_id;
-                          $view = $po->get_all_process_bo();
+                          $po->company = $comp_id;
+                          $view = $po->get_all_for_process();
                           while($row = $view->fetch(PDO::FETCH_ASSOC))
                           {                            
-                            echo '<option value="'.$row['po-id'].'">'.$row['po_num'].' - '.$row['supplier_name'].'</option>';
+                            echo '<option value="'.$row['po-id'].'">'.$row['po_num'].'</option>';
                           }  
                         }
                       }
@@ -346,9 +346,19 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col-lg-6">
                 <label><i style="color: red">*</i> Total Amount:</label>
                 <input id="multi-Amount" class="form-control mb-3" type="text" placeholder="Total Amount" disabled>
+              </div>
+              <div class="col-lg-6">
+                <label><i style="color: red">*</i> Withholding Tax:</label>
+                <input id="multi-Tax" class="form-control mb-3" type="text" placeholder="Amount">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label><i style="color: red">*</i> CV Amount:</label>
+                <input id="multi-cvAmount" class="form-control mb-3" type="text" placeholder="CV Amount">
               </div>
               <div class="col-lg-12">
                 <div id="success" class="alert alert-success" role="alert" style="display: none"></div>

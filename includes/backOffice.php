@@ -14,6 +14,7 @@ include '../../objects/clsProject.php';
 include '../../objects/clsAccess.php';
 include '../../objects/clsBank.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -26,6 +27,7 @@ $project = new Project($db);
 $access = new Access($db);
 $bank = new Banks($db);
 $user = new Users($db);
+$check_details = new CheckDetails($db);
 
 $user_id = $_SESSION['id'];
 //get the updated logcount
@@ -52,8 +54,14 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
-    <a class="nav-link" href="process_po.php">
+    <a class="nav-link" href="for_signature.php">
       <i class="fas fa-fw fa-file-signature"></i>
+      <span>For Signature</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="process_po_bo.php">
+      <i class="fas fa-fw fa-file-invoice-dollar"></i>
       <span>Process Request</span>
     </a>
   </li>

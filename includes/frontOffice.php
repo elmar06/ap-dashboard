@@ -13,6 +13,7 @@ include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
 include '../../objects/clsAccess.php';
+include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -24,6 +25,7 @@ $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
 $access = new Access($db);
+$check_details = new CheckDetails($db);
 
 //get the updated logcount
 $user_id = $_SESSION['id'];
@@ -49,6 +51,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <span>Dashboard</span></a>
   </li>
   <hr class="sidebar-divider">
+  <li class="nav-item">
+    <a class="nav-link" href="process_po_fo.php">
+      <i class="fas fa-fw fa-file-invoice-dollar"></i>
+      <span>Process Request</span>
+    </a>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="for_releasing.php">
       <i class="fas fa-fw fa-check-circle"></i>
