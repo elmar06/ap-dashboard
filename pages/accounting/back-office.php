@@ -105,7 +105,7 @@
                         }
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
-                        <a class="text-success mr-2" href="process_po.php"><i class="fas fa-arrow-up"></i> More Details</a>
+                        <a class="text-success mr-2" href="for_signature.php"><i class="fas fa-arrow-up"></i> More Details</a>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -337,7 +337,7 @@
                           $view = $po->get_all_for_process();
                           while($row = $view->fetch(PDO::FETCH_ASSOC))
                           {                            
-                            echo '<option value="'.$row['po-id'].'">'.$row['po_num'].'</option>';
+                            echo '<option value="'.$row['po-id'].'">'.$row['si_num'].'</option>';
                           }  
                         }
                       }

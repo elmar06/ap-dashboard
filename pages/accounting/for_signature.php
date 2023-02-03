@@ -79,6 +79,20 @@
                             $view = $po->get_all_for_signature_bo();
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
+                              //get multiple si num
+                              $si_num = '';
+                              $poID = $row['po_id'];
+                              $po_id = explode(',', $poID);
+                              foreach($po_id as $value)
+                              {
+                                $po->id = $value;
+                                $get_si = $po->get_multi_si_num();
+                                while($row2 = $get_si->fetch(PDO:: FETCH_ASSOC))
+                                { 
+                                  $si_num = $si_num.','.$row2['si_num'];
+                                }
+                                $si_num = ltrim($si_num, ',');
+                              }
                               //get the COMPANY name if exist
                               $comp_name = '-';
                               $company->id = $row['comp-id'];
@@ -137,7 +151,7 @@
                                   <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
                                   <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
                                 </td>
-                                <td>'.$row['si_num'].'</td>
+                                <td>'.$si_num.'</td>
                                 <td>'.$row['cv_no'].'</td>
                                 <td>'.$row['check_no'].'</td>
                                 <td>'.$comp_name.'</td>
