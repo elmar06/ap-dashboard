@@ -1266,7 +1266,17 @@ class PO_Details
 
     public function get_disbursement_by_date($date_from, $date_to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, check_details.cv_no, check_details.check_no, check_details.amount, po_other_details.date_release FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND (po_details.date_submit BETWEEN ? AND ?) AND po_details.status = 11';
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, check_details.cv_no, check_details.check_no, check_details.amount, po_other_details.date_release FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($date_from, $date_to));
+		return $sel;
+    }
+
+    public function get_percentage_by_date($date_from, $date_to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.amount, po_other_details.date_received_fo, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.po_date, po_details.due_date, po_details.supplier, po_details.memo_no, check_details.tax, check_details.cv_amount, po_other_details.date_from_ea, po_other_details.date_release, po_details.or_num, bank.name, bank.account FROM po_details, po_other_details, check_details, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND check_details.bank = bank.id AND (check_details.check_date BETWEEN ? AND ?) AND po_details.company = 5';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

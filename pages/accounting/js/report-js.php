@@ -39,6 +39,8 @@ $('#for-releasing').on('click', function(e){
 
   $('#check').show();
   $('#disbursement').hide();
+  $('#percentage-report').hide();
+
 })
 //DISBURSEMENT REPORT
 $('#report').on('click', function(e){
@@ -46,6 +48,16 @@ $('#report').on('click', function(e){
 
   $('#disbursement').show();
   $('#check').hide();
+  $('#percentage-report').hide();
+
+})
+//PERCENTAGE REPORT
+$('#percentage').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').show();
 })
 
 //generate report function
@@ -64,13 +76,22 @@ function for_releasing_report()
   showToast();
   window.location = '../../controls/generate_report_fo.php?' + myData;
 }
-
 //generate report function
 function disbursement_report()
 {
   var date_from = $('#dis-from').val();
   var date_to = $('#dis-to').val();
   var action = 2;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+//generate report function
+function percentage_report()
+{
+  var date_from = $('#percent-from').val();
+  var date_to = $('#percent-to').val();
+  var action = 3;
   var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
   showToast();
   window.location = '../../controls/generate_report_fo.php?' + myData;
