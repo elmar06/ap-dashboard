@@ -1,6 +1,8 @@
 <script>
 $(document).ready(function () {
-    $('#releasing-table').DataTable();
+    $('#releasing-table').DataTable({
+      scrollX: true
+    });
 })
 
 //toast

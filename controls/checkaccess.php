@@ -28,6 +28,10 @@ elseif($_SESSION['access'] == 7)
 {
     header('Location: ../pages/manager/dashboard.php');
 }
+elseif($_SESSION['access'] == 9)
+{
+    header('Location: ../pages/complaince/dashboard.php');
+}
 else
 {
     header('Location: ../pages/accounting/access.php');

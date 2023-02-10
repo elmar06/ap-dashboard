@@ -1,8 +1,16 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  $('#req-table').DataTable();// ID From dataTable with Hover
+  $('.DataTable').DataTable({
+    scrollX: true
+  });
+  //toggled sidebar
   $(".sidebar").toggleClass("toggled");
+  //auto adjust the datatable header  
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+   $($.fn.dataTable.tables(true)).DataTable()
+      .columns.adjust();
+  });
 })
 //toast
 function showToast(){
@@ -12,6 +20,48 @@ function showToast(){
 }
 function hideLoading(){
   $.Toast.hideToast();
+}
+
+//mark as received by ea
+$('.btnReceived').on('click', function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  var action = 1;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_received_ea.php',
+    data: {id:id},
+    success: function(html)
+    {
+      toastr.success('Request successfully mark as Received.');
+      //get the latest list
+      $('#page-body').fadeOut();
+      $('#page-body').fadeIn();
+      $('#page-body').html(html);
+    }
+  })
+})
+//MARK RECEIVED MULTIPLE
+function mark_multi_received_ea()
+{
+  var id = [];
+  $('input:checkbox[name=checklist]:checked').each(function(){
+    id.push($(this).val())
+  })
+
+  $.each(id, function(key, value){
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/mark_received_ea.php',
+      data: {id:value},
+      success: function(html)
+      {
+        toastr.success('Request successfully mark as Received.');
+        $('#page-body').html(html);
+      }
+    })
+  })
 }
 //mark signed
 function mark_signed()
@@ -99,6 +149,26 @@ function mark_returned()
 }
 
 //get all req for signature
+function get_for_receiving()
+{
+  var status = 5;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_stat_list_ea.php',
+    data: {status: status},
+    beforeSend: function(){
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#receiving-body').fadeOut();
+      $('#receiving-body').fadeIn();
+      $('#receiving-body').html(html);
+    }
+  })
+} 
+
+//get all req for signature
 function get_for_signature()
 {
   var status = 6;
@@ -111,9 +181,10 @@ function get_for_signature()
     },
     success: function(html)
     {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
+      alert(html);
+      $('#received-body').fadeOut();
+      $('#received-body').fadeIn();
+      $('#received-body').html(html);
     }
   })
 }
@@ -131,25 +202,9 @@ function get_signed()
     },
     success: function(html)
     {
-      $('#req-body').html(html);
-    }
-  })
-}
-
-//get all returned request to AP
-function get_return_to_ap()
-{
-  var status = 8;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_stat_list_ea.php',
-    data: {status: status},
-    beforeSend: function(){
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').html(html);
+      $('#received-body').fadeOut();
+      $('#received-body').fadeIn();
+      $('#received-body').html(html);
     }
   })
 }
@@ -166,13 +221,13 @@ $('.checkboxall').change(function(){
       var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value});
       if(selected.length > 1)
       { 
-        $('#btnSigned').attr('disabled', false);
-        $('#btnReturn').attr('disabled', false);
+        $('#btnMultiReceived').fadeIn();
+      $('.btnReceived').attr('disabled', true);
       }
       else
       {
-        $('#btnSigned').attr('disabled', false);
-        $('#btnReturn').attr('disabled', false);
+        $('#btnMultiReceived').fadeOut();
+        $('.btnReceived').attr('disabled', false);
       }
     })
   }
@@ -181,8 +236,8 @@ $('.checkboxall').change(function(){
     $('tbody tr td input[type="checkbox"]').each(function(){
       $(this).prop('checked', false);
 
-      $('#btnSigned').attr('disabled', false);
-      $('#btnReturn').attr('disabled', false);
+      $('#btnMultiReceived').fadeOut();
+      $('.btnReceived').attr('disabled', false);
     })
   }
 })
@@ -195,13 +250,13 @@ $('.checklist').change(function(){
 
   if(selected.length > 1)
   {
-    $('#btnSigned').attr('disabled', false);
-    $('#btnReturn').attr('disabled', false);
+    $('#btnMultiReceived').fadeIn();
+    $('.btnReceived').attr('disabled', true);
   }
   else
   {
-    $('#btnSigned').attr('disabled', false);
-    $('#btnReturn').attr('disabled', false);
+    $('#btnMultiReceived').fadeOut();
+    $('.btnReceived').attr('disabled', false);
   }
 })
 
