@@ -181,7 +181,6 @@ function get_for_signature()
     },
     success: function(html)
     {
-      alert(html);
       $('#received-body').fadeOut();
       $('#received-body').fadeIn();
       $('#received-body').html(html);

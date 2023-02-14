@@ -42,11 +42,14 @@
                         <th><center>Status</center></th>
                         <th>Project</th>
                         <th>Company</th>
+                        <th>SI No</th>
                         <th>PO/JO No</th>
                         <th>Supplier</th>
                         <th>Billing Date</th>
                         <th>Check Date</th>
                         <th>Check No.</th>
+                        <th>CV Amount.</th>
+                        <th>Tax</th>
                         <th>Sent to EA</th>
                       </tr>
                     </thead>
@@ -119,12 +122,16 @@
                           //get the PO check details
                           $check_date = '-';
                           $check_no = '-';
+                          $cv_amount = '-';
+                          $tax = '-';
                           $check_details->po_id = $row['po-id'];
                           $get = $check_details->get_details_byID();
                           while($row1 = $get->fetch(PDO::FETCH_ASSOC))
                           {
                             $check_date = date('m/d/y', strtotime($row1['check_date']));
                             $check_no = $row1['check_no'];
+                            $cv_amount = $row1['si_num'];
+                            $tax = $row1['tax'];
                           }
                           //get the date sent to EA
                           $po->po_id = $row['po-id'];
@@ -143,11 +150,14 @@
                             <td><center>'.$status.'</center></td>
                             <td align="center">'.$proj_name.'</td>
                             <td>'.$comp_name.'</td>
+                            <td>'.$row['si_num'].'</td>
                             <td>'.$row['po_num'].'</td>
                             <td>'.$sup_name.'</td>
                             <td align="center">'.$bill_date.'</td>
                             <td align="center">'.$check_date.'</td>
                             <td align="center">'.$check_no.'</td>
+                            <td align="center">'.$cv_amount.'</td>
+                            <td align="center">'.$tax.'</td>
                             <td align="center">'.$date_ea.'</td>                            
                           </tr>';
                         }

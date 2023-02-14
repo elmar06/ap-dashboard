@@ -215,66 +215,65 @@ function SubmitPO()
   }
 
   var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no;
-
+  
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
-    //save the details
+    //check if PO/JO number is already exist
     $.ajax({
       type: 'POST',
-      url: '../../controls/add_po.php',
-      data: myData,
-      beforeSend: function()
-      {
-        showToast();
-      },
+      url: '../../controls/check_po_num.php',
+      data: {si_num: si_num},
       success: function(response)
       {
         if(response > 0)
         {
-          //get the updated list
-          $.ajax({
-            url: '../../controls/view_submit_po.php',
-            success: function(html)
-            {
-              $('#page-body').fadeOut();
-              $('#page-body').fadeIn();
-              $('#page-body').html(html);
-              $('#PO-Modal').modal('hide');
-            }
-          })
-        }
-        else
-        {
-          $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. Please contact the Administrator at local 124.</center>');
+          //display error if number is already exist
+          $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. SI number already exist in database.</center>');
           $('#add-warning').show();
           setTimeout(function(){
             $('#add-warning').fadeOut();
           }, 5000)
         }
+        else
+        {
+          //save the details
+          $.ajax({
+            type: 'POST',
+            url: '../../controls/add_po.php',
+            data: myData,
+            beforeSend: function()
+            {
+              showToast();
+            },
+            success: function(response)
+            {
+              if(response > 0)
+              {
+                //get the updated list
+                $.ajax({
+                  url: '../../controls/view_submit_po.php',
+                  success: function(html)
+                  {
+                    $('#page-body').fadeOut();
+                    $('#page-body').fadeIn();
+                    $('#page-body').html(html);
+                    clearInp();
+                  }
+                })
+              }
+              else
+              {
+                $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. Please contact the Administrator at local 124.</center>');
+                $('#add-warning').show();
+                setTimeout(function(){
+                  $('#add-warning').fadeOut();
+                }, 5000)
+              }
+            }
+          })
+        }
       }
-    })
-    //check if PO/JO number is already exist
-    // $.ajax({
-    //   type: 'POST',
-    //   url: '../../controls/check_po_num.php',
-    //   data: {po_num: po_num},
-    //   success: function(response)
-    //   {
-    //     if(response > 0)
-    //     {
-    //       //display error if number is already exist
-    //       $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. PO/JO number already exist in database.</center>');
-    //       $('#add-warning').show();
-    //       setTimeout(function(){
-    //         $('#add-warning').fadeOut();
-    //       }, 5000)
-    //     }
-    //     else
-    //     {
-          
-    //     }
-    //   }
-    // })
+    })    
   }
   else
   {
@@ -285,6 +284,16 @@ function SubmitPO()
     }, 3000)
   }
 }
+//clear all input fields
+function clearInp() {
+  //clear all input fields
+  var elements = document.getElementsByTagName("input");
+  for(var i = 0; i < elements.length; i++){
+    elements[i].value = "";
+  }
+  //clear select tag
+  $('select').select2().select2('val', $('.select2 option:eq(0)').val());
+} 
 
 function upd_po_details()
 {

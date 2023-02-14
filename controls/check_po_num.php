@@ -7,11 +7,12 @@ $db = $database->connect();
 
 $po = new PO_Details($db);
 
-$po->po_num = $_POST['po_num'];
+$po->si_num = $_POST['si_num'];
 
 $check = $po->check_po_num();
 while($row = $check->fetch(PDO::FETCH_ASSOC))
 {
+    extract($row);
     if($row > 0)
     {
         echo 1;
