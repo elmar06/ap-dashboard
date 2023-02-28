@@ -122,7 +122,7 @@
                                 <select class="form-control-sm action" style="width:120px">
                                   <option value="0" selected disabled>Mark Status</option>';
                                   if($row['po-stat'] == 5){
-                                    echo '<option value="1">Sent to EA</option>
+                                    echo '<option value="1" selected>Sent to EA</option>
                                           <option value="2">Returned from EA</option>
                                           <option value="3">Cancel Check</option>';
                                   }elseif($row['po-stat'] == 6){

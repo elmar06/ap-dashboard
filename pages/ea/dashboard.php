@@ -165,6 +165,7 @@
                             <tr>
                               <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                               <th><center>Action</center></th>
+                              <th>Date Forwarded</th>
                               <th>CV No</th>
                               <th>Check #</th>
                               <th>CV Amount</th>
@@ -199,12 +200,14 @@
                                   $sup_name = $rowSupp['supplier_name'];
                                 }
                               }
+                              $forward_date = date('m/d/Y', strtotime($row['date_to_ea']));
                               //initialize action
                               $action = '<button class="btn-sm btn-success mb-1 btnReceived" type="button" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</button>';                              
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                                 <td style="width: 95px"><center>'.$action.'</center></td>
+                                <td><center>'.$forward_date.'</center></td>
                                 <td>'.$row['cv_no'].'</td>
                                 <td>'.$row['check_no'].'</td>
                                 <td>'.number_format(floatval($row['cv_amount']),2).'</td>
@@ -283,7 +286,7 @@
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                                <td style="width: 95px"><center>'.$status.'</center></td>
+                                <td style="width: 95px"><center>'.$status.'</center></td>                                
                                 <td>'.$row['cv_no'].'</td>
                                 <td>'.$row['check_no'].'</td>
                                 <td>'.number_format(floatval($row['cv_amount']),2).'</td>

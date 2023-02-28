@@ -15,6 +15,7 @@
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -564,7 +565,7 @@
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Company:</label>
             <select id="company" class="form-control mb-3 select2" style="width: 100%;">
-              <option selected>Select a Company</option>
+              <option value="0" selected>Select a Company</option>
               <?php
                 $get = $company->get_active_company();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -577,7 +578,7 @@
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Supplier:</label>
             <select id="supplier" class="form-control mb-3 select2"  style="width: 100%;">
-              <option selected>Select a Supplier</option>
+              <option value="0" selected>Select a Supplier</option>
               <?php
                 $get = $supplier->get_active_supplier();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -592,7 +593,7 @@
           <div class="col-lg-6"  style="margin-top: 16px">
             <label> Project:</label>
             <select id="project" class="form-control mb-3 select2" style="width: 100%;">
-              <option selected>Select a Project</option>
+              <option selected value="0">Select a Project</option>
               <?php
                 $get = $project->get_active_project();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -605,7 +606,7 @@
           <div class="col-lg-6"  style="margin-top: 16px">
             <label>Department:</label>
             <select id="department" class="form-control mb-3 select2"  style="width: 100%;">
-              <option selected>Select a Department</option>
+              <option value="0" selected>Select a Department</option>
               <?php
                 $get = $dept->get_active_department();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -774,6 +775,7 @@
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
 <?php include 'js/dash-js.php';?>
 
 </body>

@@ -225,15 +225,10 @@ function SubmitPO()
       data: myData,
       success: function(response)
       {
-        alert(response);
         if(response > 0)
         {
           //display error if number is already exist
-          $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. SI number already exist in database.</center>');
-          $('#add-warning').show();
-          setTimeout(function(){
-            $('#add-warning').fadeOut();
-          }, 5000)
+          toastr.error('Submitting of Request Failed. SI number already exist in database.');
         }
         else
         {
@@ -264,11 +259,7 @@ function SubmitPO()
               }
               else
               {
-                $('#add-warning').html('<center><i class="fas fa-ban"></i> Submitting of Request Failed. Please contact the Administrator at local 124.</center>');
-                $('#add-warning').show();
-                setTimeout(function(){
-                  $('#add-warning').fadeOut();
-                }, 5000)
+                toastr.error('Submitting of Request Failed. Please contact the Administrator at local 124.');
               }
             }
           })
@@ -278,11 +269,7 @@ function SubmitPO()
   }
   else
   {
-    $('#add-warning').html('<center><i class="fas fa-ban"></i> Submit Failed. Please input all the data needed.</center>');
-    $('#add-warning').show();
-    setTimeout(function(){
-      $('#add-warning').hide();
-    }, 3000)
+    toastr.error('Submit Failed. Please input all the data needed.');
   }
 }
 //clear all input fields

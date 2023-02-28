@@ -65,16 +65,11 @@ if($upd)
         echo '
         <tr>
           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-          <td>'.$row['cv_no'].'</td>
-          <td>'.$row['check_no'].'</td>
-          <td>'.$comp_name.'</td>
-          <td>'.$row['po_num'].'</td>
-          <td>'.$sup_name.'</td>
           <td style="width: 180px"><center>
           <select class="form-control-sm action" style="width:120px">
             <option value="0" selected disabled>Mark Status</option>';
             if($row['po-stat'] == 5){
-              echo '<option value="1">Sent to EA</option>
+              echo '<option value="1" selected>Sent to EA</option>
                     <option value="2">Returned from EA</option>
                     <option value="13">Cancel Check</option>';
             }elseif($row['po-stat'] == 6){
@@ -102,6 +97,11 @@ if($upd)
             <button class="btn-sm btn-success apply" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
             <button class="btn-sm btn-danger cancel" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button></center>
           </td>
+          <td>'.$row['cv_no'].'</td>
+          <td>'.$row['check_no'].'</td>
+          <td>'.$comp_name.'</td>
+          <td>'.$row['po_num'].'</td>
+          <td>'.$sup_name.'</td>
         </tr>';
       }  
     }
