@@ -6,6 +6,7 @@ include '../objects/clsCompany.php';
 include '../objects/clsProject.php';
 include '../objects/clsDepartment.php';
 include '../objects/clsBank.php';
+include '../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -16,6 +17,7 @@ $supplier = new Supplier($db);
 $proj = new Project($db);
 $dept = new Department($db);
 $bank = new Banks($db);
+$check = new CheckDetails($db);
 
 $po->id = $_POST['id'];
 $get = $po->get_po_by_id();
@@ -34,17 +36,36 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   $datediff = $date2 - $date1;
   $days_left = floor($datediff/(60*60*24))." day/s";
 
+  //get the check details of the request if exist
+  $cv_num = '';
+  $check_no = '';
+  $vbank = '';
+  $check_date = '';
+  $wtax = '';
+  $vamount = '';
+  $check->po_id = $row['po-id'];
+  $get_check = $check->get_details_byID();
+  while($row6 = $get_check->fetch(PDO:: FETCH_ASSOC))
+  {
+    $cv_num = $row6['cv_no'];
+    $check_no = $row6['check_no'];
+    $vbank = $row6['bank'];
+    $check_date = date('F d, Y', strtotime($row6['check_date']));
+    $wtax = $row6['tax'];
+    $vamount = $row6['cv_amount'];
+  }
+
   echo '
         <div id="check-details">
             <small><b><i>Check Information</i></b></small>
             <div class="row">
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
-                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number">
+                    <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" value="'.$cv_num.'">
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
-                    <input id="check-no" class="form-control mb-3" type="text" placeholder="Enter Check Number">
+                    <input id="check-no" class="form-control mb-3" type="text" placeholder="Enter Check Number" value="'.$check_no.'">
                 </div>
             </div>
             <div class="row">
@@ -55,7 +76,11 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
-                        echo '<option value="'.$row5['id'].'"><b>'.$row5['account'].'</option>';
+                        if($row5['id'] == $vbank){
+                          echo '<option value="'.$row5['id'].'" selected><b>'.$row5['account'].'</option>';
+                        }else{  
+                          echo '<option value="'.$row5['id'].'"><b>'.$row5['account'].'</option>';
+                        }
                       }
                     echo '</select>
                 </div>
@@ -63,20 +88,20 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 <label><i style="color: red">*</i> Check Date:</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                      <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <input id="checkdate" class="form-control datepicker" placeholder="Enter Check Date">
+                    <input id="checkdate" class="form-control datepicker" placeholder="Enter Check Date" value="'.$check_date.'">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-lg-6">
                   <label><i style="color: red">*</i> Withholding Tax:</label>
-                  <input id="cv-tax" class="form-control mb-3" type="text" placeholder="Enter Withholding Tax Amount">
+                  <input id="cv-tax" class="form-control mb-3" type="text" placeholder="Enter Withholding Tax Amount" value="'.$wtax.'">
               </div>
               <div class="col-lg-6">
                   <label><i style="color: red">*</i> Voucher Amount:</label>
-                  <input id="cv-amount" class="form-control mb-3" type="text" placeholder="Enter Voucher Amount">
+                  <input id="cv-amount" class="form-control mb-3" type="text" placeholder="Enter Voucher Amount" value="'.$vamount.'">
               </div>
             </div>
         </div>

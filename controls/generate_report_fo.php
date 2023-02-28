@@ -55,7 +55,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -88,7 +88,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     } 
@@ -106,7 +106,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -139,7 +139,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     } 
@@ -158,7 +158,7 @@ if($action == 1)//CHECK FOR RELEASE
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header2)) . "\n";
                 //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -191,7 +191,7 @@ if($action == 1)//CHECK FOR RELEASE
                         $supp_name = $row3['supplier_name'];
                     }
                     //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                     array_walk($lineData, 'filterData'); 
                     $excelData .= implode("\t", array_values($lineData)) . "\n";                
                 }
@@ -210,7 +210,7 @@ if($action == 1)//CHECK FOR RELEASE
             //Display column names as first row 
             $excelData = implode("\t", array_values($header2)) . "\n";
             //3rd column
-            $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
             //Display column names as first row 
             $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -244,7 +244,7 @@ if($action == 1)//CHECK FOR RELEASE
                     $supp_name = $row3['supplier_name'];
                 }
                 //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                 array_walk($lineData, 'filterData'); 
                 $excelData .= implode("\t", array_values($lineData)) . "\n";                
             }
@@ -273,7 +273,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -306,7 +306,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     } 
@@ -324,7 +324,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -357,7 +357,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     } 
@@ -375,7 +375,7 @@ if($action == 1)//CHECK FOR RELEASE
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header2)) . "\n";
                 //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -408,7 +408,7 @@ if($action == 1)//CHECK FOR RELEASE
                         $supp_name = $row3['supplier_name'];
                     }
                     //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                     array_walk($lineData, 'filterData'); 
                     $excelData .= implode("\t", array_values($lineData)) . "\n";                
                 }
@@ -427,7 +427,7 @@ if($action == 1)//CHECK FOR RELEASE
             //Display column names as first row 
             $excelData = implode("\t", array_values($header2)) . "\n";
             //3rd column
-            $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
             //Display column names as first row 
             $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -461,7 +461,7 @@ if($action == 1)//CHECK FOR RELEASE
                     $supp_name = $row3['supplier_name'];
                 }
                 //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                 array_walk($lineData, 'filterData'); 
                 $excelData .= implode("\t", array_values($lineData)) . "\n";                
             }
@@ -488,7 +488,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -521,7 +521,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     }
@@ -539,7 +539,7 @@ if($action == 1)//CHECK FOR RELEASE
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header2)) . "\n";
                     //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                     //Display column names as first row 
                     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -572,7 +572,7 @@ if($action == 1)//CHECK FOR RELEASE
                             $supp_name = $row3['supplier_name'];
                         }
                         //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                         array_walk($lineData, 'filterData'); 
                         $excelData .= implode("\t", array_values($lineData)) . "\n";                
                     }
@@ -591,7 +591,7 @@ if($action == 1)//CHECK FOR RELEASE
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header2)) . "\n";
                 //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
                 //Display column names as first row 
                 $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -624,7 +624,7 @@ if($action == 1)//CHECK FOR RELEASE
                         $supp_name = $row3['supplier_name'];
                     }
                     //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                     array_walk($lineData, 'filterData'); 
                     $excelData .= implode("\t", array_values($lineData)) . "\n";                
                 }
@@ -642,7 +642,7 @@ if($action == 1)//CHECK FOR RELEASE
             $header2 = array('LIST OF CHECKS FOR RELEASE');   
             //Display column names as first row 
             $excelData = implode("\t", array_values($header2)) . "\n";
-            $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
             //Display column names as first row 
             $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -676,7 +676,7 @@ if($action == 1)//CHECK FOR RELEASE
                     $supp_name = $row3['supplier_name'];
                 }
                 //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
                 array_walk($lineData, 'filterData'); 
                 $excelData .= implode("\t", array_values($lineData)) . "\n";                
             }
@@ -695,7 +695,7 @@ if($action == 1)//CHECK FOR RELEASE
         //Display column names as first row 
         $excelData = implode("\t", array_values($header2)) . "\n";
         //3rd column
-        $header3 = array('COMPANY', 'PROJECT', 'VENDOR', 'CHECK NUMBER', 'AMOUNT');   
+        $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
         //Display column names as first row 
         $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -728,7 +728,7 @@ if($action == 1)//CHECK FOR RELEASE
                 $supp_name = $row3['supplier_name'];
             }
             //initialize data for excel
-            $lineData = array($comp_name, $proj_name, $supp_name, $row['check_no'], $row['amount']);
+            $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n";                
         }

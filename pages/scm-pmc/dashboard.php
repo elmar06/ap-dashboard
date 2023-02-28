@@ -564,7 +564,7 @@
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Company:</label>
             <select id="company" class="form-control mb-3 select2" style="width: 100%;">
-              <option selected disabled>Select a Company</option>
+              <option selected>Select a Company</option>
               <?php
                 $get = $company->get_active_company();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -577,7 +577,7 @@
           <div class="col-lg-6">
             <label><i style="color: red">*</i> Supplier:</label>
             <select id="supplier" class="form-control mb-3 select2"  style="width: 100%;">
-              <option selected disabled>Select a Supplier</option>
+              <option selected>Select a Supplier</option>
               <?php
                 $get = $supplier->get_active_supplier();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -592,7 +592,7 @@
           <div class="col-lg-6"  style="margin-top: 16px">
             <label> Project:</label>
             <select id="project" class="form-control mb-3 select2" style="width: 100%;">
-              <option selected disabled>Select a Project</option>
+              <option selected>Select a Project</option>
               <?php
                 $get = $project->get_active_project();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -605,7 +605,7 @@
           <div class="col-lg-6"  style="margin-top: 16px">
             <label>Department:</label>
             <select id="department" class="form-control mb-3 select2"  style="width: 100%;">
-              <option selected disabled>Select a Department</option>
+              <option selected>Select a Department</option>
               <?php
                 $get = $dept->get_active_department();
                 while($row = $get->fetch(PDO::FETCH_ASSOC))

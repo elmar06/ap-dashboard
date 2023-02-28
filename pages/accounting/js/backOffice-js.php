@@ -57,6 +57,32 @@ $('.edit').click(function(e){
     }
   })
 })
+
+//process request(create cv)
+$('.upd-cv').click(function(e){
+  e.preventDefault();
+
+  var id = $(this).attr('value');
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_process_byID.php',
+    data: {id:id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#editPOmodalDetails').modal('show');
+      $('#update-body').html(html);
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
+})
 //MARK AS RETURN TO FRONT OFFICE EVENT HANDLER
 $('.return').on('click', function(e){
   e.preventDefault();
@@ -119,7 +145,6 @@ $(document).on('dblclick', '#mainTable tr', function(){
     }
   })
 })
-
 //mark as process by BackOffice
 function submitForSignature()
 {
@@ -131,7 +156,8 @@ function submitForSignature()
   var amount = $('#upd-amount').val();
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount;
+  var action = 1;
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
 
   if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
@@ -147,8 +173,7 @@ function submitForSignature()
       {
         if(response > 0)
         {
-          $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
-              $('#upd-success').show();
+          toastr.success('Request successfully submitted and mark as for signature.');
           setTimeout(function(){
             location.reload();
           }, 1000)
@@ -168,6 +193,106 @@ function submitForSignature()
           //     $('#page-body').html(html);
           //   }
           // })
+        }
+        else
+        {
+          $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
+          $('#upd-warning').show();
+          setTimeout(function(){
+            $('#upd-warning').fadeOut();
+          }, 3000)
+        }
+      }
+    })
+  }else{
+    $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please fill out all the check details needed.</center>');
+    $('#upd-warning').show();
+    setTimeout(function(){
+      $('#upd-warning').fadeOut();
+    }, 3000)
+  }
+}
+//mark request FORWARDED TO CEBU
+function forwardToCebu()
+{
+  var id = $('#upd-id').val();
+  var cv_no = $('#cv-no').val();
+  var bank = $('#bank').val();
+  var check_no = $('#check-no').val();
+  var checkdate = $('#checkdate').val();
+  var amount = $('#upd-amount').val();
+  var tax = $('#cv-tax').val();
+  var cv_amount = $('#cv-amount').val();
+  var action = 2;
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+
+  if(cv_no != '' && bank != null && checkdate != '' && tax != '' && cv_amount != '')
+  {
+    $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_for_signature.php',
+    data: myData,
+      beforeSend: function()
+      {
+        showToast();
+      },
+      success: function(response)
+      {
+        if(response > 0)
+        {
+          toastr.success('Request successfully forwarded to Cebu for Printing.');
+          setTimeout(function(){
+            location.reload();
+          }, 1500)
+        }
+        else
+        {
+          toastr.error('Submit Failed. Please contact the system Administrator for assistance at local 124.');
+          setTimeout(function(){
+            $('#upd-warning').fadeOut();
+          }, 3000)
+        }
+      }
+    })
+  }else{
+    toastr.error('Submit Failed. Please fill-out all the data needed to proceed.');
+    setTimeout(function(){
+      $('#upd-warning').fadeOut();
+    }, 3000)
+  }
+}
+//UPDATE & mark as process by BackOffice
+function submitForSignature()
+{
+  var id = $('#upd-id').val();
+  var cv_no = $('#cv-no').val();
+  var bank = $('#bank').val();
+  var check_no = $('#check-no').val();
+  var checkdate = $('#checkdate').val();
+  var amount = $('#upd-amount').val();
+  var tax = $('#cv-tax').val();
+  var cv_amount = $('#cv-amount').val();
+  var action = 3;
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+
+  if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
+  {
+    $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_for_signature.php',
+    data: myData,
+      beforeSend: function()
+      {
+        showToast();
+      },
+      success: function(response)
+      {
+        if(response > 0)
+        {
+          toastr.success('Request successfully submitted and mark as for signature.');
+          setTimeout(function(){
+            location.reload();
+          }, 1500)
         }
         else
         {

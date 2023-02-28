@@ -8,12 +8,14 @@ $db = $database->connect();
 $po = new PO_Details($db);
 
 $po->si_num = $_POST['si_num'];
+$po->company = $_POST['company'];
+$po->po_num = $_POST['po_num'];
+$po->supplier = $_POST['supplier'];
 
 $check = $po->check_po_num();
 while($row = $check->fetch(PDO::FETCH_ASSOC))
 {
-    extract($row);
-    if($row > 0)
+    if($row['check-count'] > 0)
     {
         echo 1;
     }

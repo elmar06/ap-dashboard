@@ -14,7 +14,6 @@ include '../../objects/clsProject.php';
 include '../../objects/clsAccess.php';
 include '../../objects/clsBank.php';
 include '../../objects/clsUser.php';
-include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -27,7 +26,6 @@ $project = new Project($db);
 $access = new Access($db);
 $bank = new Banks($db);
 $user = new Users($db);
-$check_details = new CheckDetails($db);
 
 $user_id = $_SESSION['id'];
 //get the updated logcount
@@ -40,7 +38,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
 ?>
 <!-- Sidebar -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="back-office.php">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
     <div class="sidebar-brand-icon">
       <img src="../../assets/img/dashboard-logo.png">
     </div>
@@ -48,37 +46,31 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </a>
   <hr class="sidebar-divider my-0">
   <li class="nav-item">
-    <a class="nav-link" href="back-office.php">
+    <a class="nav-link" href="dashboard.php">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
-    <a class="nav-link" href="for_signature.php">
-      <i class="fas fa-fw fa-file-signature"></i>
-      <span>For Signature</span>
+    <a class="nav-link" href="received.php">
+      <i class="fas fa-fw fa-check-double"></i>
+      <span>Received</span>
     </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="process_po_bo.php">
-      <i class="fas fa-fw fa-file-invoice-dollar"></i>
-      <span>Process Request</span>
+  <!-- <li class="nav-item">
+    <a class="nav-link" href="for_releasing.php">
+      <i class="fas fa-fw fa-money-check"></i>
+      <span>For Releasing</span>
     </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="released_check_bo.php">
+  </li> -->
+  <!-- <li class="nav-item">
+    <a class="nav-link" href="released.php">
       <i class="fas fa-fw fa-check-double"></i>
       <span>Released Check</span>
     </a>
-  </li>
+  </li> -->
   <li class="nav-item">
-    <a class="nav-link" href="cancel.php">
-      <i class="fas fa-fw fa-ban"></i>
-      <span>Cancel Check</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="BO_report.php">
+    <a class="nav-link" href="#">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>
     </a>
@@ -93,53 +85,6 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <i class="fa fa-bars"></i>
       </button>
       <ul class="navbar-nav ml-auto">
-        <!-- <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-bell fa-fw"></i>
-            <span class="badge badge-danger badge-counter">3+</span>
-          </a>
-          <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-            aria-labelledby="alertsDropdown">
-            <h6 class="dropdown-header">
-              Alerts Center
-            </h6>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <div class="mr-3">
-                <div class="icon-circle bg-primary">
-                  <i class="fas fa-file-alt text-white"></i>
-                </div>
-              </div>
-              <div>
-                <div class="small text-gray-500">December 12, 2019</div>
-                <span class="font-weight-bold">A new monthly report is ready to download!</span>
-              </div>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <div class="mr-3">
-                <div class="icon-circle bg-success">
-                  <i class="fas fa-donate text-white"></i>
-                </div>
-              </div>
-              <div>
-                <div class="small text-gray-500">December 7, 2019</div>
-                $290.29 has been deposited into your account!
-              </div>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <div class="mr-3">
-                <div class="icon-circle bg-warning">
-                  <i class="fas fa-exclamation-triangle text-white"></i>
-                </div>
-              </div>
-              <div>
-                <div class="small text-gray-500">December 2, 2019</div>
-                Spending Alert: We've noticed unusually high spending for your account.
-              </div>
-            </a>
-            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-          </div>
-        </li> -->
         <div class="topbar-divider d-none d-sm-block"></div>
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -150,18 +95,10 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
           <input id="user-id" value="<?php echo $user_id; ?>" style="display: none;">
           <input id="logcount" value="<?php echo $logcount; ?>" style="display: none;">
-            <a id="settings" class="dropdown-item" href="#" onclick="getUserDetails()">
+            <a id="settings" class="dropdown-item" href="#"  onclick="getUserDetails()">
               <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
               Settings
             </a>
-            <?php
-              if($_SESSION['access'] == 8){
-                echo '<a class="dropdown-item" href="front-office.php">
-                        <i class="fas fa-exchange-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Switch access to Front Office
-                      </a>';
-              }
-            ?>
             <a class="dropdown-item" href="../../controls/logout.php">
               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
               Logout

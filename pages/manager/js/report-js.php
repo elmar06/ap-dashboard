@@ -39,31 +39,31 @@ function generate_report()
   }
 }
 
-//event handler
-//project
-$('#project').on('change', function(){
-  $('#company').attr('disabled', true);
-  $('#supplier').attr('disabled', true);
-  $('#status').attr('disabled', true);
-})
-//Company
-$('#company').on('change', function(){
-  $('#project').attr('disabled', true);
-  $('#supplier').attr('disabled', true);
-  $('#status').attr('disabled', true);
-})
-//Supplier
-$('#supplier').on('change', function(){
-  $('#company').attr('disabled', true);
-  $('#project').attr('disabled', true);
-  $('#status').attr('disabled', true);
-})
-//Status
-$('#status').on('change', function(){
-  $('#company').attr('disabled', true);
-  $('#supplier').attr('disabled', true);
-  $('#project').attr('disabled', true);
-})
+// //event handler
+// //project
+// $('#project').on('change', function(){
+//   $('#company').attr('disabled', true);
+//   $('#supplier').attr('disabled', true);
+//   $('#status').attr('disabled', true);
+// })
+// //Company
+// $('#company').on('change', function(){
+//   $('#project').attr('disabled', true);
+//   $('#supplier').attr('disabled', true);
+//   $('#status').attr('disabled', true);
+// })
+// //Supplier
+// $('#supplier').on('change', function(){
+//   $('#company').attr('disabled', true);
+//   $('#project').attr('disabled', true);
+//   $('#status').attr('disabled', true);
+// })
+// //Status
+// $('#status').on('change', function(){
+//   $('#company').attr('disabled', true);
+//   $('#supplier').attr('disabled', true);
+//   $('#project').attr('disabled', true);
+// })
 //clear or reset the dropdown box
 $(document).ready(function(){
   $('.remove-data').on('click', function(e){

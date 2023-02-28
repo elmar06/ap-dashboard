@@ -79,20 +79,7 @@ function mark_signed()
         data: {id:value},
         success: function(response)
         {
-          if(response > 0)
-          {
-            //display the new list
-            $.ajax({
-              url: '../../controls/get_list_ea.php',
-              success: function(html)
-              {
-                toastr.success('Request successfully mark as signed.');
-                $('#page-body').html(html);
-              }
-            })
-          }else{
-            toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
-          }
+          result = response;
         },
         error: function(xhr, ajaxOption, thrownError)
         {
@@ -100,6 +87,23 @@ function mark_signed()
         }
       })
     })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Request successfully mark as Returned to AP Team.');
+      //display the new list
+      $.ajax({
+        url: '../../controls/get_list_ea.php',
+        success: function(html)
+        {
+          $('#page-body').fadeOut();
+          $('#page-body').fadeIn();
+          $('#page-body').html(html);
+        }
+      })
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+    }
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   } 
@@ -118,24 +122,11 @@ function mark_returned()
         type: 'POST',
         url: '../../controls/mark_return_to_ap.php',
         data: {id:value},
+        async: false,
+        dataType: 'html',
         success: function(response)
         {
-          if(response > 0)
-          {
-            toastr.success('Request successfully mark as Returned to AP Team.');
-            //display the new list
-            $.ajax({
-              url: '../../controls/get_list_ea.php',
-              success: function(html)
-              {
-                $('#page-body').fadeOut();
-                $('#page-body').fadeIn();
-                $('#page-body').html(html);
-              }
-            })
-          }else{
-            toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
-          }
+          result = response;
         },
         error: function(xhr, ajaxOption, thrownError)
         {
@@ -143,6 +134,23 @@ function mark_returned()
         }
       })
     })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Request successfully mark as Returned to AP Team.');
+      //display the new list
+      $.ajax({
+        url: '../../controls/get_list_ea.php',
+        success: function(html)
+        {
+          $('#page-body').fadeOut();
+          $('#page-body').fadeIn();
+          $('#page-body').html(html);
+        }
+      })
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+    }
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   } 

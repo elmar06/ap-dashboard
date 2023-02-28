@@ -222,9 +222,10 @@ function SubmitPO()
     $.ajax({
       type: 'POST',
       url: '../../controls/check_po_num.php',
-      data: {si_num: si_num},
+      data: myData,
       success: function(response)
       {
+        alert(response);
         if(response > 0)
         {
           //display error if number is already exist

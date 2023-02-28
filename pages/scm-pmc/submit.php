@@ -48,7 +48,7 @@
                         <th>Billing Date</th>
                         <th>Check Date</th>
                         <th>Check No.</th>
-                        <th>CV Amount.</th>
+                        <th>CV Amount</th>
                         <th>Tax</th>
                         <th>Sent to EA</th>
                       </tr>
@@ -130,8 +130,8 @@
                           {
                             $check_date = date('m/d/y', strtotime($row1['check_date']));
                             $check_no = $row1['check_no'];
-                            $cv_amount = $row1['si_num'];
-                            $tax = $row1['tax'];
+                            $cv_amount = number_format($row1['cv_amount'], 2);
+                            $tax = number_format($row1['tax'], 2);
                           }
                           //get the date sent to EA
                           $po->po_id = $row['po-id'];

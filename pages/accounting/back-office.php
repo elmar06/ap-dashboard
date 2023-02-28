@@ -159,13 +159,13 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th><center>Action</center></th>
                           <th>Company</th>
                           <th>PO/JO #</th>
                           <th>SI #</th>
                           <th>Supplier</th>
                           <th>Billing Date</th>
-                          <th>Amount</th>
-                          <th><center>Action</center></th>
+                          <th>Amount</th>                          
                         </tr>
                       </thead>
                       <tbody id="req-body">
@@ -191,8 +191,10 @@
                               if($row['status'] == 3)
                               {
                                 $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
-                              }else{
+                              }else if($row['status'] == 4){
                                 $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
+                              }else{
+                                $action = '<a href="#" class="btn-sm btn-info upd-cv" value="'.$row['po-id'].'"><i class="fas fa-pencil-alt"></i> Update CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
                               }
                               //get the COMPANY name if exist
                               $comp_name = '-';
@@ -217,13 +219,13 @@
                               echo '
                               <tr>
                                 <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td><center>'.$action.'</center></td>
                                 <td style="max-width: 15%">'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td>'.$row['si_num'].'</td>
                                 <td>'.$sup_name.'</td>
                                 <td style="max-width: 20%">'.$bill_date.'</td>
-                                <td>'.number_format(floatval($row['amount']), 2).'</td>
-                                <td><center>'.$action.'</center></td>
+                                <td>'.number_format(floatval($row['amount']), 2).'</td>                               
                               </tr>';
                             }  
                           }
@@ -262,7 +264,30 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="btnForward" class="btn btn-success" onclick="forwardToCebu()">Forward to Cebu</button>
         <button id="btnSubmit" class="btn btn-primary" onclick="submitForSignature()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Details Modal -->
+<div class="modal fade" id="editPOmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="update-body" class="modal-body">
+        <!-- modal body goes here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="btnUpdate" class="btn btn-primary" onclick="submitForSignature()">Submit</button>
       </div>
     </div>
   </div>

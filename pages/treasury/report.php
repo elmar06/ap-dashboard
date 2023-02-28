@@ -20,7 +20,7 @@
 
 <body id="page-top">
     <div id="wrapper">
-    <?php include '../../includes/admin.php'; ?><!-- page header -->
+    <?php include '../../includes/verify.php'; ?><!-- page header -->
       <!-- Container Fluid-->
       <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">

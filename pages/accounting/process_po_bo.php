@@ -165,6 +165,20 @@
                               $from_ea = '-';
                             }
                           }
+                          //get check no if multiple cv
+                          $si_num = '';
+                          $poID = $row['po-id'];
+                          $po_id = explode(',', $poID);
+                          foreach($po_id as $value)
+                          {
+                            $po->id = $value;
+                            $get_si = $po->get_multi_si_num();
+                            while($row2 = $get_si->fetch(PDO:: FETCH_ASSOC))
+                            { 
+                              $si_num = $si_num.','.$row2['si_num'];
+                            }
+                            $si_num = ltrim($si_num, ',');
+                          }
                           echo '
                           <tr>
                             <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>

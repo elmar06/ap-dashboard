@@ -1,7 +1,9 @@
 <!-- search box in drop down menu -->
 <script>
 $(document).ready(function () {
-  $('#submitted-table').DataTable(); // ID From dataTable 
+  $('#submitted-table').DataTable({
+    scrollX: true
+  }); // ID From dataTable 
 })
 
 //select2 js

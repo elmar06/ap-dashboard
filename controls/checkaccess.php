@@ -30,7 +30,7 @@ elseif($_SESSION['access'] == 7)
 }
 elseif($_SESSION['access'] == 9)
 {
-    header('Location: ../pages/complaince/dashboard.php');
+    header('Location: ../pages/compliance/dashboard.php');
 }
 else
 {

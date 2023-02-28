@@ -121,11 +121,14 @@ class PO_Details
 
     public function check_po_num()
     {
-        $query = 'SELECT * FROM po_details WHERE si_num = ?';
+        $query = 'SELECT count(id) as "check-count" FROM po_details WHERE si_num = ? AND company = ? AND po_num = ? AND supplier = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->si_num);
+        $sel->bindParam(2, $this->company);
+        $sel->bindParam(3, $this->po_num);
+        $sel->bindParam(4, $this->supplier);
 
         $sel->execute();
 		return $sel;
@@ -472,7 +475,7 @@ class PO_Details
 
     public function get_all_process_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status)) AND po_details.company = ? ORDER BY po_details.status ASC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(15, po_details.status) || find_in_set(3, po_details.status) || find_in_set(4, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -656,6 +659,83 @@ class PO_Details
 
         $sel->execute();
 	  	return $sel;
+    }
+
+    public function get_list_compliance()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_other_details.date_release, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details, po_other_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status = 12 ORDER BY po_other_details.date_release DESC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function forward_to_compliance()
+    {
+        $query = 'UPDATE po_details SET status = 12 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        if($upd->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+    }
+
+    public function mark_received_compliance()
+    {
+        $query = 'UPDATE po_details, po_other_details SET po_details.status = 14, po_other_details.date_received_comp = ?, po_other_details.received_by_comp = ? WHERE po_details.id = ? AND po_other_details.po_id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+        
+        $upd->bindParam(1, $this->date_received_comp);
+        $upd->bindParam(2, $this->received_by_comp);
+        $upd->bindParam(3, $this->id);
+        $upd->bindParam(4, $this->po_id);
+
+        if($upd->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+    }
+
+    public function mark_return_compliance()
+    {
+        $query = 'UPDATE po_details SET status = 13 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        if($upd->execute())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+    }
+
+    public function get_returned_comp()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_other_details.date_release, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details, po_other_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status = 13 ORDER BY po_other_details.date_release DESC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
     }
 
     public function count_pending()
@@ -851,6 +931,42 @@ class PO_Details
         return $sel;
     }
 
+    public function count_for_receive_comp()
+    {
+        $query = 'SELECT count(id) as "count" FROM '.$this->table_name.' WHERE status=12';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+        return $sel;
+    }
+
+    public function count_returned_comp()
+    {
+        $query = 'SELECT count(id) as "count" FROM '.$this->table_name.' WHERE status=13';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+        return $sel;
+    }
+
+    public function count_received_comp()
+    {
+        $query = 'SELECT count(id) as "count" FROM '.$this->table_name.' WHERE status=14';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+        return $sel;
+    }
+
     public function mark_as_returned()
     {
         $query = 'UPDATE '.$this->table_name.' set status=? WHERE id=?';
@@ -926,6 +1042,22 @@ class PO_Details
     public function mark_bo_process()
     {
         $query = 'UPDATE po_details set po_details.status = 5 WHERE po_details.id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+        
+        if($upd->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function forward_to_cebu()
+    {
+        $query = 'UPDATE po_details set po_details.status = 15 WHERE po_details.id=?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 

@@ -155,8 +155,8 @@
             <!-- DataTable with Hover -->
             <div class="col-lg-12">
               <div class="card mb-4">
-                <div class="table-responsive p-3">
-                  <table id="submitted-table" class="table align-items-center table-flush table-hover">
+                <div class="table1-responsive p-3">
+                  <table id="submitted-table" class="table1 align-items-center table-flush table-hover">
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
