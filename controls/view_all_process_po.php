@@ -133,13 +133,13 @@ echo '
           <thead class="thead-light">
             <tr>
               <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+              <th><center>Action</center></th>
               <th>Company</th>
               <th>PO/JO #</th>
               <th>SI #</th>
               <th>Supplier</th>
               <th>Billing Date</th>
-              <th>Amount</th>
-              <th><center>Action</center></th>
+              <th>Amount</th>              
             </tr>
           </thead>
           <tbody id="req-body">';
@@ -190,13 +190,14 @@ echo '
                   echo '
                   <tr>
                     <td style="max-width: 2%"><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                    <td><center>'.$action.'</center></td>
                     <td style="max-width: 15%">'.$comp_name.'</td>
                     <td>'.$row['po_num'].'</td>
                     <td>'.$row['si_num'].'</td>
                     <td>'.$sup_name.'</td>
                     <td style="max-width: 20%">'.$bill_date.'</td>
                     <td>'.number_format(floatval($row['amount']), 2).'</td>
-                    <td><center>'.$action.'</center></td>
+                    
                   </tr>';
                 }  
               }

@@ -287,7 +287,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="btnUpdate" class="btn btn-primary" onclick="submitForSignature()">Submit</button>
+        <button id="btnUpdate" class="btn btn-primary" onclick="updForSignature()">Submit</button>
       </div>
     </div>
   </div>

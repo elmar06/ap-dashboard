@@ -262,7 +262,7 @@ function forwardToCebu()
   }
 }
 //UPDATE & mark as process by BackOffice
-function submitForSignature()
+function updForSignature()
 {
   var id = $('#upd-id').val();
   var cv_no = $('#cv-no').val();
