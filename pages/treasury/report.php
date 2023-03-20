@@ -40,7 +40,7 @@
                     <div class="col-lg-3"><br>
                         <label>Company:</label>
                         <select id="company" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Company</option>
+                        <option selected>Select a Company</option>
                             <?php
                                 $get = $company->get_active_company();
                                 while($row1 = $get->fetch(PDO::FETCH_ASSOC))
@@ -52,14 +52,14 @@
                     </div>
                     <div class="col-lg-3"><br>
                         <br><label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove" href="#" onclick="remove_comp()"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
                         <label>Supplier:</label>
                         <select id="supplier" class="form-control mb-3 select2">
-                        <option selected disabled>Select a Supplier</option>
+                        <option selected>Select a Supplier</option>
                         <?php
                             $get = $supplier->get_active_supplier();
                             while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -71,7 +71,22 @@
                     </div>
                     <div class="col-lg-3"><br>
                         <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger" href="#"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-danger remove" href="#" onclick="remove_supp()"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Status:</label>
+                        <select id="status" class="form-control mb-3 select2">
+                            <option selected>Select status of request</option>
+                            <option value="8">For Verification</option>
+                            <option value="9">On Hold</option>
+                            <option value="10">For Releasing</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3"><br>
+                        <label style="padding-bottom: 23px"> </label>
+                        <a class="btn btn-danger remove" href="#" onclick="remove_status()"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="row">

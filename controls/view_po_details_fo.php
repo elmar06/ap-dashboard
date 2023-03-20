@@ -20,7 +20,6 @@ date_default_timezone_set('Asia/Manila');
 
 $po->id = $_POST['id'];
 $get = $po->get_po_by_id();
-
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
   //format the date for display
@@ -169,6 +168,17 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <textarea id="report" class="form-control mb-3" type="text" placeholder="Report here.."></textarea>
         </div>
       </div>';
+      //get the MEMO NO(MARK AS CREDIT MEMO)
+      if($row['memo_no'] != null || $row['memo_no'] != '')
+      {
+        echo '<div class="row">
+                <div class="col-lg-12">
+                  <label>Memo Number</label>
+                  <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Memo number" disabled>'.$row['memo_no'].'</textarea>
+                </div>
+              </div>';
+      }
+      //get the REASON OF RETURNED (IF MARK AS RETURNED)
       if($row['status'] == 2)
       {
         echo '<div class="row remarks">

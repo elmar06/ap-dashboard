@@ -181,7 +181,54 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                   <textarea id="remarks" class="form-control mb-3" type="text" placeholder="Reason of return"></textarea>
                 </div>
               </div>';
-      }      
+      } 
+      if($row['memo_no'] != null || $row['memo_no'] != ''){
+        echo '
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="mark_as_credit_memo()" checked>
+                  <label class="custom-control-label" for="customSwitch1"> Credit Memo</label>
+                </div>
+              </div>
+            </div>
+            <div class="row report">
+              <div class="col-lg-12">
+                <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here">'.$row['memo_no'].'</textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="remarks">
+                  <label class="custom-control-label" for="remarks"> Share this records with SCM/PMC</label>
+                </div>
+              </div>
+            </div>';
+      }else{
+        echo '
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="mark_as_credit_memo()">
+                  <label class="custom-control-label" for="customSwitch1"> Credit Memo</label>
+                </div>
+              </div>
+            </div>
+            <div class="row report" style="display: none;">
+              <div class="col-lg-12">
+                <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="remarks">
+                  <label class="custom-control-label" for="remarks"> Share this records with SCM/PMC</label>
+                </div>
+              </div>
+            </div>';
+      }     
       echo '
       <div id="upd-success" class="alert alert-success" role="alert" style="display: none"></div>
       <div id="upd-warning" class="alert alert-danger" role="alert" style="display: none"></div>';
@@ -238,4 +285,9 @@ $('#upd-supplier').on('change', function(){
     }
   })
 })
+//set request for Credit Memo
+function mark_as_credit_memo()
+{
+  $('.report').toggle();
+}
 </script>

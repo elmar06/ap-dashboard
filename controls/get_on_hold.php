@@ -81,6 +81,7 @@ while($row1 = $get->fetch(PDO::FETCH_ASSOC))
       }
       //date format
       $due = date('m/d/Y', strtotime($row['due_date']));
+      $check_date = date('m/d/Y', strtotime($row['check_date']));
       if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
         $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
       }else{
@@ -93,6 +94,7 @@ while($row1 = $get->fetch(PDO::FETCH_ASSOC))
         <td style="width: 95px"><center>'.$status.'</center></td>
         <td>'.$row['cv_no'].'</td>
         <td>'.$row['check_no'].'</td>
+        <td>'.$check_date.'</td>
         <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
         <td>'.$comp_name.'</td>
         <td>'.$row['po_num'].'</td>

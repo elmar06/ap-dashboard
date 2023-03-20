@@ -105,17 +105,16 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     }
     echo '
     <tr>
-    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-    <td align="center">'.$proj_name.'</td>
-    <td>'.$comp_name.'</td>
-    <td>'.$row['po_num'].'</td>
-    <td style="max-width: 150px">'.$sup_name.'</td>
-    <td align="center">'.$bill_date.'</td>
-    <td align="center">'.$check_date.'</td>
-    <td align="center">'.$check_no.'</td>
-    <td align="center">'.$date_ea.'</td>
-    <td><center>'.$status.'</center></td>
+        <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+        <td><center>'.$status.'</center></td>
+        <td align="center">'.$proj_name.'</td>
+        <td>'.$comp_name.'</td>
+        <td>'.$row['po_num'].'</td>
+        <td style="max-width: 150px">'.$sup_name.'</td>
+        <td align="center">'.$bill_date.'</td>
+        <td align="center">'.$check_date.'</td>
+        <td align="center">'.$check_no.'</td>
+        <td align="center">'.$date_ea.'</td>        
     </tr>';
 }
-
 ?>

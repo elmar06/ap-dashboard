@@ -56,133 +56,147 @@
                     </thead>
                     <tbody id="po-submit-body">
                       <?php
-                        $view = $po->get_submitted_po_monitoring();
-                        while($row = $view->fetch(PDO::FETCH_ASSOC))
+                      //get the user company access
+                      $access->user_id = $user_id;
+                      $get = $access->get_company();
+                      while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                      {
+                        //get the access company id
+                        $id = $row1['comp-access'];
+                        $array_id = explode(',', $id);
+                        foreach($array_id as $value)
                         {
-                          $proj_name = '';
-                          //get the PROJECT name if exist
-                          $project->id = $row['proj-id'];
-                          $get1 = $project->get_proj_details();
-                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          $po->company = $value;
+                          //get the list of request
+                          $view = $po->get_submitted_po_monitoring();
+                          while($row = $view->fetch(PDO::FETCH_ASSOC))
                           {
-                            if($row['proj-id'] == $rowProj['id']){
-                              $proj_name = $rowProj['project'];
-                            }else{
-                              $proj_name = '-';
+                            $proj_name = '';
+                            //get the PROJECT name if exist
+                            $project->id = $row['proj-id'];
+                            $get1 = $project->get_proj_details();
+                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['proj-id'] == $rowProj['id']){
+                                $proj_name = $rowProj['project'];
+                              }else{
+                                $proj_name = '-';
+                              }
                             }
+                            $comp_name = '';
+                            //get the COMPANY name if exist
+                            $company->id = $row['comp-id'];
+                            $get2 = $company->get_company_detail();
+                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }else{
+                                $comp_name = '-';
+                              }
+                            }
+                            $sup_name = '';
+                            //get the SUPPLIER name if exist
+                            $supplier->id = $row['supp-id'];
+                            $get3 = $supplier->get_supplier_details();
+                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                            {
+                              if($row['supp-id'] == $rowSupp['id']){
+                                $sup_name = $rowSupp['supplier_name'];
+                              }else{
+                                $sup_name = '-';
+                              }
+                            }
+                            //format of status
+                            if($row['status'] == 1){
+                              $status = '<label style="color: red"><b> Pending</b></label>';
+                            }else if($row['status'] == 2){
+                              $status = '<label style="color: orange"><b> Returned</b></label>';
+                            }else if($row['status'] == 3){
+                              $status = '<label style="color: blue"><b> Received by FO</b></label>';
+                            }else if($row['status'] == 4){
+                              $status = '<label style="color: blue"><b> Received by BO</b></label>';
+                            }elseif($row['status'] == 5){
+                              $status = '<label style="color: blue"><b> For Signature</b></label>';
+                            }elseif($row['status'] == 6){
+                              $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+                            }elseif($row['status'] == 7){
+                              $status = '<label style="color: blue"><b> Signed</b></label>';
+                            }elseif($row['status'] == 8){
+                              $status = '<label style="color: blue"><b> For Verification</b></label>';
+                            }elseif($row['status'] == 9){
+                              $status = '<label style="color: red"><b> On Hold</b></label>';
+                            }else if($row['status'] == 10){
+                              $status = '<label style="color: green"><b> For Releasing</b></label>';
+                            }else if($row['status'] == 11){
+                              $status = '<label style="color: green"><b> Released</b></label>';
+                            }else{
+                              $status = '<label style="color: blue"><b> On Process</b></label>';
+                            }
+                            //get the PO check details
+                            $cv_num = '-';
+                            $check_date = '-';
+                            $check_no = '-';
+                            $cv_amount = '-';
+                            //$check_details->po_id = $row['po-id'];
+                            $get = $check_details->get_details_byID($row['po-id']);
+                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                            {
+                              $cv_num = $row1['cv_no'];
+                              $check_date = date('m/d/y', strtotime($row1['check_date']));
+                              $check_no = $row1['check_no'];
+                              $cv_amount = number_format($row1['cv_amount'], 2);
+                            }
+                            //get the date sent to EA(po_other_details) 
+                            $po->po_id = $row['po-id'];
+                            $get_date = $po->get_other_details();
+                            while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              //date sent to EA
+                              if($row2['date_to_ea'] != null){
+                                $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                              }else{
+                                $date_ea = '-';
+                              }
+                              //date accepted by FO
+                              if($row2['date_received_fo'] != null){
+                                $received_fo = date('m/d/Y', strtotime(($row2['date_received_fo'])));
+                              }else{
+                                $received_fo = '-';
+                              }
+                              //date accepted by FO
+                              if($row2['date_received_bo'] != null){
+                                $received_bo = date('m/d/Y', strtotime(($row2['date_received_bo'])));
+                              }else{
+                                $received_bo = '-';
+                              }
+                              //date returned by EA
+                              if($row2['date_from_ea'] != null){
+                                $from_ea = date('m/d/Y', strtotime(($row2['date_from_ea'])));
+                              }else{
+                                $from_ea = '-';
+                              }
+                            }
+                            echo '
+                            <tr>
+                              <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td><center>'.$received_fo.'</center></td>
+                              <td><center>'.$received_bo.'</center></td>                        
+                              <td align="center">'.$cv_num.'</td>
+                              <td align="center">'.$check_date.'</td>
+                              <td align="center">'.$check_no.'</td>
+                              <td align="center">'.$proj_name.'</td>
+                              <td>'.$comp_name.'</td>
+                              <td>'.$row['po_num'].'</td>
+                              <td>'.$sup_name.'</td>
+                              <td align="center">'.$cv_amount.'</td>
+                              <td align="center">'.$date_ea.'</td> 
+                              <td align="center">'.$from_ea.'</td> 
+                              <td><center>'.$status.'</center></td>                           
+                            </tr>';
                           }
-                          $comp_name = '';
-                          //get the COMPANY name if exist
-                          $company->id = $row['comp-id'];
-                          $get2 = $company->get_company_detail();
-                          while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
-                          {
-                            if($row['comp-id'] == $rowComp['id']){
-                              $comp_name = $rowComp['company'];
-                            }else{
-                              $comp_name = '-';
-                            }
-                          }
-                          $sup_name = '';
-                          //get the SUPPLIER name if exist
-                          $supplier->id = $row['supp-id'];
-                          $get3 = $supplier->get_supplier_details();
-                          while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
-                          {
-                            if($row['supp-id'] == $rowSupp['id']){
-                              $sup_name = $rowSupp['supplier_name'];
-                            }else{
-                              $sup_name = '-';
-                            }
-                          }
-                          //format of status
-                          if($row['status'] == 1){
-                            $status = '<label style="color: red"><b> Pending</b></label>';
-                          }else if($row['status'] == 2){
-                            $status = '<label style="color: orange"><b> Returned</b></label>';
-                          }else if($row['status'] == 3){
-                            $status = '<label style="color: blue"><b> Received by FO</b></label>';
-                          }else if($row['status'] == 4){
-                            $status = '<label style="color: blue"><b> Received by BO</b></label>';
-                          }elseif($row['status'] == 5){
-                            $status = '<label style="color: blue"><b> For Signature</b></label>';
-                          }elseif($row['status'] == 6){
-                            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
-                          }elseif($row['status'] == 7){
-                            $status = '<label style="color: blue"><b> Signed</b></label>';
-                          }elseif($row['status'] == 8){
-                            $status = '<label style="color: blue"><b> For Verification</b></label>';
-                          }elseif($row['status'] == 9){
-                            $status = '<label style="color: red"><b> On Hold</b></label>';
-                          }else if($row['status'] == 10){
-                            $status = '<label style="color: green"><b> For Releasing</b></label>';
-                          }else if($row['status'] == 11){
-                            $status = '<label style="color: green"><b> Released</b></label>';
-                          }else{
-                            $status = '<label style="color: blue"><b> On Process</b></label>';
-                          }
-                          //get the PO check details
-                          $cv_num = '-';
-                          $check_date = '-';
-                          $check_no = '-';
-                          $cv_amount = '-';
-                          $check_details->po_id = $row['po-id'];
-                          $get = $check_details->get_details_byID();
-                          while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                          {
-                            $cv_num = $row1['cv_no'];
-                            $check_date = date('m/d/y', strtotime($row1['check_date']));
-                            $check_no = $row1['check_no'];
-                            $cv_amount = number_format($row1['cv_amount'], 2);
-                          }
-                          //get the date sent to EA(po_other_details) 
-                          $po->po_id = $row['po-id'];
-                          $get_date = $po->get_other_details();
-                          while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
-                          {
-                            //date sent to EA
-                            if($row2['date_to_ea'] != null){
-                              $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
-                            }else{
-                              $date_ea = '-';
-                            }
-                            //date accepted by FO
-                            if($row2['date_received_fo'] != null){
-                              $received_fo = date('m/d/Y', strtotime(($row2['date_received_fo'])));
-                            }else{
-                              $received_fo = '-';
-                            }
-                            //date accepted by FO
-                            if($row2['date_received_bo'] != null){
-                              $received_bo = date('m/d/Y', strtotime(($row2['date_received_bo'])));
-                            }else{
-                              $received_bo = '-';
-                            }
-                            //date returned by EA
-                            if($row2['date_from_ea'] != null){
-                              $from_ea = date('m/d/Y', strtotime(($row2['date_from_ea'])));
-                            }else{
-                              $from_ea = '-';
-                            }
-                          }
-                          echo '
-                          <tr>
-                            <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                            <td><center>'.$received_fo.'</center></td>
-                            <td><center>'.$received_bo.'</center></td>                        
-                            <td align="center">'.$cv_num.'</td>
-                            <td align="center">'.$check_date.'</td>
-                            <td align="center">'.$check_no.'</td>
-                            <td align="center">'.$proj_name.'</td>
-                            <td>'.$comp_name.'</td>
-                            <td>'.$row['po_num'].'</td>
-                            <td>'.$sup_name.'</td>
-                            <td align="center">'.$cv_amount.'</td>
-                            <td align="center">'.$date_ea.'</td> 
-                            <td align="center">'.$from_ea.'</td> 
-                            <td><center>'.$status.'</center></td>                           
-                          </tr>';
                         }
+                      }
                       ?>
                     </tbody>
                   </table> 

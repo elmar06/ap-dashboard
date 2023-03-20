@@ -1,6 +1,8 @@
 <script>
 $(document).ready(function(){
-  $('#req-table').DataTable();
+  $('#req-table').DataTable({
+    scrollX: true
+  });
   $(".sidebar").toggleClass("toggled");
 })
 

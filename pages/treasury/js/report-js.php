@@ -24,6 +24,7 @@ function generate_report()
 {
   var company = $('#company').val();
   var supplier = $('#supplier').val();
+  var status = $('#status').val();
   var date_from = $('#from').val();
   var date_to = $('#to').val();
   //action validation
@@ -47,5 +48,27 @@ function generate_report()
     //send data to report page
     window.location = '../../controls/generate_report_treasury.php?' + myData; 
   }
+}
+
+function remove_comp()
+{
+  alert('heree');
+  $('#company')[0].selectedIndex = 0;
+  // $('#from').val('');
+  // $('#to').val('');
+}
+
+function remove_supp()
+{
+  $('#supplier').prop("selectedIndex", 0);
+  $('#from').val('');
+  $('#to').val('');
+}
+
+function remove_status()
+{
+  $('#status').prop("selectedIndex", 0);
+  $('#from').val('');
+  $('#to').val('');
 }
 </script>

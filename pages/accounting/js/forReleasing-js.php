@@ -20,17 +20,16 @@ $('.btnRelease').on('click', function(e){
   e.preventDefault();
 
   var id = $(this).val();
-  
-    $.ajax({
-      type: 'POST',
-      url: '../../controls/get_check_details.php',
-      data: {id:id},
-      success: function(html)
-      {
-        $('#ReleasingDetails').modal('show');
-        $('#release-body').html(html);
-      }
-    })
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/get_check_details.php',
+    data: {id:id},
+    success: function(html)
+    {
+      $('#ReleasingDetails').modal('show');
+      $('#release-body').html(html);
+    }
+  })
 })
 
 //view details
@@ -61,53 +60,55 @@ $(document).on('dblclick', '#releasing-table tr', function(){
 function submit()
 {
   var id = $('#po-id').val();
+  var array = JSON.parse ("["+id+"]");
   var or_num = $('#or-num').val();
   var receipt = $('#receipt-no').val();
-  var myData = 'id=' + id + '&or_num=' + or_num + '&receipt=' + receipt;
 
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/mark_released.php',
-    data: myData,
-    beforeSend: function()
+  if(array.length > 0)
+  {
+    $.each(array, function( key, value ) {
+      $.ajax({
+        type: 'POST',
+        url: '../../controls/mark_released.php',
+        data: {id: value, or_num: or_num, receipt: receipt},
+        async: false,
+        dataType: 'html',
+        beforeSend: function()
+        {
+          showToast();
+        },
+        success: function(response)
+        {
+          result = response;
+        },
+        error: function(xhr, ajaxOption, thrownError)
+        {
+          alert(thrownError);
+        }
+      })
+    })
+    //get the updated list
+    if(result > 0)
     {
-      showToast();
-    },
-    success: function(response)
-    {
-      if(response != 0)
-      {
-        //get the latest list
-        $.ajax({
-          url: '../../controls/view_all_for_releasing.php',
-          success: function(html)
-          {
-            $('#success').html('<center><i class="fas fa-check"></i> PO/JO is successfully marked as Release.</center>');
-              $('#success').show();
-              setTimeout(function(){
-                $('#success').fadeOut();
-              }, 1500)
-            $('#released-body').fadeOut();
-            $('#released-body').fadeIn();
-            $('#released-body').html(html);
-          }
-        })
-      }else{
-        $('#warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
-        $('#warning').show();
-        setTimeout(function(){
-          $('#warning').fadeOut();
-        }, 3000)
-      }
+      toastr.success('PO/JO successfully marked as Released.');
+      //get the latest list
+      $.ajax({
+        url: '../../controls/view_all_for_releasing.php',
+        success: function(html)
+        {
+          $('#released-body').fadeOut();
+          $('#released-body').fadeIn();
+          $('#released-body').html(html);
+        }
+      })
+    }else{
+      toastr.error('ERORR! Please contact the system administrator for assistance at local 124.');
     }
-  })
-  // }else{
-  //   $('#warning').html('<center><i class="fas fa-ban"></i> Please input OR/CR Number.</center>');
-  //   $('#warning').show();
-  //   setTimeout(function(){
-  //     $('#warning').fadeOut();
-  //   }, 2000)
-  // }
+  }
+  else
+  {
+    toastr.error('ERROR! Please select a request to release.')
+  }
 }
 </script>
 

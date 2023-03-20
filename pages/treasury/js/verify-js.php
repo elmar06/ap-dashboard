@@ -1,11 +1,20 @@
 <!-- Page level custom scripts -->
 <script>
 $(document).ready(function () {
-  // ID From dataTable with Hover
-  $('#req-table').DataTable({
+  $('.DataTable').dataTable({
     scrollX: true
-  });
+  });  
   $(".sidebar").toggleClass("toggled");
+  //datepicker
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "MM dd, yyyy",
+    setDate: new Date(),
+    autoClose: true
+  });
+  $('#verifyDiv').hide();
+  $('#onHoldDiv').hide();
+  $('#forReleasingDiv').hide();
 })
 //toast
 function showToast(){
@@ -20,10 +29,10 @@ function hideLoading(){
 //hold check
 function mark_on_hold()
 {
-    var id = []
-    $('input:checkbox[name=checklist]:checked').each(function() {
-        id.push($(this).val())
-    });
+  var id = []
+  $('input:checkbox[name=checklist]:checked').each(function() {
+    id.push($(this).val())
+  });
 
     if(id.length > 0){
     $.each(id, function( key, value ) {
@@ -31,43 +40,79 @@ function mark_on_hold()
         type: 'POST',
         url: '../../controls/mark_on_hold.php',
         data: {id: value},
-        success: function(html)
+        async: false,
+        dataType: 'html',
+        success: function(response)
         {
-          toastr.warning('Request successfully put On Hold.');
-          $('#page-body').fadeOut();
-          $('#page-body').fadeIn();
-          $('#page-body').html(html);
+          result = response;
         }
       })
     })
+     //check the result
+     if(result > 0){
+      showToast();
+        toastr.warning('Request successfully put On Hold.');
+          //set time out to refresh
+          setTimeout(function(){
+            location.reload();
+          }, 1000)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator for assistance at local 124.');
+      }
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
+  }
+}
+
+//check if selected
+function for_releasing()
+{
+  var id = []
+  $('input:checkbox[name=checklist]:checked').each(function() {
+    id.push($(this).val())
+  });   
+
+  if(id.length > 0){
+    $('#releasingModal').modal('show');
+  }else{
+    toastr.error('ERROR! Please select a request to process.')
   }
 }
 
 //release check
 function mark_for_releasing()
 {
-    var id = []
-    $('input:checkbox[name=checklist]:checked').each(function() {
-      id.push($(this).val())
-    });
-
-    if(id.length > 0){
+  var date = $('#date-release').val();
+  var id = []
+  $('input:checkbox[name=checklist]:checked').each(function() {
+    id.push($(this).val())
+  });
+  
+  if(id.length > 0){
     $.each(id, function( key, value ) {
       $.ajax({
         type: 'POST',
         url: '../../controls/mark_for_releasing.php',
-        data: {id: value},
-        success: function(html)
+        data: {id: value, date: date},
+        async: false,
+        dataType: 'html',  
+        success: function(response)
         {
-          toastr.success('Request successfully mark as For Releasing.');
-          $('#page-body').fadeOut();
-          $('#page-body').fadeIn();
-          $('#page-body').html(html);
+          result = response;
         }
       })
     })
+    //check the result
+    if(result > 0){
+        showToast();
+        toastr.success('Request successfully mark as For Releasing.');
+          //set time out to refresh
+          setTimeout(function(){
+            location.reload();
+          }, 1000)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator for assistance at local 124.');
+      }
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   }
@@ -76,85 +121,31 @@ function mark_for_releasing()
 //get po for verification
 function get_for_verification()
 {
-  var stat = 8;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_for_verification.php',
-    data: {stat: stat},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  showToast();
+  $('#reqDiv').fadeOut();
+  $('#onHoldDiv').fadeOut();
+  $('#forReleasingDiv').fadeOut();
+  $('#verifyDiv').fadeIn();
 }
 
 //get po on hold
 function get_on_hold()
 {
-  var stat = 9;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_on_hold.php',
-    data: {stat: stat},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  showToast();
+  $('#reqDiv').fadeOut();
+  $('#onHoldDiv').fadeIn();
+  $('#forReleasingDiv').fadeOut();
+  $('#verifyDiv').fadeOut();
 }
 
 //get po for releasing
 function get_releasing()
 {
-  var stat = 10;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_for_releasing.php',
-    data: {stat: stat},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
-}
-
-//get po for released
-function get_released()
-{
-  var stat = 10;
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/get_released.php',
-    data: {stat: stat},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#req-body').fadeOut();
-      $('#req-body').fadeIn();
-      $('#req-body').html(html);
-    }
-  })
+  showToast();
+  $('#reqDiv').fadeOut();
+  $('#onHoldDiv').fadeOut();
+  $('#forReleasingDiv').fadeIn();
+  $('#verifyDiv').fadeOut();
 }
 </script>
 

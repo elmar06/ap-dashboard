@@ -3,6 +3,7 @@ $(document).ready(function(){
   $('.DataTable').dataTable({
       scrollX: true
   })
+  $('#tblReturn').hide();
 })
 //toast
 function showToast(){

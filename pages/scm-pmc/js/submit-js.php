@@ -1,9 +1,8 @@
 <script>
 $(document).ready(function () {
-  $('#submitted-table').DataTable({
+  $('.DataTable').DataTable({
     scrollX: true
   }); // ID From dataTable 
-  
 })
 //toast function
 function showToast(){
@@ -16,7 +15,7 @@ function hideLoading(){
 }
 
 //view details
-$(document).on('dblclick', '#submitted-table tr', function(){
+$(document).on('dblclick', '.DataTable tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
 
   //check the status of a po
@@ -87,7 +86,7 @@ function upd_po_details()
   var terms = $('#terms').val();
   var due_date = $('#due-date').val();
   var memo_no = $('#memo-no').val();
-  var reports = $('#report').val();
+  var reports = '';
   var remark = '';
   //check if it is shared
   var check = $('#remarks').is(':checked');
@@ -106,7 +105,7 @@ function upd_po_details()
   {
     var project = 0;
   }
-
+  
   var myData = 'po_id=' + po_id + '&po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no;
 
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')

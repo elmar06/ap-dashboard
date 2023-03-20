@@ -35,7 +35,7 @@
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="table1-responsive p-3">
-                  <table id="submitted-table" class="table1 table-bordered table-flush table-hover" style="cursor:pointer;">
+                  <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
@@ -124,8 +124,7 @@
                           $check_no = '-';
                           $cv_amount = '-';
                           $tax = '-';
-                          $check_details->po_id = $row['po-id'];
-                          $get = $check_details->get_details_byID();
+                          $get = $check_details->get_details_byID($row['po-id']);
                           while($row1 = $get->fetch(PDO::FETCH_ASSOC))
                           {
                             $check_date = date('m/d/y', strtotime($row1['check_date']));

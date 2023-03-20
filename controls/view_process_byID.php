@@ -43,8 +43,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   $check_date = '';
   $wtax = '';
   $vamount = '';
-  $check->po_id = $row['po-id'];
-  $get_check = $check->get_details_byID();
+  $get_check = $check->get_details_byID($row['po-id']);
   while($row6 = $get_check->fetch(PDO:: FETCH_ASSOC))
   {
     $cv_num = $row6['cv_no'];

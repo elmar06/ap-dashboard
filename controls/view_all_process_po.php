@@ -164,8 +164,10 @@ echo '
                   if($row['status'] == 3)
                   {
                     $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
-                  }else{
+                  }else if($row['status'] == 4){
                     $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
+                  }else{
+                    $action = '<a href="#" class="btn-sm btn-info upd-cv" value="'.$row['po-id'].'"><i class="fas fa-pencil-alt"></i> Update CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
                   }
                   //get the COMPANY name if exist
                   $comp_name = '-';

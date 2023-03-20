@@ -9,9 +9,8 @@ $db = $database->connect();
 $check = new CheckDetails($db);
 $bank = new Banks($db);
 
-$check->po_id = $_POST['id'];
-$check->id = $_POST['id'];
-$get = $check->get_details_byID();
+$po_id = $_POST['id'];
+$get = $check->get_details_byID($po_id);
 
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
