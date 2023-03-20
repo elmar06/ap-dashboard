@@ -12,11 +12,11 @@ $po = new PO_Details($db);
 $company = new Company($db);
 $supplier = new Supplier($db);
 
-$po->date_to_ea = date('Y-m-d');
+$po->date_received_ea = date('Y-m-d');
 $po->po_id = $_POST['id'];
 $po->id = $_POST['id'];
 
-$upd = $po->mark_sent_to_ea();
+$upd = $po->mark_received_ea();
 
 if($upd)
 {

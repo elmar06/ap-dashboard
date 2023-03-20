@@ -4,6 +4,7 @@ $(document).ready(function () {
   $('.DataTable').dataTable({
     scrollX: true
   });  
+  //toggle sidebar menu
   $(".sidebar").toggleClass("toggled");
   //datepicker
   $('.datepicker').datepicker({

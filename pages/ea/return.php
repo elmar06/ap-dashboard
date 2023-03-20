@@ -40,10 +40,13 @@
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th>Forwarded</th>
+                        <th>Received</th>
+                        <th>Returned</th>
+                        <th>Check Date</th>
                         <th>CV No</th>
                         <th>Check No</th>
                         <th>Company</th>
-                        <th>PO/JO No</th>
                         <th>Suppplier</th>
                         <th><center>Status</center></th>
                       </tr>
@@ -57,23 +60,34 @@
                         //format of status
                         if($row['status'] == 6)
                         {
-                            $status = '<label style="color: red"><b> For Signature</b></label>';
+                          $status = '<label style="color: red"><b> For Signature</b></label>';
                         }
                         elseif($row['status'] == 7)
                         {
-                            $status = '<label style="color: green"><b> Signed</b></label>';
+                          $status = '<label style="color: green"><b> Signed</b></label>';
                         }
                         else
                         {
-                            $status = '<label style="color: green"><b> Returned</b></label>';
+                          $status = '<label style="color: green"><b> Returned</b></label>';
                         }
+                        //date formatting
+                        $forwarded = date('m/d/Y', strtotime($row['date_to_ea']));
+                        $received = '-';
+                        if($row['date_received_ea'] != null){
+                          $received = date('m/d/Y', strtotime($row['date_received_ea']));
+                        }
+                        $returned = date('m/d/Y', strtotime($row['date_from_ea']));
+                        $check_date = date('m/d/Y', strtotime($row['check_date']));
                         echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td><center>'.$forwarded.'</center></td>
+                          <td><center>'.$received.'</center></td>
+                          <td><center>'.$returned.'</center></td>
+                          <td><center>'.$check_date.'</center></td>
                           <td>'.$row['cv_no'].'</td>
                           <td>'.$row['check_no'].'</td>
                           <td>'.$row['comp-name'].'</td>
-                          <td>'.$row['po_num'].'</td>
                           <td>'.$row['supplier_name'].'</td>
                           <td><center>'.$status.'</center></td>
                         </tr>';
