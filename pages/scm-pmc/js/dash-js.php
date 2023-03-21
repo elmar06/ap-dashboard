@@ -228,7 +228,7 @@ function SubmitPO()
         if(response > 0)
         {
           //display error if number is already exist
-          toastr.error('Submitting of Request Failed. SI number already exist in database.');
+          toastr.error('Submit of Request Failed. SI number already exist in database.');
         }
         else
         {
