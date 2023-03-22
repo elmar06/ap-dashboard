@@ -192,10 +192,22 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 </div>
               </div>
             </div>
-            <div class="row report">
-              <div class="col-lg-12">
-                <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here">'.$row['memo_no'].'</textarea>
+            <div class="report">
+              <hr>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here" value="'.$row['memo_no'].'">
+                </div>
               </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input id="debit-memo" class="form-control mb-3" type="text" placeholder="Input Debit Memo No. here" value="'.$row['debit_memo'].'">
+                </div>
+                <div class="col-lg-6">
+                <input id="memo-amount" class="form-control mb-3" type="text" placeholder="Input Memo Amount here" value="'.$row['memo_amount'].'">
+                </div>
+              </div>
+              <hr>
             </div>
             <div class="row">
               <div class="col-lg-12">

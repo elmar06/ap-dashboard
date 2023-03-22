@@ -16,6 +16,7 @@ function filterData(&$str){
 //initialize data
 $comp_id  = $_GET['company'];
 $supplier_id = $_GET['supplier'];
+$stat_id = $_GET['status'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 $action = $_GET['action'];
@@ -179,6 +180,153 @@ if($action == 3)
 if($action == 4)
 {
     $get_data = $report->generate_by_date_treasury($from, $to);
+    while($row = $get_data->fetch(PDO::FETCH_ASSOC))
+    {
+        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $cv_num = $row['cv_no'];
+        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
+        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $check_num = $row['check_no'];
+        $payee = $row['supplier_name'];
+        $company = $row['comp-name'];
+        $amount = number_format(floatval($row['cv_amount']), 2);
+        //date from other details
+        $date_onhold = '-';
+        $releasing_date = '-';
+        if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
+            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+        }
+        if($row['date_for_release'] != null || $row['date_for_release'] != ''){
+            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+        } 
+        //status
+        if($row['status'] == 3){
+            $status = 'In Process';
+        }elseif($row['status'] == 4){
+            $status = 'Process by Back Office';
+        }elseif($row['status'] == 5){
+            $status = 'For Signature';
+        }elseif($row['status'] == 6){
+            $status = 'Sent To EA';
+        }elseif($row['status'] == 7){
+            $status = 'Signed by EXECOM';
+        }elseif($row['status'] == 8){
+            $status = 'Returned from EA';
+        }elseif($row['status'] == 9){
+            $status = 'On Hold/For Funding';
+        }else{
+            $status = 'For Releasing';
+        }
+
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $payee, $company, $amount, $date_onhold, $releasing_date, $status);
+        //encode data in excel
+        array_walk($lineData, 'filterData'); 
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    } 
+}
+
+//GENERATE BY COMPANY, STATUS AND DATE SPAN ONLY
+if($action == 5)
+{
+    $get_data = $report->generate_report_treasury_5($comp_id, $stat_id, $from, $to);
+    while($row = $get_data->fetch(PDO::FETCH_ASSOC))
+    {
+        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $cv_num = $row['cv_no'];
+        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
+        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $check_num = $row['check_no'];
+        $payee = $row['supplier_name'];
+        $company = $row['comp-name'];
+        $amount = number_format(floatval($row['cv_amount']), 2);
+        //date from other details
+        $date_onhold = '-';
+        $releasing_date = '-';
+        if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
+            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+        }
+        if($row['date_for_release'] != null || $row['date_for_release'] != ''){
+            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+        } 
+        //status
+        if($row['status'] == 3){
+            $status = 'In Process';
+        }elseif($row['status'] == 4){
+            $status = 'Process by Back Office';
+        }elseif($row['status'] == 5){
+            $status = 'For Signature';
+        }elseif($row['status'] == 6){
+            $status = 'Sent To EA';
+        }elseif($row['status'] == 7){
+            $status = 'Signed by EXECOM';
+        }elseif($row['status'] == 8){
+            $status = 'Returned from EA';
+        }elseif($row['status'] == 9){
+            $status = 'On Hold/For Funding';
+        }else{
+            $status = 'For Releasing';
+        }
+
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $payee, $company, $amount, $date_onhold, $releasing_date, $status);
+        //encode data in excel
+        array_walk($lineData, 'filterData'); 
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    } 
+}
+
+//GENERATE BY SUPPLIER, STATUS AND DATE SPAN ONLY
+if($action == 6)
+{
+    $get_data = $report->generate_report_treasury_6($supplier_id, $stat_id, $from, $to);
+    while($row = $get_data->fetch(PDO::FETCH_ASSOC))
+    {
+        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $cv_num = $row['cv_no'];
+        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
+        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $check_num = $row['check_no'];
+        $payee = $row['supplier_name'];
+        $company = $row['comp-name'];
+        $amount = number_format(floatval($row['cv_amount']), 2);
+        //date from other details
+        $date_onhold = '-';
+        $releasing_date = '-';
+        if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
+            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+        }
+        if($row['date_for_release'] != null || $row['date_for_release'] != ''){
+            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+        } 
+        //status
+        if($row['status'] == 3){
+            $status = 'In Process';
+        }elseif($row['status'] == 4){
+            $status = 'Process by Back Office';
+        }elseif($row['status'] == 5){
+            $status = 'For Signature';
+        }elseif($row['status'] == 6){
+            $status = 'Sent To EA';
+        }elseif($row['status'] == 7){
+            $status = 'Signed by EXECOM';
+        }elseif($row['status'] == 8){
+            $status = 'Returned from EA';
+        }elseif($row['status'] == 9){
+            $status = 'On Hold/For Funding';
+        }else{
+            $status = 'For Releasing';
+        }
+
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $payee, $company, $amount, $date_onhold, $releasing_date, $status);
+        //encode data in excel
+        array_walk($lineData, 'filterData'); 
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    } 
+}
+
+//GENERATE BY COMPANY, SUPPLIER, STATUS AND DATE SPAN
+if($action == 7)
+{
+    $get_data = $report->generate_report_treasury_7($comp_id, $supplier_id, $stat_id, $from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
         $check_date = date('m/d/y', strtotime($row['check_date'])); 

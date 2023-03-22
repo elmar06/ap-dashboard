@@ -171,11 +171,22 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       //get the MEMO NO(MARK AS CREDIT MEMO)
       if($row['memo_no'] != null || $row['memo_no'] != '')
       {
-        echo '<div class="row">
-                <div class="col-lg-12">
-                  <label>Memo Number</label>
-                  <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Memo number" disabled>'.$row['memo_no'].'</textarea>
+        echo '<div class="report">
+                <hr>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <input id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here" value="'.$row['memo_no'].'">
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <input id="debit-memo" class="form-control mb-3" type="text" placeholder="Input Debit Memo No. here" value="'.$row['debit_memo'].'">
+                  </div>
+                  <div class="col-lg-6">
+                  <input id="memo-amount" class="form-control mb-3" type="text" placeholder="Input Memo Amount here" value="'.$row['memo_amount'].'">
+                  </div>
+                </div>
+                <hr>
               </div>';
       }
       //get the REASON OF RETURNED (IF MARK AS RETURNED)

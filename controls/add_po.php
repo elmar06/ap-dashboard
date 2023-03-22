@@ -57,6 +57,8 @@ $po->reports = null;
 $po->submitted_by = $_SESSION['id'];
 $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
+$po->memo_amount = $_POST['memo_amount'];
+$po->debit_memo = $_POST['debit_memo'];
 
 $save = $po->add_po();
 

@@ -40,7 +40,7 @@
                     <div class="col-lg-3"><br>
                         <label>Company:</label>
                         <select id="company" class="form-control mb-3 select2">
-                        <option selected>Select a Company</option>
+                        <option selected value="0">Select a Company</option>
                             <?php
                                 $get = $company->get_active_company();
                                 while($row1 = $get->fetch(PDO::FETCH_ASSOC))
@@ -59,7 +59,7 @@
                     <div class="col-lg-3">
                         <label>Supplier:</label>
                         <select id="supplier" class="form-control mb-3 select2">
-                        <option selected>Select a Supplier</option>
+                        <option selected value="0">Select a Supplier</option>
                         <?php
                             $get = $supplier->get_active_supplier();
                             while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -78,7 +78,7 @@
                     <div class="col-lg-3">
                         <label>Status:</label>
                         <select id="status" class="form-control mb-3 select2">
-                            <option selected>Select status of request</option>
+                            <option selected value="0">Select status of request</option>
                             <option value="8">For Verification</option>
                             <option value="9">On Hold</option>
                             <option value="10">For Releasing</option>

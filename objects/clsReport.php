@@ -8,7 +8,7 @@ class Reports
     {
         $this->conn = $db;
     }
-    //Administrator report functions
+    //ADMINISTRATOR REPORT MODULE
     public function generate_by_company()
     {
         $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_bo, po_other_details.received_by_bo, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.company = ? ORDER BY po_other_details.date_received_bo';
@@ -105,7 +105,7 @@ class Reports
 		return $sel;
     }
 
-    //Accounting report functions
+    //ACCOUNTING REPORT MODULE
     public function generate_by_company_acc()
     {
         $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_received_bo, po_other_details.received_by_fo, po_other_details.received_by_bo, po_other_details.date_release, po_details.or_num, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.company = ? AND po_other_details.received_by_fo = ? ORDER BY po_other_details.date_received_bo';
@@ -152,7 +152,7 @@ class Reports
 		return $sel;
     }
 
-    //Purchasing report functions
+    //PURCHASING REPORT MODULE
     public function generate_by_company_req()
     {
         $query = 'SELECT po_details.po_num, check_details.check_date, check_details.cv_no, check_details.bank, check_details.check_no, po_details.supplier,po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_received_bo, po_other_details.received_by_fo, po_other_details.received_by_bo, po_other_details.date_release, po_details.or_num, po_details.due_date, po_details.amount, po_details.company, company.id, company.company as "comp-name", supplier.id, supplier.supplier_name, bank.id, bank.name as "bank-name" FROM po_details, po_other_details, check_details, company, supplier, bank WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = company.id AND po_details.supplier = supplier.id AND check_details.bank = bank.id AND po_details.status = 11 AND po_details.company = ? AND po_details.submitted_by = ? ORDER BY po_other_details.date_received_bo';
@@ -233,7 +233,7 @@ class Reports
 		return $sel;
     }
 
-    //Treasury 
+    //TREASURY REPORT MODULE 
     public function generate_by_comp_treasury($from, $to, $comp_id)
     {
         $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_on_hold, po_other_details.date_for_release, po_details.due_date, po_details.status, check_details.cv_amount, supplier.id, supplier.supplier_name, company.company as "comp-name" FROM po_details, po_other_details, check_details, supplier, company WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND po_details.company = company.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ? AND po_details.company = ?)';
@@ -266,11 +266,41 @@ class Reports
 
     public function generate_by_date_treasury($from, $to)
     {
-        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_details.due_date, check_details.cv_amount, supplier.id, supplier.supplier_name FROM po_details, po_other_details, check_details, supplier WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_on_hold, po_other_details.date_for_release, po_details.due_date, po_details.status, check_details.cv_amount, supplier.id, supplier.supplier_name, company.company as "comp-name" FROM po_details, po_other_details, check_details, supplier, company WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND po_details.company = company.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND (po_details.date_submit BETWEEN ? AND ?)';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
 		$sel->execute(array($from, $to));
+		return $sel;
+    }
+
+    public function generate_report_treasury_5($comp_id, $stat_id, $from, $to)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_on_hold, po_other_details.date_for_release, po_details.due_date, po_details.status, check_details.cv_amount, supplier.id, supplier.supplier_name, company.company as "comp-name" FROM po_details, po_other_details, check_details, supplier, company WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND po_details.company = company.id AND po_details.company = ? AND po_details.status =? AND (po_details.date_submit BETWEEN ? AND ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp_id, $stat_id, $from, $to));
+		return $sel;
+    }
+
+    public function generate_report_treasury_6($supplier_id, $stat_id, $from, $to)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_on_hold, po_other_details.date_for_release, po_details.due_date, po_details.status, check_details.cv_amount, supplier.id, supplier.supplier_name, company.company as "comp-name" FROM po_details, po_other_details, check_details, supplier, company WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND po_details.company = company.id AND po_details.supplier = ? AND po_details.status =? AND (po_details.date_submit BETWEEN ? AND ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($supplier_id, $stat_id, $from, $to));
+		return $sel;
+    }
+
+    public function generate_report_treasury_7($comp_id, $supplier_id, $stat_id, $from, $to)
+    {
+        $query = 'SELECT check_details.check_date, check_details.cv_no, po_details.due_date, check_details.check_no, po_details.supplier, po_details.bill_date, po_other_details.date_received_fo, po_other_details.date_on_hold, po_other_details.date_for_release, po_details.due_date, po_details.status, check_details.cv_amount, supplier.id, supplier.supplier_name, company.company as "comp-name" FROM po_details, po_other_details, check_details, supplier, company WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = supplier.id AND po_details.company = company.id AND po_details.supplier = ? AND po_details.status =? AND (po_details.date_submit BETWEEN ? AND ?)';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp_id, $supplier_id, $stat_id, $from, $to));
 		return $sel;
     }
 }

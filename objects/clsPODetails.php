@@ -23,7 +23,7 @@ class PO_Details
 
     public function add_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, reports=?, submitted_by=?, remark=?, status=1';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=1';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
@@ -42,9 +42,12 @@ class PO_Details
         $add->bindParam(13, $this->due_date);
         $add->bindParam(14, $this->days_due);
         $add->bindParam(15, $this->date_submit);
-        $add->bindParam(16, $this->reports);
-        $add->bindParam(17, $this->submitted_by);
-        $add->bindParam(18, $this->remark);
+        $add->bindParam(16, $this->memo_no);
+        $add->bindParam(17, $this->debit_memo);
+        $add->bindParam(18, $this->memo_amount);
+        $add->bindParam(19, $this->reports);
+        $add->bindParam(20, $this->submitted_by);
+        $add->bindParam(21, $this->remark);
         
         if($add->execute())
         {
@@ -382,7 +385,7 @@ class PO_Details
 
     public function get_po_by_id()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.status, po_other_details.po_id, po_other_details.remarks FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.status, po_other_details.po_id, po_other_details.remarks FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
