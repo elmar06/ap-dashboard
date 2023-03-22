@@ -44,7 +44,7 @@ function generate_report()
     var action = 4;//generate by date span only
   }
   var myData = 'company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action; 
-  alert(action);
+
   if(company == 0 && supplier == 0 && status == 0 )
   {
     toastr.error('ERROR! Please input data for report generation.');
