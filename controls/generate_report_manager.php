@@ -105,27 +105,27 @@ if($_GET['action'] == 1)
         }
         //format of status
         if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -200,29 +200,29 @@ if($_GET['action'] == 2)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -297,29 +297,29 @@ if($_GET['action'] == 3)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -394,29 +394,29 @@ if($_GET['action'] == 4)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -491,29 +491,29 @@ if($_GET['action'] == 5)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -588,29 +588,29 @@ if($_GET['action'] == 6)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -685,29 +685,29 @@ if($_GET['action'] == 7)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
@@ -782,29 +782,29 @@ if($_GET['action'] == 8)
                 $bank_name = $row4['name'];
             }
         }
-        //format of status
-        if($row['status'] == 1){
-            $status = '<label style="color: red"><b> Pending</b></label>';
+         //format of status
+         if($row['status'] == 1){
+            $status = 'Pending';
         }else if($row['status'] == 2){
-            $status = '<label style="color: orange"><b> Returned</b></label>';
+            $status = 'Returned';
         }else if($row['status'] == 3){
-            $status = '<label style="color: blue"><b> Received by FO</b></label>';
+            $status = 'Received by FO';
         }else if($row['status'] == 4){
-            $status = '<label style="color: blue"><b> Process by BO</b></label>';
+            $status = 'Process by BO';
         }elseif($row['status'] == 5){
-            $status = '<label style="color: blue"><b> For Signature</b></label>';
+            $status = 'For Signature';
         }elseif($row['status'] == 6){
-            $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+            $status = ' Sent to EA';
         }else if($row['status'] == 7){
-            $status = '<label style="color: blue"><b> Received by EA</b></label>';
+            $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = '<label style="color: blue"><b> Returned by ES</b></label>';
+            $status = 'Returned by ES';
         }elseif($row['status'] == 9){
-            $status = '<label style="color: red"><b> On Hold</b></label>';
+            $status = 'On Hold';
         }else if($row['status'] == 10){
-            $status = '<label style="color: green"><b> For Releasing</b></label>';
+            $status = 'For Releasing';
         }else{
-            $status = '<label style="color: green"><b> Released</b></label>';
+            $status = 'Released';
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $bank_name, $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
