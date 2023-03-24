@@ -119,7 +119,7 @@ if($_GET['action'] == 1)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -216,7 +216,7 @@ if($_GET['action'] == 2)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -313,7 +313,7 @@ if($_GET['action'] == 3)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -410,7 +410,7 @@ if($_GET['action'] == 4)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -507,7 +507,7 @@ if($_GET['action'] == 5)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -604,7 +604,7 @@ if($_GET['action'] == 6)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -701,7 +701,7 @@ if($_GET['action'] == 7)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
@@ -798,7 +798,7 @@ if($_GET['action'] == 8)
         }else if($row['status'] == 7){
             $status = 'Received by EA';
         }elseif($row['status'] == 8){
-            $status = 'Returned by ES';
+            $status = 'Returned by EA';
         }elseif($row['status'] == 9){
             $status = 'On Hold';
         }else if($row['status'] == 10){
