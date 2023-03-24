@@ -217,6 +217,18 @@ class Users
 		return $sel;
 	}
 
+	public function view_all_user_by_dept()
+	{
+		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, access, username, status, dept FROM '.$this->table_name.' WHERE dept = ? ORDER BY access ASC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->bindParam(1, $this->dept);
+
+		$sel->execute();
+		return $sel;
+	}
+
 	public function reset_password()
 	{
 		$query = 'UPDATE '.$this->table_name.' SET password=? WHERE id=?';
@@ -238,7 +250,7 @@ class Users
 
 	public function login()
 	{
-		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, password, logcount, access FROM users WHERE username=? AND password=? AND status != 0';
+		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, password, logcount, access, dept FROM users WHERE username=? AND password=? AND status != 0';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

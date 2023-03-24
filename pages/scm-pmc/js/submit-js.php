@@ -17,39 +17,69 @@ function hideLoading(){
 //view details
 $(document).on('dblclick', '.DataTable tr', function(){
   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
-
-  //check the status of a po
+  //check the submitted request for users restriction
   $.ajax({
     type: 'POST',
-    url: '../../controls/check_po_stat.php',
+    url: '../../controls/check_users_request.php',
     data: {id:id},
     success: function(response)
     {
-      if(response == 1 || response == 2)
+      //CHECK BASED ON STATUS
+      if(response == 1)
       {
-        //show the edit modal
+        //check the status of a po
         $.ajax({
           type: 'POST',
-          url: '../../controls/view_po_details_byID.php',
+          url: '../../controls/check_po_stat.php',
           data: {id:id},
-          beforeSend: function()
+          success: function(response)
           {
-            showToast();
-          },
-          success: function(html)
-          {
-            $('#POmodalDetails').modal('show');
-            $('#details-body').html(html);
-          },
-          error: function(xhr, ajaxOptions, thrownError)
-          {
-            alert(thrownError);
+            if(response == 1 || response == 2)
+            {
+              //show the edit modal
+              $.ajax({
+                type: 'POST',
+                url: '../../controls/view_po_details_byID.php',
+                data: {id:id},
+                beforeSend: function()
+                {
+                  showToast();
+                },
+                success: function(html)
+                {
+                  $('#POmodalDetails').modal('show');
+                  $('#details-body').html(html);
+                },
+                error: function(xhr, ajaxOptions, thrownError)
+                {
+                  alert(thrownError);
+                }
+              })
+            }
+            else
+            {
+              //show the view only modal
+              $.ajax({
+                type: 'POST',
+                url: '../../controls/view_po_details_byID.php',
+                data: {id:id},
+                beforeSend: function()
+                {
+                  showToast();
+                },
+                success: function(html)
+                {
+                  $('#viewDetails').modal('show');
+                  $('#view-body').html(html);
+                }
+              })
+            }
           }
         })
       }
       else
       {
-        //show the view only modal
+        //VIEWING ONLY
         $.ajax({
           type: 'POST',
           url: '../../controls/view_po_details_byID.php',

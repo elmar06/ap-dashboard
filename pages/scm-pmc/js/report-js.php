@@ -22,21 +22,19 @@ function hideLoading(){
 //generate report function
 function generate_report()
 {
-  var project = $('#project').val();
-  var company = $('#company').val();
-  var supplier = $('#supplier').val();
-  var status = $('#status').val();
-  var date_from = $('#from').val();
-  var date_to = $('#to').val();
-  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to;
+  var date_from = $('#dis-from').val();
+  var date_to = $('#dis-to').val();
+  var action = 1;
 
-  if(date_from != '' && date_to != ''){
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+
+  if(date_from == '' && date_to == ''){
+    toastr.error('ERROR! Please select a date span to generate report.');
+    $('#dis-from').focus();
+  }else{
     showToast();
     window.open('../../controls/generate_report_scm.php?' + myData);
-  }else{
-    toastr.error('ERROR! Please select a date span to generate report.');
-    $('#from').focus();
-  }
+  }   
 }
 
 //event handler

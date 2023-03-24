@@ -663,7 +663,7 @@
               <input id="debit-memo" class="form-control mb-3" type="text" placeholder="Input Debit Memo No. here">
             </div>
             <div class="col-lg-6">
-            <input id="memo-amount" class="form-control mb-3" type="text" placeholder="Input Memo Amount here">
+            <input id="memo-amount" class="form-control mb-3 amount" type="text" placeholder="Input Memo Amount here">
             </div>
           </div>
           <hr>

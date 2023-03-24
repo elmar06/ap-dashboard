@@ -235,34 +235,51 @@ function SubmitPO()
         }
         else
         {
-          //save the details
+          //check CM number if exist
           $.ajax({
             type: 'POST',
-            url: '../../controls/add_po.php',
+            url: '../../controls/check_memo_no.php',
             data: myData,
-            beforeSend: function()
-            {
-              showToast();
-            },
             success: function(response)
             {
               if(response > 0)
               {
-                //get the updated list
-                $.ajax({
-                  url: '../../controls/view_submit_po.php',
-                  success: function(html)
-                  {
-                    $('#page-body').fadeOut();
-                    $('#page-body').fadeIn();
-                    $('#page-body').html(html);
-                    clearInp();
-                  }
-                })
+                //display error if number is already exist
+                toastr.error('Submit of Request Failed. Credit Memo number already exist in database.');
               }
               else
               {
-                toastr.error('Submitting of Request Failed. Please contact the Administrator at local 124.');
+                //save the details
+                $.ajax({
+                  type: 'POST',
+                  url: '../../controls/add_po.php',
+                  data: myData,
+                  beforeSend: function()
+                  {
+                    showToast();
+                  },
+                  success: function(response)
+                  {
+                    if(response > 0)
+                    {
+                      //get the updated list
+                      $.ajax({
+                        url: '../../controls/view_submit_po.php',
+                        success: function(html)
+                        {
+                          $('#page-body').fadeOut();
+                          $('#page-body').fadeIn();
+                          $('#page-body').html(html);
+                          clearInp();
+                        }
+                      })
+                    }
+                    else
+                    {
+                      toastr.error('Submitting of Request Failed. Please contact the Administrator at local 124.');
+                    }
+                  }
+                })
               }
             }
           })

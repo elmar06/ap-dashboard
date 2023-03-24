@@ -31,107 +31,35 @@
                 </ol>
             </div><!-- /Breadcrumbs -->
             <div class="card mb-4 p-3">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Generate Report By:</label>
-                    </div>   
-                </div>  
-                <div class="row">
-                    <div class="col-lg-3"><br>
-                        <label> Project:</label>
-                        <select id="project" class="form-control mb-3 select2" style="width: 100%;">
-                        <option selected disabled>Select a Project</option>
-                        <?php
-                            $get = $project->get_active_project();
-                            while($row = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row['id'].'">'.$row['project'].'</option>';
-                            }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <br><label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>  
-                <div class="row">
+                <div id="main-btn" class="row">       
                     <div class="col-lg-3">
-                        <label>Company:</label>
-                        <select id="company" class="form-control mb-3 select2" style="width: 100%;">
-                        <option selected disabled>Select a Company</option>
-                            <?php
-                                $get = $company->get_active_company();
-                                while($row = $get->fetch(PDO::FETCH_ASSOC))
-                                {
-                                echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
-                                }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
+                        <button id="report" class="btn btn-warning" style="width: 100%;"><i class="fas fa-file"></i> Disbursement Report</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label>Supplier/Vendor:</label>
-                        <select id="supplier" class="form-control mb-3 select2" style="width: 100%;">
-                        <option selected disabled>Select a Supplier</option>
-                        <?php
-                            $get = $supplier->get_active_supplier();
-                            while($row = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                            echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
-                            }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <label>Status:</label>
-                        <select id="status" class="form-control mb-3 select2">
-                            <option selected disabled>Select a Status</option>
-                            <option value="1">Pending</option>
-                            <option value="2">Returned</option>
-                            <option value="3">On Process</option>
-                            <option value="9">On Hold</option>
-                            <option value="10">For Releasing</option>
-                            <option value="11">Released</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3"><br>
-                        <label style="padding-bottom: 23px"> </label>
-                        <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3"><br>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                <!-- Disbursement Report -->
+                <div id="disbursement">
+                    <div class="row">
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="dis-from" class="form-control datepicker" placeholder="Date From">
                             </div>
-                            <input id="from" class="form-control datepicker" placeholder="Date From">
+                        </div>
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="dis-to" class="form-control datepicker" placeholder="Date To">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3"><br>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
-                            </div>
-                            <input id="to" class="form-control datepicker" placeholder="Date To">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <button class="btn btn-success" onclick="generate_report()" value="2"><i class="fas fa-check"></i> Generate</button>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <button class="btn btn-success" onclick="generate_report()" value="1"><i class="fas fa-check"></i> Generate</button>
                     </div>
                 </div>
             </div>

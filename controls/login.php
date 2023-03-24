@@ -20,6 +20,7 @@ if($row = $login->fetch(PDO::FETCH_ASSOC))
     $_SESSION['firstname'] = $row['firstname'];
     $_SESSION['log_count'] = $row['logcount'];
     $_SESSION['access'] = $row['access'];
+    $_SESSION['dept'] = $row['dept'];
     
     echo 1;
 }
