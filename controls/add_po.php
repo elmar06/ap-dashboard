@@ -23,12 +23,10 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     }
 }
 
-//check if dept is null
-// $department = $_POST['department'] ;
-// if($department== null)
-// {
-//     $department = 0;
-// }
+//check memo amount if null
+if($row['memo_amount'] == 0){
+    $memo_amount = 0;
+}
 //get the Manila time by timezone
 date_default_timezone_set('Asia/Manila');
 //covert the date format for db
@@ -54,7 +52,7 @@ $po->reports = null;
 $po->submitted_by = $_SESSION['id'];
 $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
-$po->memo_amount = str_replace(',', '', $_POST['memo_amount']);
+$po->memo_amount = str_replace(',', '', $memo_amount);
 $po->debit_memo = $_POST['debit_memo'];
 
 $save = $po->add_po();

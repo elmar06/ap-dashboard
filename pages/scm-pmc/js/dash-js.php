@@ -197,7 +197,6 @@ function SubmitPO()
   var memo_no = $('#memo-no').val();
   var debit_memo = $('#debit-memo').val();
   var memo_amount = $('#memo-amount').val();
-  var reports = $('#report').val();
   var remark = '';
   //check if it is shared
   var check = $('#remarks').is(':checked');
@@ -217,8 +216,8 @@ function SubmitPO()
     var project = 0;
   }
 
-  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
-  
+  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
+
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
     //check if PO/JO number is already exist
@@ -267,6 +266,7 @@ function SubmitPO()
                         url: '../../controls/view_submit_po.php',
                         success: function(html)
                         {
+                          toastr.success('Request successfully submitted.');
                           $('#page-body').fadeOut();
                           $('#page-body').fadeIn();
                           $('#page-body').html(html);
@@ -378,7 +378,7 @@ function upd_po_details()
 function remove_po()
 {  
   var id = $('#po-id').val();
-  
+
   $.ajax({
     type: 'POST',
     url: '../../controls/delete_po.php',
@@ -400,6 +400,7 @@ function remove_po()
             $('#page-body').fadeIn();
             $('#page-body').html(html);
             $('#notificationModal').modal('hide');
+            toastr.warning('PO/JO Successfully removed from the list');
           }
         })
       }
