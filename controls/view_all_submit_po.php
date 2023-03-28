@@ -85,8 +85,8 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
     //get the PO check details
     $check_date = '-';
     $check_no = '-';
-    $check_details->po_id = $row['po-id'];
-    $get = $check_details->get_details_byID();
+    //$check_details->po_id = $row['po-id'];
+    $get = $check_details->get_details_byID($row['po-id']);
     while($row1 = $get->fetch(PDO::FETCH_ASSOC))
     {
     $check_date = date('m/d/y', strtotime($row1['check_date']));

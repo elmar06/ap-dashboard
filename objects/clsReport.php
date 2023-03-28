@@ -303,6 +303,107 @@ class Reports
 		$sel->execute(array($comp_id, $supplier_id, $stat_id, $from, $to));
 		return $sel;
     }
+
+    //PMC REPORT MODULE
+    public function get_by_proj_date_pmc($proj, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.project = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($proj, $from, $to));
+		return $sel;
+    }
+
+    public function get_by_comp_date_pmc($comp, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.company = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $from, $to));
+		return $sel;
+    }
+
+    public function get_by_supp_date_pmc($supp, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.supplier = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($supp, $from, $to));
+		return $sel;
+    }
+
+    public function get_by_stat_date_pmc($stat, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.status = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($stat, $from, $to));
+		return $sel;
+    }
+
+    public function get_by_stat3_date_pmc($from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
+
+    public function get_by_date_pmc($from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
+
+    public function get_by_comp_proj_date_pmc($proj, $comp, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($proj, $comp, $from, $to));
+		return $sel;
+    }
+
+    public function get_by_proj_comp_supp_date_pmc($proj, $comp, $supp, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($proj, $comp, $supp, $from, $to));
+		return $sel;
+    }
+
+    public function get_all_date_pmc($proj, $comp, $supp, $stat, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($proj, $comp, $supp, $stat, $from, $to));
+		return $sel;
+    }
+
+    public function get_all_stat_date_pmc($proj, $comp, $supp, $stat, $from, $to)
+    {
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.status, po_other_details.date_received_fo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, check_details.cv_no, check_details.bank, check_details.check_no, check_details.check_date, check_details.tax, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = po_other_details.po_id AND po_details.id = check_details.po_id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($proj, $comp, $supp, $stat, $from, $to));
+		return $sel;
+    }
 }
 
 ?>

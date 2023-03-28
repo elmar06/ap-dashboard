@@ -12,16 +12,24 @@ $po->company = $_POST['company'];
 $po->po_num = $_POST['po_num'];
 $po->supplier = $_POST['supplier'];
 
-$check = $po->check_po_num();
-while($row = $check->fetch(PDO::FETCH_ASSOC))
+if($_POST['si_num'] != null || $_POST['si_num'] != '')
 {
-    if($row['check-count'] > 0)
+    $check = $po->check_po_num();
+    while($row = $check->fetch(PDO::FETCH_ASSOC))
     {
-        echo 1;
-    }
-    else
-    {
-        echo 0;
+        if($row['check-count'] > 0)
+        {
+            echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
     }
 }
+else
+{
+    echo 0;
+}
+
 ?>
