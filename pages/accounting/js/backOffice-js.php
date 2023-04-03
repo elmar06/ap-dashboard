@@ -241,24 +241,64 @@ function forwardToCebu()
         if(response > 0)
         {
           toastr.success('Request successfully forwarded to Cebu for Printing.');
-          setTimeout(function(){
-            location.reload();
-          }, 1500)
         }
         else
         {
           toastr.error('Submit Failed. Please contact the system Administrator for assistance at local 124.');
-          setTimeout(function(){
-            $('#upd-warning').fadeOut();
-          }, 3000)
         }
       }
     })
   }else{
     toastr.error('Submit Failed. Please fill-out all the data needed to proceed.');
-    setTimeout(function(){
-      $('#upd-warning').fadeOut();
-    }, 3000)
+  }
+}
+//forward Multiple CV
+function forwardToCebuMulti()
+{
+  var id = $('#multiReq').val();
+  var cv_no = $('#multi-cv-no').val();
+  var bank = $('#multi-bank').val();
+  var check_no = $('#multi-check-no').val();
+  var checkdate = $('#multi-checkdate').val();
+  var amount = $('#multi-Amount').val();
+  var tax = $('#multi-Tax').val();
+  var cv_amount = $('#multi-cvAmount').val();
+  var action = 2;
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+  
+  if(cv_no != '' && bank != null && checkdate != '' && tax != '' && cv_amount != '')
+  {
+    if(id.length > 0){
+      $.each( id, function( key, value ) {
+        $.ajax({
+          type: 'POST',
+          url: '../../controls/mark_for_signature.php',
+          data: {id:value, cv_no:cv_no, bank:bank, check_no:check_no, checkdate:checkdate, amount:amount, tax:tax, cv_amount:cv_amount, action:action},
+          async: false,
+          dataType: 'html',
+          success: function(response)
+          {
+            result = response;
+          },
+          error: function(xhr, ajaxOption, thrownError)
+          {
+            alert(thrownError);
+          }
+        })
+      })
+      //check if process is successful
+      if(result > 0)
+      {
+        toastr.success('Request successfully forwarded to Cebu for printing.');
+        setTimeout(function(){
+         location.reload();
+        }, 1500)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      }
+    }
+  }else{
+    toastr.error('Submit Failed. Please fill-out all the data needed to proceed.');
   }
 }
 //UPDATE & mark as process by BackOffice

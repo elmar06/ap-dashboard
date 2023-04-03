@@ -12,7 +12,7 @@ $access = new Access($db);
 
 $po->id = $_POST['id'];
 $po->po_id = $_POST['id'];
-$po->date_release = date('Y-m-d');
+$po->date_release = date('Y-m-d', strtotime($_POST['release_date']));
 $po->or_num = $_POST['or_num'];
 $po->receipt = $_POST['receipt'];
 $po->released_by = $_SESSION['id'];

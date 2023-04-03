@@ -394,6 +394,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="btnMultiForward" class="btn btn-success" onclick="forwardToCebuMulti()">Forward to Cebu</button>
         <button id="btnSubmit" class="btn btn-primary" onclick="submit_cv()">Submit</button>
       </div>
     </div>

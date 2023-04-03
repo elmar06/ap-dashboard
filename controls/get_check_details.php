@@ -62,6 +62,17 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </div>
     <div class="row">
         <div class="col-lg-6">
+            <label>Release Date:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input id="release-date" class="form-control datepicker" placeholder="Enter Release Date">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
             <label><i style="color: red">*</i> OR/CR Number:</label>
             <input id="or-num" class="form-control mb-3" type="text" placeholder="Enter OR/CR Number">
         </div>
@@ -74,3 +85,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     <div id="warning" class="alert alert-danger" role="alert" style="display: none"></div>';
 }
 ?>
+<script>
+//datepicker
+$('.datepicker').datepicker({
+  clearBtn: true,
+  format: "MM dd, yyyy",
+  setDate: new Date(),
+  autoClose: true
+});
+</script>

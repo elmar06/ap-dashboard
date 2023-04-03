@@ -1,8 +1,15 @@
 <script>
 $(document).ready(function () {
-    $('#releasing-table').DataTable({
-      scrollX: true
-    });
+  $('#releasing-table').DataTable({
+    scrollX: true
+  });
+  //datepicker
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "MM dd, yyyy",
+    setDate: new Date(),
+    autoClose: true
+  });
 })
 
 //toast
@@ -63,6 +70,7 @@ function submit()
   var array = JSON.parse ("["+id+"]");
   var or_num = $('#or-num').val();
   var receipt = $('#receipt-no').val();
+  var release_date = $('#release-date').val();
 
   if(array.length > 0)
   {
@@ -70,13 +78,9 @@ function submit()
       $.ajax({
         type: 'POST',
         url: '../../controls/mark_released.php',
-        data: {id: value, or_num: or_num, receipt: receipt},
+        data: {id: value, or_num: or_num, receipt: receipt, release_date: release_date},
         async: false,
         dataType: 'html',
-        beforeSend: function()
-        {
-          showToast();
-        },
         success: function(response)
         {
           result = response;
@@ -90,6 +94,7 @@ function submit()
     //get the updated list
     if(result > 0)
     {
+      showToast();
       toastr.success('PO/JO successfully marked as Released.');
       //get the latest list
       $.ajax({

@@ -77,6 +77,8 @@ function mark_signed()
         type: 'POST',
         url: '../../controls/mark_as_signed.php',
         data: {id:value},
+        async: false,
+        dataType: 'html',
         success: function(response)
         {
           result = response;

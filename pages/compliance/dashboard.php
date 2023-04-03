@@ -327,6 +327,51 @@
     </div>
   </div>
 </div>
+<!-- RECEIVING notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: red"><b>NOTICE</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="notf-msg" style="font-size: 18px;">Are you sure you want to accept this request?</div>
+        <input id="po-id" class="form-control" style="display: none;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+        <button id="btnSubmit" class="btn btn-success" onclick="received_request()"><i class="fas fa-check-circle"></i> Accept</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- RETURNED notification Modal -->
+<div class="modal fade" id="returnedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: red"><b>NOTICE</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="notf-msg" style="font-size: 18px;">Please input your reason of declining this request</div>
+        <textarea id="reason" class="form-control" row="4"></textarea>
+        <input id="return-id" class="form-control" style="display: none;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+        <button id="btnSubmit" class="btn btn-danger" onclick="return_request()"><i class="fas fa-times-circle"></i> Mark As Return</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="../../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

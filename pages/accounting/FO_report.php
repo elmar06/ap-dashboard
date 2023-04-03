@@ -49,7 +49,7 @@
                         <div class="col-lg-3"><br>
                             <label> Project:</label>
                             <select id="fo-project" class="form-control mb-3 select2" style="width: 100%;">
-                            <option selected disabled>Select a Project</option>
+                            <option selected value="0">Select a Project</option>
                             <?php
                                 $get = $project->get_active_project();
                                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -68,7 +68,7 @@
                         <div class="col-lg-3">
                             <label>Company:</label>
                             <select id="fo-company" class="form-control mb-3 select2" style="width: 100%;">
-                            <option selected disabled>Select a Company</option>
+                            <option selected value="0">Select a Company</option>
                                 <?php
                                     $get = $company->get_active_company();
                                     while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -87,7 +87,7 @@
                         <div class="col-lg-3">
                             <label>Supplier/Vendor:</label>
                             <select id="fo-supplier" class="form-control mb-3 select2" style="width: 100%;">
-                            <option selected disabled>Select a Supplier</option>
+                            <option selected value="0">Select a Supplier</option>
                             <?php
                                 $get = $supplier->get_active_supplier();
                                 while($row = $get->fetch(PDO::FETCH_ASSOC))
@@ -128,81 +128,6 @@
                 </div>
                 <!-- Disbursement Report -->
                 <div id="disbursement" style="display: none;">
-                    <!-- <div class="row">
-                        <div class="col-lg-3"><br>
-                            <label> Project:</label>
-                            <select id="project" class="form-control mb-3 select2" style="width: 100%;">
-                            <option selected disabled>Select a Project</option>
-                            <?php
-                                // $get = $project->get_active_project();
-                                // while($row = $get->fetch(PDO::FETCH_ASSOC))
-                                // {
-                                // echo '<option value="'.$row['id'].'">'.$row['project'].'</option>';
-                                // }
-                            ?>
-                            </select>
-                        </div>
-                        <div class="col-lg-3"><br>
-                            <br><label style="padding-bottom: 23px"> </label>
-                            <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                        </div>
-                    </div>  
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label>Company:</label>
-                            <select id="fo-company" class="form-control mb-3 select2">
-                            <option selected disabled>Select a Company</option>
-                                <?php
-                                    // $get = $company->get_active_company();
-                                    // while($row = $get->fetch(PDO::FETCH_ASSOC))
-                                    // {
-                                    // echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
-                                    // }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-lg-3"><br>
-                            <label style="padding-bottom: 23px"> </label>
-                            <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label>Supplier/Vendor:</label>
-                            <select id="fo-supplier" class="form-control mb-3 select2">
-                            <option selected disabled>Select a Supplier</option>
-                            <?php
-                                // $get = $supplier->get_active_supplier();
-                                // while($row = $get->fetch(PDO::FETCH_ASSOC))
-                                // {
-                                // echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
-                                // }
-                            ?>
-                            </select>
-                        </div>
-                        <div class="col-lg-3"><br>
-                            <label style="padding-bottom: 23px"> </label>
-                            <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label>Status:</label>
-                            <select id="fo-status" class="form-control mb-3 select2">
-                                <option selected disabled>Select a Status</option>
-                                <option value="1">Pending</option>
-                                <option value="2">Returned</option>
-                                <option value="3">On Process</option>
-                                <option value="9">On Hold</option>
-                                <option value="10">For Releasing</option>
-                                <option value="11">Released</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3"><br>
-                            <label style="padding-bottom: 23px"> </label>
-                            <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
-                        </div>
-                    </div> -->
                     <div class="row">
                         <div class="col-lg-3"><br>
                             <div class="input-group mb-3">

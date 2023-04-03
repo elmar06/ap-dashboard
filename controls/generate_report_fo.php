@@ -4,6 +4,7 @@ include '../objects/clsPODetails.php';
 include '../objects/clsCompany.php';
 include '../objects/clsSupplier.php';
 include '../objects/clsProject.php';
+include '../objects/clsReport.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -12,6 +13,7 @@ $po = new PO_Details($db);
 $company = new Company($db);
 $project = new Project($db);
 $supplier = new Supplier($db);
+$report = new Reports($db);
 
 function filterData(&$str){ 
     $str = preg_replace("/\t/", "\\t", $str); 
@@ -20,717 +22,335 @@ function filterData(&$str){
 }
 
 //initialize variable
-$date_from = date('Y-m-d', strtotime($_GET['date_from']));
-$date_to = date('Y-m-d', strtotime($_GET['date_to']));
+$from = date('Y-m-d', strtotime($_GET['date_from']));
+$to = date('Y-m-d', strtotime($_GET['date_to']));
 $action = $_GET['action'];
+$comp = $_GET['company'];
+$proj = $_GET['project'];
+$supp = $_GET['supplier'];
 
 if($action == 1)//CHECK FOR RELEASE
 {
-    //other details initialize
-    $proj = $_GET['project'];
-    $comp = $_GET['company'];
-    $supp = $_GET['supplier'];
-    $status = $_GET['status'];
-    $requestor = $_GET['requestor'];    
-    //generate report by COMPANY
-    if($comp != null || $comp != '')
-    {
-        //check if date is null/empty
-        if($date_from != null && $date_to != null)
-        {
-            //check if project is null/empty
-            if($proj != null || $proj != '')
-            {
-                //check if supplier is null/empty
-                if($supp != null || $supp != '')
-                {
-                    //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
+    //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
+    // Excel file name for download 
+    $fileName = 'AP Dashboard Report(FO-For Releasing).xls';
+    //1st column REPORT PAGE HEADER
+    $header1 = array('INNOGROUP OF COMPANIES');   
+    //Display column names as first row 
+    $excelData = implode("\t", array_values($header1)) . "\n"; 
+    $header2 = array('LIST OF CHECKS FOR RELEASE');   
+    //Display column names as first row 
+    $excelData = implode("\t", array_values($header2)) . "\n";
+    //3rd column
+    $header3 = array('PAYEE', 'COMPANY', 'PROJECT', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT');   
+    //Display column names as first row 
+    $excelData = implode("\t", array_values($header3)) . "\n";
 
-                    $get = $po->get_check_for_release_by_comp_proj_sup_date($comp, $proj, $supp, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    } 
-                }   
-                else
-                {
-                    //GENERATE BY COMPANY, DATE SPAN & PROJECT
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
-
-                    $get = $po->get_check_for_release_by_comp_proj_date($comp, $proj, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    } 
-                }
-            }
-            else
-            {
-                //GENERATE BY COMPANY & DATE
-                // Excel file name for download 
-                $fileName = 'AP Dashboard Report.xls';
-                //1st column REPORT PAGE HEADER
-                $header1 = array('INNOGROUP OF COMPANIES');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header1)) . "\n"; 
-                $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header2)) . "\n";
-                //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header3)) . "\n";
-
-                $get = $po->get_check_for_release_by_comp_date($comp, $date_from, $date_to);
-                while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                {
-                    //get the name of company
-                    $company->id = $row['company'];
-                    $get_comp = $company->get_company_detail();
-                    while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $comp_name = $row1['company'];
-                    }
-                    //get the name of project
-                    $project->id = $row['project'];
-                    $get_proj = $project->get_proj_details();
-                    while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        if($row2['id'] == $row['project']){
-                            $proj_name = $row2['project'];
-                        }else{
-                            $proj_name = '';
-                        }
-                    }
-                    //get the name of supplier
-                    $supplier->id = $row['supplier'];
-                    $get_supp = $supplier->get_supplier_details();
-                    while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $supp_name = $row3['supplier_name'];
-                    }
-                    //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                    array_walk($lineData, 'filterData'); 
-                    $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                }
-            }
-        }
-        else
-        {
-            //GENERATE BY COMPANY ONLY
-            // Excel file name for download 
-            $fileName = 'AP Dashboard Report.xls';
-            //1st column REPORT PAGE HEADER
-            $header1 = array('INNOGROUP OF COMPANIES');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header1)) . "\n"; 
-            $header2 = array('LIST OF CHECKS FOR RELEASE');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header2)) . "\n";
-            //3rd column
-            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header3)) . "\n";
-
-            $company->company = $comp;
-            $get = $po->get_check_for_release_by_comp();
-            while($row = $get->fetch(PDO:: FETCH_ASSOC))
-            {
-                //get the name of company
-                $company->id = $row['company'];
-                $get_comp = $company->get_company_detail();
-                while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $comp_name = $row1['company'];
-                }
-                //get the name of project
-                $project->id = $row['project'];
-                $get_proj = $project->get_proj_details();
-                while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                {
-                    if($row2['id'] == $row['project']){
-                        $proj_name = $row2['project'];
-                    }else{
-                        $proj_name = '';
-                    }
-                }
-                //get the name of supplier
-                $supplier->id = $row['supplier'];
-                $get_supp = $supplier->get_supplier_details();
-                while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $supp_name = $row3['supplier_name'];
-                }
-                //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                array_walk($lineData, 'filterData'); 
-                $excelData .= implode("\t", array_values($lineData)) . "\n";                
-            }
-        }
-    }
-    //generate report by PROJECT
-    if($project != null || $project != '')
-    {
-        //check if date is null/empty
-        if($date_from != null && $date_to != null)
-        {
-            //check if company is null/empty
-            if($comp != null || $comp != '')
-            {
-                //check if supplier is null/empty
-                if($supp != null || $supp != '')
-                {
-                    //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
-
-                    $get = $po->get_check_for_release_by_comp_proj_sup_date($comp, $proj, $supp, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    } 
-                }
-                else
-                {
-                    //GENERATE BY COMPANY, DATE SPAN & PROJECT
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
-
-                    $get = $po->get_check_for_release_by_comp_proj_date($comp, $proj, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    } 
-                }
-            }
-            else
-            {
-                // Excel file name for download 
-                $fileName = 'AP Dashboard Report.xls';
-                //1st column REPORT PAGE HEADER
-                $header1 = array('INNOGROUP OF COMPANIES');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header1)) . "\n"; 
-                $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header2)) . "\n";
-                //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header3)) . "\n";
-
-                $get = $po->get_check_for_release_by_comp_proj_date($comp, $proj, $date_from, $date_to);
-                while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                {
-                    //get the name of company
-                    $company->id = $row['company'];
-                    $get_comp = $company->get_company_detail();
-                    while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $comp_name = $row1['company'];
-                    }
-                    //get the name of project
-                    $project->id = $row['project'];
-                    $get_proj = $project->get_proj_details();
-                    while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        if($row2['id'] == $row['project']){
-                            $proj_name = $row2['project'];
-                        }else{
-                            $proj_name = '';
-                        }
-                    }
-                    //get the name of supplier
-                    $supplier->id = $row['supplier'];
-                    $get_supp = $supplier->get_supplier_details();
-                    while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $supp_name = $row3['supplier_name'];
-                    }
-                    //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                    array_walk($lineData, 'filterData'); 
-                    $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                }
-            }
-        }
-        else
-        {
-            //GENERATE BY PROJECT ONLY
-            // Excel file name for download 
-            $fileName = 'AP Dashboard Report.xls';
-            //1st column REPORT PAGE HEADER
-            $header1 = array('INNOGROUP OF COMPANIES');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header1)) . "\n"; 
-            $header2 = array('LIST OF CHECKS FOR RELEASE');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header2)) . "\n";
-            //3rd column
-            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header3)) . "\n";
-
-            $company->project = $project;
-            $get = $po->get_check_for_release_by_proj();
-            while($row = $get->fetch(PDO:: FETCH_ASSOC))
-            {
-                //get the name of company
-                $company->id = $row['company'];
-                $get_comp = $company->get_company_detail();
-                while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $comp_name = $row1['company'];
-                }
-                //get the name of project
-                $project->id = $row['project'];
-                $get_proj = $project->get_proj_details();
-                while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                {
-                    if($row2['id'] == $row['project']){
-                        $proj_name = $row2['project'];
-                    }else{
-                        $proj_name = '';
-                    }
-                }
-                //get the name of supplier
-                $supplier->id = $row['supplier'];
-                $get_supp = $supplier->get_supplier_details();
-                while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $supp_name = $row3['supplier_name'];
-                }
-                //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                array_walk($lineData, 'filterData'); 
-                $excelData .= implode("\t", array_values($lineData)) . "\n";                
-            }
-        }
-    }
-    //generate report by SUPPLIER
-    if($supp != null || $supp != '')
-    {
-        //check if date is null/empty
-        if($date_from != null && $date_to != null)
-        {
-            if($comp != null || $comp != '')
-            {
-                if($project != null || $project != '')
-                {
-                    //GENERATE BY SUPPLIER, DATE SPAN, COMPANY & PROJECT
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
-
-                    $get = $po->get_check_for_release_by_comp_proj_sup_date($comp, $proj, $supp, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    }
-                }
-                else
-                {
-                    //GENERATE BY SUPPLIER, DATE SPAN & COMPANY
-                    // Excel file name for download 
-                    $fileName = 'AP Dashboard Report.xls';
-                    //1st column REPORT PAGE HEADER
-                    $header1 = array('INNOGROUP OF COMPANIES');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header1)) . "\n"; 
-                    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header2)) . "\n";
-                    //3rd column
-                    $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                    //Display column names as first row 
-                    $excelData = implode("\t", array_values($header3)) . "\n";
-
-                    $get = $po->get_check_for_release_by_sup_comp_date($supp, $comp, $date_from, $date_to);
-                    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        //get the name of company
-                        $company->id = $row['company'];
-                        $get_comp = $company->get_company_detail();
-                        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $comp_name = $row1['company'];
-                        }
-                        //get the name of project
-                        $project->id = $row['project'];
-                        $get_proj = $project->get_proj_details();
-                        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            if($row2['id'] == $row['project']){
-                                $proj_name = $row2['project'];
-                            }else{
-                                $proj_name = '';
-                            }
-                        }
-                        //get the name of supplier
-                        $supplier->id = $row['supplier'];
-                        $get_supp = $supplier->get_supplier_details();
-                        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                        {
-                            $supp_name = $row3['supplier_name'];
-                        }
-                        //initialize data for excel
-                        $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                        array_walk($lineData, 'filterData'); 
-                        $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                    }
-                }
-            }
-            else
-            {
-                //GENERATE BY SUPPLIER & DATE SPAN
-                // Excel file name for download 
-                $fileName = 'AP Dashboard Report.xls';
-                //1st column REPORT PAGE HEADER
-                $header1 = array('INNOGROUP OF COMPANIES');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header1)) . "\n"; 
-                $header2 = array('LIST OF CHECKS FOR RELEASE');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header2)) . "\n";
-                //3rd column
-                $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-                //Display column names as first row 
-                $excelData = implode("\t", array_values($header3)) . "\n";
-
-                $get = $po->get_check_for_release_by_sup_date($supp, $date_from, $date_to);
-                while($row = $get->fetch(PDO:: FETCH_ASSOC))
-                {
-                    //get the name of company
-                    $company->id = $row['company'];
-                    $get_comp = $company->get_company_detail();
-                    while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $comp_name = $row1['company'];
-                    }
-                    //get the name of project
-                    $project->id = $row['project'];
-                    $get_proj = $project->get_proj_details();
-                    while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        if($row2['id'] == $row['project']){
-                            $proj_name = $row2['project'];
-                        }else{
-                            $proj_name = '';
-                        }
-                    }
-                    //get the name of supplier
-                    $supplier->id = $row['supplier'];
-                    $get_supp = $supplier->get_supplier_details();
-                    while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                    {
-                        $supp_name = $row3['supplier_name'];
-                    }
-                    //initialize data for excel
-                    $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                    array_walk($lineData, 'filterData'); 
-                    $excelData .= implode("\t", array_values($lineData)) . "\n";                
-                }
-            }
-        }
-        else
-        {
-            //GENERATE BY SUPPLIER ONLY
-            // Excel file name for download 
-            $fileName = 'AP Dashboard Report.xls';
-            //1st column REPORT PAGE HEADER
-            $header1 = array('INNOGROUP OF COMPANIES');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header1)) . "\n"; 
-            $header2 = array('LIST OF CHECKS FOR RELEASE');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header2)) . "\n";
-            $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-            //Display column names as first row 
-            $excelData = implode("\t", array_values($header3)) . "\n";
-
-            $supplier->supplier = $supplier;
-            $get = $po->get_check_for_release_by_sup();
-            while($row = $get->fetch(PDO:: FETCH_ASSOC))
-            {
-                //get the name of company
-                $company->id = $row['company'];
-                $get_comp = $company->get_company_detail();
-                while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $comp_name = $row1['company'];
-                }
-                //get the name of project
-                $project->id = $row['project'];
-                $get_proj = $project->get_proj_details();
-                while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-                {
-                    if($row2['id'] == $row['project']){
-                        $proj_name = $row2['project'];
-                    }else{
-                        $proj_name = '';
-                    }
-                }
-                //get the name of supplier
-                $supplier->id = $row['supplier'];
-                $get_supp = $supplier->get_supplier_details();
-                while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-                {
-                    $supp_name = $row3['supplier_name'];
-                }
-                //initialize data for excel
-                $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
-                array_walk($lineData, 'filterData'); 
-                $excelData .= implode("\t", array_values($lineData)) . "\n";                
-            }
-        }
-    }
-    //generate report by DATE SPAN
-    if($date_from != null && $date_to != null)
-    {
-        // Excel file name for download 
-        $fileName = 'AP Dashboard Report.xls';
-        //1st column REPORT PAGE HEADER
-        $header1 = array('INNOGROUP OF COMPANIES');   
-        //Display column names as first row 
-        $excelData = implode("\t", array_values($header1)) . "\n"; 
-        $header2 = array('LIST OF CHECKS FOR RELEASE');   
-        //Display column names as first row 
-        $excelData = implode("\t", array_values($header2)) . "\n";
-        //3rd column
-        $header3 = array('COMPANY', 'PROJECT', 'CHECK NUMBER', 'AMOUNT');   
-        //Display column names as first row 
-        $excelData = implode("\t", array_values($header3)) . "\n";
-
-        $get = $po->get_check_for_release_by_date($date_from, $date_to);
+    //GENERATE REPORT BY PROJECT & DATE SPAN
+    if($_GET['rep_action'] == 1)
+    {   
+        $get = $report->get_by_proj_date_fo($proj, $from, $to);
         while($row = $get->fetch(PDO:: FETCH_ASSOC))
-        {
+        {           
             //get the name of company
+            $comp_name = '-';
             $company->id = $row['company'];
             $get_comp = $company->get_company_detail();
             while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
             {
-                $comp_name = $row1['company'];
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
             }
             //get the name of project
+            $proj_name = '-';
             $project->id = $row['project'];
             $get_proj = $project->get_proj_details();
             while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row2['id'] == $row['project']){
                     $proj_name = $row2['project'];
-                }else{
-                    $proj_name = '';
                 }
             }
             //get the name of supplier
+            $supp_name = '-';
             $supplier->id = $row['supplier'];
             $get_supp = $supplier->get_supplier_details();
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
-                $supp_name = $row3['supplier_name'];
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
             }
+            $amount = number_format(floatval($row['cv_amount']), 2);
             //initialize data for excel
-            $lineData = array($comp_name, $proj_name, $row['check_no'], $row['amount']);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
             array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n";                
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }  
+    }
+
+    //GENERATE REPORT BY COMPANY & DATE SPAN
+    if($_GET['rep_action'] == 2)
+    {
+        $get = $report->get_by_comp_date_fo($comp, $from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }  
+    }
+
+    //GENERRATE REPORT BY SUPPLIER & DATE SPAN
+    if($_GET['rep_action'] == 3)
+    {
+        $get = $report->get_by_supp_date_fo($supp, $from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }  
+    }
+
+    //GENERATE REPORT BY COMPANY, PROJECT & DATE SPAN
+    if($_GET['rep_action'] == 4)
+    {
+        $get = $report->get_by_comp_proj_date_fo($proj, $comp, $from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }  
+    }
+
+    //GENERATE REPORT BY ALL
+    if($_GET['rep_action'] == 5)
+    {
+        $get = $report->get_all_date_fo($proj, $comp, $supp, $from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }
+    }
+
+    //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
+    if($_GET['rep_action'] == 6)
+    {
+        $get = $report->get_by_comp_supp_date_fo($comp, $supp, $from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }
+    }
+
+    //GENERATE REPORT BY DATE SPAN
+    if($_GET['rep_action'] == 7)
+    {
+        $get = $report->get_by_date_fo($from, $to);
+        while($row = $get->fetch(PDO:: FETCH_ASSOC))
+        {
+            //get the name of company
+            $comp_name = '-';
+            $company->id = $row['company'];
+            $get_comp = $company->get_company_detail();
+            while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row1['id'] == $row['company']){
+                    $comp_name = $row1['company'];
+                }
+            }
+            //get the name of project
+            $proj_name = '-';
+            $project->id = $row['project'];
+            $get_proj = $project->get_proj_details();
+            while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row2['id'] == $row['project']){
+                    $proj_name = $row2['project'];
+                }
+            }
+            //get the name of supplier
+            $supp_name = '-';
+            $supplier->id = $row['supplier'];
+            $get_supp = $supplier->get_supplier_details();
+            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row3['id'] == $row['supplier']){
+                    $supp_name = $row3['supplier_name'];
+                }
+            }
+            $amount = number_format(floatval($row['cv_amount']), 2);
+            //initialize data for excel
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount);
+            array_walk($lineData, 'filterData'); 
+            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }
     }
 }
@@ -811,7 +431,7 @@ else//PERCENTAGE REPORT
     //Display column names as first row 
     $excelData = implode("\t", array_values($header3)) . "\n";
 
-    $get = $po->get_percentage_by_date($date_from, $date_to);
+    $get = $po->get_percentage_by_date($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         //get the name of company

@@ -706,6 +706,16 @@ class PO_Details
 		return $sel;
     }
 
+    public function get_received_compliance()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, check_details, po_other_details, users WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_other_details.received_by_comp = users.id AND po_details.status = 14 ORDER BY po_other_details.date_release DESC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
     public function forward_to_compliance()
     {
         $query = 'UPDATE po_details SET status = 12 WHERE id = ?';

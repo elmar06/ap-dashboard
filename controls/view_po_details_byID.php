@@ -227,10 +227,22 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 </div>
               </div>
             </div>
-            <div class="row report" style="display: none;">
-              <div class="col-lg-12">
-                <textarea id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here"></textarea>
+            <div class="report" style="display: none">
+              <hr>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input id="memo-no" class="form-control mb-3" type="text" placeholder="Input Memo No. here">
+                </div>
               </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input id="debit-memo" class="form-control mb-3" type="text" placeholder="Input Debit Memo No. here">
+                </div>
+                <div class="col-lg-6">
+                <input id="memo-amount" class="form-control mb-3 amount" type="text" placeholder="Input Memo Amount here">
+                </div>
+              </div>
+              <hr>
             </div>
             <div class="row">
               <div class="col-lg-12">

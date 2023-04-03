@@ -116,6 +116,8 @@ function upd_po_details()
   var terms = $('#terms').val();
   var due_date = $('#due-date').val();
   var memo_no = $('#memo-no').val();
+  var debit_no = $('#debit-memo').val();
+  var memo_amount = $('#memo-amount').val();
   var reports = '';
   var remark = '';
   //check if it is shared

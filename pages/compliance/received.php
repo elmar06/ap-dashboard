@@ -47,11 +47,12 @@
                           <th>Suppplier</th>
                           <th>Due Date</th>
                           <th>Project</th>
+                          <th>Received by</th>
                       </tr>
                     </thead>
                     <tbody id="po-submit-body">
                     <?php
-                        $view = $po->get_list_compliance();
+                        $view = $po->get_received_compliance();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
                             //get the COMPANY name if exist
@@ -61,7 +62,7 @@
                             while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                             {
                             if($row['comp-id'] == $rowComp['id']){
-                                $comp_name = $rowComp['company'];
+                              $comp_name = $rowComp['company'];
                             }
                             }
                             //get the SUPPLIER name if exist
@@ -100,6 +101,8 @@
                                 <td style="width: 180px">'.$sup_name.'</td>
                                 <td>'.$due.'</td>
                                 <td>'.$proj_name.'</td>
+                                <td>'.$row['fullname'].'</td>
+
                             </tr>';
                         }
                         // //get the user company access

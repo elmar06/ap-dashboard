@@ -18,71 +18,87 @@ function hideLoading(){
 $('.received').on('click', function(e){
     e.preventDefault();
 
+    //show confirmation modal first
+    $('#notificationModal').modal('show');
+    //get the ID
     var id = $(this).val();
-
-    $.ajax({
-        type: 'POST',
-        url: '../../controls/mark_received_compliance.php',
-        data: {id: id},
-        beforeSend: function()
-        {
-          showToast();
-        },
-        success: function(response)
-        {
-            if(response > 0){
-                //get the new list
-                toastr.success('Request successfully mark as Received.');
-                $.ajax({
-                    url: '../../controls/get_list_compliance.php',
-                    success: function(html)
-                    {
-                        $('#page-body').fadeOut();
-                        $('#page-body').fadeIn();
-                        $('#page-body').html(html);
-                    }
-                })
-            }else{
-                toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
-            }
-        }
-    })
+    $('#po-id').val(id);
 })
+function received_request()
+{
+  var id = $('#po-id').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_received_compliance.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response > 0){
+          //get the new list
+          toastr.success('Request successfully mark as Received.');
+          $.ajax({
+              url: '../../controls/get_list_compliance.php',
+              success: function(html)
+              {
+                $('#page-body').fadeOut();
+                $('#page-body').fadeIn();
+                $('#page-body').html(html);
+              }
+          })
+      }else{
+          toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
+      }
+    }
+  })
+}
+  
 //mark RETURNED 
 $('.return').on('click', function(e){
     e.preventDefault();
-
+    $('#returnedModal').modal('show');
+    //get the ID
     var id = $(this).val();
-    
-    $.ajax({
-        type: 'POST',
-        url: '../../controls/mark_return_compliance.php',
-        data: {id: id},
-        beforeSend: function()
-        {
-            showToast();
-        },
-        success: function(response)
-        {
-          alert(response);
-          if(response > 0){
-              //get the new list
-              toastr.success('Request successfully mark as Received.');
-              $.ajax({
-                  url: '../../controls/get_list_compliance.php',
-                  success: function(html)
-                  {
-                      $('#page-body').fadeOut();
-                      $('#page-body').fadeIn();
-                      $('#page-body').html(html);
-                  }
-              })
-          }else{
-              toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
-          }
-        }
-    })
+    $('#return-id').val(id);
 })
+
+function return_request()
+{
+  var id = $('#return-id').val();
+    
+  $.ajax({
+      type: 'POST',
+      url: '../../controls/mark_return_compliance.php',
+      data: {id: id},
+      beforeSend: function()
+      {
+          showToast();
+      },
+      success: function(response)
+      {
+        alert(response);
+        if(response > 0){
+            //get the new list
+            toastr.success('Request successfully mark as Received.');
+            $.ajax({
+                url: '../../controls/get_list_compliance.php',
+                success: function(html)
+                {
+                    $('#page-body').fadeOut();
+                    $('#page-body').fadeIn();
+                    $('#page-body').html(html);
+                }
+            })
+        }else{
+            toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
+        }
+      }
+  })
+}
 //Mark multi request as receive
 function mark_all_received()
 {

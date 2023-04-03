@@ -31,10 +31,6 @@ function forward_all()
         data: {id:value},
         async: false,
         dataType: 'html',
-        beforeSend: function()
-        {
-          showToast();
-        },
         success: function(response)
         {
           result = response;
@@ -48,6 +44,7 @@ function forward_all()
     //check if process is successful
     if(result > 0)
     {
+      showToast();
       toastr.success('Request successfully mark as Received.');
       //display the new list
       $.ajax({
