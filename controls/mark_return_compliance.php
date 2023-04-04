@@ -8,6 +8,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 
 $po->id = $_POST['id'];
+$po->comp_remark = $_POST['remark'];
 
 $upd = $po->mark_return_compliance();
 if($upd){

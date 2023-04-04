@@ -70,7 +70,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </a>
   </li> -->
   <li class="nav-item">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>
     </a>

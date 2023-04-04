@@ -119,7 +119,7 @@
             </div> <!-- end of card row -->
             <div id="btnDiv" style="display: none;">
               <a type="button" class="btn btn-success mb-1" href="#" onclick="mark_all_received()"><i class="fas fa-check-square"></i> Mark All Received</a>
-              <a type="button" class="btn btn-danger mb-1" href="#" onclick="mark_all_returned()"><i class="fas fa-undo-alt"></i> Mark All for Returned</a>
+              <a type="button" id="btnMarkAllReturn" class="btn btn-danger mb-1" href="#"><i class="fas fa-undo-alt"></i> Mark All for Returned</a>
             </div><br>
             <!-- DataTable with Hover -->
             <div class="row mb-3">
@@ -129,7 +129,7 @@
                     <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
-                          <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th style="max-width: 2%"><input type="checkbox" class="checkboxall1"/><span class="checkmark"></span></th>
                           <th><center>Action</center></th>
                           <th>Released Date</th>
                           <th>OR #</th>
@@ -187,7 +187,7 @@
                         <button class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button>';
                         echo '
                         <tr>
-                          <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                          <td><input type="checkbox" name="checklist1" class="checklist1" value="'.$row['po-id'].'"></td>
                           <td>'.$action.'</td>
                           <td>'.$date_release.'</td>
                           <td>'.$row['or_num'].'</td>
@@ -212,7 +212,7 @@
                     <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
-                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall2"/><span class="checkmark"></span></th>
                           <th><center>Action</center></th>
                           <th>Released Date</th>
                           <th>OR #</th>
@@ -266,11 +266,10 @@
                           //date format
                           $date_release = date('m/d/Y', strtotime($row['date_release']));                              
                           $due = date('m/d/Y', strtotime($row['due_date']));                              
-                          $action = '<button class="btn-sm btn-success received" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
-                          <button class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button>';
+                          $action = '<button class="btn-sm btn-success received" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>';
                           echo '
                           <tr>
-                            <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                            <td><input type="checkbox" name="checklist2" class="checklist2" value="'.$row['po-id'].'"></td>
                             <td>'.$action.'</td>
                             <td>'.$date_release.'</td>
                             <td>'.$row['or_num'].'</td>
@@ -363,7 +362,7 @@
       <div class="modal-body">
         <div id="notf-msg" style="font-size: 18px;">Please input your reason of declining this request</div>
         <textarea id="reason" class="form-control" row="4"></textarea>
-        <input id="return-id" class="form-control" style="display: none;">
+        <input id="return-id" class="form-control">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>

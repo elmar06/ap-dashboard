@@ -757,11 +757,12 @@ class PO_Details
 
     public function mark_return_compliance()
     {
-        $query = 'UPDATE po_details SET status = 13 WHERE id = ?';
+        $query = 'UPDATE po_details SET comp_remark = ?, status = 13 WHERE id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
-        $upd->bindParam(1, $this->id);
+        $upd->bindParam(1, $this->comp_remark);
+        $upd->bindParam(2, $this->id);
 
         if($upd->execute())
 		{

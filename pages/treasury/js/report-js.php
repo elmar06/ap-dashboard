@@ -45,11 +45,7 @@ function generate_report()
   }
   var myData = 'company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action; 
 
-  if(company == 0 && supplier == 0 && status == 0 )
-  {
-    toastr.error('ERROR! Please input data for report generation.');
-  }
-  else if(date_from == '' && date_to == '')
+  if(date_from == '' && date_to == '')
   {
     toastr.error('ERROR! Please select a date span to continue.');
   }

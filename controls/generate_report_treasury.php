@@ -24,7 +24,7 @@ $action = $_GET['action'];
 // Excel file name for download 
 $fileName = 'Treasury Report('.date('m-d-Y', strtotime($from)).' - '.date('m-d-Y', strtotime($to)).').xls';
 // 1st Column names 
-$header = array('CHECK DATE', 'CV NUMBER', 'DATE RECEIVED', 'DUE DATE', 'CHECK NUMBER', 'SUPPLIER', 'COMPANY', 'AMOUNT', 'DATE ONHOLD', 'DATE RELEASE', 'STATUS');
+$header = array('CHECK DATE', 'CV NUMBER', 'DATE RECEIVED', 'DUE DATE', 'CHECK NUMBER', 'SUPPLIER', 'COMPANY', 'CV AMOUNT', 'DATE ONHOLD', 'DATE RELEASE', 'STATUS');
 // Display column names as first row 
 $excelData = implode("\t", array_values($header)) . "\n"; 
 
