@@ -25,12 +25,12 @@ function filterData(&$str){
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 $action = $_GET['action'];
-$comp = $_GET['company'];
-$proj = $_GET['project'];
-$supp = $_GET['supplier'];
 
 if($action == 1)//CHECK FOR RELEASE
 {
+    $comp = $_GET['company'];
+    $proj = $_GET['project'];
+    $supp = $_GET['supplier'];
     //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
     // Excel file name for download 
     $fileName = 'AP Dashboard Report(FO-For Releasing).xls';
@@ -371,7 +371,7 @@ elseif($action == 2)//DISBURSEMENT REPORT
     //Display column names as first row 
     $excelData = implode("\t", array_values($header3)) . "\n";
 
-    $get = $po->get_disbursement_by_date($date_from, $date_to);
+    $get = $po->get_disbursement_by_date($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         //get the name of company
@@ -417,7 +417,7 @@ elseif($action == 2)//DISBURSEMENT REPORT
 else//PERCENTAGE REPORT
 {
     // Excel file name for download 
-    $fileName = 'AP Dashboard Report.xls';
+    $fileName = 'AP Dashboard Percentage Report.xls';
     //1st column REPORT PAGE HEADER
     $header1 = array('INNDUCO PERCENTAGE REPORT');   
     //Display column names as first row 
