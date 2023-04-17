@@ -48,16 +48,16 @@ $(document).on('dblclick', '#submitted-table tr', function(){
 function get_pending_po()
 {
   $.ajax({
-    url: '../../controls/get_pending_po.php',
+    url: '../../controls/get_pending_po_manager.php',
     beforeSend: function()
     {
       showToast();
     },
     success: function(html)
     {
-      $('#po-body').fadeOut();
-      $('#po-body').fadeIn();
-      $('#po-body').html(html);
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
     }
   })
 }
@@ -66,16 +66,16 @@ function get_pending_po()
 function get_returned_po()
 {
   $.ajax({
-    url: '../../controls/get_returned_po.php',
+    url: '../../controls/get_returned_po_manager.php',
     beforeSend: function()
     {
       showToast();
     },
     success: function(html)
     {
-      $('#po-body').fadeOut();
-      $('#po-body').fadeIn();
-      $('#po-body').html(html);
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
     }
   })
 }
@@ -84,16 +84,16 @@ function get_returned_po()
 function get_process_po()
 {
   $.ajax({
-    url: '../../controls/get_process_po.php',
+    url: '../../controls/get_process_po_manager.php',
     beforeSend: function()
     {
       showToast();
     },
     success: function(html)
     {
-      $('#po-body').fadeOut();
-      $('#po-body').fadeIn();
-      $('#po-body').html(html);
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
     }
   })
 }

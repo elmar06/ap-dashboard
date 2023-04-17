@@ -39,6 +39,7 @@
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <th><center>Status</center></th>
                         <th>Accepted (FO)</th>
                         <th>Accepted (BO)</th>
                         <!-- <th>SI No</th> -->
@@ -52,7 +53,6 @@
                         <th>Amount</th>
                         <th>Sent to EA</th>
                         <th>Received from EA</th>
-                        <th><center>Status</center></th>
                       </tr>
                     </thead>
                     <tbody id="po-submit-body">
@@ -168,12 +168,13 @@
                               }else if($row['status'] == 11){
                                 $status = '<label style="color: green"><b> Released</b></label>';
                               }else{
-                                $status = '<label style="color: blue"><b> On Process</b></label>';
+                                $status = '<label style="color: blue"><b> In Process</b></label>';
                               }
                               
                               echo '
                               <tr>
                                 <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td><center>'.$status.'</center></td>
                                 <td><center>'.$received_fo.'</center></td>
                                 <td><center>'.$received_bo.'</center></td>                        
                                 <td align="center">'.$cv_num.'</td>
@@ -185,8 +186,7 @@
                                 <td>'.$sup_name.'</td>
                                 <td align="center">'.$cv_amount.'</td>
                                 <td align="center">'.$date_ea.'</td> 
-                                <td align="center">'.$from_ea.'</td> 
-                                <td><center>'.$status.'</center></td>                           
+                                <td align="center">'.$from_ea.'</td>                                    
                               </tr>';
                             }
                           }

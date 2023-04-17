@@ -23,7 +23,7 @@ $('.apply').on('click', function(e){
   e.preventDefault();
   var id = $(this).val();
   var action =$(this).closest('tr').find('.action').val();
-  
+
   //update date_to_ea in po_other_details(MARK AS SENT TO EA)
   if(action == 1)
   {

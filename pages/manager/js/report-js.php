@@ -44,6 +44,20 @@ function generate_report()
     var action = 6;//Generate report by PROJECT, COMPANY, SUPPLIER & Date Span
   }else if(project != 0 && company != 0 && supplier != 0 && status != 0){
     var action = 7;//Generate report by ALL 
+  }else if(project != 0 && company == 0 && supplier != 0 && status == 0){
+    var action = 9;//Generate report by PROJECT, SUPPLIER & DATE SPAN
+  }else if(project != 0 && company == 0 && supplier == 0 && status != 0){
+    var action = 10;//Generate report by PROJECT, STATUS & DATE SPAN
+  }else if(project == 0 && company != 0 && supplier != 0 && status == 0){
+    var action = 11;//Generate report by COMPANY, SUPPLIER & DATE SPAN
+  }else if(project == 0 && company != 0 && supplier == 0 && status != 0){
+    var action = 12;//Generate report by COMPANY, STATUS & DATE SPAN
+  }else if(project == 0 && company == 0 && supplier != 0 && status != 0){
+    var action = 13;//Generate report by SUPPLIER, STATUS & DATE SPAN
+  }else if(project != 0 && company == 0 && supplier != 0 && status != 0){
+    var action = 14;//Generate report by PROJECT, SUPPLIER, STATUS & DATE SPAN
+  }else if(project != 0 && company != 0 && supplier == 0 && status != 0){
+    var action = 15;//Generate report by PROJECT, COMPANY, STATUS & DATE SPAN
   }else{
     var action = 8;//Generate report by DATE SPAN only
   }
@@ -59,45 +73,15 @@ function generate_report()
   }   
 }
 
-// //event handler
-// //project
-// $('#project').on('change', function(){
-//   $('#company').attr('disabled', true);
-//   $('#supplier').attr('disabled', true);
-//   $('#status').attr('disabled', true);
-// })
-// //Company
-// $('#company').on('change', function(){
-//   $('#project').attr('disabled', true);
-//   $('#supplier').attr('disabled', true);
-//   $('#status').attr('disabled', true);
-// })
-// //Supplier
-// $('#supplier').on('change', function(){
-//   $('#company').attr('disabled', true);
-//   $('#project').attr('disabled', true);
-//   $('#status').attr('disabled', true);
-// })
-// //Status
-// $('#status').on('change', function(){
-//   $('#company').attr('disabled', true);
-//   $('#supplier').attr('disabled', true);
-//   $('#project').attr('disabled', true);
-// })
 //clear or reset the dropdown box
 $(document).ready(function(){
-  $('.remove-data').on('click', function(e){
+  $('.remove').on('click', function(e){
     e.preventDefault();
 
-    $('#project').append('<option selected disabled>Select a Project</option>');
-    $('#company').append('<option selected disabled>Select a Company</option>');
-    $('#supplier').append('<option selected disabled>Select a Supplier</option>');
-    $('#status').append('<option selected disabled>Select a Status</option>');
-    //enable fields
-    $('#project').attr('disabled', false);
-    $('#company').attr('disabled', false);
-    $('#supplier').attr('disabled', false);
-    $('#status').attr('disabled', false);
+    $('#project').append('<option selected value="0">Select a Project</option>');
+    $('#company').append('<option selected value="0">Select a Company</option>');
+    $('#supplier').append('<option selected value="0">Select a Supplier</option>');
+    $('#status').append('<option selected value="0">Select a Status</option>');
   })
 })
 </script>

@@ -14,12 +14,19 @@ $access = new Access($db);
 $supplier = new Supplier($db);
 $company = new Company($db);
 
-$po->status = 8;
-$po->date_from_ea = date('Y-m-d');
-$po->po_id = $_POST['id'];
-$po->id = $_POST['id'];
+$poID = $_POST['id'];
 
-$upd = $po->mark_return_from_ea();
+//check if multicv id's
+$po_id = explode(',', $poID);
+foreach($po_id as $value)
+{
+  $po->id = $value;
+  $po->po_id = $value;
+  $po->date_from_ea = date('Y-m-d');
+  $po->status = 8;
+
+  $upd = $po->mark_return_from_ea();
+}
 
 if($upd)
 {
@@ -74,11 +81,7 @@ if($upd)
           <td style="width: 180px"><center>
           <select class="form-control-sm action" style="width:120px">
             <option value="0" selected disabled>Mark Status</option>';
-            if($row['po-stat'] == 5){
-              echo '<option value="1">Sent to EA</option>
-                    <option value="2">Returned from EA</option>
-                    <option value="3">Cancel Check</option>';
-            }elseif($row['po-stat'] == 6){
+            if($row['po-stat'] == 6){
               echo '<option value="1" disabled selected>Sent to EA</option>
                     <option value="2">Returned from EA</option>
                     <option value="3">Cancel Check</option>';

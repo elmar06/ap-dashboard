@@ -94,7 +94,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">On Process</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">In Process</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_on_process();
@@ -166,8 +166,7 @@
                         <th>SI No</th>
                         <th>Supplier</th>
                         <th>Billing Date</th>   
-                        <th>Amount</th>                  
-                        
+                        <th>Amount</th>                 
                       </tr>
                     </thead>
                     <tbody id="req-body">
@@ -213,7 +212,7 @@
                         }else if($row['status'] == 11){
                           $status = '<label style="color: green"><b> Released</b></label>';
                         }else{
-                          $status = '<label style="color: blue"><b> On Process</b></label>';
+                          $status = '<label style="color: blue"><b> In Process</b></label>';
                         }
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));

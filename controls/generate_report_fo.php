@@ -33,7 +33,7 @@ if($action == 1)//CHECK FOR RELEASE
     $supp = $_GET['supplier'];
     //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
     // Excel file name for download 
-    $fileName = 'AP Dashboard Report(FO-For Releasing).xls';
+    $fileName = 'AP Dashboard Report(For Releasing).xls';
     //1st column REPORT PAGE HEADER
     $header1 = array('INNOGROUP OF COMPANIES');   
     //Display column names as first row 
@@ -266,7 +266,7 @@ if($action == 1)//CHECK FOR RELEASE
         }
     }
 
-    //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
+    //GENERATE REPORT BY COMPANY, SUPPLIER & DATE SPAN
     if($_GET['rep_action'] == 6)
     {
         $get = $report->get_by_comp_supp_date_fo($comp, $supp, $from, $to);
