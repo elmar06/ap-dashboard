@@ -562,7 +562,7 @@ class PO_Details
 
     public function get_all_cancel()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.cv_no, check_details.check_no FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 13 AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.cv_no, check_details.check_no FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 16 AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -1161,6 +1161,24 @@ class PO_Details
 
         $upd->bindParam(1, $this->status);
         $upd->bindParam(2, $this->id);
+        if($upd->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function mark_cancel_check()
+    {
+        $query = 'UPDATE po_details, check_details SET po_details.status = ?, check_details.status = 0 WHERE check_details.po_id = ? AND po_details.id = ?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->status);
+        $upd->bindParam(2, $this->po_id);
+        $upd->bindParam(3, $this->id);
+
         if($upd->execute())
         {
             return true;

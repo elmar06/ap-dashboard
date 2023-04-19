@@ -38,6 +38,7 @@
                   <option selected disabled>Bulk Actions</option>
                   <option value="1">Sent to EA</option>
                   <option value="2">Received from EA</option>
+                  <option value="3">Cancel Check</option>
                 </select>
               </div>
               <a type="button" class="btn btn-success mb-1" href="#" onclick="apply()" ><i class="fas fa-check"></i> Apply</a>&nbsp;
@@ -137,11 +138,11 @@
                                   }elseif($row['po-stat'] == 13){
                                     echo '<option value="1" disabled>Sent to EA</option>
                                           <option value="2" disabled>Returned from EA</option>
-                                          <option value="3" disabled selected>Canceled Check</option>';
+                                          <option value="3" disabled selected>Cancel Check</option>';
                                   }else{
                                     echo '<option value="1">Sent to EA</option>
                                           <option value="2">Returned from EA</option>
-                                          <option value="3">Canceled Check</option>';
+                                          <option value="3">Cancel Check</option>';
                                   }
                                   echo '</select>
                                   <button class="btn-sm btn-success apply" value="'.$row['po_id'].'"><i class="fas fa-check"></i></button>

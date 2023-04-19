@@ -31,12 +31,31 @@ $('.apply').on('click', function(e){
       type: 'POST',
       url: '../../controls/mark_sent_to_ea.php',
       data: {id:id},
-      success: function(html)
+      async: false,
+      dataType: 'html',
+      beforeSend: function()
       {
-        toastr.success('Request successfully mark as forwarded to EA Team.');
-        $('#process-body').html(html);
-      }
+        showToast();
+      },
+      success: function(response)
+      {
+        result = response;
+      },
+      error: function(xhr, ajaxOption, thrownError)
+      {
+        alert(thrownError);
+      }    
     })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Request successfully mark as forwarded to EA Team.');
+      setTimeout(function(){
+        location.reload();
+      }, 1300)
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+    }
   }
   //update date_from_ea in po_other_details(MARK AS RETURNED FROM EA)
   if(action == 2)
@@ -45,12 +64,64 @@ $('.apply').on('click', function(e){
       type: 'POST',
       url: '../../controls/mark_return_from_ea.php',
       data: {id:id},
-      success: function(html)
+      async: false,
+      dataType: 'html',
+      beforeSend: function()
       {
-        toastr.success('Request successfully mark as Returned from EA Team.');
-        $('#process-body').html(html);
-      }
+        showToast();
+      },
+      success: function(response)
+      {
+        result = response;
+      },
+      error: function(xhr, ajaxOption, thrownError)
+      {
+        alert(thrownError);
+      }    
     })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Request successfully mark as Returned from EA Team.');
+      setTimeout(function(){
+        location.reload();
+      }, 1300)
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+    }
+  }
+  //mark check as canceled 
+  if(action == 3)
+  {
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/mark_cancel_check.php',
+      data: {id: id},
+      async: false,
+      dataType: 'html',
+      beforeSend: function()
+      {
+        showToast();
+      },
+      success: function(response)
+      {
+        result = response;
+      },
+      error: function(xhr, ajaxOption, thrownError)
+      {
+        alert(thrownError);
+      }    
+    })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Check successfully mark as Canceled.');
+      setTimeout(function(){
+        location.reload();
+      }, 1300)
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+    }
   }
 })
 
@@ -63,8 +134,10 @@ function apply()
     if(action == 1)
     {
       sent_all_to_ea();
-    }else{
+    }else if(action == 2){
       received_all_from_ea();
+    }else{
+      cancel_bulk();
     }
   }else{
     toastr.error('Please select bulk action to proceed.');
@@ -85,12 +158,31 @@ function sent_all_to_ea()
         type: 'POST',
         url: '../../controls/mark_sent_to_ea.php',
         data: {id: value},
-        success: function(html)
+        async: false,
+        dataType: 'html',
+        beforeSend: function()
         {
-          toastr.success('Request successfully mark as forwarded to EA Team.');
-          $('#process-body').html(html);
-        }
+          showToast();
+        },
+        success: function(response)
+        {
+          result = response;
+        },
+        error: function(xhr, ajaxOption, thrownError)
+        {
+          alert(thrownError);
+        }    
       })
+      //check if process is successful
+      if(result > 0)
+      {
+        toastr.success('Request successfully mark as forwarded to EA Team.');
+        setTimeout(function(){
+          location.reload();
+        }, 1300)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      }
     })
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
@@ -111,12 +203,31 @@ function received_all_from_ea()
         type: 'POST',
         url: '../../controls/mark_return_from_ea.php',
         data: {id: value},
-        success: function(html)
+        async: false,
+        dataType: 'html',
+        beforeSend: function()
         {
-          toastr.success('Request successfully mark as Returned from EA Team.');
-          $('#process-body').html(html);
-        }
+          showToast();
+        },
+        success: function(response)
+        {
+          result = response;
+        },
+        error: function(xhr, ajaxOption, thrownError)
+        {
+          alert(thrownError);
+        }    
       })
+      //check if process is successful
+      if(result > 0)
+      {
+        toastr.success('Request successfully mark as Returned from EA Team.');
+        setTimeout(function(){
+          location.reload();
+        }, 1300)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      }
     })
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
@@ -125,9 +236,37 @@ function received_all_from_ea()
 
 function cancel_bulk()
 {
-  $('#bulk-action').fadeOut();
-  $('.action').attr('disabled', false);
-  $('.apply').attr('disabled', false);
+  var id = $(this).val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_cancel_check.php',
+    data: {id: id},
+    async: false,
+    dataType: 'html',
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      result = response;
+    },
+    error: function(xhr, ajaxOption, thrownError)
+    {
+      alert(thrownError);
+    }    
+  })
+  //check if process is successful
+  if(result > 0)
+  {
+    toastr.success('Check successfully mark as Canceled.');
+    setTimeout(function(){
+      location.reload();
+    }, 1500)
+  }else{
+    toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+  }
 }
 
 //cancel check function
@@ -135,24 +274,36 @@ $('.cancel').on('click', function(e){
   e.preventDefault();
 
   var id = $(this).val();
-  
+
   $.ajax({
     type: 'POST',
-    //url: '../../controls/view_for_cancel.php',
     url: '../../controls/mark_cancel_check.php',
     data: {id: id},
+    async: false,
+    dataType: 'html',
     beforeSend: function()
     {
       showToast();
     },
-    success: function(html)
+    success: function(response)
     {
-      // $('#cancelModal').modal('show');
-      // $('#details-body').html(html);
-      toastr.warning('Check successfully mark as CANCELLED');
-      $('#process-body').html(html);
-    }
+      result = response;
+    },
+    error: function(xhr, ajaxOption, thrownError)
+    {
+      alert(thrownError);
+    }    
   })
+  //check if process is successful
+  if(result > 0)
+  {
+    toastr.success('Check successfully mark as Canceled.');
+    setTimeout(function(){
+      location.reload();
+    }, 1500)
+  }else{
+    toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+  }
 })
 
 //submit cancellation function
