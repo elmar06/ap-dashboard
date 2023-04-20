@@ -54,8 +54,8 @@
                           <th>Check No</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
+                          <th>SI No</th>
                           <th>Payee</th>
-                          <th><center>Status</center></th>
                         </tr>
                       </thead>
                       <tbody id="process-body">
@@ -98,8 +98,6 @@
                                   $sup_name = '-';
                                 }
                               }
-                              //date format
-                              $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                               echo '
                               <tr>
                                 <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
@@ -107,10 +105,8 @@
                                 <td>'.$row['check_no'].'</td>
                                 <td>'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
+                                <td>'.$row['si_num'].'</td>
                                 <td>'.$sup_name.'</td>
-                                <td style="width: 115px"><center>
-                                  <button class="btn-sm btn-success create" value="'.$row['po-id'].'"><i class="fas fa-check"></i> Create new CV</button>
-                                </td>
                               </tr>';
                             }  
                           }

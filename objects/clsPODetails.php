@@ -540,7 +540,7 @@ class PO_Details
 
     public function get_all_for_signature_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.po_id, check_details.cv_no, check_details.check_no FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.po_id, check_details.cv_no, check_details.check_no FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND check_details.status != 0 AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -562,7 +562,7 @@ class PO_Details
 
     public function get_all_cancel()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.cv_no, check_details.check_no FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 16 AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", check_details.cv_no, check_details.check_no, check_details.amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND check_details.status = 0 AND po_details.company = ? ORDER BY po_details.date_submit ASC'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -1171,13 +1171,15 @@ class PO_Details
 
     public function mark_cancel_check()
     {
-        $query = 'UPDATE po_details, check_details SET po_details.status = ?, check_details.status = 0 WHERE check_details.po_id = ? AND po_details.id = ?';
+        $query = 'UPDATE po_details, check_details, po_other_details SET po_details.status = ?, check_details.status = 0, po_other_details.date_cancel = ? WHERE check_details.po_id = ? AND po_details.id = ? AND po_other_details.po_id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
         $upd->bindParam(1, $this->status);
-        $upd->bindParam(2, $this->po_id);
-        $upd->bindParam(3, $this->id);
+        $upd->bindParam(2, $this->date_cancel);
+        $upd->bindParam(3, $this->po_id);
+        $upd->bindParam(4, $this->id);
+        $upd->bindParam(5, $this->po_id);
 
         if($upd->execute())
         {

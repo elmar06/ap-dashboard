@@ -19,9 +19,11 @@ $id = $_POST['id'];
 $array_id = explode(',', $id);
 foreach($array_id as $value)
 {
-  $po->status = 16;
+  $po->status = 4;
+  $po->date_cancel = date('Y-m-d');
   $po->po_id = $id;//check_details
   $po->id = $value;//po_details
+  $po->po_id = $value;//po_other_details
 
   $upd = $po->mark_cancel_check();
 
