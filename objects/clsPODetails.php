@@ -259,7 +259,7 @@ class PO_Details
 
     public function get_for_releasing_fo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_no, po_details.bill_date, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname", check_details.check_no, check_details.cv_amount FROM po_details, users, check_details WHERE po_details.submitted_by = users.id AND po_details.id = check_details.po_id AND po_details.status = 10 ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_no, po_details.bill_date, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname", check_details.po_id, check_details.check_no, check_details.cv_amount FROM po_details, users, check_details WHERE po_details.submitted_by = users.id AND po_details.id = check_details.po_id AND po_details.status = 10 ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -623,7 +623,7 @@ class PO_Details
 
     public function get_list_checker()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_other_details.date_received_fo, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.check_date FROM po_details, check_details, po_other_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND (find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) ORDER BY po_details.amount DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_other_details.date_received_fo, po_details.status, check_details.po_id, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.check_date FROM po_details, check_details, po_other_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND (find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) ORDER BY po_details.amount DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

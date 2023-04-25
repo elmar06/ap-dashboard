@@ -16,12 +16,18 @@ $supplier = new Supplier($db);
 $company = new Company($db);
 $project = new Project($db);
 
-$po->status = 10;
-$po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
-$po->po_id = $_POST['id'];
-$po->id = $_POST['id'];
-
-$upd = $po->mark_for_release();
+$poID = $_POST['id'];
+//check if multicv id's
+$po_id = explode(',', $poID);
+foreach($po_id as $value)
+{
+    $po->status = 10;
+    $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
+    $po->po_id = $value;
+    $po->id = $value;
+    
+    $upd = $po->mark_for_release();
+}
 
 if($upd)
 {

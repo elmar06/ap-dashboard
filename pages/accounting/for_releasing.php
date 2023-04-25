@@ -15,6 +15,7 @@
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -97,7 +98,7 @@
                         <tr>
                           <td>
                             <center>
-                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po-id'].'"><i class="fas fa-check-circle"></i> Released</button>
+                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po_id'].'"><i class="fas fa-check-circle"></i> Released</button>
                             </center>
                           </td>
                           <td>'.$row['check_no'].'</td>
@@ -180,6 +181,7 @@
 <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
+<script src="../../assets/vendor/toastr/toastr.js"></script>
 <?php include 'js/forReleasing-js.php';?>
 
 </body>

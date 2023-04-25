@@ -22,11 +22,12 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
-//mark release per po
+//RELEASED BUTTON EVENT HANDLER
 $('.btnRelease').on('click', function(e){
   e.preventDefault();
 
   var id = $(this).val();
+
   $.ajax({
     type: 'POST',
     url: '../../controls/get_check_details.php',
@@ -96,16 +97,10 @@ function submit()
     {
       showToast();
       toastr.success('PO/JO successfully marked as Released.');
-      //get the latest list
-      $.ajax({
-        url: '../../controls/view_all_for_releasing.php',
-        success: function(html)
-        {
-          $('#released-body').fadeOut();
-          $('#released-body').fadeIn();
-          $('#released-body').html(html);
-        }
-      })
+        //set time out to refresh
+        setTimeout(function(){
+          location.reload();
+        }, 1000)
     }else{
       toastr.error('ERORR! Please contact the system administrator for assistance at local 124.');
     }

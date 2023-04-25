@@ -35,7 +35,7 @@ function mark_on_hold()
     id.push($(this).val())
   });
 
-    if(id.length > 0){
+  if(id.length > 0){
     $.each(id, function( key, value ) {
       $.ajax({
         type: 'POST',

@@ -20,7 +20,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" value="'.$row['receipt'].'" disabled>';
     }
     //format the date for display
-    $check_date = date('F d, yy', strtotime($row['check_date']));
+    $check_date = date('F d, Y', strtotime($row['check_date']));
     echo '<small><b><i>Check Information</i></b></small>
     <div class="row">
         <div class="col-lg-6">
