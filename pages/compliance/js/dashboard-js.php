@@ -88,9 +88,9 @@ function return_request()
             url: '../../controls/get_list_compliance.php',
             success: function(html)
             {
-                $('#receive-body').fadeOut();
-                $('#receive-body').fadeIn();
-                $('#receive-body').html(html);
+              $('#page-body').fadeOut();
+              $('#page-body').fadeIn();
+              $('#page-body').html(html);
             }
           })
         }else{

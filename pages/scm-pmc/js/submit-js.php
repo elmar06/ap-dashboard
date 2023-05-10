@@ -3,6 +3,7 @@ $(document).ready(function () {
   $('.DataTable').DataTable({
     scrollX: true
   }); // ID From dataTable 
+  $('#returnTable').hide();
 })
 //toast function
 function showToast(){
@@ -272,4 +273,9 @@ function DisableFields()
   $('#btnClose').show();
   $('#btnCancel').hide();
 }
+
+//show returned table
+$('#pills-returned-tab').click(function(){
+  $('#returnTable').show();
+})
 </script>

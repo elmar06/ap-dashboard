@@ -362,7 +362,7 @@
       <div class="modal-body">
         <div id="notf-msg" style="font-size: 18px;">Please input your reason of declining this request</div>
         <textarea id="reason" class="form-control" row="4"></textarea>
-        <input id="return-id" class="form-control">
+        <input id="return-id" class="form-control" style="display:none">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>

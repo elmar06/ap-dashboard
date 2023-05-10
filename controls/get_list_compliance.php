@@ -194,11 +194,11 @@ echo '<div class="row mb-3">
     </div>';
 ?>
 <script>
-$(document).ready(function(){
-    $('.DataTable').dataTable({
-        scrollX: true
-    })
-})
+// $(document).ready(function(){
+//     $('.DataTable').dataTable({
+//         scrollX: true
+//     })
+// })
 //toast
 function showToast(){
   var title = 'Loading...';

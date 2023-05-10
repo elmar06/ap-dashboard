@@ -46,12 +46,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <span>Dashboard</span></a>
   </li>
   <hr class="sidebar-divider">
-  <!-- <li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="submit.php">
-      <i class="fas fa-fw fa-clipboard"></i>
-      <span>Submitted PO/JO</span>
+      <i class="fas fa-fw fa-check-double"></i>
+      <span>Released Check</span>
     </a>
-  </li> -->
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="supplier.php">
       <i class="fas fa-fw fa-store"></i>

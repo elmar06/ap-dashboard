@@ -4,6 +4,9 @@ $(document).ready(function(){
     scrollX: true
   });
   $(".sidebar").toggleClass("toggled");
+  $('#pills-received').hide();
+  $('#pills-returned').hide();
+  $('#pills-release-btn').addClass('active');
 })
 //toast
 function showToast(){
@@ -65,4 +68,43 @@ function forward_all()
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   } 
 }
+
+//buttons event handler
+//RELEASE
+$(document).on('click', '#pills-release-btn', function(e){
+  e.preventDefault();
+
+  $('#pills-released').show();
+  $('#pills-received').hide();
+  $('#pills-returned').hide();
+  //set active button
+  $(this).addClass('active');
+  $('#pills-received-btn').removeClass('active');
+  $('#pills-returned-btn').removeClass('active');
+
+})
+//RECEIVED
+$(document).on('click', '#pills-received-btn', function(e){
+  e.preventDefault();
+
+  $('#pills-released').hide();
+  $('#pills-received').show();
+  $('#pills-returned').hide();
+  //set active button
+  $(this).addClass('active');
+  $('#pills-release-btn').removeClass('active');
+  $('#pills-returned-btn').removeClass('active');
+})
+//RETURNED
+$(document).on('click', '#pills-returned-btn', function(e){
+  e.preventDefault();
+
+  $('#pills-released').hide();
+  $('#pills-received').hide();
+  $('#pills-returned').show();
+  //set active button
+  $(this).addClass('active');
+  $('#pills-received-btn').removeClass('active');
+  $('#pills-release-btn').removeClass('active');
+})
 </script>

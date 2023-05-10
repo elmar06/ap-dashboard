@@ -30,152 +30,643 @@
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
-          <div class="row mb-3">
-            <!-- DataTable with Hover -->
-            <div class="col-lg-12">
-              <div class="card mb-4">
-                <div class="table1-responsive p-3">
-                  <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
-                    <thead class="thead-light">
-                      <tr>
-                        <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                        <th><center>Status</center></th>
-                        <th>Submitted by</th>
-                        <th>Project</th>
-                        <th>Company</th>
-                        <th>SI No</th>
-                        <th>PO/JO No</th>
-                        <th>Supplier</th>
-                        <th>Billing Date</th>
-                        <th>Check Date</th>
-                        <th>Check No.</th>
-                        <th>CV Amount</th>
-                        <th>Tax</th>
-                        <th>Sent to EA</th>
-                      </tr>
-                    </thead>
-                    <tbody id="po-submit-body">
-                      <?php
-                        //get all user of the same department
-                        $user->dept = $_SESSION['dept'];
-                        $get_users = $user->view_all_user_by_dept();
-                        while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
-                        {
-                          //get the all data based in the id
-                          $po->submitted_by = $rowUser['id'];
-                          $view = $po->get_submitted_po_by_user();
-                          while($row = $view->fetch(PDO::FETCH_ASSOC))
-                          {
-                            $proj_name = '';
-                            //get the PROJECT name if exist
-                            $project->id = $row['proj-id'];
-                            $get1 = $project->get_proj_details();
-                            while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-pending-tab" data-toggle="pill" href="#pills-pending" role="tab" aria-controls="pills-home" aria-selected="true">Pending PO/JO</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-returned-tab" data-toggle="pill" href="#pills-returned" role="tab" aria-controls="pills-profile" aria-selected="false">Returned</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-process-tab" data-toggle="pill" href="#pills-process" role="tab" aria-controls="pills-contact" aria-selected="false">In Process</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-releasing-tab" data-toggle="pill" href="#pills-releasing" role="tab" aria-controls="pills-contact" aria-selected="false">For Releasing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-release-tab" data-toggle="pill" href="#pills-released" role="tab" aria-controls="pills-contact" aria-selected="false">Released</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+              <!-- PENDING PO/JO -->
+              <div class="tab-pane fade show active" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab">
+                <div class="row">
+                <div class="col-lg-12">
+                  <div class="card mb-3">
+                    <div class="table1-responsive p-3">
+                      <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                        <thead class="thead-light">
+                          <tr>
+                            <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th>Submitted by</th>
+                            <th>Project</th>
+                            <th>Company</th>
+                            <th>SI No</th>
+                            <th>PO/JO No</th>
+                            <th>Supplier</th>
+                            <th>Amount</th>
+                            <th>Bill Date</th>
+                          </tr>
+                        </thead>
+                        <tbody id="po-submit-body">
+                          <?php
+                            //get all user of the same department
+                            $user->dept = $_SESSION['dept'];
+                            $get_users = $user->view_all_user_by_dept();
+                            while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
                             {
-                              if($row['proj-id'] == $rowProj['id']){
-                                $proj_name = $rowProj['project'];
-                              }else{
-                                $proj_name = '-';
+                              //get the all data based in the id
+                              $po->submitted_by = $rowUser['id'];
+                              $view = $po->get_pending_po();
+                              while($row = $view->fetch(PDO::FETCH_ASSOC))
+                              {
+                                //check if user has a record in db
+                                if($rowUser['id'] == $row['submitted_by'])
+                                {
+                                  $proj_name = '';
+                                  //get the PROJECT name if exist
+                                  $project->id = $row['proj-id'];
+                                  $get1 = $project->get_proj_details();
+                                  while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['proj-id'] == $rowProj['id']){
+                                      $proj_name = $rowProj['project'];
+                                    }else{
+                                      $proj_name = '-';
+                                    }
+                                  }
+                                  $comp_name = '';
+                                  //get the COMPANY name if exist
+                                  $company->id = $row['comp-id'];
+                                  $get2 = $company->get_company_detail();
+                                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['comp-id'] == $rowComp['id']){
+                                      $comp_name = $rowComp['company'];
+                                    }else{
+                                      $comp_name = '-';
+                                    }
+                                  }
+                                  $sup_name = '';
+                                  //get the SUPPLIER name if exist
+                                  $supplier->id = $row['supp-id'];
+                                  $get3 = $supplier->get_supplier_details();
+                                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['supp-id'] == $rowSupp['id']){
+                                      $sup_name = $rowSupp['supplier_name'];
+                                    }else{
+                                      $sup_name = '-';
+                                    }
+                                  }
+                                  //date format
+                                  $bill_date = date('m/d/y', strtotime($row['bill_date']));
+                                  $amount = number_format($row['amount'], 2);
+                                  //get the date sent to EA
+                                  $po->po_id = $row['po-id'];
+                                  $get_date = $po->get_other_details();
+                                  while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                                  {
+                                    if($row2['date_to_ea'] != null){
+                                      $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                                    }else{
+                                      $date_ea = '-';
+                                    }
+                                  }
+                                  echo '
+                                  <tr>
+                                    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                    <td><center>'.$rowUser['fullname'].'</center></td>
+                                    <td align="center">'.$proj_name.'</td>
+                                    <td>'.$comp_name.'</td>
+                                    <td>'.$row['si_num'].'</td>
+                                    <td>'.$row['po_num'].'</td>
+                                    <td>'.$sup_name.'</td>
+                                    <td align="center">'.$amount.'</td>
+                                    <td align="center">'.$bill_date.'</td>                        
+                                  </tr>';
+                                }
                               }
                             }
-                            $comp_name = '';
-                            //get the COMPANY name if exist
-                            $company->id = $row['comp-id'];
-                            $get2 = $company->get_company_detail();
-                            while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                          ?>
+                        </tbody>
+                      </table> 
+                    </div>
+                  </div>
+                </div>  
+                </div>           
+              </div><!-- END-PENDING -->
+              <!-- RETURNED -->
+              <div class="tab-pane fade" id="pills-returned" role="tabpanel" aria-labelledby="pills-returned-tab">
+                <div id="returnedTable" class="row">
+                <div class="col-lg-12">
+                  <div class="card mb-3">
+                    <div class="table1-responsive p-3">
+                      <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                        <thead class="thead-light">
+                          <tr>
+                            <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th>Submitted by</th>
+                            <th>Project</th>
+                            <th>Company</th>
+                            <th>SI No</th>
+                            <th>PO/JO No</th>
+                            <th>Supplier</th>
+                            <th>Amount</th>
+                            <th>Bill Date</th>
+                          </tr>
+                        </thead>
+                        <tbody id="po-submit-body">
+                          <?php
+                            //get all user of the same department
+                            $user->dept = $_SESSION['dept'];
+                            $get_users = $user->view_all_user_by_dept();
+                            while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
                             {
-                              if($row['comp-id'] == $rowComp['id']){
-                                $comp_name = $rowComp['company'];
-                              }else{
-                                $comp_name = '-';
+                              //get the all data based in the id
+                              $po->submitted_by = $rowUser['id'];
+                              $view = $po->get_returned_po();
+                              while($row = $view->fetch(PDO::FETCH_ASSOC))
+                              {
+                                //check if user has a record in db
+                                if($rowUser['id'] == $row['submitted_by'])
+                                {
+                                  $proj_name = '';
+                                  //get the PROJECT name if exist
+                                  $project->id = $row['proj-id'];
+                                  $get1 = $project->get_proj_details();
+                                  while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['proj-id'] == $rowProj['id']){
+                                      $proj_name = $rowProj['project'];
+                                    }else{
+                                      $proj_name = '-';
+                                    }
+                                  }
+                                  $comp_name = '';
+                                  //get the COMPANY name if exist
+                                  $company->id = $row['comp-id'];
+                                  $get2 = $company->get_company_detail();
+                                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['comp-id'] == $rowComp['id']){
+                                      $comp_name = $rowComp['company'];
+                                    }else{
+                                      $comp_name = '-';
+                                    }
+                                  }
+                                  $sup_name = '';
+                                  //get the SUPPLIER name if exist
+                                  $supplier->id = $row['supp-id'];
+                                  $get3 = $supplier->get_supplier_details();
+                                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['supp-id'] == $rowSupp['id']){
+                                      $sup_name = $rowSupp['supplier_name'];
+                                    }else{
+                                      $sup_name = '-';
+                                    }
+                                  }
+                                  //date format
+                                  $bill_date = date('m/d/y', strtotime($row['bill_date']));
+                                  $amount = number_format($row['amount'], 2);
+                                  //get the date sent to EA
+                                  $po->po_id = $row['po-id'];
+                                  $get_date = $po->get_other_details();
+                                  while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                                  {
+                                    if($row2['date_to_ea'] != null){
+                                      $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                                    }else{
+                                      $date_ea = '-';
+                                    }
+                                  }
+                                  echo '
+                                  <tr>
+                                    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                    <td><center>'.$rowUser['fullname'].'</center></td>
+                                    <td align="center">'.$proj_name.'</td>
+                                    <td>'.$comp_name.'</td>
+                                    <td>'.$row['si_num'].'</td>
+                                    <td>'.$row['po_num'].'</td>
+                                    <td>'.$sup_name.'</td>
+                                    <td align="center">'.$amount.'</td>
+                                    <td align="center">'.$bill_date.'</td>                        
+                                  </tr>';
+                                }
                               }
                             }
-                            $sup_name = '';
-                            //get the SUPPLIER name if exist
-                            $supplier->id = $row['supp-id'];
-                            $get3 = $supplier->get_supplier_details();
-                            while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
-                            {
-                              if($row['supp-id'] == $rowSupp['id']){
-                                $sup_name = $rowSupp['supplier_name'];
-                              }else{
-                                $sup_name = '-';
-                              }
-                            }
-                            //format of status
-                            if($row['status'] == 1){
-                              $status = '<label style="color: red"><b> Pending</b></label>';
-                            }else if($row['status'] == 2){
-                              $status = '<label style="color: orange"><b> Returned</b></label>';
-                            }elseif($row['status'] == 5){
-                              $status = '<label style="color: blue"><b> For Signature</b></label>';
-                            }elseif($row['status'] == 6){
-                              $status = '<label style="color: blue"><b> Sent to EA</b></label>';
-                            }elseif($row['status'] == 7){
-                              $status = '<label style="color: blue"><b> Signed</b></label>';
-                            }elseif($row['status'] == 8){
-                              $status = '<label style="color: blue"><b> For Verification</b></label>';
-                            }elseif($row['status'] == 9){
-                              $status = '<label style="color: red"><b> On Hold</b></label>';
-                            }else if($row['status'] == 10){
-                              $status = '<label style="color: green"><b> For Releasing</b></label>';
-                            }else if($row['status'] == 11){
-                              $status = '<label style="color: green"><b> Released</b></label>';
-                            }else{
-                              $status = '<label style="color: blue"><b> On Process</b></label>';
-                            }
-                            //date format
-                            $bill_date = date('m/d/y', strtotime($row['bill_date']));
-                            //get the PO check details
-                            $check_date = '-';
-                            $check_no = '-';
-                            $cv_amount = '-';
-                            $tax = '-';
-                            $get = $check_details->get_details_byID($row['po-id']);
-                            while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                            {
-                              $check_date = date('m/d/y', strtotime($row1['check_date']));
-                              $check_no = $row1['check_no'];
-                              $cv_amount = number_format($row1['cv_amount'], 2);
-                              $tax = number_format($row1['tax'], 2);
-                            }
-                            //get the date sent to EA
-                            $po->po_id = $row['po-id'];
-                            $get_date = $po->get_other_details();
-                            while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
-                            {
-                              if($row2['date_to_ea'] != null){
-                                $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
-                              }else{
-                                $date_ea = '-';
-                              }
-                            }
-                            echo '
-                            <tr>
-                              <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td><center>'.$status.'</center></td>
-                              <td><center>'.$rowUser['fullname'].'</center></td>
-                              <td align="center">'.$proj_name.'</td>
-                              <td>'.$comp_name.'</td>
-                              <td>'.$row['si_num'].'</td>
-                              <td>'.$row['po_num'].'</td>
-                              <td>'.$sup_name.'</td>
-                              <td align="center">'.$bill_date.'</td>
-                              <td align="center">'.$check_date.'</td>
-                              <td align="center">'.$check_no.'</td>
-                              <td align="center">'.$cv_amount.'</td>
-                              <td align="center">'.$tax.'</td>
-                              <td align="center">'.$date_ea.'</td>                            
-                            </tr>';
-                          }
-                        }
-                      ?>
-                    </tbody>
-                  </table> 
+                          ?>
+                        </tbody>
+                      </table> 
+                    </div>
+                  </div>
+                </div>  
                 </div>
               </div>
-            </div>     
-        </div><!---/Container Fluid-->
+              <!-- IN PROCESS -->
+              <div class="tab-pane fade" id="pills-process" role="tabpanel" aria-labelledby="pills-process-tab">
+                <div class="row">
+                <div class="col-lg-12">
+                  <div class="card mb-3">
+                    <div class="table1-responsive p-3">
+                      <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                        <thead class="thead-light">
+                          <tr>
+                            <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th><center>Status</center></th>
+                            <th>Submitted by</th>
+                            <th>Project</th>
+                            <th>Company</th>
+                            <th>SI No</th>
+                            <th>PO/JO No</th>
+                            <th>Supplier</th>
+                            <th>Billing Date</th>
+                            <th>Check Date</th>
+                            <th>Check No.</th>
+                            <th>CV Amount</th>
+                            <th>Tax</th>
+                            <th>Sent to EA</th>
+                          </tr>
+                        </thead>
+                        <tbody id="po-submit-body">
+                          <?php
+                            //get all user of the same department
+                            $user->dept = $_SESSION['dept'];
+                            $get_users = $user->view_all_user_by_dept();
+                            while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              //get the all data based in the id
+                              $po->submitted_by = $rowUser['id'];
+                              $view = $po->get_submitted_po_by_user();
+                              while($row = $view->fetch(PDO::FETCH_ASSOC))
+                              {
+                                //check if user has a record in db
+                                if($rowUser['id'] == $row['submitted_by'])
+                                {
+                                  $proj_name = '';
+                                  //get the PROJECT name if exist
+                                  $project->id = $row['proj-id'];
+                                  $get1 = $project->get_proj_details();
+                                  while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['proj-id'] == $rowProj['id']){
+                                      $proj_name = $rowProj['project'];
+                                    }else{
+                                      $proj_name = '-';
+                                    }
+                                  }
+                                  $comp_name = '';
+                                  //get the COMPANY name if exist
+                                  $company->id = $row['comp-id'];
+                                  $get2 = $company->get_company_detail();
+                                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['comp-id'] == $rowComp['id']){
+                                      $comp_name = $rowComp['company'];
+                                    }else{
+                                      $comp_name = '-';
+                                    }
+                                  }
+                                  $sup_name = '';
+                                  //get the SUPPLIER name if exist
+                                  $supplier->id = $row['supp-id'];
+                                  $get3 = $supplier->get_supplier_details();
+                                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['supp-id'] == $rowSupp['id']){
+                                      $sup_name = $rowSupp['supplier_name'];
+                                    }else{
+                                      $sup_name = '-';
+                                    }
+                                  }
+                                  //format of status
+                                  if($row['status'] == 1){
+                                    $status = '<label style="color: red"><b> Pending</b></label>';
+                                  }else if($row['status'] == 2){
+                                    $status = '<label style="color: orange"><b> Returned</b></label>';
+                                  }elseif($row['status'] == 5){
+                                    $status = '<label style="color: blue"><b> For Signature</b></label>';
+                                  }elseif($row['status'] == 6){
+                                    $status = '<label style="color: blue"><b> Sent to EA</b></label>';
+                                  }elseif($row['status'] == 7){
+                                    $status = '<label style="color: blue"><b> Signed</b></label>';
+                                  }elseif($row['status'] == 8){
+                                    $status = '<label style="color: blue"><b> For Verification</b></label>';
+                                  }else{
+                                    $status = '<label style="color: red"><b> On Hold</b></label>';
+                                  }
+                                  //date format
+                                  $bill_date = date('m/d/y', strtotime($row['bill_date']));
+                                  //get the PO check details
+                                  $check_date = '-';
+                                  $check_no = '-';
+                                  $cv_amount = '-';
+                                  $tax = '-';
+                                  $get = $check_details->get_details_byID($row['po-id']);
+                                  while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    $check_date = date('m/d/y', strtotime($row1['check_date']));
+                                    $check_no = $row1['check_no'];
+                                    $cv_amount = number_format($row1['cv_amount'], 2);
+                                    $tax = number_format($row1['tax'], 2);
+                                  }
+                                  //get the date sent to EA
+                                  $po->po_id = $row['po-id'];
+                                  $get_date = $po->get_other_details();
+                                  while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                                  {
+                                    if($row2['date_to_ea'] != null){
+                                      $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                                    }else{
+                                      $date_ea = '-';
+                                    }
+                                  }
+                                  echo '
+                                  <tr>
+                                    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                    <td><center>'.$status.'</center></td>
+                                    <td><center>'.$rowUser['fullname'].'</center></td>
+                                    <td align="center">'.$proj_name.'</td>
+                                    <td>'.$comp_name.'</td>
+                                    <td>'.$row['si_num'].'</td>
+                                    <td>'.$row['po_num'].'</td>
+                                    <td>'.$sup_name.'</td>
+                                    <td align="center">'.$bill_date.'</td>
+                                    <td align="center">'.$check_date.'</td>
+                                    <td align="center">'.$check_no.'</td>
+                                    <td align="center">'.$cv_amount.'</td>
+                                    <td align="center">'.$tax.'</td>
+                                    <td align="center">'.$date_ea.'</td>                            
+                                  </tr>';
+                                }
+                              }
+                            }
+                          ?>
+                        </tbody>
+                      </table> 
+                    </div>
+                  </div>
+                </div>  
+                </div>
+              </div>
+              <!-- FOR RELEASING -->
+              <div class="tab-pane fade" id="pills-releasing" role="tabpanel" aria-labelledby="pills-releasing-tab">
+                <div class="row">
+                <div class="col-lg-12">
+                  <div class="card mb-3">
+                    <div class="table1-responsive p-3">
+                      <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                        <thead class="thead-light">
+                          <tr>
+                            <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th>Submitted by</th>
+                            <th>Project</th>
+                            <th>Company</th>
+                            <th>SI No</th>
+                            <th>PO/JO No</th>
+                            <th>Supplier</th>
+                            <th>Billing Date</th>
+                            <th>Check Date</th>
+                            <th>Check No.</th>
+                            <th>CV Amount</th>
+                            <th>Tax</th>
+                            <th>Sent to EA</th>
+                          </tr>
+                        </thead>
+                        <tbody id="po-submit-body">
+                          <?php
+                            //get all user of the same department
+                            $user->dept = $_SESSION['dept'];
+                            $get_users = $user->view_all_user_by_dept();
+                            while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              //get the all data based in the id
+                              $po->submitted_by = $rowUser['id'];
+                              $view = $po->get_releasing_po();
+                              while($row = $view->fetch(PDO::FETCH_ASSOC))
+                              {
+                                //check if user has a record in db
+                                if($rowUser['id'] == $row['submitted_by'])
+                                {
+                                  $proj_name = '';
+                                  //get the PROJECT name if exist
+                                  $project->id = $row['proj-id'];
+                                  $get1 = $project->get_proj_details();
+                                  while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['proj-id'] == $rowProj['id']){
+                                      $proj_name = $rowProj['project'];
+                                    }else{
+                                      $proj_name = '-';
+                                    }
+                                  }
+                                  $comp_name = '';
+                                  //get the COMPANY name if exist
+                                  $company->id = $row['comp-id'];
+                                  $get2 = $company->get_company_detail();
+                                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['comp-id'] == $rowComp['id']){
+                                      $comp_name = $rowComp['company'];
+                                    }else{
+                                      $comp_name = '-';
+                                    }
+                                  }
+                                  $sup_name = '';
+                                  //get the SUPPLIER name if exist
+                                  $supplier->id = $row['supp-id'];
+                                  $get3 = $supplier->get_supplier_details();
+                                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['supp-id'] == $rowSupp['id']){
+                                      $sup_name = $rowSupp['supplier_name'];
+                                    }else{
+                                      $sup_name = '-';
+                                    }
+                                  }
+                                  //date format
+                                  $bill_date = date('m/d/y', strtotime($row['bill_date']));
+                                  //get the PO check details
+                                  $check_date = '-';
+                                  $check_no = '-';
+                                  $cv_amount = '-';
+                                  $tax = '-';
+                                  $get = $check_details->get_details_byID($row['po-id']);
+                                  while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    $check_date = date('m/d/y', strtotime($row1['check_date']));
+                                    $check_no = $row1['check_no'];
+                                    $cv_amount = number_format($row1['cv_amount'], 2);
+                                    $tax = number_format($row1['tax'], 2);
+                                  }
+                                  //get the date sent to EA
+                                  $po->po_id = $row['po-id'];
+                                  $get_date = $po->get_other_details();
+                                  while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                                  {
+                                    if($row2['date_to_ea'] != null){
+                                      $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                                    }else{
+                                      $date_ea = '-';
+                                    }
+                                  }
+                                  echo '
+                                  <tr>
+                                    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                    <td><center>'.$rowUser['fullname'].'</center></td>
+                                    <td align="center">'.$proj_name.'</td>
+                                    <td>'.$comp_name.'</td>
+                                    <td>'.$row['si_num'].'</td>
+                                    <td>'.$row['po_num'].'</td>
+                                    <td>'.$sup_name.'</td>
+                                    <td align="center">'.$bill_date.'</td>
+                                    <td align="center">'.$check_date.'</td>
+                                    <td align="center">'.$check_no.'</td>
+                                    <td align="center">'.$cv_amount.'</td>
+                                    <td align="center">'.$tax.'</td>
+                                    <td align="center">'.$date_ea.'</td>                            
+                                  </tr>';
+                                }
+                              }
+                            }
+                          ?>
+                        </tbody>
+                      </table> 
+                    </div>
+                  </div>
+                </div>  
+                </div>
+              </div>
+              <!-- RELEASED -->
+              <div class="tab-pane fade" id="pills-released" role="tabpanel" aria-labelledby="pills-released-tab">
+                <div class="row">
+                <div class="col-lg-12">
+                  <div class="card mb-3">
+                    <div class="table1-responsive p-3">
+                      <table class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                        <thead class="thead-light">
+                          <tr>
+                            <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th>Submitted by</th>
+                            <th>Project</th>
+                            <th>Company</th>
+                            <th>SI No</th>
+                            <th>PO/JO No</th>
+                            <th>Supplier</th>
+                            <th>Billing Date</th>
+                            <th>Check Date</th>
+                            <th>Check No.</th>
+                            <th>CV Amount</th>
+                            <th>Tax</th>
+                            <th>Sent to EA</th>
+                          </tr>
+                        </thead>
+                        <tbody id="po-submit-body">
+                          <?php
+                            //get all user of the same department
+                            $user->dept = $_SESSION['dept'];
+                            $get_users = $user->view_all_user_by_dept();
+                            while($rowUser = $get_users->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              //get the all data based in the id
+                              $po->submitted_by = $rowUser['id'];
+                              $view = $po->get_released_checker();
+                              while($row = $view->fetch(PDO::FETCH_ASSOC))
+                              {
+                                //check if user has a record in db
+                                if($rowUser['id'] == $row['submitted_by'])
+                                {
+                                  $proj_name = '';
+                                  //get the PROJECT name if exist
+                                  $project->id = $row['proj-id'];
+                                  $get1 = $project->get_proj_details();
+                                  while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['proj-id'] == $rowProj['id']){
+                                      $proj_name = $rowProj['project'];
+                                    }else{
+                                      $proj_name = '-';
+                                    }
+                                  }
+                                  $comp_name = '';
+                                  //get the COMPANY name if exist
+                                  $company->id = $row['comp-id'];
+                                  $get2 = $company->get_company_detail();
+                                  while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['comp-id'] == $rowComp['id']){
+                                      $comp_name = $rowComp['company'];
+                                    }else{
+                                      $comp_name = '-';
+                                    }
+                                  }
+                                  $sup_name = '';
+                                  //get the SUPPLIER name if exist
+                                  $supplier->id = $row['supp-id'];
+                                  $get3 = $supplier->get_supplier_details();
+                                  while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    if($row['supp-id'] == $rowSupp['id']){
+                                      $sup_name = $rowSupp['supplier_name'];
+                                    }else{
+                                      $sup_name = '-';
+                                    }
+                                  }
+                                  //date format
+                                  $bill_date = date('m/d/y', strtotime($row['bill_date']));
+                                  //get the PO check details
+                                  $check_date = '-';
+                                  $check_no = '-';
+                                  $cv_amount = '-';
+                                  $tax = '-';
+                                  $get = $check_details->get_details_byID($row['po-id']);
+                                  while($row1 = $get->fetch(PDO::FETCH_ASSOC))
+                                  {
+                                    $check_date = date('m/d/y', strtotime($row1['check_date']));
+                                    $check_no = $row1['check_no'];
+                                    $cv_amount = number_format($row1['cv_amount'], 2);
+                                    $tax = number_format($row1['tax'], 2);
+                                  }
+                                  //get the date sent to EA
+                                  $po->po_id = $row['po-id'];
+                                  $get_date = $po->get_other_details();
+                                  while($row2 = $get_date->fetch(PDO:: FETCH_ASSOC))
+                                  {
+                                    if($row2['date_to_ea'] != null){
+                                      $date_ea = date('m/d/y', strtotime($row2['date_to_ea']));
+                                    }else{
+                                      $date_ea = '-';
+                                    }
+                                  }
+                                  echo '
+                                  <tr>
+                                    <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                    <td><center>'.$rowUser['fullname'].'</center></td>
+                                    <td align="center">'.$proj_name.'</td>
+                                    <td>'.$comp_name.'</td>
+                                    <td>'.$row['si_num'].'</td>
+                                    <td>'.$row['po_num'].'</td>
+                                    <td>'.$sup_name.'</td>
+                                    <td align="center">'.$bill_date.'</td>
+                                    <td align="center">'.$check_date.'</td>
+                                    <td align="center">'.$check_no.'</td>
+                                    <td align="center">'.$cv_amount.'</td>
+                                    <td align="center">'.$tax.'</td>
+                                    <td align="center">'.$date_ea.'</td>                            
+                                  </tr>';
+                                }
+                              }
+                            }
+                          ?>
+                        </tbody>
+                      </table> 
+                    </div>
+                  </div>
+                </div>  
+                </div>
+              </div>
+            </div>
       </div>
 </div>
 <!-- Footer -->
