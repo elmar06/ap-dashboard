@@ -96,7 +96,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">On Process</div>
+                      <div class="text-xs font-weight-bold text-uppercase mb-1">In Process</div>
                       <?php
                         $po->submitted_by = $_SESSION['id'];
                         $count = $po->count_on_process();
@@ -213,7 +213,7 @@
                         }else if($row['status'] == 11){
                           $status = '<label style="color: green"><b> Released</b></label>';
                         }else{
-                          $status = '<label style="color: blue"><b> On Process</b></label>';
+                          $status = '<label style="color: blue"><b> In Process</b></label>';
                         }
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
@@ -373,7 +373,7 @@
               </div>
             </div><!-- /column -->
           </div><!-- /row --> 
-          <!-- ON PROCESS -->
+          <!-- In Process -->
           <div id="tblSearch3" class="row mb-3" style="display: none;">
             <div class="col-lg-12">
               <div class="card mb-4">
@@ -417,7 +417,7 @@
                           }
                         }
                         //format of status
-                        $status = '<label style="color: blue"><b> On Process</b></label>';
+                        $status = '<label style="color: blue"><b> In Process</b></label>';
                         //date format
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                         echo '

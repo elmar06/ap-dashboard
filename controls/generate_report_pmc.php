@@ -332,16 +332,15 @@ if($_GET['action'] == 4)
 {
     //check if status is in proces
     if($stat == 3){
-        $get = $report->get_by_stat3_date_pmc($from, $to);
+        $get = $report->get_by_stat3_date_manager($from, $to);
     }else{
-        $get = $report->get_by_stat_date_pmc($stat, $from, $to);
+        $get = $report->get_by_stat_date_manager($stat, $from, $to);
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
@@ -351,9 +350,6 @@ if($_GET['action'] == 4)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -388,16 +384,6 @@ if($_GET['action'] == 4)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
-        $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
-            }
-        }
          //format of status
          if($row['status'] == 1){
             $status = 'Pending';
@@ -422,11 +408,37 @@ if($_GET['action'] == 4)
         }else{
             $status = 'Released';
         }
+        //get check details 
+        $cv_no = '-';
+        $bank_name = '-';
+        $check_no = '-';
+        $check_date = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check->id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO:: FETCH_ASSOC))
+        {
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['account'];
+                }
+            }
+        }
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $row['cv_no'], $row['check_no'], $check_date, $row['tax'], $row['cv_amount'], $date_release, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $row['amount'], $date_received_fo, $date_to_ea, $date_from_ea, $cv_no, $bank_name, $check_no, $check_date, $tax, $cv_amount, $date_release, $row['fullname'], $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
-    }  
+    }
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY & DATE SPAN
@@ -728,7 +740,7 @@ if($_GET['action'] == 7)
 //GENERATE REPORT BY DATE SPAN
 if($_GET['action'] == 8)
 {
-    $get = $po->get_by_date_manager($from, $to);
+    $get = $report->get_by_date_manager($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';

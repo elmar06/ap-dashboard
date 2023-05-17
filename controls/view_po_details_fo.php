@@ -25,6 +25,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   //format the date for display
   $bill_date = date('F d, Y', strtotime($row['bill_date']));
   $due_date = date('F d, Y', strtotime($row['due_date']));
+  $date_submit = date('F d, Y', strtotime($row['date_submit']));
 
   //get the difference between bill_date & due_date
   $date1 = time();
@@ -152,6 +153,11 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <label>Days before Due</label>
           <input id="upd-days-due" class="form-control mb-3" type="text" placeholder="No. of Days" disabled value="'.$days_left.'">
           <input id="action" class="form-control mb-3" type="text" style="display:none">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+            <label style="font-size: 13px"><b><i>Date Created/Submitted: '.$date_submit.'</i></b></label>
         </div>
       </div>
       <div id="btnReport" class="row" style="display:none">
