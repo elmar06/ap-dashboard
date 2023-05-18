@@ -21,7 +21,7 @@ class Users
 
 	public function add_user()
 	{
-		$query = 'INSERT INTO '.$this->table_name.' SET firstname=?, lastname=?, email=?, username=?, password=?, logcount=?, access=?, status=?';
+		$query = 'INSERT INTO '.$this->table_name.' SET firstname=?, lastname=?, email=?, username=?, password=?, logcount=?, dept=?, access=?, status=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$ins = $this->conn->prepare($query);
 
@@ -31,8 +31,9 @@ class Users
 		$ins->bindParam(4, $this->username);
 		$ins->bindParam(5, $this->password);
 		$ins->bindParam(6, $this->logcount);
-		$ins->bindParam(7, $this->access);
-		$ins->bindParam(8, $this->status);
+		$ins->bindParam(7, $this->dept);
+		$ins->bindParam(8, $this->access);
+		$ins->bindParam(9, $this->status);
 
 		if($ins->execute())
 		{

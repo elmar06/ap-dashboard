@@ -353,6 +353,8 @@
                                     $status = '<label style="color: blue"><b> Signed</b></label>';
                                   }elseif($row['status'] == 8){
                                     $status = '<label style="color: blue"><b> For Verification</b></label>';
+                                  }elseif($row['status'] == 15){
+                                    $status = '<label style="color: blue"><b> Forwarded to Cebu</b></label>';
                                   }else{
                                     $status = '<label style="color: red"><b> On Hold</b></label>';
                                   }

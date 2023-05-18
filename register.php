@@ -64,7 +64,8 @@
                             <option value="0" selected disabled>Please select a Department</option>
                             <option value="2">AP Front Office</option>
                             <option value="3">AP Back Office</option>
-                            <option value="4">Purchasing</option>
+                            <option value="4">SCM</option>
+                            <option value="5">PMC</option>
                           </select>
                         </div>
                       </div>
