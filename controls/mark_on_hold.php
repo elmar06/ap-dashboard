@@ -24,6 +24,7 @@ foreach($po_id as $value)
 {
   $po->status = 9;
   $po->date_on_hold = date('Y-m-d');
+  $po->treasury_id = $_SESSION['id'];
   $po->po_id = $value;
   $po->id = $value;
 

@@ -23,6 +23,7 @@ foreach($po_id as $value)
 {
     $po->status = 10;
     $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
+    $po->treasury_id = $_SESSION['id'];
     $po->po_id = $value;
     $po->id = $value;
     

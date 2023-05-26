@@ -123,6 +123,8 @@ if($_GET['action'] == 1)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -220,6 +222,8 @@ if($_GET['action'] == 2)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -317,6 +321,8 @@ if($_GET['action'] == 3)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -405,6 +411,8 @@ if($_GET['action'] == 4)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -528,6 +536,8 @@ if($_GET['action'] == 5)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -625,6 +635,8 @@ if($_GET['action'] == 6)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -727,6 +739,8 @@ if($_GET['action'] == 7)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }
@@ -824,6 +838,8 @@ if($_GET['action'] == 8)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 15){
+            $status = 'Forwarded to BO Cebu';
         }else{
             $status = 'Released';
         }

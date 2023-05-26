@@ -325,7 +325,7 @@ class PO_Details
 
     public function get_submitted_po_monitoring()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND po_details.company = ? ORDER BY po_details.date_submit DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(15, po_details.status)) AND po_details.company = ? ORDER BY po_details.date_submit DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -379,7 +379,7 @@ class PO_Details
 
     public function get_process_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.amount, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(11, po_details.status)) ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.amount, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(11, po_details.status) || find_in_set(15, po_details.status)) ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1229,14 +1229,15 @@ class PO_Details
 
     public function mark_on_hold()
     {
-        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_on_hold = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
+        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_on_hold = ?, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
         $upd->bindParam(1, $this->status);
         $upd->bindParam(2, $this->date_on_hold);
-        $upd->bindParam(3, $this->po_id);
-        $upd->bindParam(4, $this->id);
+        $upd->bindParam(3, $this->treasury_id);
+        $upd->bindParam(4, $this->po_id);
+        $upd->bindParam(5, $this->id);
 
         if($upd->execute())
         {
@@ -1248,14 +1249,15 @@ class PO_Details
 
     public function mark_for_release()
     {
-        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_for_release = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
+        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_for_release = ?, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
         $upd->bindParam(1, $this->status);
         $upd->bindParam(2, $this->date_for_release);
-        $upd->bindParam(3, $this->po_id);
-        $upd->bindParam(4, $this->id);
+        $upd->bindParam(3, $this->treasury_id);
+        $upd->bindParam(4, $this->po_id);
+        $upd->bindParam(5, $this->id);
 
         if($upd->execute())
         {
