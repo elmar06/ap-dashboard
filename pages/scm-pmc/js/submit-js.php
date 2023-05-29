@@ -252,6 +252,41 @@ function getDueDate()
   }
 } 
 
+//remove or delete PO
+function remove_po()
+{  
+  var id = $('#po-id').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/delete_po.php',
+    data: {id: id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      if(response > 0)
+      {
+        toastr.warning('PO/JO Successfully mark as viod and removed from the list');           
+        setTimeout(function(){
+          location.reload();
+        }, 1500)
+      }
+      else
+      {
+        //show Error message in modal
+        $('#notf-msg').html('<i class="fas fa-ban"></i> Remove Failed. Please contact the System Administrator at local 124.');
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
+}
+
 //Edit button
 function EnableFields()
 {

@@ -23,7 +23,7 @@ class PO_Details
 
     public function add_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=1';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=1';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
@@ -37,17 +37,18 @@ class PO_Details
         $add->bindParam(8, $this->supplier);
         $add->bindParam(9, $this->bill_no);
         $add->bindParam(10, $this->bill_date);
-        $add->bindParam(11, $this->terms);
-        $add->bindParam(12, $this->amount);
-        $add->bindParam(13, $this->due_date);
-        $add->bindParam(14, $this->days_due);
-        $add->bindParam(15, $this->date_submit);
-        $add->bindParam(16, $this->memo_no);
-        $add->bindParam(17, $this->debit_memo);
-        $add->bindParam(18, $this->memo_amount);
-        $add->bindParam(19, $this->reports);
-        $add->bindParam(20, $this->submitted_by);
-        $add->bindParam(21, $this->remark);
+        $add->bindParam(11, $this->counter_date);
+        $add->bindParam(12, $this->terms);
+        $add->bindParam(13, $this->amount);
+        $add->bindParam(14, $this->due_date);
+        $add->bindParam(15, $this->days_due);
+        $add->bindParam(16, $this->date_submit);
+        $add->bindParam(17, $this->memo_no);
+        $add->bindParam(18, $this->debit_memo);
+        $add->bindParam(19, $this->memo_amount);
+        $add->bindParam(20, $this->reports);
+        $add->bindParam(21, $this->submitted_by);
+        $add->bindParam(22, $this->remark);
         
         if($add->execute())
         {

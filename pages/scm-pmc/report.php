@@ -40,6 +40,9 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <button id="report" class="btn btn-warning" style="width: 100%;"><i class="fas fa-file"></i> Disbursement Report</button>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
                                     </div>';
                         }else{
                             //PMC MODULE
@@ -279,6 +282,100 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <button class="btn btn-success" onclick="generate_report_scm()" value="2"><i class="fas fa-check"></i> Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="manage-report" style="display:none">
+                                <div class="row">
+                                    <div class="col-lg-3"><br>
+                                        <label> Project:</label>
+                                        <select id="manage-project" class="form-control mb-3 select2" style="width: 100%;">
+                                        <option selected value="0">Select a Project</option>';
+                                            $get = $project->get_active_project();
+                                            while($row = $get->fetch(PDO::FETCH_ASSOC))
+                                            {
+                                            echo '<option value="'.$row['id'].'">'.$row['project'].'</option>';
+                                            }
+                                        echo '</select>
+                                    </div>
+                                    <div class="col-lg-3"><br>
+                                        <br><label style="padding-bottom: 23px"> </label>
+                                        <a class="btn btn-danger remove" href="#"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label>Company:</label>
+                                        <select id="manage-company" class="form-control mb-3 select2" style="width: 100%;">
+                                        <option selected value="0">Select a Company</option>';
+                                                $get = $company->get_active_company();
+                                                while($row = $get->fetch(PDO::FETCH_ASSOC))
+                                                {
+                                                echo '<option value="'.$row['id'].'">'.$row['company'].'</option>';
+                                                }
+                                        echo '</select>
+                                    </div>
+                                    <div class="col-lg-3"><br>
+                                        <label style="padding-bottom: 23px"> </label>
+                                        <a class="btn btn-danger remove" href="#"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label>Supplier/Vendor:</label>
+                                        <select id="manage-supplier" class="form-control mb-3 select2" style="width: 100%;">
+                                        <option selected value="0">Select a Supplier</option>';
+                                            $get = $supplier->get_active_supplier();
+                                            while($row = $get->fetch(PDO::FETCH_ASSOC))
+                                            {
+                                            echo '<option value="'.$row['id'].'">'.$row['supplier_name'].'</option>';
+                                            }
+                                        echo '</select>
+                                    </div>
+                                    <div class="col-lg-3"><br>
+                                        <label style="padding-bottom: 23px"> </label>
+                                        <a class="btn btn-danger remove" href="#"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label>Status:</label>
+                                        <select id="manage-status" class="form-control mb-3 select2" style="width: 100%;">
+                                            <option selected value="0">Select a Status</option>
+                                            <option value="1">Pending</option>
+                                            <option value="2">Returned</option>
+                                            <option value="3">On Process</option>
+                                            <option value="9">On Hold</option>
+                                            <option value="10">For Releasing</option>
+                                            <option value="11">Released</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3"><br>
+                                        <label style="padding-bottom: 23px"> </label>
+                                        <a class="btn btn-danger remove" href="#"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3"><br>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                            <input id="manage-from" class="form-control datepicker" placeholder="Date From">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3"><br>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                            <input id="manage-to" class="form-control datepicker" placeholder="Date To">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-success" onclick="generate_report()" value="1"><i class="fas fa-check"></i> Generate</button>
                                     </div>
                                 </div>
                             </div>';

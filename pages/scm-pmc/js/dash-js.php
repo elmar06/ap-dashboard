@@ -191,6 +191,7 @@ function SubmitPO()
   var project = $('#project').val();
   var department = $('#department').val();
   var bill_date = $('#bill-date').val();
+  var counter_date = $('#counter-date').val();
   var terms = $('#terms').val();
   var due_date = $('#due-date').val();
   //credit memo section 
@@ -216,7 +217,7 @@ function SubmitPO()
     var project = 0;
   }
 
-  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
+  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&terms=' + terms + '&due_date=' + due_date + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
 
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {

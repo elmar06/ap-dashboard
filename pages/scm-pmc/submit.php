@@ -15,6 +15,7 @@
   <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
   <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -690,6 +691,7 @@
       <div class="modal-footer">
         <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
+        <button id="btnEdit" class="btn btn-danger" onclick="remove_po()">Mark as Void</button>
         <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
         <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()">Resubmit</button>
       </div>
@@ -733,6 +735,7 @@
   <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/dataTables.bootstrap.min.js"></script>
   <script src="../../assets/js/jquery.toast.js"></script>
+  <script src="../../assets/vendor/toastr/toastr.js"></script>
   <?php include "js/submit-js.php"; ?>
 </body>
 </html>
