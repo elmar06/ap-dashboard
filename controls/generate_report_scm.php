@@ -1858,6 +1858,70 @@ if($_GET['action'] == 15)
     }
 }
 
+if($_GET['action'] == 16)
+{
+    // Excel file name for download 
+    $fileName = 'AP Dashboard Disbursement Report.xls';
+    //1st column REPORT PAGE HEADER
+    $header1 = array('INNOGROUP OF COMPANIES');   
+    //Display column names as first row 
+    $excelData = implode("\t", array_values($header1)) . "\n"; 
+    //2nd column
+    $header2 = array('DISBURSEMENT REPORT');   
+    //Display column names as first row 
+    $excelData .= implode("\t", array_values($header2)) . "\n";
+    //3rd column
+    $header3 = array('COMPANY', 'PROJECT', 'VENDOR NAME', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE RELEASED', 'OR#/CR#');   
+    //Display column names as first row 
+    $excelData = implode("\t", array_values($header3)) . "\n";
+
+    $get = $po->get_disbursement_by_date($from, $to);
+    while($row = $get->fetch(PDO:: FETCH_ASSOC))
+    {
+        //get the name of company
+        $comp_name = '';
+        $company->id = $row['company'];
+        $get_comp = $company->get_company_detail();
+        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+        {
+            $comp_name = $row1['company'];
+        }
+        //get the name of project
+        $proj_name = '';
+        $project->id = $row['project'];
+        $get_proj = $project->get_proj_details();
+        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
+        {
+            if($row2['id'] == $row['project']){
+                $proj_name = $row2['project'];
+            }else{
+                $proj_name = '';
+            }
+        }
+        //get the name of supplier
+        $supp_name = '';
+        $supplier->id = $row['supplier'];
+        $get_supp = $supplier->get_supplier_details();
+        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+        {
+            $supp_name = $row3['supplier_name'];
+        }
+        //check if empty
+        $date_release = '-';
+        if($row['date_release'] != null || $row['date_release'] != ''){
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        } 
+        $or_num = '-';
+        if($row['or_num'] != '' || $row['or_num'] != null){
+            $or_num = $row['or_num'];
+        }
+        //initialize data for excel
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['cv_no'], $row['check_no'], $row['amount'], $date_release, $or_num);
+        array_walk($lineData, 'filterData'); 
+        $excelData .= implode("\t", array_values($lineData)) . "\n";                
+    }
+}
+
 // Headers for download 
 header("Content-Type: application/vnd.ms-excel"); 
 header("Content-Disposition: attachment; filename=\"$fileName\""); 

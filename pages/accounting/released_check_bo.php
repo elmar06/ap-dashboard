@@ -36,6 +36,9 @@
                 <a class="btn btn-primary btn-sm" style="width:100%" id="pills-release-btn" href="#">Released Check</a>
               </div>
               <div class="col-lg-2">
+                <a class="btn btn-info btn-sm" style="width:100%" id="pills-forwarded-btn" href="#">Forwarded to Compliance</a>
+              </div>
+              <div class="col-lg-2">
                 <a class="btn btn-success btn-sm" style="width:100%" id="pills-received-btn" href="#">Received by Compliance</a>
               </div>
               <div class="col-lg-2">
@@ -139,6 +142,99 @@
                 </div><!-- /column -->
               </div>
             </div>
+            <!-- FORWARDED TAB -->
+            <div class="row" id="pills-forwarded">
+              <div class="col-lg-12">
+                <div class="card mb-4">
+                  <div class="table1-responsive p-3">
+                    <table class="table1 align-items-center table-flush table-hover DataTable">
+                      <thead class="thead-light">
+                        <tr>
+                          <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                          <th><center>OR #</center></th>
+                          <th>Project</th>
+                          <th>SI #</th>
+                          <th>Check No</th>
+                          <th>Company</th>
+                          <th>PO/JO No</th>
+                          <th>Payee</th>
+                          <th>Amount</th>
+                          <th><center>Date Released</center></th>
+                          <th><center>Date Received</center></th>
+                        </tr>
+                      </thead>
+                      <tbody id="received-body">
+                      <?php
+                        $po->submitted_by = $_SESSION['id'];
+                        $view = $po->get_forwarded_compliance();
+                        while($row = $view->fetch(PDO::FETCH_ASSOC))
+                        {
+                          //get the COMPANY name if exist
+                          $company->id = $row['comp-id'];
+                          $get2 = $company->get_company_detail();
+                          while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['comp-id'] == $rowComp['id']){
+                              $comp_name = $rowComp['company'];
+                            }else{
+                              $comp_name = '-';
+                            }
+                          }
+                          //get the SUPPLIER name if exist
+                          $supplier->id = $row['supp-id'];
+                          $get3 = $supplier->get_supplier_details();
+                          while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['supp-id'] == $rowSupp['id']){
+                              $sup_name = $rowSupp['supplier_name'];
+                            }else{
+                              $sup_name = '-';
+                            }
+                          }  
+                          $proj_name = '';
+                          //get the PROJECT name if exist
+                          $project->id = $row['proj-id'];
+                          $get1 = $project->get_proj_details();
+                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['proj-id'] == $rowProj['id']){
+                              $proj_name = $rowProj['project'];
+                            }else{
+                              $proj_name = '-';
+                            }
+                          }
+                          //date format
+                          $release = date('m/d/Y', strtotime($row['date_release']));
+                          $amount = number_format($row['cv_amount'], 2);
+                          //initialize action button
+                          $action = '<button class="btn btn-success btn-sm btnForward" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Forward to Compliance</button>';
+                          if($row['or_num'] == '' || $row['or_num'] == null){
+                              $or_num = '-';
+                          }else{
+                              $or_num = $row['or_num'];
+                          }
+                          echo '
+                          <tr>
+                            <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                            <td><center>'.$or_num.'</center></td>
+                            <td>'.$proj_name.'</td>
+                            <td>'.$row['si_num'].'</td>                          
+                            <td>'.$row['check_no'].'</td>
+                            <td>'.$comp_name.'</td>
+                            <td>'.$row['po_num'].'</td>
+                            <td style="width: 150px">'.$sup_name.'</td>
+                            <td>'.$amount.'</td>
+                            <td><center>'.$release.'</center></td>
+                            <td><center>'.$release.'</center></td>
+                          </tr>';
+                        }
+                      ?>
+                      </tbody>
+                    </table> 
+                  </div>
+                </div>
+              </div><!-- /column -->
+            </div><!-- row -->
             <!-- RECEIVED TAB -->
             <div class="row" id="pills-received">
               <div class="col-lg-12">

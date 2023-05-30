@@ -6,6 +6,7 @@ $(document).ready(function(){
   $(".sidebar").toggleClass("toggled");
   $('#pills-received').hide();
   $('#pills-returned').hide();
+  $('#pills-forwarded').hide();
   $('#pills-release-btn').addClass('active');
 })
 //toast
@@ -77,6 +78,7 @@ $(document).on('click', '#pills-release-btn', function(e){
   $('#pills-released').show();
   $('#pills-received').hide();
   $('#pills-returned').hide();
+  $('#pills-forwarded').hide();
   //set active button
   $(this).addClass('active');
   $('#pills-received-btn').removeClass('active');
@@ -90,6 +92,7 @@ $(document).on('click', '#pills-received-btn', function(e){
   $('#pills-released').hide();
   $('#pills-received').show();
   $('#pills-returned').hide();
+  $('#pills-forwarded').hide();
   //set active button
   $(this).addClass('active');
   $('#pills-release-btn').removeClass('active');
@@ -102,6 +105,20 @@ $(document).on('click', '#pills-returned-btn', function(e){
   $('#pills-released').hide();
   $('#pills-received').hide();
   $('#pills-returned').show();
+  $('#pills-forwarded').hide();
+  //set active button
+  $(this).addClass('active');
+  $('#pills-received-btn').removeClass('active');
+  $('#pills-release-btn').removeClass('active');
+})
+//FORWARDED
+$(document).on('click', '#pills-forwarded-btn', function(e){
+  e.preventDefault();
+
+  $('#pills-released').hide();
+  $('#pills-received').hide();
+  $('#pills-returned').hide();
+  $('#pills-forwarded').show();
   //set active button
   $(this).addClass('active');
   $('#pills-received-btn').removeClass('active');

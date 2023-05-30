@@ -717,6 +717,16 @@ class PO_Details
 		return $sel;
     }
 
+    public function get_forwarded_compliance()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, check_details, po_other_details, users WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_other_details.received_by_comp = users.id AND po_details.status = 12 ORDER BY po_other_details.date_release DESC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
     public function forward_to_compliance()
     {
         $query = 'UPDATE po_details SET status = 12 WHERE id = ?';
@@ -1505,7 +1515,7 @@ class PO_Details
 
     public function get_disbursement_by_date($date_from, $date_to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, check_details.cv_no, check_details.check_no, check_details.amount, po_other_details.date_release FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_details.or_num, check_details.cv_no, check_details.check_no, check_details.amount, po_other_details.date_release FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND (find_in_set(11, po_details.status) || find_in_set(12, po_details.status) || find_in_set(13, po_details.status) || find_in_set(14, po_details.status)) AND (po_other_details.date_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
