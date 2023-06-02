@@ -420,7 +420,7 @@ class Reports
     //AACOUNTING FRONT OFFICE REPORT QUERY(CHECK FOR RELEASING)
     public function get_by_comp_date_fo($comp, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = ? AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.company = ? AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -430,7 +430,7 @@ class Reports
 
     public function get_by_proj_date_fo($proj, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.project = ? AND po_details.status != 0 AND po_details.status = 10 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.project = ? AND po_details.status != 0 AND po_details.status = 10 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -440,7 +440,7 @@ class Reports
 
     public function get_by_supp_date_fo($supp, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = ? AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.supplier = ? AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -450,7 +450,7 @@ class Reports
 
     public function get_by_stat_date_fo($stat, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -460,7 +460,7 @@ class Reports
 
     public function get_by_date_fo($from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -470,7 +470,7 @@ class Reports
 
     public function get_by_comp_proj_date_fo($proj, $comp, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, po_other_details.date_for_release, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, po_other_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -480,7 +480,7 @@ class Reports
 
     public function get_by_comp_supp_date_fo($comp, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -490,7 +490,7 @@ class Reports
 
     public function get_all_date_fo($proj, $comp, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.company, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.company, po_details.po_num, po_details.project, po_details.supplier, check_details.cv_no, check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.status = 10 AND po_details.id = check_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_other_details.date_for_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

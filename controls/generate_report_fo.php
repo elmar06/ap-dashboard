@@ -42,7 +42,7 @@ if($action == 1)//CHECK FOR RELEASE
     //Display column names as first row 
     $excelData = implode("\t", array_values($header2)) . "\n";
     //3rd column
-    $header3 = array('PAYEE', 'COMPANY', 'PROJECT', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE FOR RELEASE');   
+    $header3 = array('PO #', 'PAYEE', 'COMPANY', 'PROJECT', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE FOR RELEASE');   
     //Display column names as first row 
     $excelData = implode("\t", array_values($header3)) . "\n";
 
@@ -131,7 +131,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }  
@@ -176,7 +176,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }  
@@ -221,7 +221,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }  
@@ -266,7 +266,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }
@@ -311,7 +311,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }
@@ -356,7 +356,7 @@ if($action == 1)//CHECK FOR RELEASE
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             array_walk($lineData, 'filterData'); 
             $excelData .= implode("\t", array_values($lineData)) . "\n"; 
         }
