@@ -52,7 +52,6 @@ if($_GET['action'] == 1)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -65,9 +64,6 @@ if($_GET['action'] == 1)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -111,14 +107,30 @@ if($_GET['action'] == 1)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -171,7 +183,6 @@ if($_GET['action'] == 2)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -184,9 +195,6 @@ if($_GET['action'] == 2)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -230,14 +238,30 @@ if($_GET['action'] == 2)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -290,7 +314,6 @@ if($_GET['action'] == 3)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -303,9 +326,6 @@ if($_GET['action'] == 3)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -349,14 +369,30 @@ if($_GET['action'] == 3)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -414,7 +450,6 @@ if($_GET['action'] == 4)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -427,9 +462,6 @@ if($_GET['action'] == 4)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -473,14 +505,30 @@ if($_GET['action'] == 4)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -533,7 +581,6 @@ if($_GET['action'] == 5)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -546,9 +593,6 @@ if($_GET['action'] == 5)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -592,14 +636,30 @@ if($_GET['action'] == 5)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -652,7 +712,6 @@ if($_GET['action'] == 6)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -665,9 +724,6 @@ if($_GET['action'] == 6)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -711,14 +767,30 @@ if($_GET['action'] == 6)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -771,7 +843,6 @@ if($_GET['action'] == 7)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -784,9 +855,6 @@ if($_GET['action'] == 7)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -830,14 +898,30 @@ if($_GET['action'] == 7)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -890,7 +974,6 @@ if($_GET['action'] == 8)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -903,9 +986,6 @@ if($_GET['action'] == 8)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -949,14 +1029,30 @@ if($_GET['action'] == 8)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1009,7 +1105,6 @@ if($_GET['action'] == 9)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1022,9 +1117,6 @@ if($_GET['action'] == 9)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1068,14 +1160,30 @@ if($_GET['action'] == 9)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1133,7 +1241,6 @@ if($_GET['action'] == 10)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1146,9 +1253,6 @@ if($_GET['action'] == 10)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1192,14 +1296,30 @@ if($_GET['action'] == 10)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1252,7 +1372,6 @@ if($_GET['action'] == 11)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1265,9 +1384,6 @@ if($_GET['action'] == 11)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1311,14 +1427,30 @@ if($_GET['action'] == 11)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1376,7 +1508,6 @@ if($_GET['action'] == 12)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1389,9 +1520,6 @@ if($_GET['action'] == 12)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1435,14 +1563,30 @@ if($_GET['action'] == 12)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1500,7 +1644,6 @@ if($_GET['action'] == 13)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1513,9 +1656,6 @@ if($_GET['action'] == 13)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1559,14 +1699,30 @@ if($_GET['action'] == 13)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1624,7 +1780,6 @@ if($_GET['action'] == 14)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1637,9 +1792,6 @@ if($_GET['action'] == 14)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1683,14 +1835,30 @@ if($_GET['action'] == 14)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status
@@ -1748,7 +1916,6 @@ if($_GET['action'] == 15)
         $date_received_fo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
-        $check_date = '-';
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
@@ -1761,9 +1928,6 @@ if($_GET['action'] == 15)
         }
         if($row['date_from_ea'] != null){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['check_date'] != null){
-            $check_date = date('m-d-Y', strtotime($row['check_date']));
         }
         if($row['date_release'] != null){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
@@ -1807,14 +1971,30 @@ if($_GET['action'] == 15)
                 $supp_name = $row3['supplier_name'];
             }
         }
-        //get the bank name
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
         $bank_name = '-'; 
-        $bank->id = $row['bank'];
-        $get_bank = $bank->get_bank_details();
-        while($row4 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
         {
-            if($row4['id'] == $row['bank']){
-                $bank_name = $row4['name'];
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                }
             }
         }
         //format of status

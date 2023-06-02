@@ -103,7 +103,7 @@ function generate_report_scm()
   var action = 16;
 
   var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
-
+  
   if(date_from == '' && date_to == ''){
     toastr.error('ERROR! Please select a date span to generate report.');
     $('#dis-from').focus();

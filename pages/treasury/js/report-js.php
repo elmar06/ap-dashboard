@@ -40,6 +40,8 @@ function generate_report()
     var action = 6;//generate by supplier, status & date span
   }else if(status != 0 && company != 0 && supplier != 0){
     var action = 7;//generate by company, supplier, status & date span
+  }else if(status != 0){
+    var action = 8;//generate by status & date span
   }else{
     var action = 4;//generate by date span only
   }
