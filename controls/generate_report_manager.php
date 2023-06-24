@@ -39,7 +39,7 @@ $fileName = 'AP Dashboard - Manager'."'".'s Report.xls';
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$header1 = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'STATUS');
+$header1 = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
 //Display column names in a row 
 $excelData = implode("\t", array_values($header1)) . "\n"; 
 
@@ -55,6 +55,7 @@ if($_GET['action'] == 1)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -72,6 +73,9 @@ if($_GET['action'] == 1)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -165,7 +169,7 @@ if($_GET['action'] == 1)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }  
@@ -183,6 +187,7 @@ if($_GET['action'] == 2)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -200,6 +205,9 @@ if($_GET['action'] == 2)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -293,7 +301,7 @@ if($_GET['action'] == 2)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }  
@@ -311,6 +319,7 @@ if($_GET['action'] == 3)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -328,6 +337,9 @@ if($_GET['action'] == 3)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -421,9 +433,9 @@ if($_GET['action'] == 3)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData .= implode("\t", array_values($lineData)) . "\n";   
     }  
 }
 
@@ -444,6 +456,7 @@ if($_GET['action'] == 4)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -461,6 +474,9 @@ if($_GET['action'] == 4)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -554,9 +570,9 @@ if($_GET['action'] == 4)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }  
 }
 
@@ -572,6 +588,7 @@ if($_GET['action'] == 5)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -589,6 +606,9 @@ if($_GET['action'] == 5)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -682,9 +702,9 @@ if($_GET['action'] == 5)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData .= implode("\t", array_values($lineData)) . "\n";   
     }
 }
 
@@ -700,6 +720,7 @@ if($_GET['action'] == 6)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -717,6 +738,9 @@ if($_GET['action'] == 6)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -810,7 +834,7 @@ if($_GET['action'] == 6)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }
@@ -828,6 +852,7 @@ if($_GET['action'] == 7)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -845,6 +870,9 @@ if($_GET['action'] == 7)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -938,9 +966,9 @@ if($_GET['action'] == 7)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
+        $excelData .= implode("\t", array_values($lineData)) . "\n";    
     }
 }
 
@@ -956,6 +984,7 @@ if($_GET['action'] == 8)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -973,6 +1002,9 @@ if($_GET['action'] == 8)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1066,7 +1098,7 @@ if($_GET['action'] == 8)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n";   
     }
@@ -1084,6 +1116,7 @@ if($_GET['action'] == 9)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1101,6 +1134,9 @@ if($_GET['action'] == 9)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1194,9 +1230,9 @@ if($_GET['action'] == 9)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData .= implode("\t", array_values($lineData)) . "\n";   
     }
 }
 
@@ -1217,6 +1253,7 @@ if($_GET['action'] == 10)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1234,6 +1271,9 @@ if($_GET['action'] == 10)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1327,7 +1367,7 @@ if($_GET['action'] == 10)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }  
@@ -1345,6 +1385,7 @@ if($_GET['action'] == 11)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1362,6 +1403,9 @@ if($_GET['action'] == 11)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1455,9 +1499,9 @@ if($_GET['action'] == 11)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }
 }
 
@@ -1478,6 +1522,7 @@ if($_GET['action'] == 12)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1495,6 +1540,9 @@ if($_GET['action'] == 12)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1588,9 +1636,9 @@ if($_GET['action'] == 12)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }
 }
 
@@ -1611,6 +1659,7 @@ if($_GET['action'] == 13)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1628,6 +1677,9 @@ if($_GET['action'] == 13)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1721,7 +1773,7 @@ if($_GET['action'] == 13)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }
@@ -1744,6 +1796,7 @@ if($_GET['action'] == 14)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1761,6 +1814,9 @@ if($_GET['action'] == 14)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1854,7 +1910,7 @@ if($_GET['action'] == 14)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }
@@ -1877,6 +1933,7 @@ if($_GET['action'] == 15)
         $date_release = '-';
         $bill_date = '-';
         $due_date = '-';
+        $date_submit = '-';
         if($row['date_received_fo'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
@@ -1894,6 +1951,9 @@ if($_GET['action'] == 15)
         }
         if($row['due_date'] != null){
             $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if($row['date_submit'] != null){
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1987,9 +2047,9 @@ if($_GET['action'] == 15)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }
 }
 

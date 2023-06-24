@@ -46,14 +46,10 @@
                     <div class="col-lg-3">
                         <button id="percentage" class="btn btn-success" style="width: 100%;"><i class="fas fa-chart-line"></i> Percentage Report</button>
                     </div>
-                    <?php
-                        if($_SESSION['access'] == 8)
-                        {
-                            echo'<div class="col-lg-3">
-                                    <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
-                                </div>';
-                        }
-                    ?>
+                    <div class="col-lg-3">
+                        <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
+                    </div>
+
                 </div>
                 <!-- check for release -->
                 <div id="check" style="display: none;">

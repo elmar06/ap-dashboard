@@ -42,14 +42,9 @@
                     <div class="col-lg-3">
                         <button id="report" class="btn btn-warning" style="width: 100%;"><i class="fas fa-file"></i> Disbursement Report</button>
                     </div>
-                    <?php
-                        if($_SESSION['access'] == 8)
-                        {
-                            echo'<div class="col-lg-3">
-                                    <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
-                                </div>';
-                        }
-                    ?>
+                    <div class="col-lg-3">
+                        <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
+                    </div>
                 </div>
                 <!-- check for release -->
                 <div id="check" style="display: none;">

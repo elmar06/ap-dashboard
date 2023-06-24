@@ -78,8 +78,10 @@
                           }elseif($row['access'] == 3)
                           {   
                             $dept = 'AP Back Office';
-                          }elseif($row['access'] == 4){
-                            $dept = 'Purchasing';
+                          }elseif($row['dept'] == 2){
+                            $dept = 'SCM';
+                          }elseif($row['dept'] == 1){
+                            $dept = 'PMC';
                           }elseif($row['access'] == 5){
                             $dept = 'EA';
                           }elseif($row['access'] == 6){

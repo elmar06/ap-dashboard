@@ -2,10 +2,10 @@
 <script>
 $(document).ready(function () {
   $(".sidebar").toggleClass("toggled");
-  $('#req-table').DataTable({
+  $('.tableData').DataTable({
     scrollX: true
-  });// ID From dataTable with Hover
-  $('#mainTable').DataTable({
+  });
+  $('#createTable').DataTable({
     scrollX: true
   });
   //select2 js
@@ -265,37 +265,33 @@ function forwardToCebuMulti()
   var cv_amount = $('#multi-cvAmount').val();
   var action = 2;
   var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
-  
-  if(cv_no != '' && bank != null && checkdate != '' && tax != '' && cv_amount != '')
+
+  if(amount != '')
   {
-    if(id.length > 0){
-      $.each( id, function( key, value ) {
-        $.ajax({
-          type: 'POST',
-          url: '../../controls/mark_for_signature.php',
-          data: {id:value, cv_no:cv_no, bank:bank, check_no:check_no, checkdate:checkdate, amount:amount, tax:tax, cv_amount:cv_amount, action:action},
-          async: false,
-          dataType: 'html',
-          success: function(response)
-          {
-            result = response;
-          },
-          error: function(xhr, ajaxOption, thrownError)
-          {
-            alert(thrownError);
-          }
-        })
-      })
-      //check if process is successful
-      if(result > 0)
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/mark_for_signature.php',
+      data: myData,
+      async: false,
+      dataType: 'html',
+      success: function(response)
       {
-        toastr.success('Request successfully forwarded to Cebu for printing.');
-        setTimeout(function(){
-         location.reload();
-        }, 1500)
-      }else{
-        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+        result = response;
+      },
+      error: function(xhr, ajaxOption, thrownError)
+      {
+        alert(thrownError);
       }
+    })
+    //check if process is successful
+    if(result > 0)
+    {
+      toastr.success('Request successfully forwarded to Cebu for printing.');
+      setTimeout(function(){
+        location.reload();
+      }, 1500)
+    }else{
+      toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
     }
   }else{
     toastr.error('Submit Failed. Please fill-out all the data needed to proceed.');
@@ -305,6 +301,8 @@ function forwardToCebuMulti()
 function updForSignature()
 {
   var id = $('#upd-id').val();
+  var check_po_id = $('#upd-check-po-id').val();
+  var check_id = $('#upd-check-id').val();
   var cv_no = $('#cv-no').val();
   var bank = $('#bank').val();
   var check_no = $('#check-no').val();
@@ -313,7 +311,7 @@ function updForSignature()
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
   var action = 3;
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+  var myData = 'id=' + id + '&check_id=' + check_id + '&check_po_id=' + check_po_id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
 
   if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
@@ -327,6 +325,7 @@ function updForSignature()
       },
       success: function(response)
       {
+        alert(response);
         if(response > 0)
         {
           toastr.success('Request successfully submitted and mark as for signature.');

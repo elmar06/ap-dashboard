@@ -210,7 +210,7 @@ class Users
 
 	public function view_all_user()
 	{
-		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, access, username, status FROM '.$this->table_name.' ORDER BY access ASC';
+		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, access, username, dept, status FROM '.$this->table_name.' ORDER BY access ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

@@ -52,6 +52,8 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     $check_date = date('F d, Y', strtotime($row6['check_date']));
     $wtax = $row6['tax'];
     $vamount = $row6['cv_amount'];
+    $check_po_id = $row6['po_id']; 
+    $check_id = $row6['check-id']; 
   }
 
   echo '
@@ -108,8 +110,10 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <div class="row">
         <div class="col-lg-6">
           <label>Invoice/Billing No:</label>
-          <input id="upd-id" class="form-control mb-3" type="text" placeholder="Enter Billing number" value="'.$row['po-id'].'" hidden>
-          <input id="upd-status" class="form-control mb-3" type="text" placeholder="Enter Billing number" value="'.$row['status'].'" hidden>
+          <input id="upd-id" class="form-control mb-3" type="text" placeholder="po-id" value="'.$row['po-id'].'" hidden>
+          <input id="upd-check-po-id" class="form-control mb-3" type="text" placeholder="check-po-id" value="'.$check_po_id.'" hidden>
+          <input id="upd-check-id" class="form-control mb-3" type="text" placeholder="check-id" value="'.$check_id.'" hidden>
+          <input id="upd-status" class="form-control mb-3" type="text" placeholder="status" value="'.$row['status'].'" hidden>
           <input id="upd-bill-no" class="form-control mb-3" type="text" placeholder="Enter Billing number" value="'.$row['bill_no'].'" disabled>
         </div>
         <div class="col-lg-6">

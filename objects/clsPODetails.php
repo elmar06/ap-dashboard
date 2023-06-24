@@ -517,9 +517,9 @@ class PO_Details
         return $sel;
     }
 
-    public function get_all_process_bo()
+    public function get_all_from_manila_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(15, po_details.status) || find_in_set(3, po_details.status) || find_in_set(4, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC'; 
+        $query = 'SELECT check_details.po_id, check_details.cv_no, check_details.cv_amount FROM check_details WHERE check_details.status != 0'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -528,9 +528,32 @@ class PO_Details
 	  	return $sel;
     }
 
+    public function get_po_forwarded_bo()
+    {
+        $query = 'SELECT id as "po-id", po_num, si_num, po_date, company as "comp-id", project as "proj-id", supplier as "supp-id", bill_no, bill_date FROM po_details WHERE id = ? AND status = 15';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function get_all_process_bo()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status)) /*AND po_details.company = ?*/ ORDER BY po_details.status DESC'; 
+        $sel = $this->conn->prepare($query);
+        
+        //$sel->bindParam(1, $this->company);
+
+        $sel->execute();
+	  	return $sel;
+    }
+
     public function get_all_for_process()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE  po_details.status = 4 AND po_details.company = ?'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE po_details.status = 4'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);

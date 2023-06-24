@@ -19,8 +19,54 @@ $po->id = $po_id;
 if($_POST['action'] == 1)
 {
     //check details
-    $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
-    $check->po_id = $po_id;
+    $id = $po_id;
+    $array_id = explode(',', $id);
+    foreach($array_id as $value)
+    {
+        $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
+        $check->po_id = $po_id;
+        $check->cv_no = $_POST['cv_no'];
+        $check->bank = $_POST['bank'];
+        $check->check_no = $_POST['check_no'];
+        $check->check_date = $check_date;
+        $check->amount = $_POST['amount'];
+        $check->tax = str_replace(',','',$_POST['tax']);
+        $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
+
+        $mark = $po->mark_bo_process();
+        $save = $check->add_details();
+    }
+
+    if($mark)
+    {
+        if($save)
+        {
+            echo 1; 
+        }else{
+            echo 0; 
+        }
+        
+    }else{
+        echo 0;
+    }
+}
+elseif($_POST['action'] == 2)//MULTI CV FORWARD REQUEST FROM MANILA TO CEBU
+{
+    //check details    
+    $id = $po_id;
+    $array_id = explode(',', $id);
+    foreach($array_id as $value)
+    {
+        $po->id = $value;
+        $mark = $po->forward_to_cebu();
+    }
+    //save check details in db
+    if($_POST['checkdate'] != '' || $_POST['checkdate'] != null){
+        $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
+    }else{
+        $check_date = date('Y-m-d');
+    }
+    $check->po_id = $id;
     $check->cv_no = $_POST['cv_no'];
     $check->bank = $_POST['bank'];
     $check->check_no = $_POST['check_no'];
@@ -28,8 +74,6 @@ if($_POST['action'] == 1)
     $check->amount = $_POST['amount'];
     $check->tax = str_replace(',','',$_POST['tax']);
     $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
-
-    $mark = $po->mark_bo_process();
     $save = $check->add_details();
 
     if($mark)
@@ -45,40 +89,18 @@ if($_POST['action'] == 1)
         echo 0;
     }
 }
-elseif($_POST['action'] == 2)//FORWARD REQUEST FROM MANILA TO CEBU
+else//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
 {
-    //check details
-    $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
-    $check->po_id = $po_id;
-    $check->cv_no = $_POST['cv_no'];
-    $check->bank = $_POST['bank'];
-    $check->check_no = $_POST['check_no'];
-    $check->check_date = $check_date;
-    $check->amount = $_POST['amount'];
-    $check->tax = str_replace(',','',$_POST['tax']);
-    $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
-
-    $mark = $po->forward_to_cebu();
-    $save = $check->add_details();
-
-    if($mark)
+    //po_details id
+    $id = $_POST['check_po_id'];
+    $array_id = explode(',', $id);
+    foreach($array_id as $value)
     {
-        if($save)
-        {
-            echo 1; 
-        }else{
-            echo 0; 
-        }
-        
-    }else{
-        echo 0;
+        $po->id = $value;
+        $mark = $po->mark_bo_process();
     }
-}
-else
-{
-    //check details
+    $check->id = $_POST['check_id'];
     $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
-    $check->po_id = $po_id;
     $check->cv_no = $_POST['cv_no'];
     $check->bank = $_POST['bank'];
     $check->check_no = $_POST['check_no'];
@@ -87,7 +109,6 @@ else
     $check->tax = str_replace(',','',$_POST['tax']);
     $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
 
-    $mark = $po->mark_bo_process();
     $save = $check->upd_details();
 
     if($mark)
