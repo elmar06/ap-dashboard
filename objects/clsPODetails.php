@@ -542,10 +542,10 @@ class PO_Details
 
     public function get_all_process_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status)) /*AND po_details.company = ?*/ ORDER BY po_details.status DESC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC'; 
         $sel = $this->conn->prepare($query);
         
-        //$sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
 	  	return $sel;
