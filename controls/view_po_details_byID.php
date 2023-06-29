@@ -33,6 +33,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   //number format
   $po_amount = number_format($row['po_amount'],2);
   $si_amount = number_format($row['amount'],2);
+  $memo_amount = number_format($row['memo_amount'],2);
   //get the difference between bill_date & due_date
   $date1 = time();
   $date2 = strtotime($row['due_date']);
@@ -204,7 +205,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                   <input id="debit-memo" class="form-control mb-3" type="text" placeholder="Input Debit Memo No. here" value="'.$row['debit_memo'].'">
                 </div>
                 <div class="col-lg-6">
-                <input id="memo-amount" class="form-control mb-3" type="text" placeholder="Input Memo Amount here" value="'.$row['memo_amount'].'">
+                <input id="memo-amount" class="form-control mb-3" type="text" placeholder="Input Memo Amount here" value="'.$memo_amount.'">
                 </div>
               </div>
               <hr>

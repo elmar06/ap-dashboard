@@ -93,7 +93,7 @@ class PO_Details
 
     public function upd_details()
     {
-        $query = 'UPDATE '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, terms=?, amount=?, due_date=?, remark=?, memo_no=?, status=? WHERE id=?';
+        $query = 'UPDATE '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, terms=?, amount=?, due_date=?, remark=?, memo_no=?, debit_memo=?, memo_amount=?, status=? WHERE id=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd =$this->conn->prepare($query);
 
@@ -111,8 +111,10 @@ class PO_Details
         $upd->bindParam(12, $this->due_date);
         $upd->bindParam(13, $this->remark);
         $upd->bindParam(14, $this->memo_no);
-        $upd->bindParam(15, $this->status);
-        $upd->bindParam(16, $this->id);
+        $upd->bindParam(15, $this->debit_memo);
+        $upd->bindParam(16, $this->memo_amount);
+        $upd->bindParam(17, $this->status);
+        $upd->bindParam(18, $this->id);
 
 
         if($upd->execute())

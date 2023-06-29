@@ -35,6 +35,8 @@ $po->date_submit = date('Y-m-d');
 $po->reports = null;
 $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
+$po->debit_memo = $_POST['debit_memo'];
+$po->memo_amount = $_POST['memo_amount'];
 $po->status = 1;
 
 $upd = $po->upd_details();
