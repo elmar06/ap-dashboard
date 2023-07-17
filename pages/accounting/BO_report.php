@@ -256,6 +256,9 @@
                                 <option value="9">On Hold</option>
                                 <option value="10">For Releasing</option>
                                 <option value="11">Released</option>
+                                <option value="12">Forwarded to Compliance</option>
+                                <option value="13">Returned by Compliance</option>
+                                <option value="14">Accepted by Compliance</option>
                             </select>
                         </div>
                         <div class="col-lg-3"><br>

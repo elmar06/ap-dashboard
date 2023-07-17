@@ -39,7 +39,7 @@ $fileName = 'AP Dashboard - Manager'."'".'s Report.xls';
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$header1 = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
+$header1 = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
 //Display column names in a row 
 $excelData = implode("\t", array_values($header1)) . "\n"; 
 
@@ -56,7 +56,9 @@ if($_GET['action'] == 1)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -76,6 +78,9 @@ if($_GET['action'] == 1)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -154,10 +159,18 @@ if($_GET['action'] == 1)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -169,7 +182,7 @@ if($_GET['action'] == 1)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }  
@@ -188,7 +201,9 @@ if($_GET['action'] == 2)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -208,6 +223,9 @@ if($_GET['action'] == 2)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -286,10 +304,18 @@ if($_GET['action'] == 2)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -301,9 +327,9 @@ if($_GET['action'] == 2)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData .= implode("\t", array_values($lineData)) . "\n";  
     }  
 }
 
@@ -320,7 +346,9 @@ if($_GET['action'] == 3)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -340,6 +368,9 @@ if($_GET['action'] == 3)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -418,10 +449,18 @@ if($_GET['action'] == 3)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -433,9 +472,9 @@ if($_GET['action'] == 3)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }  
 }
 
@@ -457,7 +496,9 @@ if($_GET['action'] == 4)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -477,6 +518,9 @@ if($_GET['action'] == 4)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -555,10 +599,18 @@ if($_GET['action'] == 4)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -570,10 +622,10 @@ if($_GET['action'] == 4)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
-    }  
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }   
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY & DATE SPAN
@@ -589,7 +641,9 @@ if($_GET['action'] == 5)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -609,6 +663,9 @@ if($_GET['action'] == 5)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -687,10 +744,18 @@ if($_GET['action'] == 5)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -702,10 +767,10 @@ if($_GET['action'] == 5)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
@@ -721,7 +786,9 @@ if($_GET['action'] == 6)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -741,6 +808,9 @@ if($_GET['action'] == 6)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -819,10 +889,18 @@ if($_GET['action'] == 6)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -834,10 +912,10 @@ if($_GET['action'] == 6)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
-    }
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER, STATUS & DATE SPAN
@@ -853,7 +931,9 @@ if($_GET['action'] == 7)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -873,6 +953,9 @@ if($_GET['action'] == 7)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -951,10 +1034,18 @@ if($_GET['action'] == 7)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -966,10 +1057,10 @@ if($_GET['action'] == 7)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";    
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY DATE SPAN
@@ -985,7 +1076,9 @@ if($_GET['action'] == 8)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1005,6 +1098,9 @@ if($_GET['action'] == 8)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1083,10 +1179,18 @@ if($_GET['action'] == 8)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1098,10 +1202,10 @@ if($_GET['action'] == 8)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER & DATE SPAN
@@ -1117,7 +1221,9 @@ if($_GET['action'] == 9)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1137,6 +1243,9 @@ if($_GET['action'] == 9)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1215,10 +1324,18 @@ if($_GET['action'] == 9)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1230,10 +1347,10 @@ if($_GET['action'] == 9)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, STATUS & DATE SPAN
@@ -1254,7 +1371,9 @@ if($_GET['action'] == 10)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1274,6 +1393,9 @@ if($_GET['action'] == 10)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1352,10 +1474,18 @@ if($_GET['action'] == 10)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1367,9 +1497,9 @@ if($_GET['action'] == 10)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
     }  
 }
 
@@ -1386,7 +1516,9 @@ if($_GET['action'] == 11)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1406,6 +1538,9 @@ if($_GET['action'] == 11)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1484,10 +1619,18 @@ if($_GET['action'] == 11)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1499,10 +1642,10 @@ if($_GET['action'] == 11)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
-    }
+    }  
 }
 
 //GENERATE REPORT BY COMPANY, STATUS & DATE SPAN
@@ -1523,7 +1666,9 @@ if($_GET['action'] == 12)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1543,6 +1688,9 @@ if($_GET['action'] == 12)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1621,10 +1769,18 @@ if($_GET['action'] == 12)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1636,10 +1792,10 @@ if($_GET['action'] == 12)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY SUPPLIER, STATUS & DATE SPAN
@@ -1660,7 +1816,9 @@ if($_GET['action'] == 13)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1680,6 +1838,9 @@ if($_GET['action'] == 13)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1758,10 +1919,18 @@ if($_GET['action'] == 13)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1773,10 +1942,10 @@ if($_GET['action'] == 13)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER, STATUS & DATE SPAN
@@ -1797,7 +1966,9 @@ if($_GET['action'] == 14)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1817,6 +1988,9 @@ if($_GET['action'] == 14)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1895,10 +2069,18 @@ if($_GET['action'] == 14)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -1910,10 +2092,10 @@ if($_GET['action'] == 14)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
         $excelData .= implode("\t", array_values($lineData)) . "\n"; 
-    }
+    }  
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, STATUS & DATE SPAN
@@ -1934,7 +2116,9 @@ if($_GET['action'] == 15)
         $bill_date = '-';
         $due_date = '-';
         $date_submit = '-';
-        if($row['date_received_fo'] != null){
+        if($row['2nd_date_received'] != null){
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
         if($row['date_to_ea'] != null){
@@ -1954,6 +2138,9 @@ if($_GET['action'] == 15)
         }
         if($row['date_submit'] != null){
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if($row['date_received_bo'] != null){
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         }
         //get the name of company
         $comp_name = '-';
@@ -2032,10 +2219,18 @@ if($_GET['action'] == 15)
             $status = 'On Hold';
         }else if($row['status'] == 10){
             $status = 'For Releasing';
+        }else if($row['status'] == 11){
+            $status = 'Released';
+        }else if($row['status'] == 12){
+            $status = 'Forwarded to Compliance';
+        }else if($row['status'] == 13){
+            $status = 'Returned by Compliance';
+        }else if($row['status'] == 14){
+            $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
         }else{
-            $status = 'Released';
+            $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
@@ -2047,10 +2242,10 @@ if($_GET['action'] == 15)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
-    }
+        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }  
 }
 
 // Headers for download 
