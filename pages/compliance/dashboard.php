@@ -150,6 +150,16 @@
                       $view = $po->get_list_compliance();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the PROJECT name if exist
+                        $proj_name = '-';
+                        $project->id = $row['proj-id'];
+                        $get1 = $project->get_proj_details();
+                        while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['proj-id'] == $rowProj['id']){
+                            $proj_name = $rowProj['project'];
+                          }
+                        }
                         //get the COMPANY name if exist
                         $comp_name = '-';
                         $company->id = $row['comp-id'];
@@ -170,16 +180,19 @@
                             $sup_name = $rowSupp['supplier_name'];
                           }
                         }
-                        $proj_name = '-';
-                        //get the PROJECT name if exist
-                        $project->id = $row['proj-id'];
-                        $get1 = $project->get_proj_details();
-                        while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                        //get the check details
+                        $check_no = '-';
+                        $amount = '-';
+                        $tax = '-';
+                        $cv_no = '-';
+                        $get4 = $check_details->get_details_byID($row['po-id']);
+                        while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                         {
-                          if($row['proj-id'] == $rowProj['id']){
-                            $proj_name = $rowProj['project'];
-                          }
-                        }
+                          $check_no = $rowCheck['check_no'];
+                          $cv_no = $rowCheck['cv_no'];
+                          $amount = number_format(intval($rowCheck['cv_amount']), 2);
+                          $tax = number_format(intval($rowCheck['tax']), 2);
+                        }      
                         //date format
                         $date_release = date('m/d/Y', strtotime($row['date_release']));                              
                         $due = date('m/d/Y', strtotime($row['due_date']));                              
@@ -191,10 +204,10 @@
                           <td>'.$action.'</td>
                           <td>'.$date_release.'</td>
                           <td>'.$row['or_num'].'</td>
-                          <td>'.$row['cv_no'].'</td>
-                          <td>'.$row['check_no'].'</td>
-                          <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
-                          <td>'.number_format(floatval($row['tax']), 2).'</td>
+                          <td>'.$cv_no.'</td>
+                          <td>'.$check_no.'</td>
+                          <td>'.$amount.'</td>
+                          <td>'.$tax.'</td>
                           <td>'.$row['si_num'].'</td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
@@ -263,6 +276,19 @@
                               $proj_name = $rowProj['project'];
                             }
                           }
+                          //get the check details
+                          $check_no = '-';
+                          $amount = '-';
+                          $tax = '-';
+                          $cv_no = '-';
+                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
+                          {
+                            $check_no = $rowCheck['check_no'];
+                            $cv_no = $rowCheck['cv_no'];
+                            $amount = number_format(intval($rowCheck['cv_amount']), 2);
+                            $tax = number_format(intval($rowCheck['tax']), 2);
+                          }
                           //date format
                           $date_release = date('m/d/Y', strtotime($row['date_release']));                              
                           $due = date('m/d/Y', strtotime($row['due_date']));                              
@@ -273,10 +299,10 @@
                             <td>'.$action.'</td>
                             <td>'.$date_release.'</td>
                             <td>'.$row['or_num'].'</td>
-                            <td>'.$row['cv_no'].'</td>
-                            <td>'.$row['check_no'].'</td>
-                            <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
-                            <td>'.number_format(floatval($row['tax']), 2).'</td>
+                            <td>'.$cv_no.'</td>
+                            <td>'.$check_no.'</td>
+                            <td>'.$amount.'</td>
+                            <td>'.$tax.'</td>
                             <td>'.$row['si_num'].'</td>
                             <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>

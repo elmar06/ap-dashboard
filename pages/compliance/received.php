@@ -61,30 +61,43 @@
                             $get2 = $company->get_company_detail();
                             while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
                             {
-                            if($row['comp-id'] == $rowComp['id']){
-                              $comp_name = $rowComp['company'];
+                              if($row['comp-id'] == $rowComp['id']){
+                                $comp_name = $rowComp['company'];
+                              }
                             }
-                            }
+                            
                             //get the SUPPLIER name if exist
                             $sup_name = '-';
                             $supplier->id = $row['supp-id'];
                             $get3 = $supplier->get_supplier_details();
                             while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
                             {
-                            if($row['supp-id'] == $rowSupp['id']){
+                              if($row['supp-id'] == $rowSupp['id']){
                                 $sup_name = $rowSupp['supplier_name'];
+                              }
                             }
-                            }
+                            
                             $proj_name = '';
                             //get the PROJECT name if exist
                             $project->id = $row['proj-id'];
                             $get1 = $project->get_proj_details();
                             while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
                             {
-                            if($row['proj-id'] == $rowProj['id']){
+                              if($row['proj-id'] == $rowProj['id']){
                                 $proj_name = $rowProj['project'];
+                              }
                             }
-                            }
+                            //get the check details
+                            $check_no = '-';
+                            $amount = '-';
+                            $cv_no = '-';
+                            $get4 = $check_details->get_details_byID($row['po-id']);
+                            while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              $check_no = $rowCheck['check_no'];
+                              $cv_no = $rowCheck['cv_no'];
+                              $amount = number_format(intval($rowCheck['cv_amount']), 2);
+                            }                            
                             //date format
                             $date_release = date('m/d/Y', strtotime($row['date_release']));                              
                             $due = date('m/d/Y', strtotime($row['due_date']));                              
@@ -93,9 +106,9 @@
                             echo '
                             <tr>
                                 <td>'.$date_release.'</td>
-                                <td>'.$row['cv_no'].'</td>
-                                <td>'.$row['check_no'].'</td>
-                                <td>'.number_format(floatval($row['cv_amount']), 2).'</td>
+                                <td>'.$cv_no.'</td>
+                                <td>'.$check_no.'</td>
+                                <td>'.$amount.'</td>
                                 <td>'.$comp_name.'</td>
                                 <td>'.$row['po_num'].'</td>
                                 <td style="width: 180px">'.$sup_name.'</td>
@@ -104,23 +117,8 @@
                                 <td>'.$row['fullname'].'</td>
 
                             </tr>';
+                          
                         }
-                        // //get the user company access
-                        // $access->user_id = $user_id;
-                        // $get = $access->get_company();
-                        // while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                        // {
-                        //   //get the access company id
-                        //   $id = $row1['comp-access'];
-                        //   $array_id = explode(',', $id);
-                        //   foreach($array_id as $value)
-                        //   {
-                        //     $comp_id =  $value; 
-                        //     //display all the data by access
-                        //     $po->company = $comp_id;
-                            
-                        //   }
-                        // }
                       ?>
                     </tbody>
                   </table> 
