@@ -6,15 +6,38 @@ class PO_Details
 
     public $id;
     public $po_num;
+    public $po_amount;
+    public $si_num;
+    public $po_date;
     public $company;
+    public $project;
+    public $department;
     public $supplier;
     public $bill_no;
     public $bill_date;
+    public $sounter_date;
     public $terms;
     public $amount;
     public $due_date;
     public $days_due;
+    public $date_submit;
+    public $memo_no;
+    public $memo_amount;
+    public $reports;
+    public $submitted_by;
+    public $counter_date;
+    public $debit_memo;
+    public $or_num;
+    public $remark;
     public $status;
+    public $cv_no;
+    public $bank;
+    public $check_no;
+    public $check_date;
+    public $po_id;
+    public $comp_remark;
+    public $date_received_comp;
+    public $received_by_comp;
 
     public function __construct($db)
     {

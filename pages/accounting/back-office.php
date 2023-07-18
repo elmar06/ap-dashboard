@@ -67,7 +67,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For BO Processing</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
+                    //$po->submitted_by = $_SESSION['id'];
                     $count = $po->count_for_process_bo();
                     if($row = $count->fetch(PDO::FETCH_ASSOC))
                     {
@@ -95,7 +95,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For Signature</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
+                    //$po->submitted_by = $_SESSION['id'];
                     $count = $po->count_for_signature();
                     if($row = $count->fetch(PDO::FETCH_ASSOC))
                     {
@@ -123,7 +123,7 @@
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">On Hold</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
+                    //$po->submitted_by = $_SESSION['id'];
                     $count = $po->count_on_hold();
                     if($row = $count->fetch(PDO::FETCH_ASSOC))
                     {
