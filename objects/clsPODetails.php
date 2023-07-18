@@ -6,38 +6,15 @@ class PO_Details
 
     public $id;
     public $po_num;
-    public $po_amount;
-    public $si_num;
-    public $po_date;
     public $company;
-    public $project;
-    public $department;
     public $supplier;
     public $bill_no;
     public $bill_date;
-    public $sounter_date;
     public $terms;
     public $amount;
     public $due_date;
     public $days_due;
-    public $date_submit;
-    public $memo_no;
-    public $memo_amount;
-    public $reports;
-    public $submitted_by;
-    public $counter_date;
-    public $debit_memo;
-    public $or_num;
-    public $remark;
     public $status;
-    public $cv_no;
-    public $bank;
-    public $check_no;
-    public $check_date;
-    public $po_id;
-    public $comp_remark;
-    public $date_received_comp;
-    public $received_by_comp;
 
     public function __construct($db)
     {
@@ -757,7 +734,7 @@ class PO_Details
 
     public function get_received_compliance()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, check_details, po_other_details, users WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_other_details.received_by_comp = users.id AND po_details.status = 14 ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_other_details.date_received_comp, po_details.status FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.status = 14 ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -767,7 +744,7 @@ class PO_Details
 
     public function get_forwarded_compliance()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_details.status /*check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname"*/ FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.status = 12 ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_other_details.date_received_comp, po_details.status /*check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname"*/ FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.status = 12 ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -835,7 +812,7 @@ class PO_Details
 
     public function get_returned_comp()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_details.status, check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax FROM po_details, check_details, po_other_details WHERE po_details.id = check_details.po_id AND po_details.id = po_other_details.po_id AND po_details.status = 13 ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_returned_comp, po_details.status, po_details.comp_remark FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.status = 13 ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
