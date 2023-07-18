@@ -152,15 +152,14 @@
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th><center>OR #</center></th>
-                          <th>Project</th>
                           <th>SI #</th>
                           <th>Check No</th>
+                          <th>Amount</th>
+                          <th>Project</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
                           <th>Payee</th>
-                          <th>Amount</th>
                           <th><center>Date Released</center></th>
-                          <th><center>Date Received</center></th>
                         </tr>
                       </thead>
                       <tbody id="received-body">
@@ -205,14 +204,15 @@
                           }  
                           //get the check details
                           $check_no = '-';
+                          $amount = '-';
                           $get4 = $check_details->get_details_byID($row['po-id']);
                           while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
                             $check_no = $rowCheck['check_no'];
+                            $amount = number_format($rowCheck['cv_amount'], 2);
                           }
                           //date format
                           $release = date('m/d/Y', strtotime($row['date_release']));
-                          $amount = number_format($row['cv_amount'], 2);
                           //initialize action button
                           $action = '<button class="btn btn-success btn-sm btnForward" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Forward to Compliance</button>';
                           if($row['or_num'] == '' || $row['or_num'] == null){
@@ -224,14 +224,13 @@
                           <tr>
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                             <td><center>'.$or_num.'</center></td>
-                            <td>'.$proj_name.'</td>
                             <td>'.$row['si_num'].'</td>                          
                             <td>'.$check_no.'</td>
+                            <td>'.$amount.'</td>
+                            <td>'.$proj_name.'</td>
                             <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 150px">'.$sup_name.'</td>
-                            <td>'.$amount.'</td>
-                            <td><center>'.$release.'</center></td>
                             <td><center>'.$release.'</center></td>
                           </tr>';
                         }
@@ -252,13 +251,13 @@
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th><center>OR #</center></th>
-                          <th>Project</th>
                           <th>SI #</th>
                           <th>Check No</th>
+                          <th>Amount</th>
+                          <th>Project</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
                           <th>Payee</th>
-                          <th>Amount</th>
                           <th><center>Date Released</center></th>
                           <th><center>Date Received</center></th>
                         </tr>
@@ -269,6 +268,18 @@
                         $view = $po->get_received_compliance();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
+                          //get the PROJECT name if exist
+                          $proj_name = '';
+                          $project->id = $row['proj-id'];
+                          $get1 = $project->get_proj_details();
+                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['proj-id'] == $rowProj['id']){
+                              $proj_name = $rowProj['project'];
+                            }else{
+                              $proj_name = '-';
+                            }
+                          }
                           //get the COMPANY name if exist
                           $company->id = $row['comp-id'];
                           $get2 = $company->get_company_detail();
@@ -291,21 +302,18 @@
                               $sup_name = '-';
                             }
                           }  
-                          $proj_name = '';
-                          //get the PROJECT name if exist
-                          $project->id = $row['proj-id'];
-                          $get1 = $project->get_proj_details();
-                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          //get the check details
+                          $check_no = '-';
+                          $amount = '-';
+                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
-                            if($row['proj-id'] == $rowProj['id']){
-                              $proj_name = $rowProj['project'];
-                            }else{
-                              $proj_name = '-';
-                            }
+                            $check_no = $rowCheck['check_no'];
+                            $amount = number_format($rowCheck['cv_amount'], 2);
                           }
                           //date format
                           $release = date('m/d/Y', strtotime($row['date_release']));
-                          $amount = number_format($row['cv_amount'], 2);
+                          $received = date('m/d/Y', strtotime($row['date_received_comp']));
                           //initialize action button
                           $action = '<button class="btn btn-success btn-sm btnForward" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Forward to Compliance</button>';
                           if($row['or_num'] == '' || $row['or_num'] == null){
@@ -317,15 +325,15 @@
                           <tr>
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                             <td><center>'.$or_num.'</center></td>
-                            <td>'.$proj_name.'</td>
                             <td>'.$row['si_num'].'</td>                          
-                            <td>'.$row['check_no'].'</td>
+                            <td>'.$check_no.'</td>
+                            <td>'.$amount.'</td>
+                            <td>'.$proj_name.'</td>
                             <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 150px">'.$sup_name.'</td>
-                            <td>'.$amount.'</td>
                             <td><center>'.$release.'</center></td>
-                            <td><center>'.$release.'</center></td>
+                            <td><center>'.$received.'</center></td>
                           </tr>';
                         }
                       ?>
@@ -344,16 +352,16 @@
                       <thead class="thead-light">
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                          <th><center>OR #</center></th>
-                          <th>Project</th>
+                          <th><center>OR #</center></th>       
                           <th>SI #</th>
                           <th>Check No</th>
+                          <th>Amount</th>
+                          <th>Project</th>
                           <th>Company</th>
                           <th>PO/JO No</th>
                           <th>Payee</th>
-                          <th>Amount</th>
-                          <th><center>Date Released</center></th>
-                          <th><center>Date Received</center></th>
+                          <th><center>Date Returned</center></th>
+                          <th><center>Remarks</center></th>
                         </tr>
                       </thead>
                       <tbody id="returned-body">
@@ -362,6 +370,18 @@
                         $view = $po->get_returned_comp();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
+                          //get the PROJECT name if exist
+                          $proj_name = '';
+                          $project->id = $row['proj-id'];
+                          $get1 = $project->get_proj_details();
+                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['proj-id'] == $rowProj['id']){
+                              $proj_name = $rowProj['project'];
+                            }else{
+                              $proj_name = '-';
+                            }
+                          }
                           //get the COMPANY name if exist
                           $company->id = $row['comp-id'];
                           $get2 = $company->get_company_detail();
@@ -384,21 +404,17 @@
                               $sup_name = '-';
                             }
                           }  
-                          $proj_name = '';
-                          //get the PROJECT name if exist
-                          $project->id = $row['proj-id'];
-                          $get1 = $project->get_proj_details();
-                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          //get the check details
+                          $check_no = '-';
+                          $amount = '-';
+                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
-                            if($row['proj-id'] == $rowProj['id']){
-                              $proj_name = $rowProj['project'];
-                            }else{
-                              $proj_name = '-';
-                            }
+                            $check_no = $rowCheck['check_no'];
+                            $amount = number_format($rowCheck['cv_amount'], 2);
                           }
                           //date format
-                          $release = date('m/d/Y', strtotime($row['date_release']));
-                          $amount = number_format($row['cv_amount'], 2);
+                          $returned = date('m/d/Y', strtotime($row['date_returned_comp']));
                           //initialize action button
                           $action = '<button class="btn btn-success btn-sm btnForward" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Forward to Compliance</button>';
                           if($row['or_num'] == '' || $row['or_num'] == null){
@@ -409,16 +425,16 @@
                           echo '
                           <tr>
                             <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                            <td><center>'.$or_num.'</center></td>
-                            <td>'.$proj_name.'</td>
+                            <td><center>'.$or_num.'</center></td>                          
                             <td>'.$row['si_num'].'</td>                          
-                            <td>'.$row['check_no'].'</td>
+                            <td>'.$check_no.'</td>
+                            <td>'.$amount.'</td>
+                            <td>'.$proj_name.'</td>
                             <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
                             <td style="width: 150px">'.$sup_name.'</td>
-                            <td>'.$amount.'</td>
-                            <td><center>'.$release.'</center></td>
-                            <td><center>'.$release.'</center></td>
+                            <td><center>'.$returned.'</center></td>
+                            <td><center>'.$row['comp_remark'].'</center></td>
                           </tr>';
                         }
                       ?>
