@@ -734,7 +734,7 @@ class PO_Details
 
     public function get_received_compliance()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_other_details.date_received_comp, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details,  users WHERE po_details.id = po_other_details.po_id AND po_other_details.received_by_comp = users.id AND po_details.status = 14 ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_received_comp, po_other_details.received_by_comp, po_other_details.date_received_comp, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.id = po_other_details.po_id AND po_other_details.received_by_comp = users.id AND po_details.status = 14 ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

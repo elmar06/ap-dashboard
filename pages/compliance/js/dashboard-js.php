@@ -41,15 +41,9 @@ function received_request()
       if(response > 0){
           //get the new list
           toastr.success('Request successfully mark as Received.');
-          $.ajax({
-              url: '../../controls/get_list_compliance.php',
-              success: function(html)
-              {
-                $('#page-body').fadeOut();
-                $('#page-body').fadeIn();
-                $('#page-body').html(html);
-              }
-          })
+          setTimeout(function(){
+            location.reload();
+          }, 1500)
       }else{
           toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
       }
@@ -84,15 +78,9 @@ function return_request()
         if(response > 0){
           //get the new list
           toastr.success('Request successfully mark as Received.');
-          $.ajax({
-            url: '../../controls/get_list_compliance.php',
-            success: function(html)
-            {
-              $('#page-body').fadeOut();
-              $('#page-body').fadeIn();
-              $('#page-body').html(html);
-            }
-          })
+          setTimeout(function(){
+            location.reload();
+          }, 1500)
         }else{
           toastr.error('Receiving Failed! Please contact the system administrator at local 124 for assistance');
         }

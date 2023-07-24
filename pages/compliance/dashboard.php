@@ -131,18 +131,18 @@
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall1"/><span class="checkmark"></span></th>
                           <th><center>Action</center></th>
-                          <th>Released Date</th>
                           <th>OR #</th>
+                          <th>SI #</th>
+                          <th>Company</th>
+                          <th>Payee</th>
                           <th>CV #</th>
                           <th>Check #</th>
                           <th>CV Amount</th>
                           <th>Tax</th>
-                          <th>SI #</th>
-                          <th>Company</th>
-                          <th>PO/JO #</th>
-                          <th>Suppplier</th>
+                          <th>PO/JO #</th>                    
                           <th>Due Date</th>
                           <th>Project</th>
+                          <th>Released Date</th>
                         </tr>
                       </thead>
                       <tbody id="receive-body">
@@ -202,18 +202,18 @@
                         <tr>
                           <td><input type="checkbox" name="checklist1" class="checklist1" value="'.$row['po-id'].'"></td>
                           <td>'.$action.'</td>
-                          <td>'.$date_release.'</td>
                           <td>'.$row['or_num'].'</td>
+                          <td>'.$row['si_num'].'</td>
+                          <td>'.$comp_name.'</td>
+                          <td style="width: 180px">'.$sup_name.'</td>
                           <td>'.$cv_no.'</td>
                           <td>'.$check_no.'</td>
                           <td>'.$amount.'</td>
                           <td>'.$tax.'</td>
-                          <td>'.$row['si_num'].'</td>
-                          <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td style="width: 180px">'.$sup_name.'</td>
                           <td>'.$due.'</td>
                           <td>'.$proj_name.'</td>
+                          <td>'.$date_release.'</td>
                         </tr>';
                       }
                       ?>
@@ -227,18 +227,18 @@
                         <tr>
                         <th style="max-width: 2%"><input type="checkbox" class="checkboxall2"/><span class="checkmark"></span></th>
                           <th><center>Action</center></th>
-                          <th>Released Date</th>
                           <th>OR #</th>
+                          <th>SI #</th>
+                          <th>Company</th>
+                          <th>Payee</th>
                           <th>CV #</th>
                           <th>Check #</th>
                           <th>CV Amount</th>
                           <th>Tax</th>
-                          <th>SI #</th>
-                          <th>Company</th>
                           <th>PO/JO #</th>
-                          <th>Suppplier</th>
                           <th>Due Date</th>
                           <th>Project</th>
+                          <th>Released Date</th>
                         </tr>
                       </thead>
                       <tbody id="return-body">
@@ -297,18 +297,18 @@
                           <tr>
                             <td><input type="checkbox" name="checklist2" class="checklist2" value="'.$row['po-id'].'"></td>
                             <td>'.$action.'</td>
-                            <td>'.$date_release.'</td>
                             <td>'.$row['or_num'].'</td>
+                            <td>'.$row['si_num'].'</td>
+                            <td>'.$comp_name.'</td>
+                            <td style="width: 180px">'.$sup_name.'</td>
                             <td>'.$cv_no.'</td>
                             <td>'.$check_no.'</td>
                             <td>'.$amount.'</td>
                             <td>'.$tax.'</td>
-                            <td>'.$row['si_num'].'</td>
-                            <td>'.$comp_name.'</td>
                             <td>'.$row['po_num'].'</td>
-                            <td style="width: 180px">'.$sup_name.'</td>
                             <td>'.$due.'</td>
                             <td>'.$proj_name.'</td>
+                            <td>'.$date_release.'</td>
                           </tr>';
                         }
                       ?>
