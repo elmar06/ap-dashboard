@@ -50,6 +50,7 @@ if($_GET['action'] == 1)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -195,6 +196,7 @@ if($_GET['action'] == 2)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -340,6 +342,7 @@ if($_GET['action'] == 3)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -490,6 +493,7 @@ if($_GET['action'] == 4)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -635,6 +639,7 @@ if($_GET['action'] == 5)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -780,6 +785,7 @@ if($_GET['action'] == 6)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -925,6 +931,7 @@ if($_GET['action'] == 7)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1070,6 +1077,7 @@ if($_GET['action'] == 8)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1215,6 +1223,7 @@ if($_GET['action'] == 9)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1365,6 +1374,7 @@ if($_GET['action'] == 10)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1510,6 +1520,7 @@ if($_GET['action'] == 11)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1660,6 +1671,7 @@ if($_GET['action'] == 12)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1810,6 +1822,7 @@ if($_GET['action'] == 13)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -1960,6 +1973,7 @@ if($_GET['action'] == 14)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
@@ -2110,6 +2124,7 @@ if($_GET['action'] == 15)
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
         $date_received_fo = '-';
+        $date_received_bo = '-';
         $date_to_ea = '-';
         $date_from_ea = '-';
         $date_release = '-';
