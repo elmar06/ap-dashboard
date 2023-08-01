@@ -39,7 +39,7 @@
                     <thead class="thead-light">
                       <tr>
                         <th style="max-width: 2%" hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                        <th>Project</th>
+                        <th style="max-width: 150px">Project</th>
                         <th>SI #</th>
                         <th>OR No</th>
                         <th>Check No</th>
@@ -90,9 +90,17 @@
                             $proj_name = '-';
                           }
                         }
+                        //get the check details
+                        $check_no = '-';
+                        $amount = '-';
+                        $get4 = $check_details->get_details_byID($row['po-id']);
+                        while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
+                        {
+                          $check_no = $rowCheck['check_no'];
+                          $amount = number_format(intval($rowCheck['cv_amount'], 2));
+                        }
                         //date format
                         $release = date('m/d/Y', strtotime($row['date_release']));
-                        $amount = number_format($row['cv_amount'], 2);
                         //check if OR No is null/empty
                         if($row['or_num'] == '' || $row['or_num'] == null){
                           $or_num = '<button class="btn btn-info btn-sm btnAdd" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Add OR</button>';
@@ -102,13 +110,13 @@
                         echo '
                         <tr>
                           <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                          <td>'.$proj_name.'</td>
+                          <td style="max-width: 150px">'.$proj_name.'</td>
                           <td>'.$row['si_num'].'</td>
                           <td>'.$or_num.'</td>
-                          <td>'.$row['check_no'].'</td>
+                          <td>'.$check_no.'</td>
                           <td>'.$comp_name.'</td>
                           <td>'.$row['po_num'].'</td>
-                          <td style="width: 150px">'.$sup_name.'</td>
+                          <td style="width: 180px">'.$sup_name.'</td>
                           <td>'.$amount.'</td>
                           <td><center>'.$release.'</center></td>
                         </tr>';
