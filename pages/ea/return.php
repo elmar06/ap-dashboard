@@ -43,11 +43,11 @@
                         <th>Forwarded</th>
                         <th>Received</th>
                         <th>Returned</th>
+                        <th>Company</th>
+                        <th>Payee</th>
                         <th>Check Date</th>
                         <th>CV No</th>
-                        <th>Check No</th>
-                        <th>Company</th>
-                        <th>Suppplier</th>
+                        <th>Check No</th>                        
                         <th><center>Status</center></th>
                       </tr>
                     </thead>
@@ -57,19 +57,28 @@
                       $view = $po->get_return_from_ea();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       {
+                        //get the COMPANY name if exist
+                        $comp_name = '-';
+                        $company->id = $row['comp-id'];
+                        $get2 = $company->get_company_detail();
+                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['comp-id'] == $rowComp['id']){
+                            $comp_name = $rowComp['company'];
+                          }
+                        }
+                        //get the SUPPLIER name if exist
+                        $sup_name = '-';
+                        $supplier->id = $row['supp-id'];
+                        $get3 = $supplier->get_supplier_details();
+                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                        {
+                          if($row['supp-id'] == $rowSupp['id']){
+                            $sup_name = $rowSupp['supplier_name'];
+                          }
+                        }
                         //format of status
-                        if($row['status'] == 6)
-                        {
-                          $status = '<label style="color: red"><b> For Signature</b></label>';
-                        }
-                        elseif($row['status'] == 7)
-                        {
-                          $status = '<label style="color: green"><b> Signed</b></label>';
-                        }
-                        else
-                        {
-                          $status = '<label style="color: green"><b> Returned</b></label>';
-                        }
+                        $status = '<label style="color: green"><b> Returned</b></label>';
                         //date formatting
                         $forwarded = date('m/d/Y', strtotime($row['date_to_ea']));
                         $received = '-';
@@ -84,11 +93,12 @@
                           <td><center>'.$forwarded.'</center></td>
                           <td><center>'.$received.'</center></td>
                           <td><center>'.$returned.'</center></td>
+                          <td style="max-width: 150px;">'.$comp_name.'</td>
+                          <td>'.$sup_name.'</td>
                           <td><center>'.$check_date.'</center></td>
                           <td>'.$row['cv_no'].'</td>
                           <td>'.$row['check_no'].'</td>
-                          <td>'.$row['comp-name'].'</td>
-                          <td>'.$row['supplier_name'].'</td>
+                          
                           <td><center>'.$status.'</center></td>
                         </tr>';
                       }

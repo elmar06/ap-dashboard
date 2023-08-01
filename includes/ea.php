@@ -54,12 +54,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <span>Returned Check</span>
     </a>
   </li>
-  <!-- <li class="nav-item">
-    <a class="nav-link" href="forms.html">
+  <li class="nav-item">
+    <a class="nav-link" href="report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>
     </a>
-  </li> -->
+  </li>
 </ul>
 <!-- Sidebar -->
 <div id="content-wrapper" class="d-flex flex-column">

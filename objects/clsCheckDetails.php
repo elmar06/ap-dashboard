@@ -70,11 +70,11 @@ class CheckDetails
 
     public function get_details()
     {
-        $query = 'SELECT * FROM '.$this->table_name.' WHERE id=?';
+        $query = 'SELECT * FROM '.$this->table_name.' WHERE po_id=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
-		$sel->bindParam(1, $this->id);
+		$sel->bindParam(1, $this->po_id);
 
 		$sel->execute();
 		return $sel;

@@ -709,6 +709,138 @@ class Reports
 		$sel->execute(array($proj, $comp, $from, $to));
 		return $sel;
     }
+
+    //REPORT GENERATION EA MODULE
+    //ACTION 1
+    public function get_by_comp_date_ea($comp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $from, $to));
+		return $sel;
+    }
+    //ACTION 2
+    public function get_by_supp_date_ea($supp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($supp, $from, $to));
+		return $sel;
+    }
+    //ACTION 3
+    public function get_by_stat_date_ea($stat, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($stat, $from, $to));
+		return $sel;
+    }
+    //returned checks
+    public function get_by_stat3_date_ea($from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.status >= 8 AND po_details.status != 16 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
+    //ACTION 4
+    public function get_by_comp_supp_date_ea($comp, $supp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $supp, $from, $to));
+		return $sel;
+    }
+    //ACTION 5
+    public function get_all_report_ea($comp, $supp, $stat, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $supp, $stat, $from, $to));
+		return $sel;
+    }
+    //returned
+    public function get_all3_report_ea($comp, $supp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND po_details.status >= 8 AND po_details.status != 16 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $supp, $from, $to));
+		return $sel;
+    }
+    //ACTION 6
+    public function get_by_comp_supp_ea($comp, $supp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $supp, $from, $to));
+		return $sel;
+    }
+    //ACTION 7
+    public function get_by_comp_stat_ea($comp, $stat, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.stat = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $stat, $from, $to));
+		return $sel;
+    }
+    //ACTION 7 - Returned
+    public function get_by_comp_stat3_ea($comp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.status >= 8 AND po_details.status != 16 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($comp, $from, $to));
+		return $sel;
+    }
+    //ACTION 8
+    public function get_by_supp_stat_ea($supp, $stat, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($supp, $stat, $from, $to));
+		return $sel;
+    }
+    //ACTION 8 - Returned
+    public function get_by_supp_stat3_ea($supp, $from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.supplier = ? AND po_details.status >= 8 AND po_details.status != 16 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($supp, $from, $to));
+		return $sel;
+    }
+    //ACTION 9
+    public function get_by_date_ea($from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_ea, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
 }
 
 ?>
