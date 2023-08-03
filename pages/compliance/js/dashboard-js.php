@@ -91,52 +91,51 @@ function return_request()
 function mark_all_received()
 {
     var id = []
-    $('input:checkbox[name=checklist2]:checked').each(function() {
-        id.push($(this).val())
+    $('input:checkbox[name=checklist1]:checked').each(function() {
+      id.push($(this).val())
     });
-
     if(id.length > 0){
-        //var result = 0;
-        $.each( id, function( key, value ) {
-            $.ajax({
-                type: 'POST',
-                url: '../../controls/mark_received_compliance.php',
-                data: {id:value},
-                async: false,
-                dataType: 'html',
-                beforeSend: function()
-                {
-                  showToast();
-                },
-                success: function(response)
-                {
-                  result = response;
-                },
-                error: function(xhr, ajaxOption, thrownError)
-                {
-                  alert(thrownError);
-                }
-            })
+      //var result = 0;
+      $.each( id, function( key, value ) {
+        $.ajax({
+            type: 'POST',
+            url: '../../controls/mark_received_compliance.php',
+            data: {id:value},
+            async: false,
+            dataType: 'html',
+            beforeSend: function()
+            {
+              showToast();
+            },
+            success: function(response)
+            {
+              result = response;
+            },
+            error: function(xhr, ajaxOption, thrownError)
+            {
+              alert(thrownError);
+            }
         })
-        //check if process is successful
-        if(result > 0)
-        {
-            toastr.success('Request successfully mark as Received.');
-            //display the new list
-            $.ajax({
-                url: '../../controls/get_list_compliance.php',
-                success: function(html)
-                {
-                $('#page-body').fadeOut();
-                $('#page-body').fadeIn();
-                $('#page-body').html(html);
-                }
-            })
-        }
-        else
-        {
-            toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
-        } 
+      })
+      //check if process is successful
+      if(result > 0)
+      {
+        toastr.success('Request successfully mark as Received.');
+        //display the new list
+        $.ajax({
+            url: '../../controls/get_list_compliance.php',
+            success: function(html)
+            {
+              setTimeout(function(){
+                location.reload();
+              }, 1500)
+            }
+        })
+      }
+      else
+      {
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      } 
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
   } 

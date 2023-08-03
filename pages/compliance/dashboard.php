@@ -147,75 +147,75 @@
                       </thead>
                       <tbody id="receive-body">
                       <?php
-                      $view = $po->get_list_compliance();
-                      while($row = $view->fetch(PDO::FETCH_ASSOC))
-                      {
-                        //get the PROJECT name if exist
-                        $proj_name = '-';
-                        $project->id = $row['proj-id'];
-                        $get1 = $project->get_proj_details();
-                        while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                        $view = $po->get_list_compliance();
+                        while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
-                          if($row['proj-id'] == $rowProj['id']){
-                            $proj_name = $rowProj['project'];
+                          //get the PROJECT name if exist
+                          $proj_name = '-';
+                          $project->id = $row['proj-id'];
+                          $get1 = $project->get_proj_details();
+                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['proj-id'] == $rowProj['id']){
+                              $proj_name = $rowProj['project'];
+                            }
                           }
-                        }
-                        //get the COMPANY name if exist
-                        $comp_name = '-';
-                        $company->id = $row['comp-id'];
-                        $get2 = $company->get_company_detail();
-                        while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
-                        {
-                          if($row['comp-id'] == $rowComp['id']){
-                            $comp_name = $rowComp['company'];
+                          //get the COMPANY name if exist
+                          $comp_name = '-';
+                          $company->id = $row['comp-id'];
+                          $get2 = $company->get_company_detail();
+                          while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['comp-id'] == $rowComp['id']){
+                              $comp_name = $rowComp['company'];
+                            }
                           }
-                        }
-                        //get the SUPPLIER name if exist
-                        $sup_name = '-';
-                        $supplier->id = $row['supp-id'];
-                        $get3 = $supplier->get_supplier_details();
-                        while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
-                        {
-                          if($row['supp-id'] == $rowSupp['id']){
-                            $sup_name = $rowSupp['supplier_name'];
+                          //get the SUPPLIER name if exist
+                          $sup_name = '-';
+                          $supplier->id = $row['supp-id'];
+                          $get3 = $supplier->get_supplier_details();
+                          while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
+                          {
+                            if($row['supp-id'] == $rowSupp['id']){
+                              $sup_name = $rowSupp['supplier_name'];
+                            }
                           }
+                          //get the check details
+                          $check_no = '-';
+                          $amount = '-';
+                          $tax = '-';
+                          $cv_no = '-';
+                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
+                          {
+                            $check_no = $rowCheck['check_no'];
+                            $cv_no = $rowCheck['cv_no'];
+                            $amount = number_format(intval($rowCheck['cv_amount']), 2);
+                            $tax = number_format(intval($rowCheck['tax']), 2);
+                          }      
+                          //date format
+                          $date_release = date('m/d/Y', strtotime($row['date_release']));                              
+                          $due = date('m/d/Y', strtotime($row['due_date']));                              
+                          $action = '<button class="btn-sm btn-success received" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
+                          <button class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button>';
+                          echo '
+                          <tr>
+                            <td><input type="checkbox" name="checklist1" class="checklist1" value="'.$row['po-id'].'"></td>
+                            <td>'.$action.'</td>
+                            <td>'.$row['or_num'].'</td>
+                            <td>'.$row['si_num'].'</td>
+                            <td>'.$comp_name.'</td>
+                            <td style="width: 180px">'.$sup_name.'</td>
+                            <td>'.$cv_no.'</td>
+                            <td>'.$check_no.'</td>
+                            <td>'.$amount.'</td>
+                            <td>'.$tax.'</td>
+                            <td>'.$row['po_num'].'</td>
+                            <td>'.$due.'</td>
+                            <td>'.$proj_name.'</td>
+                            <td>'.$date_release.'</td>
+                          </tr>';
                         }
-                        //get the check details
-                        $check_no = '-';
-                        $amount = '-';
-                        $tax = '-';
-                        $cv_no = '-';
-                        $get4 = $check_details->get_details_byID($row['po-id']);
-                        while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
-                        {
-                          $check_no = $rowCheck['check_no'];
-                          $cv_no = $rowCheck['cv_no'];
-                          $amount = number_format(intval($rowCheck['cv_amount']), 2);
-                          $tax = number_format(intval($rowCheck['tax']), 2);
-                        }      
-                        //date format
-                        $date_release = date('m/d/Y', strtotime($row['date_release']));                              
-                        $due = date('m/d/Y', strtotime($row['due_date']));                              
-                        $action = '<button class="btn-sm btn-success received" value="'.$row['po-id'].'"><i class="fas fa-check"></i></button>
-                        <button class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-times-circle"></i></button>';
-                        echo '
-                        <tr>
-                          <td><input type="checkbox" name="checklist1" class="checklist1" value="'.$row['po-id'].'"></td>
-                          <td>'.$action.'</td>
-                          <td>'.$row['or_num'].'</td>
-                          <td>'.$row['si_num'].'</td>
-                          <td>'.$comp_name.'</td>
-                          <td style="width: 180px">'.$sup_name.'</td>
-                          <td>'.$cv_no.'</td>
-                          <td>'.$check_no.'</td>
-                          <td>'.$amount.'</td>
-                          <td>'.$tax.'</td>
-                          <td>'.$row['po_num'].'</td>
-                          <td>'.$due.'</td>
-                          <td>'.$proj_name.'</td>
-                          <td>'.$date_release.'</td>
-                        </tr>';
-                      }
                       ?>
                       </tbody>
                     </table> 
