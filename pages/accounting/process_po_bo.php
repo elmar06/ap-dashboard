@@ -175,7 +175,7 @@
                               
                               echo '
                               <tr>
-                                <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                                <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'"></td>
                                 <td><center>'.$status.'</center></td>
                                 <td><center>'.$received_fo.'</center></td>
                                 <td><center>'.$received_bo.'</center></td>                        

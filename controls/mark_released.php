@@ -25,7 +25,6 @@ foreach($po_id as $value)
   $upd = $po->mark_released();
 }
 
-
 if($upd)
 {
   echo 1;

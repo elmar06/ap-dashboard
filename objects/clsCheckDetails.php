@@ -99,6 +99,18 @@ class CheckDetails
         $sel->execute(array(':search' => '%'.$po_id.'%'));
         return $sel;
     }
+
+    public function get_check_details_byID()
+    {
+        $query = 'SELECT check_details.id as "check-id", check_details.po_id, check_details.cv_no, check_details.cv_amount, check_details.bank, check_details.check_no, check_details.tax, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = po_details.id AND check_details.status != 0 AND check_details.po_id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->po_id);
+
+        $sel->execute();
+        return $sel;
+    }
 }
 
 ?>

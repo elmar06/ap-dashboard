@@ -147,7 +147,7 @@
                               $cv_num = $row1['cv_no'];
                               $check_date = date('m/d/y', strtotime($row1['check_date']));
                               $check_no = $row1['check_no'];
-                              $cv_amount = number_format($row1['cv_amount'], 2);
+                              $cv_amount = $row1['cv_amount'];
                             }
                             //get the date sent to EA(po_other_details) 
                             $po->po_id = $row['po-id'];

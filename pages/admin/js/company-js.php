@@ -1,7 +1,7 @@
 <script>
 //datatables
 $(document).ready(function(){
-    $('.dataTable').DataTable();
+    $('.dataTable').dataTable();
 })
 
 //add company
@@ -104,19 +104,20 @@ $('#btnUpdCompany').click(function(e){
             },
             success: function(response)
             {
-                alert(response);
                 if(response > 0)
                 {
+                    var table = $('#tblCompany').dataTable();
+                    table.ajax.reload();
                     //display the new list of supplier
-                    $.ajax({
-                        url: '../../controls/view_all_company.php',
-                        success: function(html)
-                        {
-                            $('#upd-success').html('<center><i class="fas fa-check"></i> Supplier successfully added.</center>');
-                            $('#upd-success').show().fadeOut(3000);
-                            $('#company-body').html(html); 
-                        }
-                    })
+                    // $.ajax({
+                    //     url: '../../controls/view_all_company.php',
+                    //     success: function(html)
+                    //     {
+                    //         $('#upd-success').html('<center><i class="fas fa-check"></i> Supplier successfully added.</center>');
+                    //         $('#upd-success').show().fadeOut(3000);
+                    //         $('#company-body').html(html); 
+                    //     }
+                    // })
                 }
                 else
                 {

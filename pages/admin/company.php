@@ -37,7 +37,7 @@
             </div>
             <div class="card mb-5">
               <div class="table-responsive p-3">
-                <table class="table align-items-center table-flush table-hover dataTable" id="supplier-table">
+                <table id="tblCompany" class="table align-items-center table-flush table-hover dataTable" id="supplier-table">
                   <thead class="thead-light">
                     <tr>
                       <th style="width: 3%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
