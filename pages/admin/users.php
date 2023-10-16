@@ -49,7 +49,7 @@
                       <th style="width: 3%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                       <th>Fullname</th>
                       <th>Username</th>
-                      <th><center>Department</center></th>
+                      <th><center>Dept/Role</center></th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -69,18 +69,15 @@
                             $status = '<label style="color: red"><b> Inactive</b></label>';
                           }
                           //department
-                          if($row['access'] == 1)
-                          {
+                          if($row['access'] == 1){
                             $dept = 'Administrator';
-                          }elseif($row['access'] == 2)
-                          {   
+                          }elseif($row['access'] == 2){   
                             $dept = 'AP Front Office';
-                          }elseif($row['access'] == 3)
-                          {   
+                          }elseif($row['access'] == 3){   
                             $dept = 'AP Back Office';
-                          }elseif($row['dept'] == 2){
+                          }elseif($row['dept'] == 2 && $row['access'] == 4){
                             $dept = 'SCM';
-                          }elseif($row['dept'] == 1){
+                          }elseif($row['dept'] == 1 && $row['access'] == 4){
                             $dept = 'PMC';
                           }elseif($row['access'] == 5){
                             $dept = 'EA';
@@ -88,8 +85,10 @@
                             $dept = 'Treasury';
                           }elseif($row['access'] == 7){
                             $dept = 'Manager';
+                          }elseif($row['access'] == 8){
+                            $dept = 'Accounting Sup';
                           }else{
-                            $dept = 'AP FO & BO';
+                            $dept = 'Compliance';
                           }
                           echo '
                               <tr>
@@ -150,6 +149,8 @@
                       <option value="5">EA</option>
                       <option value="6">Treasury</option>
                       <option value="7">Manager</option>
+                      <option value="8">Accounting Supervisor</option>
+                      <option value="9">Compliance</option>
                     </select>
                 </div>
                 <div class="form-group">

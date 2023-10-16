@@ -284,7 +284,7 @@ class PO_Details
 
     public function get_released_fo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.si_num, po_details.or_num, po_other_details.date_release FROM po_details, po_other_details WHERE po_details.status = 11 AND po_details.id = po_other_details.po_id ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.si_num, po_details.or_num, po_other_details.date_release FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND (find_in_set(11, po_details.status) || find_in_set(12, po_details.status) || find_in_set(11, po_details.status)) ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -382,7 +382,7 @@ class PO_Details
 
     public function get_process_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.amount, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(11, po_details.status) || find_in_set(15, po_details.status)) ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.amount, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(15, po_details.status)) ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

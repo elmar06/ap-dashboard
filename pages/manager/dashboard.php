@@ -211,8 +211,12 @@
                           $status = '<label style="color: green"><b> For Releasing</b></label>';
                         }else if($row['status'] == 11){
                           $status = '<label style="color: green"><b> Released</b></label>';
+                        }else if($row['status'] == 12 || $row['status'] == 13 || $row['status'] == 14){
+                          $status = '<label style="color: green"><b> Released</b></label>';
                         }elseif($row['status'] == 15){
                           $status = '<label style="color: blue"><b> Forwarded to Cebu</b></label>';
+                        }elseif($row['status'] == 16){
+                          $status = '<label style="color: red"><b> Cancelled</b></label>';
                         }else{
                           $status = '<label style="color: blue"><b> In Process</b></label>';
                         }

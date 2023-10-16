@@ -76,17 +76,17 @@
                               $check_date = '-';
                               $check_no = '-';
                               $cv_amount = '-';
-                              $si_num = '-';    
-                              $po_id = $row['po-id'];
-                              $get_check = $check_details->get_details_byID($po_id);
+                              $si_num = '-';
+                              //get the check details
+                              //$check_details->po_id = $row['po-id'];
+                              $get_check = $check_details->get_check_details_byID($row['po-id']);
                               while($row2 = $get_check->fetch(PDO:: FETCH_ASSOC))
                               {
                                 $cv_num = $row2['cv_no'];
                                 $check_date = date('m/d/y', strtotime($row2['check_date']));
                                 $check_no = $row2['check_no'];
-                                $cv_amount = number_format($row2['cv_amount'], 2);                            
+                                $cv_amount = number_format($row2['cv_amount'], 2);          
                               }
-
                               //get the date sent to EA(po_other_details) 
                               $date_ea = '-';
                               $received_fo = '-';
@@ -113,7 +113,6 @@
                                   $from_ea = date('m/d/Y', strtotime(($row3['date_from_ea'])));
                                 }
                               }
-
                               $proj_name = '-';
                               //get the PROJECT name if exist
                               $project->id = $row['proj-id'];
@@ -175,7 +174,7 @@
                               
                               echo '
                               <tr>
-                                <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'"></td>
+                                <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
                                 <td><center>'.$status.'</center></td>
                                 <td><center>'.$received_fo.'</center></td>
                                 <td><center>'.$received_bo.'</center></td>                        

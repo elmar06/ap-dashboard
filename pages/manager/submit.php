@@ -30,7 +30,7 @@
             </ol>
           </div><!-- /Breadcrumbs -->
           <div id="page-body">
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-lg-2">
                 <a class="btn btn-primary btn-sm" style="width:100%" id="pills-release-btn" href="#">Released Check</a>
               </div>
@@ -40,7 +40,7 @@
               <div class="col-lg-2">
                 <a class="btn btn-danger btn-sm" style="width:100%" id="pills-returned-btn" href="#">Returned by Compliance</a>
               </div>
-            </div><br>
+            </div><br> -->
             <!-- RELEASED TAB -->
             <div class="row" id="pills-released">
               <div class="col-lg-12">
@@ -51,10 +51,10 @@
                       <table class="table1 align-items-center table-flush table-hover DataTable">
                         <thead class="thead-light">
                           <tr>
-                            <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
-                            <th><center>OR #</center></th>
-                            <th>Project</th>
+                            <th style="max-width: 2%" hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                            <th style="max-width: 150px">Project</th>
                             <th>SI #</th>
+                            <th>OR No</th>
                             <th>Check No</th>
                             <th>Company</th>
                             <th>PO/JO No</th>
@@ -103,26 +103,33 @@
                                 $proj_name = '-';
                               }
                             }
+                            //get the check details
+                            $check_no = '-';
+                            $amount = '-';
+                            $get4 = $check_details->get_details_byID($row['po-id']);
+                            while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
+                            {
+                              $check_no = $rowCheck['check_no'];
+                              $amount = number_format($rowCheck['cv_amount'], 2);
+                            }
                             //date format
                             $release = date('m/d/Y', strtotime($row['date_release']));
-                            $amount = number_format($row['cv_amount'], 2);
-                            //initialize action button
-                            $action = '<button class="btn btn-success btn-sm btnForward" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Forward to Compliance</button>';
+                            //check if OR No is null/empty
                             if($row['or_num'] == '' || $row['or_num'] == null){
-                                $or_num = '-';
+                              $or_num = '<button class="btn btn-info btn-sm btnAdd" value="'.$row['po-id'].'"><i class="fas fa-plus-circle"></i> Add OR</button>';
                             }else{
-                                $or_num = $row['or_num'];
+                              $or_num = $row['or_num'];
                             }
                             echo '
                             <tr>
-                              <td><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
-                              <td><center>'.$or_num.'</center></td>
-                              <td>'.$proj_name.'</td>
-                              <td>'.$row['si_num'].'</td>                          
-                              <td>'.$row['check_no'].'</td>
+                              <td hidden><input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'"></td>
+                              <td style="max-width: 150px">'.$proj_name.'</td>
+                              <td>'.$row['si_num'].'</td>
+                              <td>'.$or_num.'</td>
+                              <td>'.$check_no.'</td>
                               <td>'.$comp_name.'</td>
                               <td>'.$row['po_num'].'</td>
-                              <td style="width: 150px">'.$sup_name.'</td>
+                              <td style="width: 180px">'.$sup_name.'</td>
                               <td>'.$amount.'</td>
                               <td><center>'.$release.'</center></td>
                             </tr>';

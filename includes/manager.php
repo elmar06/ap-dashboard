@@ -12,6 +12,8 @@ include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsAccess.php';
+include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -22,6 +24,8 @@ $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
+$access = new Access($db);
+$check_details = new CheckDetails($db);
 
 //get the updated logcount
 $user->id = $_SESSION['id'];
