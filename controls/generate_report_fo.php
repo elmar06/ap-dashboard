@@ -450,14 +450,13 @@ else//PERCENTAGE REPORT
             $comp_name = $row1['company'];
         }
         //get the name of project
+        $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
         while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
         {
             if($row2['id'] == $row['project']){
                 $proj_name = $row2['project'];
-            }else{
-                $proj_name = '';
             }
         }
         //get the name of supplier
