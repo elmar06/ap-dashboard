@@ -23,7 +23,7 @@ class PO_Details
 
     public function add_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=1';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
@@ -49,6 +49,7 @@ class PO_Details
         $add->bindParam(20, $this->reports);
         $add->bindParam(21, $this->submitted_by);
         $add->bindParam(22, $this->remark);
+        $add->bindParam(23, $this->status);
         
         if($add->execute())
         {
@@ -742,6 +743,50 @@ class PO_Details
 		return $sel;
     }
 
+    //YEAR END REPORT 
+    public function accept_yearEnd()
+    {
+        $query = 'UPDATE po_details SET status = 1 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function return_yearEnd()
+    {
+        $query = 'UPDATE po_details SET status = 18 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function resubmit_yearEnd()
+    {
+        $query = 'UPDATE po_details SET status = 17 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function get_yearEnd_forReceived()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.si_num, po_details.amount, po_details.status FROM po_details WHERE (find_in_set(17, po_details.status) || find_in_set(18, po_details.status))';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
     public function get_forwarded_compliance()
     {
         $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.or_num, po_details.si_num, po_other_details.date_release, po_other_details.received_by_comp, po_other_details.date_received_comp, po_details.status /*check_details.cv_no, check_details.check_no, check_details.cv_amount, check_details.tax, CONCAT(users.firstname, " ", users.lastname) as "fullname"*/ FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.status = 12 ORDER BY po_other_details.date_release DESC';
@@ -1040,6 +1085,18 @@ class PO_Details
     public function count_received_comp()
     {
         $query = 'SELECT count(id) as "count" FROM '.$this->table_name.' WHERE status=14';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+        return $sel;
+    }
+
+    public function count_yearEnd_forReceiving()
+    {
+        $query = 'SELECT count(id) as "count" FROM '.$this->table_name.' WHERE status=17';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 

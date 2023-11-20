@@ -33,7 +33,7 @@
           <!-- Pending Card -->
           <div id="page-body">
             <div class="row mb-3">
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row align-items-center">
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <!-- For Releasing Card -->
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -89,7 +89,7 @@
                 </div>
               </div>
               <!-- Received Card -->
-              <div class="col-xl-4 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -111,6 +111,34 @@
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-check-double fa-2x text-success"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Received Card -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Year-End for Received</div>
+                        <?php
+                          $po->submitted_by = $_SESSION['id'];
+                          $count = $po->count_yearEnd_forReceiving();
+                          if($row = $count->fetch(PDO::FETCH_ASSOC))
+                          {
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['count'].'</div>';
+                          }else{
+                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                          }
+                        ?>
+                        <div class="mt-2 mb-0 text-muted text-xs">
+                          <a class="text-success mr-2" href="yearend.php"><i class="fas fa-arrow-up"></i> More Details</a>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-file-invoice fa-2x text-warning"></i>
                       </div>
                     </div>
                   </div>

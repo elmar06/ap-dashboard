@@ -59,6 +59,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
       <span>Received</span>
     </a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="yearend.php">
+      <i class="fas fa-fw fa-file-invoice"></i>
+      <span>Year End Report</span>
+    </a>
+  </li>
   <!-- <li class="nav-item">
     <a class="nav-link" href="for_releasing.php">
       <i class="fas fa-fw fa-money-check"></i>

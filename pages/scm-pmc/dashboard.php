@@ -685,6 +685,14 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="year-end">
+              <label class="custom-control-label" for="year-end"> Check for Year-End Report</label>
+            </div>
+          </div>
+        </div>
         <!-- Alert -->
         <div id="add-success" class="alert alert-success" role="alert" style="display: none"></div>
         <div id="add-warning" class="alert alert-danger" role="alert" style="display: none"></div>         

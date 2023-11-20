@@ -22,10 +22,14 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         $id = 1;
     }
 }
-
 //check memo amount if null
 if($row['memo_amount'] == 0){
     $memo_amount = 0;
+}
+//check if it is for Year-End Report
+$status = 1;
+if($_POST['year_end'] == 17){
+    $status = 17;
 }
 //get the Manila time by timezone
 date_default_timezone_set('Asia/Manila');
@@ -54,6 +58,7 @@ $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
 $po->memo_amount = str_replace(',', '', $memo_amount);
 $po->debit_memo = $_POST['debit_memo'];
+$po->status = $status;
 
 $save = $po->add_po();
 
