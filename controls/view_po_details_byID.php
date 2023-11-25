@@ -45,7 +45,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <div class="col-lg-6">
           <label><i style="color: red">*</i> PO/JO Number:</label>
           <input id="po-no" class="form-control mb-3" type="text" placeholder="Enter PO/JO number" value="'.$row['po_num'].'">
-          <input id="po-id" class="form-control mb-3" type="text" placeholder="Enter PO/JO number" value="'.$row['po-id'].'">
+          <input id="po-id" class="form-control mb-3" type="text" placeholder="Enter PO/JO number" value="'.$row['po-id'].'" hidden>
         </div>
       </div>
       <div class="row">
@@ -252,7 +252,31 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                   <label class="custom-control-label" for="remarks"> Share this records with SCM/PMC</label>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">';
+                if($row['status'] == 17 || $row['status'] == 18 || $row['status'] == 19){
+                  echo '<div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="year-end" checked>
+                          <label class="custom-control-label" for="year-end"> Check for Year-End Report</label>
+                        </div>';
+                }else{
+                  echo '<div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="year-end">
+                          <label class="custom-control-label" for="year-end"> Check for Year-End Report</label>
+                        </div>';
+                }
+              echo '</div>
             </div>';
+            if($row['status'] == 18)
+            {
+              echo '<div class="row remarks">
+                      <div class="col-lg-12">
+                        <label><b>Year-End Returned Reason</b></label>
+                        <textarea id="yearEnd-remarks" class="form-control mb-3" type="text" placeholder="Reason of return" disabled>'.$row['yearEnd_remark'].'</textarea>
+                      </div>
+                    </div>';
+            }
       }     
       echo '
       <div id="upd-success" class="alert alert-success" role="alert" style="display: none"></div>

@@ -27,11 +27,10 @@ $('.btnReceive').on('click', function(e){
   }) 
 })
 
-//returned request
-$('.btnResubmit').on('click', function(e){
-  e.preventDefault();
-
-  var id = $(this).val();
+//resubmit request
+function reSubmit_yearEnd()
+{
+  var id = $('#po-id').val();
   var action = 3;
   $.ajax({
     type: 'POST',
@@ -48,7 +47,29 @@ $('.btnResubmit').on('click', function(e){
       }
     }
   }) 
-})
+}
+
+//Submit the request to AP and mark as PENDING
+function submit_toAP()
+{
+  var id = $('#po-id').val();
+  var action = 4;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/process_yearend.php',
+    data: {id:id, action:action},
+    success: function(response){
+      if(response > 0){
+        toastr.success('Request successfully resubmit.');
+        setTimeout(function(){
+          location.reload();
+        }, 1500)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      }
+    }
+  }) 
+}
 
 //view details
 $('.btnView').click(function(e){
@@ -63,6 +84,27 @@ $('.btnView').click(function(e){
     {
       $('#POmodalDetails').modal('show');
       $('#details-body').html(html);
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
+})
+
+//view details
+$('.btnReceived').click(function(e){
+  e.preventDefault();
+
+  var id = $(this).val();
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_po_details_byID.php',
+    data: {id: id},
+    success: function(html)
+    {
+      $('#receivedDetails').modal('show');
+      $('#received-body').html(html);
     },
     error: function(xhr, ajaxOptions, thrownError)
     {
@@ -158,7 +200,9 @@ function EnableFields()
   $('#btnEdit').attr('disabled', true);
   $('#btnClose').hide();
   $('#btnCancel').show();
-  $('#btnSubmit').attr('disabled', false);
+  $('#btnSubmit').show();
+  $('#btnResubmit').hide();
+  
 }
 
 //Cancel button
@@ -177,5 +221,6 @@ function DisableFields()
   $('#btnEdit').attr('disabled', false);
   $('#btnClose').show();
   $('#btnCancel').hide();
-  $('#btnSubmit').attr('disabled', true);
+  $('#btnSubmit').hide();
+  $('#btnResubmit').show();
 }

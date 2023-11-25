@@ -94,9 +94,12 @@
                           if($row['status'] == 17){
                             $status = '<label style="color: red"><b>For Receiving</b></label>';   
                             $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';     
-                          }else{
+                          }elseif($row['status'] == 18){
                             $status = '<label style="color: orange"><b>Returned</b></label>';   
-                            $action = '<button class="btn-sm btn-warning btnResubmit" value="'.$row['po-id'].'">Resubmit</button>';    
+                            $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
+                          }else{
+                            $status = '<label style="color: green"><b>Received</b></label>';   
+                            $action = '<center><button class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
                           }
                           echo '
                           <tr> 
@@ -136,9 +139,31 @@
       </div>
       <div class="modal-footer">
         <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!-- <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
+        <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
         <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()" disabled>Submit</button> -->
+        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()" style="display: none">Submit</button>
+        <button id="btnResubmit" class="btn btn-success" onclick="reSubmit_yearEnd()">Resubmit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- View Details Modal -->
+<div class="modal fade" id="receivedDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="received-body" class="modal-body">
+        <!-- modal body goes here -->
+      </div>
+      <div class="modal-footer">
+        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="btnSubmitAP" class="btn btn-success" onclick="submit_toAP()">Submit to Accounting</button>
       </div>
     </div>
   </div>
