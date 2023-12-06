@@ -27,7 +27,7 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Compliance / Year End Report</li>
+              <li class="breadcrumb-item active" aria-current="page">Compliance / Year End Report / For Receiving</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -41,6 +41,7 @@
                       <tr>
                         <th style="width: 15%;"><center>Action</center></th>
                         <th><center>Status</center></th>
+                        <th><center>Doc Submit</center></th>
                         <th>SI #</th>
                         <th>Company</th>
                         <th>Payee</th>
@@ -89,7 +90,16 @@
                           $amount = number_format(intval($row['amount']), 2);                    
                           //date format
                           $due_date = date('m/d/Y', strtotime($row['due_date']));        
-                             
+                          //submitted docs
+                          if($row['yr_req'] == 1){
+                            $docs = 'Original SI';
+                          }else if($row['yr_req'] == 2){
+                            $docs = 'Duplicate SI';
+                          }else if($row['yr_req'] == 3){
+                            $docs = 'CTC';
+                          }else{
+                            $docs = '--';
+                          }
                           //check status
                           if($row['status'] == 17){
                             $status = '<label style="color: red"><b>For Receiving</b></label>';   
@@ -105,6 +115,7 @@
                           <tr> 
                             <td>'.$action.'</td>
                             <td>'.$status.'</td>
+                            <td><center>'.$docs.'</center></td>
                             <td>'.$row['si_num'].'</td>
                             <td>'.$comp_name.'</td>
                             <td style="width: 180px">'.$sup_name.'</td>
@@ -136,18 +147,18 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-12">
-            <input id="po-id" class="form-control" style="display: none;">
+          <input id="po-id" class="form-control" style="display: none;">
+          <div id="req-checkbox" class="col-lg-12">
             <div class="custom-control custom-switch req">
-              <input type="checkbox" class="custom-control-input" id="original">
+              <input type="checkbox" class="custom-control-input" id="original" value="1">
               <label class="custom-control-label" for="original"> Original Sales Invoice</label>
             </div>
             <div class="custom-control custom-switch req">
-              <input type="checkbox" class="custom-control-input" id="duplicate">
+              <input type="checkbox" class="custom-control-input" id="duplicate" value="2">
               <label class="custom-control-label" for="duplicate"> Duplicate Sales Invoice</label>
             </div>
             <div class="custom-control custom-switch req">
-              <input type="checkbox" class="custom-control-input" id="ctc">
+              <input type="checkbox" class="custom-control-input" id="ctc" value="3">
               <label class="custom-control-label" for="ctc"> Certified True Copy</label>
             </div>
           </div>

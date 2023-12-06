@@ -28,8 +28,10 @@ if($row['memo_amount'] == 0){
 }
 //check if it is for Year-End Report
 $status = 1;
+$yrEnd_stat = 0;
 if($_POST['year_end'] == 17){
     $status = 17;
+    $yrEnd_stat = 1;
 }
 //get the Manila time by timezone
 date_default_timezone_set('Asia/Manila');
@@ -39,6 +41,7 @@ $due_date = date('Y-m-d', strtotime($_POST['due_date']));
 $po_date = date('Y-m-d', strtotime($_POST['po_date']));
 //save details to po_details table
 $po->po_num = $_POST['po_num'];
+$po->ir_rr_no = $_POST['ir_num'];
 $po->po_amount = str_replace(',','', $_POST['po_amount']);;
 $po->po_date = $po_date;
 $po->si_num = $_POST['si_num'];
@@ -58,6 +61,7 @@ $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
 $po->memo_amount = str_replace(',', '', $memo_amount);
 $po->debit_memo = $_POST['debit_memo'];
+$po->yrEnd_stat = $yrEnd_stat;
 $po->status = $status;
 
 $save = $po->add_po();

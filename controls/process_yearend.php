@@ -11,7 +11,7 @@ $id = $_POST['id'];
 if($_POST['action'] == 1){
     //received request and wait for SCM to forward the request
     $po->id = $id;
-    //$po->yearEnd_date_rec = date('Y-m-d');
+    $po->yr_req = $_POST['req'];
     $upd = $po->accept_yearEnd();
     echo ($upd) ? 1 : 0;
 }elseif($_POST['action'] == 2){

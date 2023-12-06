@@ -23,7 +23,7 @@ class PO_Details
 
     public function add_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, status=?';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, yrEnd_stat=?, status=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
@@ -49,7 +49,8 @@ class PO_Details
         $add->bindParam(20, $this->reports);
         $add->bindParam(21, $this->submitted_by);
         $add->bindParam(22, $this->remark);
-        $add->bindParam(23, $this->status);
+        $add->bindParam(23, $this->yrEnd_stat);
+        $add->bindParam(24, $this->status);
         
         if($add->execute())
         {
@@ -63,24 +64,25 @@ class PO_Details
 
     public function upload_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET supplier=?, po_num=?, po_date=?, po_amount=?, bill_date=?, si_num=?, amount=?, company=?, project=?, department=?, terms=?, due_date=?, date_submit=?, submitted_by=?, status=1';
+        $query = 'INSERT INTO '.$this->table_name.' SET supplier=?, po_num=?, ir_rr_no=?, po_date=?, po_amount=?, bill_date=?, si_num=?, amount=?, company=?, project=?, department=?, terms=?, due_date=?, date_submit=?, submitted_by=?, status=1';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
         $add->bindParam(1, $this->supplier);
         $add->bindParam(2, $this->po_num);
-        $add->bindParam(3, $this->po_date);
-        $add->bindParam(4, $this->po_amount);
-        $add->bindParam(5, $this->bill_date);
-        $add->bindParam(6, $this->si_num);
-        $add->bindParam(7, $this->amount);
-        $add->bindParam(8, $this->company);
-        $add->bindParam(9, $this->project);
-        $add->bindParam(10, $this->department);
-        $add->bindParam(11, $this->terms);
-        $add->bindParam(12, $this->due_date);
-        $add->bindParam(13, $this->date_submit);
-        $add->bindParam(14, $this->submitted_by);
+        $add->bindParam(3, $this->ir_rr_no);
+        $add->bindParam(4, $this->po_date);
+        $add->bindParam(5, $this->po_amount);
+        $add->bindParam(6, $this->bill_date);
+        $add->bindParam(7, $this->si_num);
+        $add->bindParam(8, $this->amount);
+        $add->bindParam(9, $this->company);
+        $add->bindParam(10, $this->project);
+        $add->bindParam(11, $this->department);
+        $add->bindParam(12, $this->terms);
+        $add->bindParam(13, $this->due_date);
+        $add->bindParam(14, $this->date_submit);
+        $add->bindParam(15, $this->submitted_by);
         
         if($add->execute())
         {
@@ -94,28 +96,29 @@ class PO_Details
 
     public function upd_details()
     {
-        $query = 'UPDATE '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, terms=?, amount=?, due_date=?, remark=?, memo_no=?, debit_memo=?, memo_amount=?, status=? WHERE id=?';
+        $query = 'UPDATE '.$this->table_name.' SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, terms=?, amount=?, due_date=?, scm_remark=?, remark=?, memo_no=?, debit_memo=?, memo_amount=? WHERE id=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd =$this->conn->prepare($query);
 
         $upd->bindParam(1, $this->po_num);
-        $upd->bindParam(2, $this->po_amount);
-        $upd->bindParam(3, $this->po_date);
-        $upd->bindParam(4, $this->si_num);
-        $upd->bindParam(5, $this->company);
-        $upd->bindParam(6, $this->project);
-        $upd->bindParam(7, $this->department);
-        $upd->bindParam(8, $this->supplier);
-        $upd->bindParam(9, $this->bill_date);
-        $upd->bindParam(10, $this->terms);
-        $upd->bindParam(11, $this->amount);
-        $upd->bindParam(12, $this->due_date);
-        $upd->bindParam(13, $this->remark);
-        $upd->bindParam(14, $this->memo_no);
-        $upd->bindParam(15, $this->debit_memo);
-        $upd->bindParam(16, $this->memo_amount);
-        $upd->bindParam(17, $this->status);
-        $upd->bindParam(18, $this->id);
+        $upd->bindParam(2, $this->ir_rr_no);
+        $upd->bindParam(3, $this->po_amount);
+        $upd->bindParam(4, $this->po_date);
+        $upd->bindParam(5, $this->si_num);
+        $upd->bindParam(6, $this->company);
+        $upd->bindParam(7, $this->project);
+        $upd->bindParam(8, $this->department);
+        $upd->bindParam(9, $this->supplier);
+        $upd->bindParam(10, $this->bill_date);
+        $upd->bindParam(11, $this->terms);
+        $upd->bindParam(12, $this->amount);
+        $upd->bindParam(13, $this->due_date);
+        $upd->bindParam(14, $this->scm_remark);
+        $upd->bindParam(15, $this->remark);
+        $upd->bindParam(16, $this->memo_no);
+        $upd->bindParam(17, $this->debit_memo);
+        $upd->bindParam(18, $this->memo_amount);
+        $upd->bindParam(19, $this->id);
 
 
         if($upd->execute())
@@ -415,7 +418,7 @@ class PO_Details
 
     public function get_po_by_id()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.status, po_other_details.po_id, po_other_details.remarks FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.ir_rr_no, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.status, po_other_details.po_id, po_other_details.remarks, po_details.scm_remark, po_details.yrEnd_stat FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -746,11 +749,12 @@ class PO_Details
     //YEAR END REPORT 
     public function accept_yearEnd()
     {
-        $query = 'UPDATE po_details SET status = 19 WHERE id = ?';
+        $query = 'UPDATE po_details SET yr_req = ?, status = 19 WHERE id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$upd = $this->conn->prepare($query);
 
-        $upd->bindParam(1, $this->id);
+        $upd->bindParam(1, $this->yr_req);
+        $upd->bindParam(2, $this->id);
 
         return ($upd->execute()) ? true : false;
     }
@@ -789,9 +793,31 @@ class PO_Details
         return ($upd->execute()) ? true : false;
     }
 
+    public function upd_yrEnd_req()
+    {
+        $query = 'UPDATE po_details SET yr_req = ? WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->yr_req);
+        $upd->bindParam(2, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
     public function get_yearEnd_forReceived()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.si_num, po_details.amount, po_details.status FROM po_details WHERE (find_in_set(17, po_details.status) || find_in_set(18, po_details.status) || find_in_set(19, po_details.status)) ORDER BY status ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.si_num, po_details.amount, po_details.status, po_details.yr_req FROM po_details WHERE (find_in_set(17, po_details.status) || find_in_set(18, po_details.status) || find_in_set(19, po_details.status)) AND yrEnd_stat = 1 ORDER BY status ASC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function get_yearEnd_Received()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.si_num, po_details.amount, po_details.status, po_details.yr_req FROM po_details WHERE yrEnd_stat = 1 AND po_details.status != 17 AND po_details.status != 18 AND po_details.status != 19 ORDER BY status ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

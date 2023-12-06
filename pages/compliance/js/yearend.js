@@ -20,12 +20,25 @@ $('.btnReturn').on('click', function(e){
    $('#return-id').val(id);
    $('#returnedModal').modal('show');
 })
+//edit requirements submitted
+$('#btnEditReq').on('click', function(e){
+  e.preventDefault();
+
+  var id = $('#po-id').val();
+  $('#yrEnd-po-id').val(id);
+  //show & hide modal
+  $('#POmodalDetails').modal('hide');
+  $('#receivedModal').modal('show');
+})
 //check if checkbox is checked
-$(document).on("change", ".req", function() {
+$('.req :checkbox').on('change', function() {
+  $('.req :checkbox').prop('checked', false);
+  $(this).prop('checked', true);
+
   var orig = $('#original').is(':checked');
   var dup = $('#duplicate').is(':checked');
   var ctc = $('#ctc').is(':checked');
-  if(orig && dup && ctc){
+  if(orig || dup || ctc){
     $('#btnSubmit').prop('disabled', false);
   }else{
     $('#btnSubmit').prop('disabled', true);
@@ -35,12 +48,15 @@ $(document).on("change", ".req", function() {
 function received_yearend()
 {
   var id = $('#po-id').val();
+  var req = [];
+  $('#req-checkbox input:checked').each(function() {
+    req.push($(this).attr('value'));
+  })
   var action = 1;
-  
   $.ajax({
     type: 'POST',
     url: '../../controls/process_yearend.php',
-    data: {id:id, action:action},
+    data: {id:id, action:action, req:req},
     success: function(response){
       if(response > 0){
         toastr.success('Request successfully received.');
@@ -80,6 +96,32 @@ function return_yearEnd()
       }
     })
   }
+}
+
+//save new requirement submitted
+function update_req()
+{
+  var id = $('#po-id').val();
+  var req = [];
+  $('#req-checkbox input:checked').each(function() {
+    req.push($(this).attr('value'));
+  })
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/upd_requirement.php',
+    data: {id:id, req:req},
+    success: function(response){
+      if(response > 0){
+        toastr.success('Requirements successfully updated.');
+        setTimeout(function(){
+          location.reload();
+        }, 1500)
+      }else{
+        toastr.error('ERROR! Please contact the system administrator at local 124 for assistance');
+      }
+    }
+  })
 }
 
 //view details

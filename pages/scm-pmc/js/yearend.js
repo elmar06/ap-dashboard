@@ -118,6 +118,7 @@ function upd_po_details()
   var id = $('#upd-id').val();
   var bill_no = $('#upd-bill-no').val();
   var po_num = $('#upd-po-no').val();
+  var ir_no = $('#ir-no').val();
   var company = $('#upd-company').val();
   var supplier = $('#upd-supplier').val();
   var project = $('#upd-project').val();
@@ -129,7 +130,7 @@ function upd_po_details()
   var amount = $('#upd-amount').val();
   var si_num = $('#upd-sales-invoice').val();
 
-  var myData = 'id=' + id + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&amount=' + amount + '&si_num=' + si_num;
+  var myData = 'id=' + id + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&ir_num=' + ir_no + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&amount=' + amount + '&si_num=' + si_num;
 
   if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
   {

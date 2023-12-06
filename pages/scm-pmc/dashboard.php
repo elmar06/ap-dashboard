@@ -535,6 +535,10 @@
             <label><i style="color: red">*</i> PO/JO Number:</label>
             <input id="po-no" class="form-control mb-3" type="text" placeholder="Enter PO/JO number">
           </div>
+          <div class="col-lg-6">
+            <label><i style="color: red">*</i> RR/IR Number:</label>
+            <input id="ir-no" class="form-control mb-3" type="text" placeholder="Enter RR/IR number">
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-6">
@@ -653,6 +657,12 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-lg-12">
+            <label><b>Remarks</b></label>
+            <textarea id="scm-remarks" class="form-control mb-3" type="text" placeholder="Remarks / Additional Details"></textarea>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-4">
             <div class="custom-control custom-switch">
               <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="mark_as_credit_memo()">
@@ -747,7 +757,7 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <label for="exampleInputEmail1">Choose a File</label><br>
+            <label>Choose a File</label><br>
               <form name="form" method="post" enctype="multipart/form-data">
                 <input type="file" id="filecover" name="worker_file" value="Browse" onchange="readURL(this);" accept=".csv" /><br>
                 <label id="upload-success" style="color: green; display:none"></label>

@@ -68,17 +68,11 @@ $('.remove').on('click', function(e){
 //Edit button
 function EnableFields()
 {
-  $('#upd-bill-date').attr('disabled', false);
-  $('#upd-bill-no').attr('disabled', false);
-  $('#upd-po-no').attr('disabled', false);
-  $('#upd-company').attr('disabled', false);
-  $('#upd-supplier').attr('disabled', false);
-  $('#upd-project').attr('disabled', false);
-  $('#upd-department').attr('disabled', false);
-  $('#upd-terms').attr('disabled', false);
-  $('#upd-amount').attr('disabled', false);
-  $('#upd-sales-invoice').attr('disabled', false);
-  $('#btnEdit').attr('disabled', true);
+  $('#upd-scm-remark').prop('disabled', false);
+  $('input[type=text]').prop('disabled', false);
+  $('.select2').prop('disabled', false);
+  $('.datepicker').prop('disabled', false);
+  $('#btnEdit').prop('disabled', true);
   $('#btnClose').hide();
   $('#btnCancel').show();
   $('#btnSubmit').attr('disabled', false);
@@ -87,16 +81,10 @@ function EnableFields()
 //Cancel button
 function DisableFields()
 {
-  $('#upd-bill-date').attr('disabled', true);
-  $('#upd-bill-no').attr('disabled', true);
-  $('#upd-po-no').attr('disabled', true);
-  $('#upd-amount').attr('disabled', true);
-  $('#upd-sales-invoice').attr('disabled', true);
-  $('#upd-company').attr('disabled', true);
-  $('#upd-supplier').attr('disabled', true);
-  $('#upd-project').attr('disabled', true);
-  $('#upd-department').attr('disabled', true);
-  $('#upd-terms').attr('disabled', true);
+  $('#upd-scm-remark').prop('disabled', true);
+  $('input[type=text]').prop('disabled', true);
+  $('.select2').prop('disabled', true);
+  $('.datepicker').prop('disabled', true);
   $('#btnEdit').attr('disabled', false);
   $('#btnClose').show();
   $('#btnCancel').hide();
@@ -312,9 +300,13 @@ function clearInp() {
 
 function upd_po_details()
 {
-  var id = $('#upd-id').val();
-  var bill_no = $('#upd-bill-no').val();
+  var id = $('#upd-po-id').val();
   var po_num = $('#upd-po-no').val();
+  var ir_no = $('#upd-ir-no').val();
+  var po_date = $('#upd-po-date').val();
+  var amount = $('#upd-po-amount').val();
+  var si_num = $('#upd-si-num').val();
+  var si_amount = $('#upd-si-amount').val();
   var company = $('#upd-company').val();
   var supplier = $('#upd-supplier').val();
   var project = $('#upd-project').val();
@@ -322,13 +314,23 @@ function upd_po_details()
   var bill_date = $('#upd-bill-date').val();
   var terms = $('#upd-terms').val();
   var due_date = $('#upd-due-date').val();
-  var days_due = $('#upd-days-due').val();
-  var amount = $('#upd-amount').val();
-  var si_num = $('#upd-sales-invoice').val();
+  var scm_remarks = $('#upd-scm-remark').val();
+  //credit memo section 
+  var memo_no = $('#upd-memo-no').val();
+  var debit_memo = $('#upd-debit-memo').val();
+  var memo_amount = $('#upd-memo-amount').val();
+  var remark = '';
+  //check if it is shared
+  var check = $('#remarks').is(':checked');
+  if(check){
+    var remark = 1;
+  }else{
+    var remark = 0;
+  }
 
-  var myData = 'id=' + id + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&amount=' + amount + '&si_num=' + si_num;
+  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_date=' + po_date + '&po_amount=' + amount + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&scm_remark=' + scm_remarks + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&remark=' + remark;
 
-  if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
+  if(bill_date != null && po_date != null && si_num != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
   {
     $.ajax({
       type: 'POST',
@@ -340,6 +342,7 @@ function upd_po_details()
       },
       success: function(response)
       {
+        alert(response);
         if(response > 0)
         {
           $('#upd-success').html('<center><i class="fas fa-check"></i> PO Successfully updated.</center>');

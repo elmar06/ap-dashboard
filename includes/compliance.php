@@ -60,23 +60,17 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="yearend.php">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
       <i class="fas fa-fw fa-file-invoice"></i>
-      <span>Year End Report</span>
+      <span>Year-End Report</span>
     </a>
+    <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="nav-link" href="yearend.php"><i class="fas fa-hand-holding"></i><span>For Receiving</span></a>
+        <a class="nav-link" href="yrEnd_process.php"><i class="far fa-check-circle"></i><span>Received</span></a>
+      </div>
+    </div>
   </li>
-  <!-- <li class="nav-item">
-    <a class="nav-link" href="for_releasing.php">
-      <i class="fas fa-fw fa-money-check"></i>
-      <span>For Releasing</span>
-    </a>
-  </li> -->
-  <!-- <li class="nav-item">
-    <a class="nav-link" href="released.php">
-      <i class="fas fa-fw fa-check-double"></i>
-      <span>Released Check</span>
-    </a>
-  </li> -->
   <li class="nav-item">
     <a class="nav-link" href="report.php">
       <i class="fas fa-fw fa-chart-pie"></i>

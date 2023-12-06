@@ -20,14 +20,14 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <?php include '../../includes/purchasing.php'; ?><!-- page header -->
+    <?php include '../../includes/compliance.php'; ?><!-- page header -->
         <!-- Container Fluid-->
         <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">SCM / PMC</a></li>
-              <li class="breadcrumb-item active" aria-current="page"> Year End Report</li>
+              <li class="breadcrumb-item"><a href="#">Accounting</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Compliance / Year End Report / Received</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -53,7 +53,7 @@
                     </thead>
                     <tbody id="po-submit-body">
                     <?php
-                        $view = $po->get_yearEnd_forReceived();
+                        $view = $po->get_yearEnd_Received();
                         while($row = $view->fetch(PDO::FETCH_ASSOC))
                         {
                           //get the PROJECT name if exist
@@ -99,18 +99,23 @@
                             $docs = 'CTC';
                           }else{
                             $docs = '--';
-                          }   
-                          //check status
-                          if($row['status'] == 17){
-                            $status = '<label style="color: red"><b>For Receiving</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';     
-                          }elseif($row['status'] == 18){
-                            $status = '<label style="color: orange"><b>Returned</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
-                          }else{
-                            $status = '<label style="color: green"><b>Received</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
                           }
+                         //action button
+                         $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
+                         //check status
+                         if($row['status'] == 1){
+                           $status = '<label style="color: red"><b>Pending</b></label>'; 
+                         }elseif($row['status'] == 11){
+                           $status = '<label style="color: green"><b>Released</b></label>';   
+                         }elseif($row['status'] == 12){
+                           $status = '<label style="color: green"><b>Forwarded to Compliance</b></label>';   
+                         }elseif($row['status'] == 13){
+                           $status = '<label style="color: orange"><b>Returned by Compliance</b></label>';   
+                         }elseif($row['status'] == 14){
+                           $status = '<label style="color: green"><b>Accepted by Compliance</b></label>';   
+                         }else{
+                           $status = '<label style="color: blue"><b>In Process</b></label>';   
+                         }
                           echo '
                           <tr> 
                             <td>'.$action.'</td>
@@ -134,6 +139,66 @@
         </div><!---/Container Fluid-->
       </div>
 </div>
+<!-- RECEIVING notification Modal -->
+<div class="modal fade" id="receivedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title"><b>Year-End Report Requirements</b></h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <input id="yrEnd-po-id" class="form-control" style="display: none;">
+          <div id="req-checkbox" class="col-lg-12">
+            <div class="custom-control custom-switch req">
+              <input type="checkbox" class="custom-control-input" id="original" value="1">
+              <label class="custom-control-label" for="original"> Original Sales Invoice</label>
+            </div>
+            <div class="custom-control custom-switch req">
+              <input type="checkbox" class="custom-control-input" id="duplicate" value="2">
+              <label class="custom-control-label" for="duplicate"> Duplicate Sales Invoice</label>
+            </div>
+            <div class="custom-control custom-switch req">
+              <input type="checkbox" class="custom-control-input" id="ctc" value="3">
+              <label class="custom-control-label" for="ctc"> Certified True Copy</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+        <button id="btnSubmitEdit" class="btn btn-success" onclick="update_req()"><i class="fas fa-edit"></i> Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- RETURNED notification Modal -->
+<div class="modal fade" id="returnedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: red"><b>NOTICE</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="notf-msg" style="font-size: 18px;">Please input your reason of declining this request</div>
+        <textarea id="reason" class="form-control" row="4"></textarea>
+        <input id="return-id" class="form-control" style="display:none">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel</button>
+        <button id="btnSubmit" class="btn btn-danger" onclick="return_yearEnd()"><i class="fas fa-times-circle"></i> Mark As Return</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- View Details Modal -->
 <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -150,31 +215,7 @@
       </div>
       <div class="modal-footer">
         <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
-        <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()" style="display: none">Submit</button>
-        <button id="btnResubmit" class="btn btn-success" onclick="reSubmit_yearEnd()">Resubmit</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- View Details Modal -->
-<div class="modal fade" id="receivedDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="received-body" class="modal-body">
-        <!-- modal body goes here -->
-      </div>
-      <div class="modal-footer">
-        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnSubmitAP" class="btn btn-success" onclick="submit_toAP()">Submit to Accounting</button>
+        <button id="btnEditReq" class="btn btn-info">Edit Requirement Submitted</button>
       </div>
     </div>
   </div>
