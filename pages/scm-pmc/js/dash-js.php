@@ -170,6 +170,7 @@ function uploadFile()
 function SubmitPO()
 {
   var po_num = $('#po-no').val();
+  var ir_num = $('#ir-no').val();
   var po_amount = $('#po-amount').val();
   var po_date = $('#po-date').val();
   var si_num = $('#si-num').val();
@@ -211,7 +212,7 @@ function SubmitPO()
     var project = 0;
   }
 
-  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&terms=' + terms + '&due_date=' + due_date + '&remark=' + remark + '&year_end=' + year_end + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
+  var myData = 'po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&terms=' + terms + '&due_date=' + due_date + '&remark=' + remark + '&year_end=' + year_end + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&ir_num=' + ir_num;
 
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
