@@ -23,34 +23,35 @@ class PO_Details
 
     public function add_po()
     {
-        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, yrEnd_stat=?, status=?';
+        $query = 'INSERT INTO '.$this->table_name.' SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_no=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, days_due=?, date_submit=?, memo_no=?, debit_memo=?, memo_amount=?, reports=?, submitted_by=?, remark=?, yrEnd_stat=?, status=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $add =$this->conn->prepare($query);
 
         $add->bindParam(1, $this->po_num);
-        $add->bindParam(2, $this->po_amount);
-        $add->bindParam(3, $this->po_date);
-        $add->bindParam(4, $this->si_num);
-        $add->bindParam(5, $this->company);
-        $add->bindParam(6, $this->project);
-        $add->bindParam(7, $this->department);
-        $add->bindParam(8, $this->supplier);
-        $add->bindParam(9, $this->bill_no);
-        $add->bindParam(10, $this->bill_date);
-        $add->bindParam(11, $this->counter_date);
-        $add->bindParam(12, $this->terms);
-        $add->bindParam(13, $this->amount);
-        $add->bindParam(14, $this->due_date);
-        $add->bindParam(15, $this->days_due);
-        $add->bindParam(16, $this->date_submit);
-        $add->bindParam(17, $this->memo_no);
-        $add->bindParam(18, $this->debit_memo);
-        $add->bindParam(19, $this->memo_amount);
-        $add->bindParam(20, $this->reports);
-        $add->bindParam(21, $this->submitted_by);
-        $add->bindParam(22, $this->remark);
-        $add->bindParam(23, $this->yrEnd_stat);
-        $add->bindParam(24, $this->status);
+        $add->bindParam(2, $this->ir_rr_no);
+        $add->bindParam(3, $this->po_amount);
+        $add->bindParam(4, $this->po_date);
+        $add->bindParam(5, $this->si_num);
+        $add->bindParam(6, $this->company);
+        $add->bindParam(7, $this->project);
+        $add->bindParam(8, $this->department);
+        $add->bindParam(9, $this->supplier);
+        $add->bindParam(10, $this->bill_no);
+        $add->bindParam(11, $this->bill_date);
+        $add->bindParam(12, $this->counter_date);
+        $add->bindParam(13, $this->terms);
+        $add->bindParam(14, $this->amount);
+        $add->bindParam(15, $this->due_date);
+        $add->bindParam(16, $this->days_due);
+        $add->bindParam(17, $this->date_submit);
+        $add->bindParam(18, $this->memo_no);
+        $add->bindParam(19, $this->debit_memo);
+        $add->bindParam(20, $this->memo_amount);
+        $add->bindParam(21, $this->reports);
+        $add->bindParam(22, $this->submitted_by);
+        $add->bindParam(23, $this->remark);
+        $add->bindParam(24, $this->yrEnd_stat);
+        $add->bindParam(25, $this->status);
         
         if($add->execute())
         {
