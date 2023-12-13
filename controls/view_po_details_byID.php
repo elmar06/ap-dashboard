@@ -25,10 +25,13 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   //format the date for display
   $bill_date = date('F d, Y', strtotime($row['bill_date']));
   $due_date = date('F d, Y', strtotime($row['due_date']));
+  $po_date = '';
   if($row['po_date'] != null || $row['po_date'] != ''){
     $po_date = date('F d, Y', strtotime($row['po_date']));
-  }else{
-    $po_date = '';
+  }
+  $counter_date = '';
+  if($row['counter_date'] != null || $row['counter_date'] != ''){
+    $counter_date = date('F d, Y', strtotime($row['counter_date']));
   }
   //number format
   $po_amount = number_format($row['po_amount'],2);
@@ -146,7 +149,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-8" style="margin-top: 17px">
+        <div class="col-lg-6" style="margin-top: 17px">
           <label><i style="color: red">*</i> Billing/SI Date:</label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -155,20 +158,29 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
             <input id="upd-bill-date" class="form-control datepicker" placeholder="Enter Billing Date" onchange="getDueDate()" value="'.$bill_date.'">
           </div>
         </div>
-        <div class="col-lg-4" style="margin-top: 17px">
-          <label><i style="color: red">*</i> Terms:</label>
-          <input id="upd-terms" class="form-control mb-3" type="text" placeholder="Enter Terms" onchange="getDueDate()" value="'.$row['terms'].'">
+        <div class="col-lg-6" style="margin-top: 17px">
+          <label><i style="color: red">*</i> Received/Counter Date:</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+            </div>
+            <input id="upd-counter-date" class="form-control datepicker" placeholder="Enter Received/Counter Date" value="'.$counter_date.'">
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-8">
-        <label><i style="color: red">*</i> Due Date:</label>
+        <div class="col-lg-6">
+          <label><i style="color: red">*</i> Due Date:</label>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
             </div>
             <input id="upd-due-date" class="form-control datepicker" placeholder="Due Date" value="'.$due_date.'">
           </div>
+        </div>
+        <div class="col-lg-6">
+          <label><i style="color: red">*</i> Terms:</label>
+          <input id="upd-terms" class="form-control mb-3" type="text" placeholder="Enter Terms" onchange="getDueDate()" value="'.$row['terms'].'">
         </div>
       </div>
       <div class="row">

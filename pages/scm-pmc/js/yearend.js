@@ -115,33 +115,48 @@ $('.btnReceived').click(function(e){
 
 function upd_po_details()
 {
-  var id = $('#upd-id').val();
-  var bill_no = $('#upd-bill-no').val();
+  var id = $('#upd-po-id').val();
   var po_num = $('#upd-po-no').val();
-  var ir_no = $('#ir-no').val();
+  var ir_no = $('#upd-ir-no').val();
+  var po_amount = $('#upd-po-amount').val();
+  var po_date = $('#upd-po-date').val();
+  var si_num = $('#upd-si-num').val();
+  var si_amount = $('#upd-si-amount').val();
   var company = $('#upd-company').val();
   var supplier = $('#upd-supplier').val();
-  var project = $('#upd-project').val();
-  var department = $('#upd-department').val();
   var bill_date = $('#upd-bill-date').val();
-  var terms = $('#upd-terms').val();
+  var counter_date = $('#upd-counter-date').val();
   var due_date = $('#upd-due-date').val();
-  var days_due = $('#upd-days-due').val();
-  var amount = $('#upd-amount').val();
-  var si_num = $('#upd-sales-invoice').val();
+  var terms = $('#upd-terms').val();
+  var scm_remark = $('#upd-scm-remark').val(); 
+  var memo_no = $('#upd-memo-no').val();
+  var debit_memo = $('#upd-debit-memo').val(); 
+  var memo_amount = $('#upd-memo-amount').val(); 
+  //check if project & department is null/empty
+  var project = 0;
+  var department = 0;
+  if($('#upd-project').val() != null){
+    var project = $('#upd-project').val();
+  }
+  if($('#upd-department').val() != null){
+    var project = $('#upd-department').val();
+  }
+  //check if it is shared
+  var check = $('#remarks').is(':checked');
+  if(check){
+    var remark = 1;
+  }else{
+    var remark = 0;
+  }
 
-  var myData = 'id=' + id + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&days_due=' + days_due + '&bill_no=' + bill_no + '&po_num=' + po_num + '&ir_num=' + ir_no + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&amount=' + amount + '&si_num=' + si_num;
+  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&due_date=' + due_date + '&terms=' + terms + '&scm_remark=' + scm_remark + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
 
-  if(bill_date != null && bill_no != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
+  if(po_num != null && po_amount != null && si_num != null && si_amount != null && company != null && supplier != null && bill_date != null && counter_date != null && due_date != null)
   {
     $.ajax({
       type: 'POST',
       url: '../../controls/upd_po_details.php',
       data: myData,
-      beforeSend: function()
-      {
-        showToast();
-      },
       success: function(response)
       {
         if(response > 0)
@@ -189,6 +204,14 @@ function upd_po_details()
 function EnableFields()
 {
   $('#upd-bill-date').attr('disabled', false);
+  $('#upd-ir-no').attr('disabled', false);
+  $('#upd-po-no').attr('disabled', false);
+  $('#upd-si-num').attr('disabled', false);
+  $('#upd-si-amount').attr('disabled', false);
+  $('#upd-po-date').attr('disabled', false);
+  $('#upd-counter-date').attr('disabled', false);
+  $('#upd-due-date').attr('disabled', false);
+  $('#upd-po-amount').attr('disabled', false);
   $('#upd-bill-no').attr('disabled', false);
   $('#upd-po-no').attr('disabled', false);
   $('#upd-company').attr('disabled', false);
@@ -198,6 +221,7 @@ function EnableFields()
   $('#upd-terms').attr('disabled', false);
   $('#upd-amount').attr('disabled', false);
   $('#upd-sales-invoice').attr('disabled', false);
+  $('#upd-scm-remark').attr('disabled', false);
   $('#btnEdit').attr('disabled', true);
   $('#btnClose').hide();
   $('#btnCancel').show();
@@ -210,15 +234,23 @@ function EnableFields()
 function DisableFields()
 {
   $('#upd-bill-date').attr('disabled', true);
+  $('#upd-po-no').attr('disabled', true);
+  $('#upd-si-num').attr('disabled', true);
+  $('#upd-si-amount').attr('disabled', true);
+  $('#upd-po-date').attr('disabled', true);
+  $('#upd-counter-date').attr('disabled', true);
+  $('#upd-due-date').attr('disabled', true);
+  $('#upd-po-amount').attr('disabled', true);
   $('#upd-bill-no').attr('disabled', true);
   $('#upd-po-no').attr('disabled', true);
-  $('#upd-amount').attr('disabled', true);
-  $('#upd-sales-invoice').attr('disabled', true);
   $('#upd-company').attr('disabled', true);
   $('#upd-supplier').attr('disabled', true);
   $('#upd-project').attr('disabled', true);
   $('#upd-department').attr('disabled', true);
   $('#upd-terms').attr('disabled', true);
+  $('#upd-amount').attr('disabled', true);
+  $('#upd-sales-invoice').attr('disabled', true);
+  $('#upd-scm-remark').attr('disabled', true);
   $('#btnEdit').attr('disabled', false);
   $('#btnClose').show();
   $('#btnCancel').hide();
