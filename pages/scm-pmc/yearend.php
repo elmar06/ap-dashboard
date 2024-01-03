@@ -45,7 +45,7 @@
                         <th>SI #</th>
                         <th>Company</th>
                         <th>Payee</th>
-                        <th>CV Amount</th>
+                        <th>Amount</th>
                         <th>PO/JO #</th>
                         <th>Project</th>
                         <th>Due Date</th>

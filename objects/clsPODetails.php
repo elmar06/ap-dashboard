@@ -1664,6 +1664,19 @@ class PO_Details
 		$sel->execute(array($from, $to));
 		return $sel;
     }
+
+    //YEAR END REPORT QUERY
+    public function get_yearend_by_date()
+    {
+        $query = 'SELECT si_num, company, supplier, po_num, project, amount, due_date, yr_req, status FROM po_details WHERE yrEnd_stat = 1 AND YEAR(date_submit) = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->date_submit);
+
+		$sel->execute();
+		return $sel;
+    }
 }
 
 ?>

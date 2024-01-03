@@ -8,8 +8,8 @@ $db = $database->connect();
 $po = new PO_Details($db);
 
 $id = $_POST['id'];
-$yr_req = implode(',', $_POST['req']);
 if($_POST['action'] == 1){
+    $yr_req = implode(',', $_POST['req']);
     //received request and wait for SCM to forward the request
     $po->id = $id;
     $po->yr_req = $yr_req;

@@ -26,7 +26,7 @@ $('#report').on('click', function(e){
   $('#check').hide();
   $('#percentage-report').hide();
   $('#report-div').hide();
-
+  $('#yearend').hide();
 })
 //PMC REPORT
 $('#pmc-report').on('click', function(e){
@@ -43,6 +43,7 @@ $('#for-releasing').on('click', function(e){
   $('#check').show();
   $('#disbursement').hide();
   $('#percentage-report').hide();
+  $('#yearend').hide();
 })
 //MANAGEMENT REPORT
 $('#management-report').on('click', function(e){
@@ -51,7 +52,19 @@ $('#management-report').on('click', function(e){
   $('#disbursement').hide();
   $('#check').hide();
   $('#percentage-report').hide();
+  $('#yearend').hide();
   $('#manage-report').show();
+})
+
+//YEAREND REPORT
+$('#yearend-report').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#year-end').show();
 })
 
 //generate report function(CHECK FOR RELEASING)
@@ -200,6 +213,29 @@ function generate_report()
   if(date_from == '' && date_to == ''){
     toastr.error('ERROR! Please select a date span to generate report.');
     $('#from').focus();
+  }else{
+    showToast();
+    window.open('../../controls/generate_report_scm.php?' + myData);
+  }   
+}
+
+//generate report(YEAREND REPORT)
+function generate_yrend_report()
+{
+  var project = 0;
+  var company = 0;
+  var supplier = 0;
+  var date_from = 0;
+  var date_to = 0;
+  var status = 0;
+  var year = $('#yearend-yr').val();
+  var action = 17;
+
+  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&date_from=' + date_from + '&date_to=' + date_to + '&status=' + status + '&year=' + year + '&action=' + action;
+ 
+  if(year == ''){
+    toastr.error('ERROR! Please select a date span to generate report.');
+    $('#yearend-yr').focus();
   }else{
     showToast();
     window.open('../../controls/generate_report_scm.php?' + myData);

@@ -43,6 +43,9 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button id="yearend-report" class="btn btn-success" style="width: 100%;"><i class="fas fa-chart-bar"></i> Year-End Report</button>
                                     </div>';
                         }else{
                             //PMC MODULE
@@ -376,6 +379,26 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <button class="btn btn-success" onclick="generate_report()" value="1"><i class="fas fa-check"></i> Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="year-end" style="display:none">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label>Year:</label>
+                                        <select id="yearend-yr" class="form-control mb-3 select2" style="width: 100%;">';
+                                            $start_year = 2023;
+                                            $current_year = date('Y')*1;
+                                            do{
+                                                echo '<option value="'.$start_year.'" selected>'.$start_year.'</option>';
+                                                $start_year++;
+                                            }while($current_year >= $start_year);
+                                        echo '</select>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-success" onclick="generate_yrend_report()" value="2"><i class="fas fa-check"></i> Generate</button>
                                     </div>
                                 </div>
                             </div>';
