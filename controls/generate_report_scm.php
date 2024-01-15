@@ -2164,7 +2164,7 @@ if($_GET['action'] == 17)
         }  
         //format of status
         if($row['status'] == 1){
-            $status = 'Pending';
+            $status = 'Pending for AP';
         }else if($row['status'] == 2){
             $status = 'Returned';
         }else if($row['status'] == 3){

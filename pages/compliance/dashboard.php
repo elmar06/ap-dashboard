@@ -253,7 +253,7 @@
                     <table class="table1 align-items-center table-flush table-hover DataTable">
                       <thead class="thead-light">
                         <tr>
-                        <th style="max-width: 2%"><input type="checkbox" class="checkboxall2"/><span class="checkmark"></span></th>
+                          <th style="max-width: 2%"><input type="checkbox" class="checkboxall2"/><span class="checkmark"></span></th>
                           <th><center>Action</center></th>
                           <th>OR #</th>
                           <th>SI #</th>
