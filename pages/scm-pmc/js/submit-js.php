@@ -140,7 +140,7 @@ function upd_po_details()
   }
 
   var myData = 'po_id=' + po_id + '&po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_no + '&memo_amount=' + memo_amount;
-
+  
   if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
     $.ajax({
@@ -153,6 +153,7 @@ function upd_po_details()
       },
       success: function(response)
       {
+        alert(response);
         if(response > 0)
         {
           $('#upd-success').html('<center><i class="fas fa-check"></i> Request Successfully resubmitted.</center>');
