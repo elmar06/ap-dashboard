@@ -134,7 +134,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
         <div class="col-lg-6"  style="margin-top: 16px">
           <label>Department:</label>
           <select id="upd-department" class="form-control mb-3 select2"  style="width: 100%;">
-            <option selected disabled>Select a Department</option>';
+            <option value="0" selected disabled>Select a Department</option>';
             $get4 = $dept->get_active_department();
             while($row4 = $get4->fetch(PDO::FETCH_ASSOC))
             {

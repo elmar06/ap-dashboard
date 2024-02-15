@@ -202,12 +202,12 @@ function SubmitPO()
     var year_end = 17;
   }
   //check the department if null
-  if(department == 0 || department == null)
+  if(department == '' || department == null)
   {
     var department = 0;
   }
   //check the department if null
-  if(project == 0 || project == null)
+  if(project == '' || project == null)
   {
     var project = 0;
   }
@@ -315,6 +315,7 @@ function upd_po_details()
   var bill_date = $('#upd-bill-date').val();
   var terms = $('#upd-terms').val();
   var due_date = $('#upd-due-date').val();
+  var counter_date = $('#upd-counter-date').val();
   var scm_remarks = $('#upd-scm-remark').val();
   //credit memo section 
   var memo_no = $('#upd-memo-no').val();
@@ -328,8 +329,17 @@ function upd_po_details()
   }else{
     var remark = 0;
   }
-
-  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_date=' + po_date + '&po_amount=' + amount + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&scm_remark=' + scm_remarks + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&remark=' + remark;
+ //check the department if null
+ if(department == '' || department == null)
+  {
+    var department = 0;
+  }
+  //check the department if null
+  if(project == '' || project == null)
+  {
+    var project = 0;
+  }
+  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_date=' + po_date + '&po_amount=' + amount + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&counter_date=' + counter_date + '&scm_remark=' + scm_remarks + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&remark=' + remark;
 
   if(bill_date != null && po_date != null && si_num != '' && po_num != '' && company != null && supplier != null && project != null && amount != null)
   {
@@ -343,7 +353,6 @@ function upd_po_details()
       },
       success: function(response)
       {
-        alert(response);
         if(response > 0)
         {
           $('#upd-success').html('<center><i class="fas fa-check"></i> PO Successfully updated.</center>');

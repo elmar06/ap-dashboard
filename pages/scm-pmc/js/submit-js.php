@@ -103,23 +103,26 @@ $(document).on('dblclick', '.DataTable tr', function(){
 //resubmit
 function upd_po_details()
 {
-  var po_id = $('#po-id').val();
-  var po_num = $('#po-no').val();
-  var po_amount = $('#po-amount').val();
-  var po_date = $('#po-date').val();
-  var si_num = $('#si-num').val();
-  var amount = $('#si-amount').val();
-  var company = $('#company').val();
-  var supplier = $('#supplier').val();
-  var project = $('#project').val();
-  var department = $('#department').val();
-  var bill_date = $('#bill-date').val();
-  var terms = $('#terms').val();
-  var due_date = $('#due-date').val();
-  var memo_no = $('#memo-no').val();
-  var debit_no = $('#debit-memo').val();
-  var memo_amount = $('#memo-amount').val().replace(/\,/g,'');
-  var reports = '';
+  var id = $('#upd-po-id').val();
+  var po_num = $('#upd-po-no').val();
+  var ir_no = $('#upd-ir-no').val();
+  var po_date = $('#upd-po-date').val();
+  var amount = $('#upd-po-amount').val();
+  var si_num = $('#upd-si-num').val();
+  var si_amount = $('#upd-si-amount').val();
+  var company = $('#upd-company').val();
+  var supplier = $('#upd-supplier').val();
+  var project = $('#upd-project').val();
+  var department = $('#upd-department').val();
+  var bill_date = $('#upd-bill-date').val();
+  var terms = $('#upd-terms').val();
+  var due_date = $('#upd-due-date').val();
+  var counter_date = $('#upd-counter-date').val();
+  var scm_remarks = $('#upd-scm-remark').val();
+  //credit memo section 
+  var memo_no = $('#upd-memo-no').val();
+  var debit_memo = $('#upd-debit-memo').val();
+  var memo_amount = $('#upd-memo-amount').val();
   var remark = '';
   //check if it is shared
   var check = $('#remarks').is(':checked');
@@ -128,20 +131,19 @@ function upd_po_details()
   }else{
     var remark = 0;
   }
-  //check the department if null
-  if(department == 0 || department == null)
+ //check the department if null
+ if(department == '' || department == null)
   {
     var department = 0;
   }
   //check the department if null
-  if(project == 0 || project == null)
+  if(project == '' || project == null)
   {
     var project = 0;
   }
+  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_date=' + po_date + '&po_amount=' + amount + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&counter_date=' + counter_date + '&scm_remark=' + scm_remarks + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&remark=' + remark;
 
-  var myData = 'po_id=' + po_id + '&po_num=' + po_num + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&amount=' + amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&terms=' + terms + '&due_date=' + due_date + '&reports=' + reports + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_no + '&memo_amount=' + memo_amount;
-  
-  if(po_num != '' && po_amount != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
+  if(po_num != '' && si_num != '' && amount != '' && company != null && supplier != null && bill_date != '' && due_date != '')
   {
     $.ajax({
       type: 'POST',
@@ -153,7 +155,6 @@ function upd_po_details()
       },
       success: function(response)
       {
-        alert(response);
         if(response > 0)
         {
           $('#upd-success').html('<center><i class="fas fa-check"></i> Request Successfully resubmitted.</center>');
@@ -161,18 +162,8 @@ function upd_po_details()
           $('#btnEdit').prop('disabled', false);
           DisableFields();
           setTimeout(function(){
-            $('#upd-success').fadeOut();
-          }, 3000)
-          //get the updated list
-          $.ajax({
-              url: '../../controls/view_all_submit_po.php',
-              success: function(html)
-              {
-                $('#po-submit-body').fadeOut();
-                $('#po-submit-body').fadeIn();
-                $('#po-submit-body').html(html);
-              }
-            })
+            location.reload();
+          }, 1500)
         }
         else
         {
