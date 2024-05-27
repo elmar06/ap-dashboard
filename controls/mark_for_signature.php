@@ -59,6 +59,9 @@ elseif($_POST['action'] == 2)//MULTI CV FORWARD REQUEST FROM MANILA TO CEBU
     {
         $po->id = $value;
         $mark = $po->forward_to_cebu();
+        $po->po_id = $value;
+        $po->date_forwarded_cebu = date('Y-m-d');
+        $mark_details = $po->mark_forward_to_cebu();
     }
     //save check details in db
     if($_POST['checkdate'] != '' || $_POST['checkdate'] != null){
@@ -76,11 +79,11 @@ elseif($_POST['action'] == 2)//MULTI CV FORWARD REQUEST FROM MANILA TO CEBU
     $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
     $save = $check->add_details();
 
-    if($mark)
+    if($mark && $mark_details)
     {
         if($save)
         {
-            echo 1; 
+            echo 2; 
         }else{
             echo 0; 
         }
@@ -89,7 +92,7 @@ elseif($_POST['action'] == 2)//MULTI CV FORWARD REQUEST FROM MANILA TO CEBU
         echo 0;
     }
 }
-else//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
+elseif($_POST['action'] == 3)//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
 {
     //po_details id
     $id = $_POST['check_po_id'];
@@ -97,7 +100,10 @@ else//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
     foreach($array_id as $value)
     {
         $po->id = $value;
-        $mark = $po->mark_bo_process();
+        $mark = $po->forward_to_cebu();
+        $po->po_id = $value;
+        $po->date_forwarded_cebu = date('Y-m-d');
+        $mark_details = $po->mark_forward_to_cebu();
     }
     $check->id = $_POST['check_id'];
     $check_date = date('Y-m-d', strtotime($_POST['checkdate']));
@@ -111,7 +117,7 @@ else//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
 
     $save = $check->upd_details();
 
-    if($mark)
+    if($mark && $mark_details)
     {
         if($save)
         {
@@ -120,6 +126,19 @@ else//UPDATE CHECK DETAILS(FORWARDED REQUEST FROM CEBU TO MANILA)
             echo 0; 
         }
         
+    }else{
+        echo 0;
+    }
+}
+else//RECEIVED REQUEST ONLY FROM MANILA
+{
+    $po->id = $_POST['id'];
+    $po->recieved_from_manila = date('Y-m-d');
+    $mark = $po->recieved_from_manila();
+    $stamp = $po->recieved_from_manila_date();
+
+    if($mark && $stamp){
+        echo 1;
     }else{
         echo 0;
     }

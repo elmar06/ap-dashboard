@@ -42,7 +42,7 @@ $po->memo_no = $_POST['memo_no'];
 $po->debit_memo = $_POST['debit_memo'];
 $po->memo_amount = $memo_amount;
 
-$upd = $po->upd_details();
+$upd = $po->resubmit_po();
 if($upd)
 {
     echo 1;

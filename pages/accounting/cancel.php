@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="../../assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard</title>
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -27,7 +27,7 @@
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Process PO/JO(Back Office)</li>
+              <li class="breadcrumb-item active" aria-current="page">Cancel Check (Back Office)</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->

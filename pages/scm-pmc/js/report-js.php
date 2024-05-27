@@ -207,7 +207,7 @@ function generate_report()
   }else{
     var action = 8;//Generate report by DATE SPAN only
   }
-
+  
   var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
 
   if(date_from == '' && date_to == ''){
@@ -215,8 +215,8 @@ function generate_report()
     $('#from').focus();
   }else{
     showToast();
-    window.open('../../controls/generate_report_scm.php?' + myData);
-  }   
+    window.open('../../controls/generate_report_manager.php?' + myData);
+  } 
 }
 
 //generate report(YEAREND REPORT)

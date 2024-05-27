@@ -132,6 +132,43 @@ class PO_Details
         }
     }
 
+    public function resubmit_po()
+    {
+        $query = 'UPDATE '.$this->table_name.' SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, memo_no=?, debit_memo=?, memo_amount=?, scm_remark=?, remark=?, status=1 WHERE id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd =$this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->po_num);
+        $upd->bindParam(2, $this->ir_rr_no);
+        $upd->bindParam(3, $this->po_amount);
+        $upd->bindParam(4, $this->po_date);
+        $upd->bindParam(5, $this->si_num);
+        $upd->bindParam(6, $this->company);
+        $upd->bindParam(7, $this->project);
+        $upd->bindParam(8, $this->department);
+        $upd->bindParam(9, $this->supplier);
+        $upd->bindParam(10, $this->bill_date);
+        $upd->bindParam(11, $this->counter_date);
+        $upd->bindParam(12, $this->terms);
+        $upd->bindParam(13, $this->amount);
+        $upd->bindParam(14, $this->due_date);
+        $upd->bindParam(15, $this->memo_no);
+        $upd->bindParam(16, $this->debit_memo);
+        $upd->bindParam(17, $this->memo_amount);
+        $upd->bindParam(18, $this->scm_remark);
+        $upd->bindParam(19, $this->remark);
+        $upd->bindParam(20, $this->id);
+
+        if($upd->execute())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function check_po_num()
     {
         $query = 'SELECT count(id) as "check-count" FROM po_details WHERE si_num = ? AND company = ? AND po_num = ? AND supplier = ?';
@@ -289,7 +326,7 @@ class PO_Details
 
     public function get_released_fo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.si_num, po_details.or_num, po_other_details.date_release FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND (find_in_set(11, po_details.status) || find_in_set(12, po_details.status) || find_in_set(11, po_details.status)) ORDER BY po_other_details.date_release DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.si_num, po_details.or_num, po_other_details.date_release FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND (find_in_set(11, po_details.status) || find_in_set(12, po_details.status)) ORDER BY po_other_details.date_release DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -549,7 +586,7 @@ class PO_Details
 
     public function get_all_process_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status) || find_in_set(20, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC'; 
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
@@ -580,6 +617,15 @@ class PO_Details
 	  	return $sel;
     }
 
+    public function get_all_processed_bo()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.po_id, check_details.cv_no, check_details.check_no, check_details.check_date FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND check_details.status != 0'; 
+        $sel = $this->conn->prepare($query);
+
+        $sel->execute();
+	  	return $sel;
+    }
+
     public function get_multi_si_num()
     {
         $query = 'SELECT po_details.id as "po-id", po_details.si_num FROM po_details WHERE po_details.id = ?'; 
@@ -597,6 +643,16 @@ class PO_Details
         $sel = $this->conn->prepare($query);
         
         $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+	  	return $sel;
+    }
+
+    public function get_all_stale()
+    {
+        $query = 'SELECT id, po_id, cv_no, check_no, check_date, amount, stale_date FROM check_details WHERE status = 2 ORDER BY check_date ASC'; 
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
 
         $sel->execute();
 	  	return $sel;
@@ -1233,6 +1289,40 @@ class PO_Details
         }
     }
 
+    public function mark_stale()
+    {
+        $query = 'UPDATE '.$this->table_name.' set status = 20 WHERE id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+        if($upd->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function clear_details_stale()
+    {
+        $query = 'UPDATE po_other_details SET date_to_ea = null, date_received_ea = null, date_from_ea = null, date_on_hold = null, date_for_release = null, treasury_id = null, date_release = null, released_by = null WHERE po_id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_to_ea);
+        $upd->bindParam(2, $this->date_received_ea);
+        $upd->bindParam(3, $this->date_from_ea);
+        $upd->bindParam(4, $this->date_on_hold);
+        $upd->bindParam(5, $this->date_for_release);
+        $upd->bindParam(6, $this->treasury_id);
+        $upd->bindParam(7, $this->date_release);
+        $upd->bindParam(8, $this->released_by);
+        $upd->bindParam(9, $this->po_id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
     public function forward_to_cebu()
     {
         $query = 'UPDATE po_details set po_details.status = 15 WHERE po_details.id=?';
@@ -1241,12 +1331,42 @@ class PO_Details
 
         $upd->bindParam(1, $this->id);
         
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function mark_forward_to_cebu()
+    {
+        $query = 'UPDATE po_other_details set date_forwarded_cebu = ? WHERE po_id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_forwarded_cebu);
+        $upd->bindParam(2, $this->po_id);
+        
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function recieved_from_manila()
+    {
+        $query = 'UPDATE po_details set po_details.status = 4 WHERE po_details.id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+        
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function recieved_from_manila_date()
+    {
+        $query = 'UPDATE po_other_details SET received_from_manila = ? WHERE po_id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->recieved_from_manila);
+        $upd->bindParam(2, $this->po_id);
+        
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_sent_to_ea()
@@ -1259,12 +1379,7 @@ class PO_Details
         $upd->bindParam(2, $this->po_id);
         $upd->bindParam(3, $this->id);
 
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_received_ea()
@@ -1277,12 +1392,7 @@ class PO_Details
         $upd->bindParam(2, $this->po_id);
         $upd->bindParam(3, $this->id);
 
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_as_signed()
@@ -1293,12 +1403,8 @@ class PO_Details
 
         $upd->bindParam(1, $this->status);
         $upd->bindParam(2, $this->id);
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_cancel_check()
@@ -1313,12 +1419,7 @@ class PO_Details
         $upd->bindParam(4, $this->id);
         $upd->bindParam(5, $this->po_id);
 
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_return_from_ea()
@@ -1332,12 +1433,7 @@ class PO_Details
         $upd->bindParam(3, $this->po_id);
         $upd->bindParam(4, $this->id);
 
-        if($upd->execute())
-        {
-            return true;
-        }else{
-            return false;
-        }
+        return ($upd->execute()) ? true : false;
     }
 
     public function mark_for_verification()
@@ -1654,6 +1750,18 @@ class PO_Details
 		return $sel;
     }
 
+    public function get_po_forReleasing()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company as "comp-id", po_details.project as "proj-id", po_details.supplier as "supp-id", po_details.or_num, po_details.amount, po_details.si_num, po_details.po_num, po_other_details.date_release FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ? AND po_details.status = 11';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+		$sel->execute();
+		return $sel;
+    }
+
     //SCM-PMC REPORT QUERY
     public function get_disbursement_scm($from, $to)
     {
@@ -1677,6 +1785,66 @@ class PO_Details
 		$sel->execute();
 		return $sel;
     }
-}
 
+    //SERVER SIDE DATATABLE QUERY
+    public function get_pending_po_details($sql)
+    {
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($sql);
+
+		$sel->execute();
+		return $sel;
+    } 
+
+    //QUERY FOR RECOVERY OF "STALE CHECK"
+    public function get_for_resubmit()
+    {
+        $query = 'SELECT DATEDIFF( CURRENT_DATE( ) , check_date ) AS count_days, id, po_id, cv_no, bank, check_no, check_date, amount, tax, cv_amount, stale_date, status FROM check_details WHERE status = 0';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
+    public function mark_active()
+    {
+        $query = 'UPDATE check_details SET status = 1 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+		$sel->execute();
+
+        return ($sel) ? true : false;
+    }
+
+    public function mark_stale_check()
+    {
+        $query = 'UPDATE check_details SET status = 0, stale_date = ? WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->stale_date);
+        $sel->bindParam(2, $this->id);
+
+		$sel->execute();
+
+        return ($sel) ? true : false;
+    }
+
+    public function set_for_verification()
+    {
+        $query = 'UPDATE po_details SET status = 8 WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->id);
+
+		$sel->execute();
+
+        return ($sel) ? true : false;
+    }
+}
 ?>

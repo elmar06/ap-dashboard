@@ -41,74 +41,73 @@ $('.btnRelease').on('click', function(e){
 })
 
 //view details
-$(document).on('dblclick', '#releasing-table tr', function(){
-  var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
+// $(document).on('dblclick', '#releasing-table tr', function(){
+//   var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
 
-  $.ajax({
-    type: 'POST',
-    url: '../../controls/view_po_for_release.php',
-    data: {id:id},
-    beforeSend: function()
-    {
-      showToast();
-    },
-    success: function(html)
-    {
-      $('#POmodalDetails').modal('show');
-      $('#details-body').html(html);
-    },
-    error: function(xhr, ajaxOptions, thrownError)
-    {
-      alert(thrownError);
-    }
-  })
-})
+//   $.ajax({
+//     type: 'POST',
+//     url: '../../controls/view_po_for_release.php',
+//     data: {id:id},
+//     beforeSend: function()
+//     {
+//       showToast();
+//     },
+//     success: function(html)
+//     {
+//       $('#POmodalDetails').modal('show');
+//       $('#details-body').html(html);
+//     },
+//     error: function(xhr, ajaxOptions, thrownError)
+//     {
+//       alert(thrownError);
+//     }
+//   })
+// })
 
 //submit and mark request released
 function submit()
 {
   var id = $('#po-id').val();
-  var array = JSON.parse ("["+id+"]");
+  //var array = JSON.parse ("["+id+"]");
   var or_num = $('#or-num').val();
   var receipt = $('#receipt-no').val();
   var release_date = $('#release-date').val();
 
-  if(array.length > 0)
-  {
-    $.each(array, function( key, value ) {
-      $.ajax({
-        type: 'POST',
-        url: '../../controls/mark_released.php',
-        data: {id: value, or_num: or_num, receipt: receipt, release_date: release_date},
-        async: false,
-        dataType: 'html',
-        success: function(response)
-        {
-          result = response;
-        },
-        error: function(xhr, ajaxOption, thrownError)
-        {
-          alert(thrownError);
-        }
-      })
-    })
-    //get the updated list
-    if(result > 0)
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_released.php',
+    data: {id: id, or_num: or_num, receipt: receipt, release_date: release_date},
+    success: function(response)
     {
-      showToast();
-      toastr.success('PO/JO successfully marked as Released.');
-        //set time out to refresh
-        setTimeout(function(){
-          location.reload();
-        }, 1000)
-    }else{
-      toastr.error('ERORR! Please contact the system administrator for assistance at local 124.');
+      if(response > 0)
+      {
+        showToast();
+        toastr.success('PO/JO successfully marked as Released.');
+          //set time out to refresh
+          setTimeout(function(){
+            location.reload();
+          }, 1000)
+      }else{
+        toastr.error('ERORR! Please contact the system administrator for assistance at local 124.');
+      }
+    },
+    error: function(xhr, ajaxOption, thrownError)
+    {
+      alert(thrownError);
     }
-  }
-  else
-  {
-    toastr.error('ERROR! Please select a request to release.')
-  }
+  })
+
+  // if(array.length > 0)
+  // {
+  //   $.each(array, function( key, value ) {
+      
+  //   })
+    
+  // }
+  // else
+  // {
+  //   toastr.error('ERROR! Please select a request to release.')
+  // }
 }
 </script>
 

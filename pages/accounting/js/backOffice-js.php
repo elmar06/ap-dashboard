@@ -238,6 +238,7 @@ function forwardToCebu()
       },
       success: function(response)
       {
+        alert(response);
         if(response > 0)
         {
           toastr.success('Request successfully forwarded to Cebu for Printing.');
@@ -296,6 +297,29 @@ function forwardToCebuMulti()
   }else{
     toastr.error('Submit Failed. Please fill-out all the data needed to proceed.');
   }
+}
+//MARK AS RECIEVED BY BO FROM MANILA
+function receivedFromManila()
+{
+  var id = $('#upd-id').val();
+  var action = 4;
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_for_signature.php',
+    data: {id: id, action: action},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(response)
+    {
+      alert(response);
+      toastr.success('Request successfully mark as received. You can now create a cv for this request.');
+      setTimeout(function(){
+        location.reload();
+      }, 1500)
+    }
+  })
 }
 //UPDATE & mark as process by BackOffice
 function updForSignature()

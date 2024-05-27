@@ -9,7 +9,7 @@
   <link href="assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard - Login</title>
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 

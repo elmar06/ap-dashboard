@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="../../assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard</title>
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">

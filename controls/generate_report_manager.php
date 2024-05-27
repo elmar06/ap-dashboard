@@ -1,4 +1,5 @@
 <?php
+use CodexWorld\PhpXlsxGenerator;
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsCompany.php';
@@ -20,12 +21,9 @@ $bank = new Banks($db);
 $report = new Reports($db);
 $check = new CheckDetails($db);
 $user = new Users($db);
+// Include XLSX generator library 
+require_once 'PhpXlsxGenerator.php'; 
 
-function filterData(&$str){ 
-    $str = preg_replace("/\t/", "\\t", $str); 
-    $str = preg_replace("/\r?\n/", "\\n", $str); 
-    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"'; 
-}
 //initialize data
 $comp = $_GET['company'];
 $proj = $_GET['project'];
@@ -34,14 +32,12 @@ $stat = $_GET['status'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 // Excel file name for download 
-$fileName = 'AP Dashboard - Manager'."'".'s Report.xls';
+$fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
 //1st row REPORT PAGE HEADER
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$header1 = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
-//Display column names in a row 
-$excelData = implode("\t", array_values($header1)) . "\n"; 
+$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if($_GET['action'] == 1)
@@ -170,6 +166,8 @@ if($_GET['action'] == 1)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -184,9 +182,11 @@ if($_GET['action'] == 1)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName); 
 }
 
 //GENERATE REPORT BY COMPANY & DATE SPAN
@@ -316,6 +316,8 @@ if($_GET['action'] == 2)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -330,9 +332,11 @@ if($_GET['action'] == 2)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData[] = $lineData; 
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERRATE REPORT BY SUPPLIER & DATE SPAN
@@ -462,6 +466,8 @@ if($_GET['action'] == 3)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -476,9 +482,11 @@ if($_GET['action'] == 3)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY STATUS & DATE SPAN
@@ -487,6 +495,8 @@ if($_GET['action'] == 4)
     //check if status is in proces
     if($stat == 3){
         $get = $report->get_by_stat3_date_manager($from, $to);
+    }elseif($stat == 11){
+        $get = $report->get_released_po($from, $to);
     }else{
         $get = $report->get_by_stat_date_manager($stat, $from, $to);
     }
@@ -613,6 +623,8 @@ if($_GET['action'] == 4)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -627,9 +639,11 @@ if($_GET['action'] == 4)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }   
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY & DATE SPAN
@@ -759,6 +773,8 @@ if($_GET['action'] == 5)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -773,9 +789,11 @@ if($_GET['action'] == 5)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
@@ -905,6 +923,8 @@ if($_GET['action'] == 6)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -919,9 +939,11 @@ if($_GET['action'] == 6)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER, STATUS & DATE SPAN
@@ -1051,6 +1073,8 @@ if($_GET['action'] == 7)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1065,9 +1089,11 @@ if($_GET['action'] == 7)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY DATE SPAN
@@ -1197,6 +1223,8 @@ if($_GET['action'] == 8)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1211,9 +1239,11 @@ if($_GET['action'] == 8)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER & DATE SPAN
@@ -1343,6 +1373,8 @@ if($_GET['action'] == 9)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1357,9 +1389,11 @@ if($_GET['action'] == 9)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData; 
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, STATUS & DATE SPAN
@@ -1494,6 +1528,8 @@ if($_GET['action'] == 10)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1508,9 +1544,11 @@ if($_GET['action'] == 10)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY COMPANY, SUPPLIER & DATE SPAN
@@ -1640,6 +1678,8 @@ if($_GET['action'] == 11)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1654,9 +1694,11 @@ if($_GET['action'] == 11)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY COMPANY, STATUS & DATE SPAN
@@ -1791,6 +1833,8 @@ if($_GET['action'] == 12)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1805,9 +1849,11 @@ if($_GET['action'] == 12)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY SUPPLIER, STATUS & DATE SPAN
@@ -1942,6 +1988,8 @@ if($_GET['action'] == 13)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -1956,9 +2004,11 @@ if($_GET['action'] == 13)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER, STATUS & DATE SPAN
@@ -2093,6 +2143,8 @@ if($_GET['action'] == 14)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -2107,9 +2159,11 @@ if($_GET['action'] == 14)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, STATUS & DATE SPAN
@@ -2244,6 +2298,8 @@ if($_GET['action'] == 15)
             $status = 'Accept/Received by Compliance';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'Cancelled';
         }
@@ -2258,17 +2314,12 @@ if($_GET['action'] == 15)
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
-
-// Headers for download 
-header("Content-Type: application/vnd.ms-excel"); 
-header("Content-Disposition: attachment; filename=\"$fileName\""); 
- 
-// Render excel data 
-echo $excelData; 
  
 exit;
 

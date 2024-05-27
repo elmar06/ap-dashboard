@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="../../assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard</title>
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -55,6 +55,19 @@
                     </thead>
                     <tbody id="released-body">
                     <?php
+                      //get all the check details
+                      // $getCheck = $check_details->get_active_check();
+                      // while($row1 = $getCheck->fetch(PDO:: FETCH_ASSOC))
+                      // {
+                      //   $check_no = $row1['check_no'];
+                      //   //get the po_details & po_other_details
+                      //   $po_id = $row1['po_id'];
+                      //   $array_po_id = explode(',', $po_id);
+                      //   foreach($array_po_id as $po_val)
+                      //   {
+
+                      //   }
+                      // }
                       $view = $po->get_for_releasing_fo();
                       while($row = $view->fetch(PDO::FETCH_ASSOC))
                       { 
@@ -98,7 +111,7 @@
                         <tr>
                           <td>
                             <center>
-                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po_id'].'"><i class="fas fa-check-circle"></i> Released</button>
+                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po-id'].'"><i class="fas fa-check-circle"></i> Released</button>
                             </center>
                           </td>
                           <td>'.$row['check_no'].'</td>

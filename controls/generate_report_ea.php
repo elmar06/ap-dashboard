@@ -1,4 +1,5 @@
 <?php
+use CodexWorld\PhpXlsxGenerator;
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsCompany.php';
@@ -20,12 +21,9 @@ $bank = new Banks($db);
 $report = new Reports($db);
 $check = new CheckDetails($db);
 $user = new Users($db);
+// Include XLSX generator library 
+require_once 'PhpXlsxGenerator.php'; 
 
-function filterData(&$str){ 
-    $str = preg_replace("/\t/", "\\t", $str); 
-    $str = preg_replace("/\r?\n/", "\\n", $str); 
-    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"'; 
-}
 //initialize data
 $comp = $_GET['company'];
 $supp = $_GET['supplier'];
@@ -33,14 +31,13 @@ $stat = $_GET['status'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 // Excel file name for download 
-$fileName = 'AP Dashboard - Manager'."'".'s Report.xls';
+$fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
 //1st row REPORT PAGE HEADER
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$header1 = array('COMPANY', 'PAYEE', 'DATE FORWARDED', 'DATE RECEIVED', 'CV #', 'CHECK #', 'CV AMOUNT', 'PO/JO #', 'STATUS');
-//Display column names in a row 
-$excelData = implode("\t", array_values($header1)) . "\n"; 
+$excelData[] = array('COMPANY', 'PAYEE', 'DATE FORWARDED', 'DATE RECEIVED', 'CV #', 'CHECK #', 'CV AMOUNT', 'PO/JO #', 'STATUS');
+
 
 //GENERATE REPORT BY COMPANY & DATE SPAN
 if($_GET['action'] == 1)
@@ -102,9 +99,11 @@ if($_GET['action'] == 1)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERRATE REPORT BY SUPPLIER & DATE SPAN
@@ -167,9 +166,11 @@ if($_GET['action'] == 2)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";   
+        $excelData[] = $lineData; 
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY STATUS & DATE SPAN
@@ -237,9 +238,11 @@ if($_GET['action'] == 3)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";  
+        $excelData[] = $lineData;
     }   
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY COMPANY, SUPPLIER & DATE SPAN
@@ -302,9 +305,11 @@ if($_GET['action'] == 4)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
@@ -372,9 +377,11 @@ if($_GET['action'] == 5)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER, STATUS & DATE SPAN
@@ -437,9 +444,11 @@ if($_GET['action'] == 6)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY DATE SPAN
@@ -507,9 +516,11 @@ if($_GET['action'] == 7)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY SUPPLIER, STATUS & DATE SPAN
@@ -577,9 +588,11 @@ if($_GET['action'] == 8)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, STATUS & DATE SPAN
@@ -642,17 +655,12 @@ if($_GET['action'] == 9)
 
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $date_forwarded, $date_received, $cv_no, $check_no, $cv_amount, $row['po_num'], $status);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";
+        $excelData[] = $lineData;
     }  
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx->downloadAs($fileName);
 }
-
-// Headers for download 
-header("Content-Type: application/vnd.ms-excel"); 
-header("Content-Disposition: attachment; filename=\"$fileName\""); 
- 
-// Render excel data 
-echo $excelData; 
  
 exit;
 

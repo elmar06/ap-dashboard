@@ -1,16 +1,19 @@
-<!-- toast function -->
 <script>
-  function showToast(){
-    var title = 'Loading...';
-    var duration = 500;
-    $.Toast.showToast({title: title,duration: duration, image: 'assets/img/loading.gif'});
-  }
-  function hideLoading(){
-    $.Toast.hideToast();
-  }
-</script>
+$(document).ready(function(){
+  $.ajax({
+    url: 'controls/check_stale.php'
+  })
+})
+//toast function
+function showToast(){
+  var title = 'Loading...';
+  var duration = 500;
+  $.Toast.showToast({title: title,duration: duration, image: 'assets/img/loading.gif'});
+}
+function hideLoading(){
+  $.Toast.hideToast();
+}
 
-<script>
   //login function
   $('#btnlogin').click(function(e){
       e.preventDefault();

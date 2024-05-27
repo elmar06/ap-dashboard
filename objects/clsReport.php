@@ -549,6 +549,16 @@ class Reports
 		$sel->execute(array($from, $to));
 		return $sel;
     }
+    //STATUS = 11 (FOR RELEASING) / ACTION 4
+    public function get_released_po($from, $to)
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status = 11 AND (po_other_details.date_release BETWEEN ? AND ?)';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute(array($from, $to));
+		return $sel;
+    }
     //ACTION - 5
     public function get_by_comp_proj_date_manager($proj, $comp, $from, $to)
     {

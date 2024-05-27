@@ -286,6 +286,16 @@ class Users
 		return $sel;
 	}
 
+	public function get_bo_staff()
+	{
+		$query = 'SELECT * FROM '.$this->table_name.' WHERE access = 3 AND status != 0';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+	}
+
 	public function get_next_user_id()
 	{
 		$query = 'SELECT max(id) + 1 as "id" FROM users';
@@ -310,6 +320,20 @@ class Users
 		return $sel;
 	}
 
+	function get_user_by_dept()
+	{
+		$query = 'SELECT * FROM users WHERE id = ? AND dept = ?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->bindParam(1, $this->id);
+		$sel->bindParam(2, $this->dept);
+
+		$sel->execute();
+		return $sel;
+	}
+
+	//SERVER SIDE DATATABLE QUERY
 }
 
 ?>

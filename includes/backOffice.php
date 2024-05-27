@@ -78,6 +78,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="stale.php">
+    <i class="fa-duotone fa-barcode-scan"></i>
+      <span>Stale Check</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="BO_report.php">
       <i class="fas fa-fw fa-chart-pie"></i>
       <span>Reports</span>

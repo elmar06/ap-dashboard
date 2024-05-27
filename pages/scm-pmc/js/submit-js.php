@@ -1,10 +1,110 @@
 <script>
 $(document).ready(function () {
-  $('.DataTable').DataTable({
-    scrollX: true
-  }); // ID From dataTable 
-  $('#returnTable').hide();
+  // $('.DataTable').DataTable({
+  //   scrollX: true
+  // }); // ID From dataTable 
+  //execeute the server side datatable
+  getNewDataListPending();
+  getNewDataListReturn();
+  getNewDataListInProcess();
+  getNewDataListReleasing();
+  getNewDataListReleased()
 })
+//get the new list using server side datatable
+function getNewDataListPending()
+{
+    $('#pendingTable').DataTable({
+        'scrollX': 'true',
+        'serverSide': 'true',
+        'processing': 'true',
+        'paging': 'true',
+        'order': [],
+        'ajax': {
+            'url': '../../controls/dataTable/submit_scm_pending.php',
+            'type': 'post',
+        },
+        'aoColumnDefs': [{
+            'bSortable': 'true',
+            'aTargets': [8]
+        }]
+    });
+}
+//get the returned po/jo list 
+function getNewDataListReturn()
+{
+  $('#returnTable').DataTable({
+      'scrollX': 'true',
+      'serverSide': 'true',
+      'processing': 'true',
+      'paging': 'true',
+      'order': [],
+      'ajax': {
+          'url': '../../controls/dataTable/submit_scm_return.php',
+          'type': 'post',
+      },
+      'aoColumnDefs': [{
+          'bSortable': 'true',
+          'aTargets': [8]
+      }]
+  });
+}
+//get the inProcess po/jo
+function getNewDataListInProcess()
+{
+  $('#processTable').DataTable({
+      'scrollX': 'true',
+      'serverSide': 'true',
+      'processing': 'true',
+      'paging': 'true',
+      'order': [],
+      'ajax': {
+          'url': '../../controls/dataTable/submit_scm_process.php',
+          'type': 'post',
+      },
+      'aoColumnDefs': [{
+          'bSortable': 'true',
+          'aTargets': [13]
+      }]
+  });
+}
+//get the for Releasing po/jo
+function getNewDataListReleasing()
+{
+  $('#forReleasingTable').DataTable({
+      'scrollX': 'true',
+      'serverSide': 'true',
+      'processing': 'true',
+      'paging': 'true',
+      'order': [],
+      'ajax': {
+          'url': '../../controls/dataTable/submit_scm_releasing.php',
+          'type': 'post',
+      },
+      'aoColumnDefs': [{
+          'bSortable': 'true',
+          'aTargets': [12]
+      }]
+  });
+}
+//get the for Released po/jo
+function getNewDataListReleased()
+{
+  $('#releasedTable').DataTable({
+      'scrollX': 'true',
+      'serverSide': 'true',
+      'processing': 'true',
+      'paging': 'true',
+      'order': [],
+      'ajax': {
+          'url': '../../controls/dataTable/submit_scm_released.php',
+          'type': 'post',
+      },
+      'aoColumnDefs': [{
+          'bSortable': 'true',
+          'aTargets': [12]
+      }]
+  });
+}
 //toast function
 function showToast(){
   var title = 'Loading...';
@@ -247,7 +347,7 @@ function getDueDate()
 //remove or delete PO
 function remove_po()
 {  
-  var id = $('#po-id').val();
+  var id = $('#upd-po-id').val();
 
   $.ajax({
     type: 'POST',
@@ -261,7 +361,7 @@ function remove_po()
     {
       if(response > 0)
       {
-        toastr.warning('PO/JO Successfully mark as viod and removed from the list');           
+        toastr.warning('PO/JO Successfully mark as void and will be removed from the list');           
         setTimeout(function(){
           location.reload();
         }, 1500)

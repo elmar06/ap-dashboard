@@ -1,4 +1,5 @@
 <?php
+use CodexWorld\PhpXlsxGenerator;
 include '../config/clsConnection.php';
 include '../objects/clsReport.php';
 include '../objects/clsCompany.php';
@@ -11,11 +12,8 @@ $report = new Reports($db);
 $supplier = new Supplier($db);
 $company = new Company($db);
 
-function filterData(&$str){ 
-    $str = preg_replace("/\t/", "\\t", $str); 
-    $str = preg_replace("/\r?\n/", "\\n", $str); 
-    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"'; 
-}
+// Include XLSX generator library 
+require_once 'PhpXlsxGenerator.php'; 
 
 //initialize data
 $comp_id  = $_GET['company'];
@@ -28,9 +26,7 @@ $action = $_GET['action'];
 // Excel file name for download 
 $fileName = 'Treasury Report('.date('m-d-Y', strtotime($from)).' - '.date('m-d-Y', strtotime($to)).').xls';
 // 1st Column names 
-$header = array('CHECK DATE', 'CV NUMBER', 'DATE RECEIVED', 'DUE DATE', 'CHECK NUMBER', 'SUPPLIER', 'COMPANY', 'CV AMOUNT', 'DATE ONHOLD', 'DATE RELEASE', 'STATUS');
-// Display column names as first row 
-$excelData = implode("\t", array_values($header)) . "\n"; 
+$excelData[] = array('CHECK DATE', 'CV NUMBER', 'DATE RECEIVED', 'DUE DATE', 'CHECK NUMBER', 'SUPPLIER', 'COMPANY', 'CV AMOUNT', 'DATE ONHOLD', 'DATE RELEASE', 'STATUS');
 
 //GENERATE REPORT BY COMPANY & DATE SPAN
 if($action == 1)
@@ -90,14 +86,14 @@ if($action == 1)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     } 
 }
 
@@ -159,14 +155,14 @@ if($action == 2)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";       
+        $excelData[] = $lineData;     
     } 
 }
 
@@ -228,16 +224,15 @@ if($action == 3)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";       
+        $excelData[] = $lineData;    
     } 
-   
 }
 
 //GENERATE BY DATE SPAN ONLY
@@ -298,14 +293,14 @@ if($action == 4)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";
+        $excelData[] = $lineData;
     } 
 }
 
@@ -367,14 +362,14 @@ if($action == 5)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     } 
 }
 
@@ -436,14 +431,14 @@ if($action == 6)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     } 
 }
 
@@ -505,14 +500,14 @@ if($action == 7)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     } 
 }
 //GENERATE BY STATUS AND DATE SPAN
@@ -573,23 +568,19 @@ if($action == 8)
             $status = 'On Hold/For Funding';
         }else if($row['status'] == 15){
             $status = 'Forwarded to BO Cebu';
+        }else if($row['status'] == 20){
+            $status = 'Stale Check';
         }else{
             $status = 'For Releasing';
         }
 
         $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
-        //encode data in excel
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        $excelData[] = $lineData;
     } 
 }
-
-// Headers for download 
-header("Content-Type: application/vnd.ms-excel"); 
-header("Content-Disposition: attachment; filename=\"$fileName\""); 
- 
-// Render excel data 
-echo $excelData; 
+// Export data to excel and download as xlsx file 
+$xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+$xlsx->downloadAs($fileName);
  
 exit;
 

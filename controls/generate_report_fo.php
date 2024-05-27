@@ -1,10 +1,13 @@
 <?php
+use CodexWorld\PhpXlsxGenerator;
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsCompany.php';
 include '../objects/clsSupplier.php';
 include '../objects/clsProject.php';
 include '../objects/clsReport.php';
+include '../objects/clsCheckDetails.php';
+include '../objects/clsBank.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -14,12 +17,11 @@ $company = new Company($db);
 $project = new Project($db);
 $supplier = new Supplier($db);
 $report = new Reports($db);
+$check = new CheckDetails($db);
+$bank = new Banks($db);
 
-function filterData(&$str){ 
-    $str = preg_replace("/\t/", "\\t", $str); 
-    $str = preg_replace("/\r?\n/", "\\n", $str); 
-    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"'; 
-}
+// Include XLSX generator library 
+require_once 'PhpXlsxGenerator.php'; 
 
 //initialize variable
 $from = date('Y-m-d', strtotime($_GET['date_from']));
@@ -33,18 +35,11 @@ if($action == 1)//CHECK FOR RELEASE
     $supp = $_GET['supplier'];
     //GENERATE BY COMPANY, DATE SPAN, PROJECT & SUPPLIER
     // Excel file name for download 
-    $fileName = 'AP Dashboard Report(For Releasing).xls';
-    //1st column REPORT PAGE HEADER
-    $header1 = array('INNOGROUP OF COMPANIES');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header1)) . "\n"; 
-    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header2)) . "\n";
-    //3rd column
-    $header3 = array('PO #', 'PAYEE', 'COMPANY', 'PROJECT', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE FOR RELEASE');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header3)) . "\n";
+    $fileName = 'AP Dashboard Report(For Releasing).xlsx';
+    //column REPORT PAGE HEADER
+    $excelData[] = array('INNOGROUP OF COMPANIES');   
+    $excelData[] = array('LIST OF CHECKS FOR RELEASE');   
+    $excelData[] = array('PO #', 'PAYEE', 'COMPANY', 'PROJECT', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE FOR RELEASE');   
 
     //CHECK FOR RELEASE
     if($_GET['rep_action'] == 1)
@@ -87,8 +82,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }  
     }
 
@@ -132,8 +126,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }  
     }
 
@@ -177,8 +170,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }  
     }
 
@@ -222,8 +214,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }  
     }
 
@@ -267,8 +258,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }
     }
 
@@ -312,8 +302,7 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }
     }
 
@@ -357,27 +346,18 @@ if($action == 1)//CHECK FOR RELEASE
             $date_release = date('m/d/y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
-            array_walk($lineData, 'filterData'); 
-            $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+            $excelData[] = $lineData;
         }
     }
 }
 elseif($action == 2)//DISBURSEMENT REPORT
 {
     // Excel file name for download 
-    $fileName = 'AP Dashboard Report.xls';
-    //1st column REPORT PAGE HEADER
-    $header1 = array('INNOGROUP OF COMPANIES');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header1)) . "\n"; 
-    //2nd column
-    $header2 = array('DISBURSEMENT REPORT');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header2)) . "\n";
-    //3rd column
-    $header3 = array('COMPANY', 'PROJECT', 'VENDOR NAME', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE RELEASED', 'OR#/CR#');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header3)) . "\n";
+    $fileName = 'AP Dashboard Report.xlsx';
+    //column REPORT PAGE HEADER
+    $excelData[] = array('INNOGROUP OF COMPANIES');   
+    $excelData[] = array('DISBURSEMENT REPORT');   
+    $excelData[] = array('COMPANY', 'PROJECT', 'VENDOR NAME', 'CV NUMBER', 'CHECK NUMBER', 'AMOUNT', 'DATE RELEASED', 'OR#/CR#');   
 
     $get = $po->get_disbursement_by_date($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
@@ -418,26 +398,17 @@ elseif($action == 2)//DISBURSEMENT REPORT
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['cv_no'], $row['check_no'], $row['amount'], $date_release, $or_num);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";                
+        $excelData[] = $lineData;               
     }
 }
-else//PERCENTAGE REPORT
+elseif($_GET['action'] == 3)//PERCENTAGE REPORT
 {
     // Excel file name for download 
-    $fileName = 'AP Dashboard Percentage Report.xls';
-    //1st column REPORT PAGE HEADER
-    $header1 = array('INNDUCO PERCENTAGE REPORT');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header1)) . "\n"; 
-    //2nd column
-    $header2 = array('LIST OF CHECKS FOR RELEASE');   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header2)) . "\n";
-    //3rd column
-    $header3 = array('COMPANY', 'PROJECT', 'PO AMOUNT', 'DATE RECEIVED BY ACCTG', 'CHECK DATE', 'CV NUMBER', 'BANK', 'CHECK NO', 'PO DATE', 'DUE DATE', 'PAYEE', 'MEMO', 'WITHHOLDING', 'CV AMOUNT', 'DATE FROM EA', 'DATE RELEASED', 'OR#/CR#',);   
-    //Display column names as first row 
-    $excelData = implode("\t", array_values($header3)) . "\n";
+    $fileName = 'AP Dashboard Percentage Report.xlsx';
+    //column REPORT PAGE HEADER
+    $excelData[] = array('INNDUCO PERCENTAGE REPORT');   
+    $excelData[] = array('LIST OF CHECKS FOR RELEASE');   
+    $excelData[] = array('COMPANY', 'PROJECT', 'PO AMOUNT', 'DATE RECEIVED BY ACCTG', 'CHECK DATE', 'CV NUMBER', 'BANK', 'CHECK NO', 'PO DATE', 'DUE DATE', 'PAYEE', 'MEMO', 'WITHHOLDING', 'CV AMOUNT', 'DATE FROM EA', 'DATE RELEASED', 'OR#/CR#',);      
 
     $get = $po->get_percentage_by_date($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
@@ -491,16 +462,57 @@ else//PERCENTAGE REPORT
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, number_format($row['amount'], 2), $date_received_fo, $check_date, $row['cv_no'], $row['account'], $row['check_no'], $po_date, $due_date, $supp_name, $row['memo_no'], number_format($row['tax'], 2), number_format($row['cv_amount'], 2), $date_from_ea, $date_release, $row['or_num']);
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n";     
+        $excelData[] = $lineData;    
     }
 }
-// Headers for download 
-header("Content-Type: application/vnd.ms-excel"); 
-header("Content-Disposition: attachment; filename=\"$fileName\""); 
- 
-// Render excel data 
-echo $excelData; 
+else//STALE CHECK
+{
+    // Excel file name for download 
+    $fileName = 'Stale Check Report('.$from.' - '.$to.').xlsx';
+    //column REPORT PAGE HEADER 
+    $excelData[] = array('LIST OF STALE CHECKS');   
+    $excelData[] = array('COMPANY', 'PAYEE', 'CHECK DATE', 'CHECK NO', 'CV NUMBER', 'BANK', 'TAX', 'CV AMOUNT', 'STALE DATE');
+
+    $get = $check->get_staled_check($from, $to);
+    while($row = $get->fetch(PDO:: FETCH_ASSOC))
+    {
+        $comp_name = '-';
+        $supp_name = '-';
+        //get the name of company
+        $company->id = $row['comp-id'];
+        $get_comp = $company->get_company_detail();
+        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
+        {
+            $comp_name = $row1['company'];
+        }
+        //get the name of supplier
+        $supplier->id = $row['supp-id'];
+        $get_supp = $supplier->get_supplier_details();
+        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+        {
+            $supp_name = $row3['supplier_name'];
+        }
+        
+        //date format
+        $check_date = date('m-d-Y', strtotime($row['check_date']));
+        $stale_date = date('m-d-Y', strtotime($row['stale_date']));
+        $cv_amount = number_format($row['cv_amount']);
+        //get the bank name
+        $bankName = '-';
+        $bank->id = $row['bank'];
+        $getBank = $bank->get_bank_details();
+        while($rowBank = $getBank->fetch(PDO:: FETCH_ASSOC))
+        {
+            $bankName = $rowBank['name'];
+        }
+        //initialize data for excel
+        $lineData = array($comp_name, $supp_name, $check_date, $row['check_no'], $row['cv_no'], $bankName, $row['tax'], $cv_amount, $stale_date);
+        $excelData[] = $lineData;    
+    }
+}
+// Export data to excel and download as xlsx file 
+$xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+$xlsx->downloadAs($fileName);
  
 exit;
 ?>

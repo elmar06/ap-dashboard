@@ -51,15 +51,9 @@ function forward_all()
       showToast();
       toastr.success('Request successfully mark as Received.');
       //display the new list
-      $.ajax({
-        url: '../../controls/get_list_for_compliance.php',
-        success: function(html)
-        {
-        $('#page-body').fadeOut();
-        $('#page-body').fadeIn();
-        $('#page-body').html(html);
-        }
-      })
+      setTimeout(function(){
+        location.reload();
+      }, 1500)
     }
     else
     {

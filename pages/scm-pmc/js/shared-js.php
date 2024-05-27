@@ -1,7 +1,26 @@
 <script>
 $(document).ready(function () {
-  $('#shared-table').DataTable(); // ID From dataTable 
+  getNewDataListShared();
 })
+//get the new list using server side datatable
+function getNewDataListShared()
+{
+  $('#sharedTable').DataTable({
+      'scrollX': 'true',
+      'serverSide': 'true',
+      'processing': 'true',
+      'paging': 'true',
+      'order': [],
+      'ajax': {
+          'url': '../../controls/dataTable/submit_shared.php',
+          'type': 'post',
+      },
+      'aoColumnDefs': [{
+          'bSortable': 'true',
+          'aTargets': [9]
+      }]
+  });
+}
 //toast function
 function showToast(){
   var title = 'Loading...';

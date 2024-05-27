@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="../../assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard - User</title>
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -49,7 +49,11 @@
                     <div class="col-lg-3">
                         <button id="management-report" class="btn btn-primary" style="width: 100%;"><i class="fas fa-list"></i> Management Report</button>
                     </div>
-
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button id="stale-check" class="btn btn-secondary" style="width: 100%;"><i class="fa-duotone fa-barcode-scan"></i> Stale Check</button>
+                    </div>
                 </div>
                 <!-- check for release -->
                 <div id="check" style="display: none;">
@@ -131,6 +135,32 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <button class="btn btn-success" onclick="for_releasing_report()" value="1"><i class="fas fa-check"></i> Generate</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stale check Report -->
+                <div id="stale-report" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="stale-from" class="form-control datepicker" placeholder="Date From">
+                            </div>
+                        </div>
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="stale-to" class="form-control datepicker" placeholder="Date To">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <button class="btn btn-success" onclick="stale_report()" value="2"><i class="fas fa-check"></i> Generate</button>
                         </div>
                     </div>
                 </div>

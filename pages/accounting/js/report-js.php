@@ -41,6 +41,17 @@ $('#for-releasing').on('click', function(e){
   $('#disbursement').hide();
   $('#percentage-report').hide();
   $('#manage-report').hide();
+  $('#stale-report').hide();
+})
+//STALE CHECK REPORT
+$('#stale-check').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').show();
 })
 //DISBURSEMENT REPORT
 $('#report').on('click', function(e){
@@ -50,6 +61,7 @@ $('#report').on('click', function(e){
   $('#check').hide();
   $('#percentage-report').hide();
   $('#manage-report').hide();
+  $('#stale-report').hide();
 })
 //PERCENTAGE REPORT
 $('#percentage').on('click', function(e){
@@ -59,6 +71,7 @@ $('#percentage').on('click', function(e){
   $('#check').hide();
   $('#percentage-report').show();
   $('#manage-report').hide();
+  $('#stale-report').hide();
 })
 //MANAGEMENT REPORT
 $('#management-report').on('click', function(e){
@@ -68,6 +81,7 @@ $('#management-report').on('click', function(e){
   $('#check').hide();
   $('#percentage-report').hide();
   $('#manage-report').show();
+  $('#stale-report').hide();
 })
 
 //generate report function
@@ -122,6 +136,16 @@ function percentage_report()
   var date_from = $('#percent-from').val();
   var date_to = $('#percent-to').val();
   var action = 3;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+//generate report function
+function stale_report()
+{
+  var date_from = $('#stale-from').val();
+  var date_to = $('#stale-to').val();
+  var action = 4;
   var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
   showToast();
   window.location = '../../controls/generate_report_fo.php?' + myData;

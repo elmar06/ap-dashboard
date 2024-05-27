@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="../../assets/img/logo/logo.png" rel="icon">
   <title>AP Dashboard</title>
-  <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -194,6 +194,8 @@
                             $action = '<a href="#" class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-hand-holding"></i> Received</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
                           }elseif($row['status'] == 15){
                             $action = '<a href="#" class="btn-sm btn-info upd-cv" value="'.$row['po-id'].'"><i class="fas fa-pencil-alt"></i> Update CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
+                          }elseif($row['status'] == 20){
+                            $action = '<a href="#" class="btn-sm btn-info edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> For Reprocess (Staled Check)</a>';
                           }else{
                             $action = '<a href="#" class="btn-sm btn-primary edit" value="'.$row['po-id'].'"><i class="fas fa-edit"></i> Create CV</a> <a href="#" class="btn-sm btn-danger return" value="'.$row['po-id'].'"><i class="fas fa-undo-alt"></i> Return</a>';
                           }
@@ -289,6 +291,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="btnUpdate" class="btn btn-success" onclick="receivedFromManila()">Received</button>
         <button id="btnUpdate" class="btn btn-primary" onclick="updForSignature()">Submit</button>
       </div>
     </div>
