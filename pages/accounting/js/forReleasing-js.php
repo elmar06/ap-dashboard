@@ -27,7 +27,6 @@ $('.btnRelease').on('click', function(e){
   e.preventDefault();
 
   var id = $(this).val();
-
   $.ajax({
     type: 'POST',
     url: '../../controls/get_check_details.php',

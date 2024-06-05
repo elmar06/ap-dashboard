@@ -217,6 +217,18 @@ class PO_Details
         }
     }
 
+    public function get_or_num()
+    {
+        $query = 'SELECT or_num, receipt FROM '.$this->table_name.' WHERE id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        $upd->execute();
+        return $upd;
+    }
+
     public function upd_or_num()
     {
         $query = 'UPDATE po_details SET or_num=? WHERE id = ?';
@@ -370,7 +382,7 @@ class PO_Details
 
     public function get_submitted_po_monitoring()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(15, po_details.status)) AND po_details.company = ? ORDER BY po_details.date_submit DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status) || find_in_set(15, po_details.status) || find_in_set(20, po_details.status)) AND po_details.company = ? ORDER BY po_details.date_submit DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 

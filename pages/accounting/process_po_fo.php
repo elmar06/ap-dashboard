@@ -132,6 +132,8 @@
                               $status = '<label style="color: green"><b> Released</b></label>';
                             }elseif($row['status'] == 15){
                               $status = '<label style="color: blue"><b> Forwarded to Cebu</b></label>';
+                            }elseif($row['status'] == 20){
+                              $status = '<label style="color: orange"><b> Staled Check</b></label>';
                             }else{
                               $status = '<label style="color: blue"><b> In Process</b></label>';
                             }

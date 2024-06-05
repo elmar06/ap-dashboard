@@ -111,7 +111,7 @@
                         <tr>
                           <td>
                             <center>
-                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po-id'].'"><i class="fas fa-check-circle"></i> Released</button>
+                              <button class="btn btn-success btn-sm btnRelease" value="'.$row['po_id'].'"><i class="fas fa-check-circle"></i> Released</button>
                             </center>
                           </td>
                           <td>'.$row['check_no'].'</td>

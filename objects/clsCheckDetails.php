@@ -85,7 +85,7 @@ class CheckDetails
 		$sel = $this->conn->prepare($query);
 
 		$sel->execute();
-		return $sel;
+		return $sel; 
     }
 
     public function get_active_check()
@@ -110,7 +110,7 @@ class CheckDetails
 
     public function get_check_details_byID($po_id)
     {
-        $query = 'SELECT check_details.id as "check-id", check_details.po_id, check_details.cv_no, check_details.cv_amount, check_details.bank, check_details.check_no, check_details.tax, check_details.check_date, po_details.receipt FROM check_details, po_details WHERE check_details.po_id = po_details.id AND check_details.status != 0 AND check_details.po_id LIKE :search';
+        $query = 'SELECT check_details.id as "check-id", check_details.po_id, check_details.cv_no, check_details.cv_amount, check_details.bank, check_details.check_no, check_details.tax, check_details.check_date, po_details.receipt FROM check_details, po_details WHERE check_details.po_id = po_details.id AND (check_details.status != 0 OR check_details.status != 2) AND check_details.po_id LIKE :search';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -150,6 +150,16 @@ class CheckDetails
         $sel = $this->conn->prepare($query);
 
         $sel->execute(array($from, $to));
+        return $sel;
+    }
+
+    public function get_staled_check_details()
+    {
+        $query = 'SELECT * FROM check_details WHERE check_details.status = 2';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->execute();
         return $sel;
     }
 }

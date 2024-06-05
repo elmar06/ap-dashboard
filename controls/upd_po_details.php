@@ -17,8 +17,10 @@ $counter_date = date('Y-m-d', strtotime($_POST['counter_date']));
 //remove the currency format
 $si_amount = str_replace(',','', $_POST['si_amount']);
 $po_amount = str_replace(',','', $_POST['po_amount']);
-if($_POST['memo_amount'] == ''){
-    $memo_amount = 0.00;
+//check memo amount if null
+$memo_amount = 0;
+if($_POST['memo_amount'] != 0 || $_POST['memo_amount'] != null){
+    $memo_amount = str_replace(',', '', $_POST['memo_amount']);
 }
 //UPDATE details
 $po->id = $_POST['id'];

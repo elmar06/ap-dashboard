@@ -1,23 +1,35 @@
 <?php
 include '../config/clsConnection.php';
 include '../objects/clsCheckDetails.php';
+include '../objects/clsPODetails.php';
 include '../objects/clsBank.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
 $check = new CheckDetails($db);
+$po = new PO_Details($db);
 $bank = new Banks($db);
 
-$po_id = $_POST['id'];
-$get = $check->get_details_byID($po_id);
+$check->po_id = $_POST['id'];
+$get = $check->get_details();
 
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
-    if($row['receipt'] == null || $row['receipt'] == ''){
-        $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" placeholder="Input Receipt number">';
-    }else{
-        $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" value="'.$row['receipt'].'" disabled>';
+    //check if the OR/CR is not null
+    $po_id = explode(',', $_POST['id']);
+    foreach($po_id as $value)
+    {
+        $po->id = $value;
+        $get_or = $po->get_or_num();
+        while($rowOR = $get_or->fetch(PDO:: FETCH_ASSOC))
+        {
+            if($rowOR['receipt'] == null || $rowOR['receipt'] == ''){
+                $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" placeholder="Input Receipt number">';
+            }else{
+                $receipt = '<input id="receipt-no" class="form-control mb-3" type="text" value="'.$rowOR['receipt'].'" disabled>';
+            }
+        }
     }
     //format the date for display
     $check_date = date('F d, Y', strtotime($row['check_date']));
