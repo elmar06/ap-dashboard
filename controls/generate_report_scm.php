@@ -2201,7 +2201,7 @@ if($_GET['action'] == 17)
         } 
         //amount format
         $amount = number_format(intval($row['amount']), 2); 
-        $due_date = date('m/d/Y', strtotime($row['due_date']));        
+        $due_date = date('m-d-Y', strtotime($row['due_date']));        
 
         //initialize data for excel
         $lineData = array($row['si_num'], $comp_name, $supp_name, $amount, $row['po_num'], $proj_name, $due_date, $docs, $status);

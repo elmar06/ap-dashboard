@@ -34,20 +34,20 @@ if($action == 1)
     $get_data = $report->generate_by_comp_treasury($from, $to, $comp_id);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -103,20 +103,20 @@ if($action == 2)
     $get_data = $report->generate_by_supp_treasury($from, $to, $supplier_id);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -172,20 +172,20 @@ if($action == 3)
     $get_data = $report->generate_all_treasury($from, $to, $comp_id, $supplier_id);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -241,20 +241,20 @@ if($action == 4)
     $get_data = $report->generate_by_date_treasury($from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -310,20 +310,20 @@ if($action == 5)
     $get_data = $report->generate_report_treasury_5($comp_id, $stat_id, $from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -379,20 +379,20 @@ if($action == 6)
     $get_data = $report->generate_report_treasury_6($supplier_id, $stat_id, $from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -448,20 +448,20 @@ if($action == 7)
     $get_data = $report->generate_report_treasury_7($comp_id, $supplier_id, $stat_id, $from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -516,20 +516,20 @@ if($action == 8)
     $get_data = $report->generate_report_treasury_8($stat_id, $from, $to);
     while($row = $get_data->fetch(PDO::FETCH_ASSOC))
     {
-        $check_date = date('m/d/y', strtotime($row['check_date'])); 
+        $check_date = date('m-d-Y', strtotime($row['check_date'])); 
         $cv_num = $row['cv_no'];
-        $received_date = date('m/d/y', strtotime($row['date_received_fo']));
-        $due_date = date('m/d/y', strtotime($row['due_date']));
+        $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
         $amount = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
         if($row['date_on_hold'] != null || $row['date_on_hold'] != ''){
-            $date_onhold = date('m/d/y', strtotime($row['date_on_hold']));
+            $date_onhold = date('m-d-Y', strtotime($row['date_on_hold']));
         }
         if($row['date_for_release'] != null || $row['date_for_release'] != ''){
-            $releasing_date = date('m/d/y', strtotime($row['date_for_release']));
+            $releasing_date = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';

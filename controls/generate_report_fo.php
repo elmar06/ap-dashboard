@@ -23,6 +23,8 @@ $bank = new Banks($db);
 // Include XLSX generator library 
 require_once 'PhpXlsxGenerator.php'; 
 
+//get the Manila time by timezone
+date_default_timezone_set('Asia/Manila');
 //initialize variable
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
@@ -79,7 +81,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -123,7 +125,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -167,7 +169,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -211,7 +213,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -255,7 +257,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -299,7 +301,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -343,7 +345,7 @@ if($action == 1)//CHECK FOR RELEASE
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
-            $date_release = date('m/d/y', strtotime($row['date_for_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
             $excelData[] = $lineData;
@@ -447,17 +449,17 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
             $or_num = $row['or_num'];
         }
         //date format
-        $date_received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
-        $check_date = date('m/d/Y', strtotime($row['check_date']));
-        $po_date = date('m/d/Y', strtotime($row['po_date']));
-        $due_date = date('m/d/Y', strtotime($row['due_date']));
+        $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        $check_date = date('m-d-Y', strtotime($row['check_date']));
+        $po_date = date('m-d-Y', strtotime($row['po_date']));
+        $due_date = date('m-d-Y', strtotime($row['due_date']));
         $date_from_ea = '-';
         if($row['date_from_ea'] != null || $row['date_from_ea'] != ''){
-            $date_from_ea = date('m/d/Y', strtotime($row['date_from_ea']));
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
         }
         $date_release = '-';
         if($row['date_release'] != null || $row['date_release'] != ''){
-            $date_release = date('m/d/Y', strtotime($row['date_release']));
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
         }
 
         //initialize data for excel
