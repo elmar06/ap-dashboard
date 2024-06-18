@@ -284,7 +284,7 @@ class PO_Details
 
     public function get_submitted_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 11 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status <= 10 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -631,7 +631,7 @@ class PO_Details
 
     public function get_all_processed_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.po_id, check_details.cv_no, check_details.check_no, check_details.check_date FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND check_details.status != 0'; 
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status as "po-stat", check_details.po_id, check_details.cv_no, check_details.check_no, check_details.check_date FROM po_details, check_details WHERE po_details.id = check_details.po_id AND (find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND check_details.status = 1'; 
         $sel = $this->conn->prepare($query);
 
         $sel->execute();

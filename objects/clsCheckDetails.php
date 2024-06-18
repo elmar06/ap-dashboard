@@ -80,7 +80,7 @@ class CheckDetails
 
     public function get_all_check_details()
     {
-        $query = 'SELECT id, po_id, cv_no, bank, check_no, check_date, amount, tax, cv_amount FROM '.$this->table_name.' WHERE status != 0';
+        $query = 'SELECT id, po_id, cv_no, bank, check_no, check_date, amount, tax, cv_amount FROM '.$this->table_name.' WHERE status = 1';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -100,7 +100,7 @@ class CheckDetails
 
     public function get_details_byID($po_id)
     {
-        $query = 'SELECT check_details.id as "check-id", check_details.po_id, check_details.cv_no, check_details.cv_amount, check_details.bank, check_details.check_no, check_details.tax, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = po_details.id AND check_details.status != 0 AND check_details.po_id LIKE :search';
+        $query = 'SELECT check_details.id as "check-id", check_details.po_id, check_details.cv_no, check_details.cv_amount, check_details.bank, check_details.check_no, check_details.tax, check_details.check_date, bank.id, bank.name, po_details.receipt FROM check_details, bank, po_details WHERE check_details.bank = bank.id AND check_details.po_id = po_details.id AND check_details.status != 2 AND check_details.status != 0 AND check_details.po_id LIKE :search';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
