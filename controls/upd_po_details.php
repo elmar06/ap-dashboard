@@ -43,9 +43,13 @@ $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
 $po->debit_memo = $_POST['debit_memo'];
 $po->memo_amount = $memo_amount;
-
 $upd = $po->resubmit_po();
-if($upd)
+//add resubmit date
+$po->po_id = $_POST['id'];
+$po->date_resubmit = date('Y-m-d');
+$upd_date = $po->add_resubmit_date();
+
+if($upd && $upd_date)
 {
     echo 1;
 }else{

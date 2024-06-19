@@ -169,6 +169,18 @@ class PO_Details
         }
     }
 
+    public function add_resubmit_date()
+    {
+        $query = 'UPDATE po_other_details SET date_resubmit = ? WHERE po_id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd =$this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_resubmit);
+        $upd->bindParam(2, $this->po_id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
     public function check_po_num()
     {
         $query = 'SELECT count(id) as "check-count" FROM po_details WHERE si_num = ? AND company = ? AND po_num = ? AND supplier = ?';
