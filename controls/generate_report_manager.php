@@ -37,7 +37,7 @@ $fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURN', 'DATE REMARKS', 'DATE RESUBMIT', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
+$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURN', 'DATE REMARKS', 'DATE RESUBMIT', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE MARK FOR RELEASING', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if($_GET['action'] == 1)
@@ -55,6 +55,7 @@ if($_GET['action'] == 1)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -86,6 +87,9 @@ if($_GET['action'] == 1)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -189,7 +193,7 @@ if($_GET['action'] == 1)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }  
     // Export data to excel and download as xlsx file 
@@ -213,6 +217,7 @@ if($_GET['action'] == 2)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -244,6 +249,9 @@ if($_GET['action'] == 2)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -347,7 +355,7 @@ if($_GET['action'] == 2)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -371,6 +379,7 @@ if($_GET['action'] == 3)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -402,6 +411,9 @@ if($_GET['action'] == 3)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -505,7 +517,7 @@ if($_GET['action'] == 3)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -536,6 +548,7 @@ if($_GET['action'] == 4)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -567,6 +580,9 @@ if($_GET['action'] == 4)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -670,9 +686,9 @@ if($_GET['action'] == 4)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    }  
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -694,6 +710,7 @@ if($_GET['action'] == 5)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -725,6 +742,9 @@ if($_GET['action'] == 5)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -828,9 +848,9 @@ if($_GET['action'] == 5)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -852,6 +872,7 @@ if($_GET['action'] == 6)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -883,6 +904,9 @@ if($_GET['action'] == 6)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -986,9 +1010,9 @@ if($_GET['action'] == 6)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1010,6 +1034,7 @@ if($_GET['action'] == 7)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1041,6 +1066,9 @@ if($_GET['action'] == 7)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1144,9 +1172,9 @@ if($_GET['action'] == 7)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    }  
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1168,6 +1196,7 @@ if($_GET['action'] == 8)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1199,6 +1228,9 @@ if($_GET['action'] == 8)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1302,9 +1334,9 @@ if($_GET['action'] == 8)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1326,6 +1358,7 @@ if($_GET['action'] == 9)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1357,6 +1390,9 @@ if($_GET['action'] == 9)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1460,9 +1496,9 @@ if($_GET['action'] == 9)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1489,6 +1525,7 @@ if($_GET['action'] == 10)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1520,6 +1557,9 @@ if($_GET['action'] == 10)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1623,9 +1663,9 @@ if($_GET['action'] == 10)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1647,6 +1687,7 @@ if($_GET['action'] == 11)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1678,6 +1719,9 @@ if($_GET['action'] == 11)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1781,9 +1825,9 @@ if($_GET['action'] == 11)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1810,6 +1854,7 @@ if($_GET['action'] == 12)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -1841,6 +1886,9 @@ if($_GET['action'] == 12)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -1944,9 +1992,9 @@ if($_GET['action'] == 12)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -1973,6 +2021,7 @@ if($_GET['action'] == 13)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -2004,6 +2053,9 @@ if($_GET['action'] == 13)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -2107,9 +2159,9 @@ if($_GET['action'] == 13)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    }  
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -2136,6 +2188,7 @@ if($_GET['action'] == 14)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -2167,6 +2220,9 @@ if($_GET['action'] == 14)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -2270,9 +2326,9 @@ if($_GET['action'] == 14)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
@@ -2299,6 +2355,7 @@ if($_GET['action'] == 15)
         $date_submit = '-';
         $date_return = '-';
         $date_resubmit = '-';
+        $date_for_release = '-';
         if($row['2nd_date_received'] != null){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
@@ -2330,6 +2387,9 @@ if($_GET['action'] == 15)
         }
         if($row['date_resubmit'] != null){
             $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        if($row['date_for_release'] != null){
+            $date_for_release = date('m-d-Y', strtotime($row['date_for_release']));
         }
         //get the name of company
         $comp_name = '-';
@@ -2433,9 +2493,9 @@ if($_GET['action'] == 15)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
-    } 
+    }
     // Export data to excel and download as xlsx file 
     $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
     $xlsx->downloadAs($fileName);
