@@ -21,19 +21,44 @@ $poID = $_POST['id'];
 $po_id = explode(',', $poID);
 foreach($po_id as $value)
 {
-    $po->status = 10;
-    $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
-    $po->treasury_id = $_SESSION['id'];
-    $po->po_id = $value;
+    //check the status of the PO
+    $status = '';
     $po->id = $value;
-    
-    $upd = $po->mark_for_release();
+    $check = $po->get_po_by_id();
+    while($row = $check->fetch(PDO:: FETCH_ASSOC))
+    {
+        $status = $row['status'];
+    }
+    if($status == 10){
+        //if status is FOR VERIFICATION (8) 
+        $po->status = 10;
+        $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
+        $po->treasury_id = $_SESSION['id'];
+        $po->po_id = $value;
+        $po->id = $value;        
+        $upd = $po->mark_for_release();
+
+        if($upd)
+        {
+            echo 1;
+        }else{
+            echo 0;
+        }
+    }else{
+        //add the for releasing date in po_other_details
+        $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
+        $po->treasury_id = $_SESSION['id'];
+        $po->po_id = $value;  
+        $upd = $po->add_releasing_details();   
+        
+        if($upd)
+        {
+            echo 2;
+        }else{
+            echo 0;
+        }
+    }
 }
 
-if($upd)
-{
-    echo 1;
-}else{
-    echo 0;
-}
+
 ?>

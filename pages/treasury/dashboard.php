@@ -212,28 +212,27 @@
                           //format of status
                           if($row['status'] == 4){
                             $status = '<label style="color: blue"><b>On Process by BO</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
+                            //$checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
                           }elseif($row['status'] == 5){
                             $status = '<label style="color: blue"><b>Check created by BO</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
+                            //$checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
                           }elseif($row['status'] == 6){
                             $status = '<label style="color: blue"><b>Sent To EA</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
+                           // $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
                           }elseif($row['status'] == 7){
                             $status = '<label style="color: blue"><b>For Signature</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
+                            //$checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'" disabled>';
                           }elseif($row['status'] == 8){
                             $status = '<label style="color: blue"><b>For Verification</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'">';
+                            //$checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'">';
                           }elseif($row['status'] == 9){
                             $status = '<label style="color: red"><b>On Hold</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'">';
+                            //$checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po_id'].'">';
                           }else
                           {
                             $status = '<label style="color: green"><b>For Releasing</b></label>';
-                            $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'">';
-
                           }
+                          $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'">';
                           //date format
                           $due = date('m/d/Y', strtotime($row['due_date']));
                           $check_date = date('m/d/Y', strtotime($row['check_date']));

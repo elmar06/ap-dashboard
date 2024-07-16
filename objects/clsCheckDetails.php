@@ -117,7 +117,7 @@ class CheckDetails
         // $sel->bindParam(1, $this->po_id);
         $sel->execute(array(':search' => '%'.$po_id.'%'));
 
-        $sel->execute();
+        //$sel->execute();
         return $sel;
     }
 

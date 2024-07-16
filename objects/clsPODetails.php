@@ -1481,7 +1481,7 @@ class PO_Details
 
     public function mark_on_hold()
     {
-        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_on_hold = ?, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
+        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_on_hold = ?, po_other_details.date_for_release = null, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
@@ -1501,7 +1501,7 @@ class PO_Details
 
     public function mark_for_release()
     {
-        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_for_release = ?, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
+        $query = 'UPDATE po_other_details, po_details SET po_details.status = ?, po_other_details.date_on_hold = null, po_other_details.date_for_release = ?, po_other_details.treasury_id = ? WHERE po_other_details.po_id = ? AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
@@ -1566,6 +1566,42 @@ class PO_Details
         $add->bindParam(1, $this->po_id);
 
         if($add->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function add_releasing_details()
+    {
+        $query = 'UPDATE po_other_details SET date_on_hold = null, date_for_release = ?, treasury_id = ? WHERE po_id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_for_release);
+        $upd->bindParam(2, $this->treasury_id);
+        $upd->bindParam(3, $this->po_id);
+
+        if($upd->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function add_onHold_details()
+    {
+        $query = 'UPDATE po_other_details SET date_on_hold = ?, date_for_release = null, treasury_id = ? WHERE po_id = ?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_on_hold);
+        $upd->bindParam(2, $this->treasury_id);
+        $upd->bindParam(3, $this->po_id);
+
+        if($upd->execute())
         {
             return true;
         }else{
@@ -1638,6 +1674,18 @@ class PO_Details
     public function get_other_details()
     {
         $query = 'SELECT po_id, date_to_ea, date_from_ea, date_received_fo, date_received_bo FROM po_other_details WHERE po_id=?';
+        $this->conn->setAttribute(PDO:: ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->po_id);
+
+        $sel->execute();
+        return $sel;
+    }
+
+    public function check_mark_treasury()
+    {
+        $query = 'SELECT date_on_hold, date_for_release, treasury_id FROM po_other_details WHERE po_id=?';
         $this->conn->setAttribute(PDO:: ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 

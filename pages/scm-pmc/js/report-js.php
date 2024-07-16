@@ -215,7 +215,7 @@ function generate_report()
     $('#from').focus();
   }else{
     showToast();
-    window.open('../../controls/generate_report_manager.php?' + myData);
+    window.open('../../controls/generate_report_manager_scm.php?' + myData);
   } 
 }
 
