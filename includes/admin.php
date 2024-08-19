@@ -11,7 +11,10 @@ include '../../objects/clsCompany.php';
 include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
+include '../../objects/clsAccess.php';
+include '../../objects/clsBank.php';
 include '../../objects/clsUser.php';
+include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -21,7 +24,10 @@ $company = new Company($db);
 $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
+$access = new Access($db);
+$bank = new Banks($db);
 $user = new Users($db);
+$check = new CheckDetails($db);
 
 //get the updated logcount
 $user->id = $_SESSION['id'];
@@ -47,11 +53,11 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#masterlist" aria-expanded="true" aria-controls="collapseBootstrap">
       <i class="fas fa-list-alt"></i>
       <span>Master List</span>
     </a>
-    <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+    <div id="masterlist" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <a class="nav-link" href="company.php"><i class="fas fa-fw fa-building"></i><span>Company</span></a>
         <a class="nav-link" href="department.php"><i class="fas fa-fw fa-landmark"></i><span>Department</span></a>
@@ -61,10 +67,19 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="released_check.php">
-      <i class="fas fa-fw fa-check-circle"></i>
-      <span>Released Check</span>
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#po-list" aria-expanded="true" aria-controls="collapseBootstrap">
+      <i class="fa-solid fa-list-check"></i><span>PO/JO's List</span>
     </a>
+    <div id="po-list" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="nav-link" href="pending.php"><i class="fa-sharp fa-solid fa-clock"></i><span>Pending</span></a>
+        <a class="nav-link" href="returned.php"><i class="fa-solid fa-right-left"></i><span>Return</span></a>
+        <a class="nav-link" href="in_process.php"><i class="fa-solid fa-arrow-up-square-triangle"></i></i><span>In Process</span></a>
+        <a class="nav-link" href="for_releasing.php"><i class="fa-solid fa-ballot-check"></i></i><span>For Releasing</span></a>
+        <a class="nav-link" href="released.php"><i class="fa-solid fa-octagon-check"></i></i><span>Released</span></a>
+        <a class="nav-link" href="compliance.php"><i class="fa-solid fa-clipboard-list-check"></i><span>For Compliance</span></a>
+      </div>
+    </div>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="report.php">

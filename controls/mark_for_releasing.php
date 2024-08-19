@@ -29,7 +29,7 @@ foreach($po_id as $value)
     {
         $status = $row['status'];
     }
-    if($status == 10){
+    if($status == 8 || $status == 9 || $status == 10){
         //if status is FOR VERIFICATION (8) 
         $po->status = 10;
         $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));

@@ -22,19 +22,41 @@ $poID = $_POST['id'];
 $po_id = explode(',', $poID);
 foreach($po_id as $value)
 {
-  $po->status = 9;
-  $po->date_on_hold = date('Y-m-d');
-  $po->treasury_id = $_SESSION['id'];
-  $po->po_id = $value;
+  //check the status of the PO
+  $status = '';
   $po->id = $value;
+  $check = $po->get_po_by_id();
+  while($row = $check->fetch(PDO:: FETCH_ASSOC))
+  {
+    $status = $row['status'];
+  }
+  if($status == 8 || $status == 10){ 
+    $po->status = 9;
+    $po->date_on_hold = date('Y-m-d');
+    $po->treasury_id = $_SESSION['id'];
+    $po->po_id = $value;
+    $po->id = $value;        
+    $upd = $po->mark_on_hold();
 
-  $upd = $po->mark_on_hold();
-}
-
-if($upd)
-{
-  echo 1;
-}else{
-  echo 0;
+    if($upd)
+    {
+      echo 1;
+    }else{
+      echo 0;
+    }
+  }else{
+    //add the on hold date in po_other_details
+    $po->date_on_hold = date('Y-m-d', strtotime($_POST['date']));
+    $po->treasury_id = $_SESSION['id'];
+    $po->po_id = $value;  
+    $upd = $po->add_on_hold_details();   
+    
+    if($upd)
+    {
+        echo 2;
+    }else{
+        echo 0;
+    }
+  }
 }
 ?>

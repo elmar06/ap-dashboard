@@ -12,7 +12,7 @@
   <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
-  <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
+  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 </head>
@@ -39,6 +39,7 @@
                     <thead class="thead-light">
                       <tr>
                         <th hidden><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
+                        <!-- <th><center>Action</center></th> -->
                         <th><center>Status</center></th>
                         <th>Accepted (FO)</th>
                         <th>Accepted (BO)</th>
@@ -173,6 +174,8 @@
                               }else{
                                 $status = '<label style="color: blue"><b> In Process</b></label>';
                               }
+                              //action button
+                              $action = '<a class="btn btn-danger btn-sm bntCancel" href="#" value="'.$row['po-id'].'"><i class="fa-sharp fa-solid fa-ban"></i> Cancel</a>';
                               
                               echo '
                               <tr>

@@ -13,7 +13,7 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
-<body class="bg-gradient-login">
+<body class="bg-gradient-login" style="zoom: 100%;">
   <!-- Login Content-->
   <div class="container-login">
     <div class="row justify-content-center">

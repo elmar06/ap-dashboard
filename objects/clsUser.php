@@ -218,6 +218,16 @@ class Users
 		return $sel;
 	}
 
+	public function view_all_fo_user()
+	{
+		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, access, username, dept, status FROM '.$this->table_name.' WHERE (find_in_set(2, access) || find_in_set(8, access)) AND status != 0';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+	}
+
 	public function view_all_user_by_dept()
 	{
 		$query = 'SELECT id, CONCAT(firstname, " ", lastname) as "fullname", firstname, lastname, email, access, username, status, dept FROM '.$this->table_name.' WHERE dept = ? ORDER BY access ASC';

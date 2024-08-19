@@ -12,7 +12,7 @@
   <link href="../../assets/vendor/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
-  <link href="../../assets/css/ruang-admin.css" rel="stylesheet">
+  <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
 </head>

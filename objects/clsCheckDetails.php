@@ -64,7 +64,29 @@ class CheckDetails
         {
             return false;
         }
-    }    
+    }   
+    
+    public function upd_details_admin()
+    {
+        $query = 'UPDATE '.$this->table_name.' set cv_no=?, bank=?, check_no=?, check_date=? WHERE id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+        
+        $upd->bindParam(1, $this->cv_no);
+        $upd->bindParam(2, $this->bank);
+        $upd->bindParam(3, $this->check_no);
+        $upd->bindParam(4, $this->check_date);
+        $upd->bindParam(5, $this->id);
+
+        if($upd->execute())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }  
 
     public function get_details()
     {
@@ -134,6 +156,18 @@ class CheckDetails
     public function mark_as_stale_check()
     {
         $query = 'UPDATE '.$this->table_name.' SET stale_date = ?, status = 2 WHERE po_id=?';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+        
+        $upd->bindParam(1, $this->stale_date);
+        $upd->bindParam(2, $this->po_id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function cancel_check()
+    {
+        $query = 'UPDATE '.$this->table_name.' SET date_cancel = ?, status = 0 WHERE po_id=?';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
         

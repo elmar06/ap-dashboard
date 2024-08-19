@@ -1,8 +1,8 @@
 <script>
 $(document).ready(function(){
-  $.ajax({
-    url: 'controls/check_stale.php'
-  })
+  // $.ajax({
+  //   url: 'controls/check_stale.php'
+  // })
 })
 //toast function
 function showToast(){

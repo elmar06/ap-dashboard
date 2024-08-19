@@ -85,14 +85,7 @@ class PO_Details
         $add->bindParam(14, $this->date_submit);
         $add->bindParam(15, $this->submitted_by);
         
-        if($add->execute())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return ($add) ? true : false;
     }
 
     public function upd_details()
@@ -122,14 +115,53 @@ class PO_Details
         $upd->bindParam(19, $this->remark);
         $upd->bindParam(20, $this->id);
 
-        if($upd->execute())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return ($upd) ? true : false;
+    }
+
+    public function upd_details_admin()
+    {
+        $query = 'UPDATE po_details SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, amount=?, company=?, project=?, department=?, supplier=?, bill_date=?, counter_date=?, terms=?, due_date=?, memo_no=?, debit_memo=?, memo_amount=?, receipt=?, or_num=?, scm_remark=?, remark=?, status=? WHERE id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd =$this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->po_num);
+        $upd->bindParam(2, $this->ir_rr_no);
+        $upd->bindParam(3, $this->po_amount);
+        $upd->bindParam(4, $this->po_date);
+        $upd->bindParam(5, $this->si_num);
+        $upd->bindParam(6, $this->amount);
+        $upd->bindParam(7, $this->company);
+        $upd->bindParam(8, $this->project);
+        $upd->bindParam(9, $this->department);
+        $upd->bindParam(10, $this->supplier);
+        $upd->bindParam(11, $this->bill_date);
+        $upd->bindParam(12, $this->counter_date);
+        $upd->bindParam(13, $this->terms);
+        $upd->bindParam(14, $this->due_date);
+        $upd->bindParam(15, $this->memo_no);
+        $upd->bindParam(16, $this->debit_memo);
+        $upd->bindParam(17, $this->memo_amount);
+        $upd->bindParam(18, $this->receipt);
+        $upd->bindParam(19, $this->or_num);
+        $upd->bindParam(20, $this->scm_remark);
+        $upd->bindParam(21, $this->remark);
+        $upd->bindParam(22, $this->status);
+        $upd->bindParam(23, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function upd_other_details_admin()
+    {
+        $query = 'UPDATE po_other_details SET date_release=?, released_by=? WHERE po_id=?';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $upd =$this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->date_release);
+        $upd->bindParam(2, $this->released_by);
+        $upd->bindParam(3, $this->po_id);
+
+        return ($upd->execute()) ? true : false;
     }
 
     public function resubmit_po()
@@ -404,6 +436,16 @@ class PO_Details
 		return $sel;
     }
 
+    public function get_submitted_po_monitoring_admin()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num,     po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.amount, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(20, po_details.status)) ORDER BY po_details.date_submit DESC';
+		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+		$sel->execute();
+		return $sel;
+    }
+
     public function get_submitted_po_monitoring_byID()
     {
         $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND po_details.id = ? ORDER BY po_details.date_submit DESC';
@@ -458,7 +500,7 @@ class PO_Details
 
     public function get_releasing_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.submitted_by, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status = 10 ORDER BY po_details.date_submit ASC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.amount, po_details.submitted_by, po_details.status, users.id, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status = 10 ORDER BY po_details.date_submit ASC';
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
@@ -1334,15 +1376,15 @@ class PO_Details
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
-        $upd->bindParam(1, $this->date_to_ea);
-        $upd->bindParam(2, $this->date_received_ea);
-        $upd->bindParam(3, $this->date_from_ea);
-        $upd->bindParam(4, $this->date_on_hold);
-        $upd->bindParam(5, $this->date_for_release);
-        $upd->bindParam(6, $this->treasury_id);
-        $upd->bindParam(7, $this->date_release);
-        $upd->bindParam(8, $this->released_by);
-        $upd->bindParam(9, $this->po_id);
+        // $upd->bindParam(1, $this->date_to_ea);
+        // $upd->bindParam(2, $this->date_received_ea);
+        // $upd->bindParam(3, $this->date_from_ea);
+        // $upd->bindParam(4, $this->date_on_hold);
+        // $upd->bindParam(5, $this->date_for_release);
+        // $upd->bindParam(6, $this->treasury_id);
+        // $upd->bindParam(7, $this->date_release);
+        // $upd->bindParam(8, $this->released_by);
+        $upd->bindParam(1, $this->po_id);
 
         return ($upd->execute()) ? true : false;
     }
@@ -1536,6 +1578,49 @@ class PO_Details
     }
 
     public function mark_released()
+    {
+        $query = 'UPDATE po_details, po_other_details SET po_details.status = 11, po_details.or_num = ?, po_details.receipt=?, po_other_details.date_release = ?, po_other_details.released_by = ? WHERE po_details.id = ? AND po_other_details.po_id = ?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->or_num);
+        $upd->bindParam(2, $this->receipt);
+        $upd->bindParam(3, $this->date_release);
+        $upd->bindParam(4, $this->released_by);
+        $upd->bindParam(5, $this->id);
+        $upd->bindParam(6, $this->po_id);
+
+        if($upd->execute())
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function cancel_po()
+    {
+        $query = 'UPDATE po_details, po_other_details SET po_details.status = 4 WHERE po_details.id = ?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function clear_check_data()
+    {
+        $query = 'UPDATE po_other_details SET po_other_details.date_to_ea = null, po_other_details.date_received_ea = null, po_other_details.date_from_ea = null, po_other_details.date_on_hold = null, po_other_details.date_for_release = null WHERE po_other_details.po_id = ?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->po_id);
+
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function mark_released_admin()
     {
         $query = 'UPDATE po_details, po_other_details SET po_details.status = 11, po_details.or_num = ?, po_details.receipt=?, po_other_details.date_release = ?, po_other_details.released_by = ? WHERE po_details.id = ? AND po_other_details.po_id = ?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
@@ -1917,6 +2002,16 @@ class PO_Details
 		$sel->execute();
 
         return ($sel) ? true : false;
+    }
+
+    public function get_status()
+    {
+        $query = 'SELECT * FROM status';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sel = $this->conn->prepare($query);
+
+        $sel->execute();
+		return $sel;
     }
 }
 ?>

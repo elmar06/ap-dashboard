@@ -19,14 +19,14 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <?php include '../../includes/backOffice.php'; ?><!-- page header -->
+    <?php include '../../includes/admin.php'; ?><!-- page header -->
         <!-- Container Fluid-->
         <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Released Check (Back Office)</li>
+              <li class="breadcrumb-item active" aria-current="page">Compliance View</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <div id="page-body">
@@ -112,7 +112,7 @@
                             //get the check details
                             $check_no = '-';
                             $amount = '-';
-                            $get4 = $check_details->get_details_byID($row['po-id']);
+                            $get4 = $check->get_details_byID($row['po-id']);
                             while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                             {
                               $check_no = $rowCheck['check_no'];
@@ -213,7 +213,7 @@
                           //get the check details
                           $check_no = '-';
                           $amount = '-';
-                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          $get4 = $check->get_details_byID($row['po-id']);
                           while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
                             $check_no = $rowCheck['check_no'];
@@ -313,7 +313,7 @@
                           //get the check details
                           $check_no = '-';
                           $amount = '-';
-                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          $get4 = $check->get_details_byID($row['po-id']);
                           while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
                             $check_no = $rowCheck['check_no'];
@@ -415,7 +415,7 @@
                           //get the check details
                           $check_no = '-';
                           $amount = '-';
-                          $get4 = $check_details->get_details_byID($row['po-id']);
+                          $get4 = $check->get_details_byID($row['po-id']);
                           while($rowCheck = $get4->fetch(PDO:: FETCH_ASSOC))
                           {
                             $check_no = $rowCheck['check_no'];
@@ -496,7 +496,7 @@
 <script src="../../assets/vendor/select2/js/select2.min.js"></script>
 <script src="../../assets/js/jquery.toast.js"></script>
 <script src="../../assets/vendor/toastr/toastr.js"></script>
-<?php include 'js/release_bo-js.php';?>
+<?php include 'js/compliance-js.php';?>
 
 </body>
 </html>

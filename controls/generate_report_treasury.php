@@ -39,7 +39,7 @@ if($action == 1)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        //$row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -92,7 +92,7 @@ if($action == 1)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
@@ -108,7 +108,7 @@ if($action == 2)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -161,7 +161,7 @@ if($action == 2)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;     
     } 
 }
@@ -177,7 +177,7 @@ if($action == 3)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -230,7 +230,7 @@ if($action == 3)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;    
     } 
 }
@@ -246,7 +246,7 @@ if($action == 4)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -299,7 +299,7 @@ if($action == 4)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
@@ -315,7 +315,7 @@ if($action == 5)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -368,7 +368,7 @@ if($action == 5)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
@@ -384,7 +384,7 @@ if($action == 6)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -437,7 +437,7 @@ if($action == 6)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
@@ -453,7 +453,7 @@ if($action == 7)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -506,7 +506,7 @@ if($action == 7)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
@@ -521,7 +521,7 @@ if($action == 8)
         $received_date = date('m-d-Y', strtotime($row['date_received_fo']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $check_num = $row['check_no'];
-        $amount = number_format(floatval($row['cv_amount']), 2);
+        $row['cv_amount'] = number_format(floatval($row['cv_amount']), 2);
         //date from other details
         $date_onhold = '-';
         $releasing_date = '-';
@@ -574,7 +574,7 @@ if($action == 8)
             $status = 'For Releasing';
         }
 
-        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $amount, $date_onhold, $releasing_date, $status);
+        $lineData = array($check_date, $cv_num, $received_date, $due_date, $check_num, $supp_name, $comp_name, $row['cv_amount'], $date_onhold, $releasing_date, $status);
         $excelData[] = $lineData;
     } 
 }
