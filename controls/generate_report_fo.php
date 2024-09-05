@@ -410,7 +410,7 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
     //column REPORT PAGE HEADER
     $excelData[] = array('INNDUCO PERCENTAGE REPORT');   
     $excelData[] = array('LIST OF CHECKS FOR RELEASE');   
-    $excelData[] = array('COMPANY', 'PROJECT', 'PO AMOUNT', 'DATE RECEIVED BY ACCTG', 'CHECK DATE', 'CV NUMBER', 'BANK', 'CHECK NO', 'PO DATE', 'DUE DATE', 'PAYEE', 'MEMO', 'WITHHOLDING', 'CV AMOUNT', 'DATE FROM EA', 'DATE RELEASED', 'OR#/CR#',);      
+    $excelData[] = array('COMPANY', 'PROJECT', 'PO AMOUNT', 'DATE RECEIVED BY FO', 'DATE RECEIVED BY BO', 'CHECK DATE', 'CV NUMBER', 'BANK', 'CHECK NO', 'PO DATE', 'DUE DATE', 'PAYEE', 'MEMO', 'WITHHOLDING', 'CV AMOUNT', 'DATE FROM EA', 'DATE RELEASED', 'OR#/CR#',);      
 
     $get = $po->get_percentage_by_date($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
@@ -450,7 +450,7 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
         }
         //date format
         $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        $check_date = date('m-d-Y', strtotime($row['check_date']));
+        $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
         $po_date = date('m-d-Y', strtotime($row['po_date']));
         $due_date = date('m-d-Y', strtotime($row['due_date']));
         $date_from_ea = '-';
@@ -461,9 +461,37 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
         if($row['date_release'] != null || $row['date_release'] != ''){
             $date_release = date('m-d-Y', strtotime($row['date_release']));
         }
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
+        $bank_name = '-'; 
+        $account = '-';
+        $check->po_id = $row['id'];
+        $get_check = $check->get_details();
+        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
+        {
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = number_format($row4['tax'], 2);
+            $cv_amount = number_format($row4['cv_amount'], 2);
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
+            {
+                if($row5['id'] == $row4['bank']){
+                    $bank_name = $row5['name'];
+                    $account = $row5['account'];
+                }
+            }
+        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, number_format($row['amount'], 2), $date_received_fo, $check_date, $row['cv_no'], $row['account'], $row['check_no'], $po_date, $due_date, $supp_name, $row['memo_no'], number_format($row['tax'], 2), number_format($row['cv_amount'], 2), $date_from_ea, $date_release, $row['or_num']);
+        $lineData = array($comp_name, $proj_name, number_format($row['amount'], 2), $date_received_fo, $date_received_bo, $check_date, $cv_no, $account, $check_no, $po_date, $due_date, $supp_name, $row['memo_no'], $tax, $cv_amount, $date_from_ea, $date_release, $row['or_num']);
         $excelData[] = $lineData;    
     }
 }
