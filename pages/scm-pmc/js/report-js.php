@@ -104,28 +104,6 @@ function for_releasing_report()
   }   
 }
 
-//generate report function(DISBURSEMENT REPORT)
-function generate_report_scm()
-{
-  var date_from = $('#dis-from').val();
-  var date_to = $('#dis-to').val();
-  var project = 0;
-  var company = 0;
-  var supplier = 0;
-  var status = 0;
-  var action = 16;
-
-  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
-  
-  if(date_from == '' && date_to == ''){
-    toastr.error('ERROR! Please select a date span to generate report.');
-    $('#dis-from').focus();
-  }else{
-    showToast();
-    window.open('../../controls/generate_report_scm.php?' + myData);
-  }   
-}
-
 //generate report function
 function generate_report_pmc()
 {
@@ -218,7 +196,27 @@ function generate_report()
     window.open('../../controls/generate_report_manager_scm.php?' + myData);
   } 
 }
+//generate report function(DISBURSEMENT REPORT)
+function generate_report_scm()
+{
+  var date_from = $('#dis-from').val();
+  var date_to = $('#dis-to').val();
+  var project = 0;
+  var company = 0;
+  var supplier = 0;
+  var status = 0;
+  var action = 16;
 
+  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  
+  if(date_from == '' && date_to == ''){
+    toastr.error('ERROR! Please select a date span to generate report.');
+    $('#dis-from').focus();
+  }else{
+    showToast();
+    window.open('../../controls/generate_report_scm.php?' + myData);
+  }   
+}
 //generate report(YEAREND REPORT)
 function generate_yrend_report()
 {

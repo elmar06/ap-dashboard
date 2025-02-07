@@ -49,13 +49,13 @@ foreach($po_id as $value)
     $po->date_on_hold = date('Y-m-d', strtotime($_POST['date']));
     $po->treasury_id = $_SESSION['id'];
     $po->po_id = $value;  
-    $upd = $po->add_on_hold_details();   
+    $upd = $po->add_onHold_details();   
     
     if($upd)
     {
-        echo 2;
+      echo 2;
     }else{
-        echo 0;
+      echo 0;
     }
   }
 }

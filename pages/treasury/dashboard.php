@@ -147,8 +147,8 @@
               </div>
             </div> <!-- end of card row -->
             <div>
-              <a type="button" class="btn btn-primary mb-1" href="#" onclick="mark_on_hold()"><i class="fas fa-hand-paper"></i> Hold Check</a>
-              <a type="button" class="btn btn-success mb-1" href="#" onclick="for_releasing()"><i class="fas fa-check-square"></i> Mark as for Releasing</a>
+              <a type="button" class="btn btn-primary mb-1" href="#" onclick="mark_all_on_hold()"><i class="fas fa-hand-paper"></i> Hold Check</a>
+              <a type="button" class="btn btn-success mb-1" href="#" onclick="for_releasing_all()"><i class="fas fa-check-square"></i> Mark as for Releasing</a>
             </div><br>
             <!-- DataTable with Hover -->
             <div class="row mb-3">
@@ -161,6 +161,7 @@
                         <tr>
                           <th style="max-width: 2%"><input type="checkbox" class="checkboxall"/><span class="checkmark"></span></th>
                           <th><center>Status</center></th>
+                          <th><center>Remarks</center></th>
                           <th>CV #</th>
                           <th>Check #</th>
                           <th>Check Date</th>
@@ -241,11 +242,13 @@
                           }else{
                             $received_fo = '-';
                           }
-                          
+                          //check the remarks of the PO (on hold or for releasing)
+                          $id = $row['po-id'];
                           echo '
                           <tr>
                             <td>'.$checkbox.'</td>
                             <td style="width: 95px"><center>'.$status.'</center></td>
+                            <td style="width: 95px"><center>-</center></td>
                             <td>'.$row['cv_no'].'</td>
                             <td>'.$row['check_no'].'</td>
                             <td>'.$check_date.'</td>
@@ -575,10 +578,30 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
-
+<!-- MODALS -->
 <!-- View Details Modal -->
-<div class="modal fade" id="releasingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="details-body" class="modal-body">
+        <!-- modal body goes here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="btnForward" class="btn btn-success" onclick="mark_for_releasing()">Mark for Releasing</button>
+        <button id="btnSubmit" class="btn btn-primary" onclick="mark_on_hold()">Hold Check</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- For Releasing Modal -->
+<div class="modal fade" id="releasingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -597,7 +620,7 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button id="btnSubmit" class="btn btn-primary" onclick="mark_for_releasing()">Submit</button>
+        <button id="btnSubmit" class="btn btn-primary" onclick="mark_all_for_releasing()">Submit</button>
       </div>
     </div>
   </div>

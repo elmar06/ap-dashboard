@@ -26,9 +26,33 @@ function showToast(){
 function hideLoading(){
   $.Toast.hideToast();
 }
-
+//view details
+$(document).on('dblclick', '#main-table tr', function(){
+  var id = $(this).find('td:eq(0) input:checkbox[name=checklist]').val();
+  
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/view_process_byID.php',
+    data: {id:id},
+    beforeSend: function()
+    {
+      showToast();
+    },
+    success: function(html)
+    {
+      $('#POmodalDetails').modal('show');
+      $('#details-body').html(html);
+      $('input[type=text]').attr('disabled', true);
+      $('.select2').attr('disabled', true); 
+    },
+    error: function(xhr, ajaxOptions, thrownError)
+    {
+      alert(thrownError);
+    }
+  })
+})
 //hold check
-function mark_on_hold()
+function mark_all_on_hold()
 {
   var id = []
   $('input:checkbox[name=checklist]:checked').each(function() {
@@ -65,8 +89,36 @@ function mark_on_hold()
   }
 }
 
+function mark_on_hold()
+{
+  var id = $('#po-no').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_on_hold.php',
+    data: {id: id},
+    async: false,
+    dataType: 'html',
+    success: function(response)
+    {
+      result = response;
+    }
+  })
+  //check the result
+  if(result > 0){
+  showToast();
+    toastr.warning('Request successfully put On Hold.');
+      //set time out to refresh
+      setTimeout(function(){
+        location.reload();
+      }, 1000)
+  }else{
+    toastr.error('ERROR! Please contact the system administrator for assistance at local 124.');
+  }
+}
+
 //check if selected
-function for_releasing()
+function for_releasing_all()
 {
   var id = []
   $('input:checkbox[name=checklist]:checked').each(function() {
@@ -81,7 +133,7 @@ function for_releasing()
 }
 
 //release check
-function mark_for_releasing()
+function mark_all_for_releasing()
 {
   var date = $('#date-release').val();
   var id = []
@@ -116,6 +168,35 @@ function mark_for_releasing()
       }
   }else{
     toastr.error('<center>ERROR! Please select a request to process.</center>');
+  }
+}
+
+function mark_for_releasing()
+{
+  var date = $('#exp-date-release').val();
+  var id = $('#po-no').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_for_releasing.php',
+    data: {id: id, date: date},
+    async: false,
+    dataType: 'html',  
+    success: function(response)
+    {
+      result = response;
+    }
+  })
+  //check the result
+  if(result > 0){
+    showToast();
+    toastr.success('Request successfully mark as For Releasing.');
+      //set time out to refresh
+      setTimeout(function(){
+        location.reload();
+      }, 1000)
+  }else{
+    toastr.error('ERROR! Please contact the system administrator for assistance at local 124.');
   }
 }
 
@@ -201,7 +282,6 @@ $('.checklist').change(function(){
 
 //check if logcount is zero
 $(document).ready(function(){
-  
   var id = $('#user-id').val();
   var logcount = $('#logcount').val();
 

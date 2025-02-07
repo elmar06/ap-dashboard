@@ -21,7 +21,6 @@ $check = new CheckDetails($db);
 
 $po->id = $_POST['id'];
 $get = $po->get_po_by_id();
-
 while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
   //get the Manila time by timezone
@@ -63,6 +62,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> CV Number:</label>
                     <input id="cv-no" class="form-control mb-3" type="text" placeholder="Enter CV Number" value="'.$cv_num.'">
+                    <input id="po-no" class="form-control mb-3" type="text" value="'.$_POST['id'].'" hidden>
                 </div>
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Check Number:</label>
@@ -91,7 +91,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <input id="checkdate" class="form-control datepicker" placeholder="Enter Check Date" value="'.$check_date.'">
+                    <input type="text" id="checkdate" class="form-control datepicker" placeholder="Enter Check Date" value="'.$check_date.'">
                 </div>
               </div>
             </div>
@@ -229,7 +229,18 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <input id="upd-days-due" class="form-control mb-3" type="text" placeholder="No. of Days" disabled value="'.$days_left.'">
           <input id="action" class="form-control mb-3" type="text" style="display:none">
         </div>
-      </div>   
+      </div> 
+      <div class="row">
+        <div class="col-lg-8">
+          <label></i> Expected Release Date:</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+            </div>
+            <input id="exp-date-release" class="form-control datepicker" placeholder="Enter release Date">
+          </div>
+        </div>
+      </div>
       <div id="upd-success" class="alert alert-success" role="alert" style="display: none"></div>
       <div id="upd-warning" class="alert alert-danger" role="alert" style="display: none"></div>';
 }
