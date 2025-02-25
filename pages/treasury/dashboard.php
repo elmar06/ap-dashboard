@@ -17,6 +17,13 @@
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/datetimepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
   <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
+  
+  <style>
+    .card-height {
+     
+    }
+
+  </style>
 </head>
 
 <body id="page-top">
@@ -34,7 +41,7 @@
           <!-- Pending Card -->
           <div id="page-body">
             <div class="row mb-3">
-              <div class="col-xl-3 col-md-6 mb-4">
+              <div class="col-xl-3 col-md-6 mb-4 card-height">
                 <div class="card h-100">
                   <div class="card-body">
                     <div class="row align-items-center">

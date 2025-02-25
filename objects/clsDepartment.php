@@ -114,7 +114,7 @@ class Department
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sel = $this->conn->prepare($query);
 
-        $sel->bindParam(1, $this->id);
+        // $sel->bindParam(1, $this->id);
         $sel->execute();
         return $sel;
     }

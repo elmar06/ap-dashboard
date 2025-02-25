@@ -27,20 +27,39 @@ $check_details = new CheckDetails($db);
 
 //create column like in db
 $columns = array(
-    0 => 'po_details.id',
-    1 => "CONCAT(users.firstname, ' ', users.lastname)",
-    2 => 'project.project',
-    3 => 'company.company',
-    4 => 'po_details.si_no',
-    5 => 'po_details.po_num',
-    6 => 'supplier.supplier_name',
-    7 => 'po_details.amount',
-    8 => 'po_details.bill_date'
+    0 => 'po_details.id', 
+    1 => "CONCAT(users.firstname, ' ', users.lastname)", 
+    2 => 'project.project', 
+    3 => 'company.company', 
+    4 => 'po_details.si_no', 
+    5 => 'po_details.po_num', 
+    6 => 'supplier.supplier_name', 
+    7 => 'po_details.amount', 
+    8 => 'po_details.bill_date' 
 );
 $dept_id = $_SESSION['dept'];
 
 //SEARCH
-$sql = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.bill_no, po_details.bill_date, po_details.amount, po_details.status, po_details.submitted_by, project.project, company.company, supplier.supplier_name, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, project, company, supplier, users WHERE po_details.submitted_by = users.id AND users.dept = '.$dept_id.' AND po_details.project = project.id AND po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.status = 1';
+$sql = 'SELECT po_details.id as "po-id", 
+               po_details.po_num, 
+               po_details.si_num, 
+               po_details.bill_no, 
+               po_details.bill_date, 
+               po_details.amount, 
+               po_details.status, 
+               po_details.submitted_by, 
+               project.project, 
+               company.company, 
+               supplier.supplier_name, 
+               CONCAT(users.firstname, " ", users.lastname) as "fullname" 
+               FROM 
+               po_details, project, company, supplier, users 
+               WHERE po_details.submitted_by = users.id 
+               AND users.dept = '.$dept_id.' AND po_details.project = project.id 
+               AND po_details.company = company.id 
+               AND po_details.supplier = supplier.id 
+               AND po_details.status = 1';
+
 if(isset($_POST['search']['value'])){
     $search_val = $_POST['search']['value'];
     $sql .= " AND (po_details.po_num LIKE '%".$search_val."%'";

@@ -20,167 +20,169 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <?php include '../../includes/purchasing.php'; ?><!-- page header -->
-        <!-- Container Fluid-->
-        <!-- Breadcrumbs -->
-        <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex justify-content-between mb-4">
-            <ol class="breadcrumb" align="right">
-              <li class="breadcrumb-item"><a href="#">SCM / PMC</a></li>
-              <li class="breadcrumb-item active" aria-current="page"> Year End Report</li>
-            </ol>
-          </div><!-- /Breadcrumbs -->
-          <!-- Pending Card -->
-          <div class="row mb-3">
-            <!-- DataTable with Hover -->
-            <div class="col-lg-12">
-              <div class="card mb-4">
-                <div class="table1-responsive p-3">
-                  <table id="submitted-table" class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="width: 15%;"><center>Action</center></th>
-                        <th><center>Status</center></th>
-                        <th><center>Doc Submit</center></th>
-                        <th>SI #</th>
-                        <th>Company</th>
-                        <th>Payee</th>
-                        <th>Amount</th>
-                        <th>PO/JO #</th>
-                        <th>Project</th>
-                        <th>Due Date</th>
-                      </tr>
-                    </thead>
-                    <tbody id="po-submit-body">
-                    <?php
-                        $view = $po->get_yearEnd_forReceived();
-                        while($row = $view->fetch(PDO::FETCH_ASSOC))
-                        {
-                          //get the PROJECT name if exist
-                          $proj_name = '';
-                          $project->id = $row['proj-id'];
-                          $get1 = $project->get_proj_details();
-                          while($rowProj = $get1->fetch(PDO::FETCH_ASSOC))
-                          {
-                            if($row['proj-id'] == $rowProj['id']){
-                              $proj_name = $rowProj['project'];
-                            }
-                          }
-                          //get the COMPANY name if exist
-                          $comp_name = '-';
-                          $company->id = $row['comp-id'];
-                          $get2 = $company->get_company_detail();
-                          while($rowComp = $get2->fetch(PDO::FETCH_ASSOC))
-                          {
-                            if($row['comp-id'] == $rowComp['id']){
-                              $comp_name = $rowComp['company'];
-                            }
-                          }
-                          //get the SUPPLIER name if exist
-                          $sup_name = '-';
-                          $supplier->id = $row['supp-id'];
-                          $get3 = $supplier->get_supplier_details();
-                          while($rowSupp = $get3->fetch(PDO::FETCH_ASSOC))
-                          {
-                            if($row['supp-id'] == $rowSupp['id']){
-                              $sup_name = $rowSupp['supplier_name'];
-                            }
-                          }      
-                          //amount format
-                          $amount = number_format(intval($row['amount']), 2);                    
-                          //date format
-                          $due_date = date('m/d/Y', strtotime($row['due_date']));        
-                          //submitted docs
-                          if($row['yr_req'] == 1){
-                            $docs = 'Original SI';
-                          }else if($row['yr_req'] == 2){
-                            $docs = 'Duplicate SI';
-                          }else if($row['yr_req'] == 3){
-                            $docs = 'CTC';
-                          }else{
-                            $docs = '--';
-                          }   
-                          //check status
-                          if($row['status'] == 17){
-                            $status = '<label style="color: red"><b>For Receiving</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';     
-                          }elseif($row['status'] == 18){
-                            $status = '<label style="color: orange"><b>Returned</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnView" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
-                          }else{
-                            $status = '<label style="color: green"><b>Received</b></label>';   
-                            $action = '<center><button class="btn-sm btn-success btnReceived" value="'.$row['po-id'].'"><i class="fas fa-expand"></i> View</button>';
-                          }
-                          echo '
-                          <tr> 
-                            <td>'.$action.'</td>
-                            <td>'.$status.'</td>
-                            <td><center>'.$docs.'</center></td>
-                            <td>'.$row['si_num'].'</td>
-                            <td>'.$comp_name.'</td>
-                            <td style="width: 180px">'.$sup_name.'</td>
-                            <td>'.$amount.'</td>
-                            <td>'.$row['po_num'].'</td>
-                            <td>'.$proj_name.'</td>
-                            <td>'.$due_date.'</td>
-                          </tr>';
-                        }
-                      ?>
-                    </tbody>
-                  </table> 
-                </div>
-              </div>
-            </div>     
-        </div><!---/Container Fluid-->
+    <?php include '../../includes/purchasing.php'; ?>
+    <!-- page header -->
+    <!-- Container Fluid-->
+    <!-- Breadcrumbs -->
+    <div class="container-fluid" id="container-wrapper">
+      <div class="d-sm-flex justify-content-between mb-4">
+        <ol class="breadcrumb" align="right">
+          <li class="breadcrumb-item"><a href="#">SCM / PMC</a></li>
+          <li class="breadcrumb-item active" aria-current="page"> Year End Report</li>
+        </ol>
+      </div><!-- /Breadcrumbs -->
+      <!-- Pending Card -->
+      <div class="row mb-3">
+        <!-- DataTable with Hover -->
+        <div class="col-lg-12">
+          <div class="card mb-4">
+            <div class="table1-responsive p-3">
+              <table id="submitted-table" class="table1 table-bordered table-flush table-hover DataTable" style="cursor:pointer;">
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 15%;">
+                      <center>Action</center>
+                    </th>
+                    <th>
+                      <center>Status</center>
+                    </th>
+                    <th>
+                      <center>Doc Submit</center>
+                    </th>
+                    <th>SI #</th>
+                    <th>Company</th>
+                    <th>Payee</th>
+                    <th>Amount</th>
+                    <th>PO/JO #</th>
+                    <th>Project</th>
+                    <th>Due Date</th>
+                  </tr>
+                </thead>
+                <tbody id="po-submit-body">
+                  <?php
+                  $view = $po->get_yearEnd_forReceived();
+                  while ($row = $view->fetch(PDO::FETCH_ASSOC)) {
+                    //get the PROJECT name if exist
+                    $proj_name = '';
+                    $project->id = $row['proj-id'];
+                    $get1 = $project->get_proj_details();
+                    while ($rowProj = $get1->fetch(PDO::FETCH_ASSOC)) {
+                      if ($row['proj-id'] == $rowProj['id']) {
+                        $proj_name = $rowProj['project'];
+                      }
+                    }
+                    //get the COMPANY name if exist
+                    $comp_name = '-';
+                    $company->id = $row['comp-id'];
+                    $get2 = $company->get_company_detail();
+                    while ($rowComp = $get2->fetch(PDO::FETCH_ASSOC)) {
+                      if ($row['comp-id'] == $rowComp['id']) {
+                        $comp_name = $rowComp['company'];
+                      }
+                    }
+                    //get the SUPPLIER name if exist
+                    $sup_name = '-';
+                    $supplier->id = $row['supp-id'];
+                    $get3 = $supplier->get_supplier_details();
+                    while ($rowSupp = $get3->fetch(PDO::FETCH_ASSOC)) {
+                      if ($row['supp-id'] == $rowSupp['id']) {
+                        $sup_name = $rowSupp['supplier_name'];
+                      }
+                    }
+                    //amount format
+                    $amount = number_format(intval($row['amount']), 2);
+                    //date format
+                    $due_date = date('m/d/Y', strtotime($row['due_date']));
+                    //submitted docs
+                    if ($row['yr_req'] == 1) {
+                      $docs = 'Original SI';
+                    } else if ($row['yr_req'] == 2) {
+                      $docs = 'Duplicate SI';
+                    } else if ($row['yr_req'] == 3) {
+                      $docs = 'CTC';
+                    } else {
+                      $docs = '--';
+                    }
+                    //check status
+                    if ($row['status'] == 17) {
+                      $status = '<label style="color: red"><b>For Receiving</b></label>';
+                      $action = '<center><button class="btn-sm btn-success btnView" value="' . $row['po-id'] . '"><i class="fas fa-expand"></i> View</button>';
+                    } elseif ($row['status'] == 18) {
+                      $status = '<label style="color: orange"><b>Returned</b></label>';
+                      $action = '<center><button class="btn-sm btn-success btnView" value="' . $row['po-id'] . '"><i class="fas fa-expand"></i> View</button>';
+                    } else {
+                      $status = '<label style="color: green"><b>Received</b></label>';
+                      $action = '<center><button class="btn-sm btn-success btnReceived" value="' . $row['po-id'] . '"><i class="fas fa-expand"></i> View</button>';
+                    }
+                    echo '
+                    <tr> 
+                      <td>' . $action . '</td>
+                      <td>' . $status . '</td>
+                      <td><center>' . $docs . '</center></td>
+                      <td>' . $row['si_num'] . '</td>
+                      <td>' . $comp_name . '</td>
+                      <td style="width: 180px">' . $sup_name . '</td>
+                      <td>' . $amount . '</td>
+                      <td>' . $row['po_num'] . '</td>
+                      <td>' . $proj_name . '</td>
+                      <td>' . $due_date . '</td>
+                    </tr>';
+                  }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-</div>
-<!-- View Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="details-body" class="modal-body">
-        <!-- modal body goes here -->
-      </div>
-      <div class="modal-footer">
-        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
-        <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()" style="display: none">Submit</button>
-        <button id="btnResubmit" class="btn btn-success" onclick="reSubmit_yearEnd()">Resubmit</button>
+      <!---/Container Fluid-->
+    </div>
+  </div>
+  <!-- View Details Modal -->
+  <div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="details-body" class="modal-body">
+          <!-- modal body goes here -->
+        </div>
+        <div class="modal-footer">
+          <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
+          <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
+          <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()" style="display: none">Submit</button>
+          <button id="btnResubmit" class="btn btn-success" onclick="reSubmit_yearEnd()">Resubmit</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- View Details Modal -->
-<div class="modal fade" id="receivedDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="received-body" class="modal-body">
-        <!-- modal body goes here -->
-      </div>
-      <div class="modal-footer">
-        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnSubmitAP" class="btn btn-success" onclick="submit_toAP()">Submit to Accounting</button>
+  <!-- View Details Modal -->
+  <div class="modal fade" id="receivedDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="received-body" class="modal-body">
+          <!-- modal body goes here -->
+        </div>
+        <div class="modal-footer">
+          <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="btnSubmitAP" class="btn btn-success" onclick="submit_toAP()">Submit to Accounting</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- Footer -->
-<?php include '../../includes/footer.php'; ?>
+  <!-- Footer -->
+  <?php include '../../includes/footer.php'; ?>
 
   <!-- Scroll to top -->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -201,4 +203,5 @@
   <script src="../../assets/vendor/toastr/toastr.js"></script>
   <script src="js/yearend.js"></script>
 </body>
+
 </html>

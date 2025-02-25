@@ -41,7 +41,28 @@ $columns = array(
 //$dept_id = $_SESSION['dept'];
 
 //SEARCH
-$sql = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.bill_date, po_details.status, project.project, company.company, supplier.supplier_name, check_details.check_date, check_details.check_no, po_other_details.date_to_ea FROM po_details, project, company, supplier, check_details, po_other_details, users WHERE po_details.project = project.id AND po_details.company = company.id AND po_details.supplier = supplier.id AND po_details.id = po_other_details.po_id AND check_details.po_id LIKE po_details.id AND po_details.remark = 1';
+$sql = 'SELECT 
+        po_details.id as "po-id", 
+        po_details.po_num, 
+        po_details.bill_date, 
+        po_details.status, 
+        project.project, 
+        company.company, 
+        supplier.supplier_name, 
+        check_details.check_date, 
+        check_details.check_no, 
+        po_other_details.date_to_ea 
+        
+        FROM po_details, project, company, supplier, check_details, po_other_details, users 
+        
+        WHERE po_details.project = project.id 
+        AND po_details.company = company.id 
+        AND po_details.supplier = supplier.id 
+        AND po_details.id = po_other_details.po_id 
+        AND check_details.po_id 
+        
+        LIKE po_details.id AND po_details.remark = 1';
+
 if(isset($_POST['search']['value'])){
     $search_val = $_POST['search']['value'];
     $sql .= " AND (po_details.po_num LIKE '%".$search_val."%'";

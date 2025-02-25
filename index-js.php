@@ -1,9 +1,9 @@
 <script>
-$(document).ready(function(){
-  // $.ajax({
-  //   url: 'controls/check_stale.php'
-  // })
-})
+// $(document).ready(function(){
+//   // $.ajax({
+//   //   url: 'controls/check_stale.php'
+//   // })
+// })
 //toast function
 function showToast(){
   var title = 'Loading...';
@@ -159,7 +159,7 @@ $(document).ready(function(){
   document.getElementById("department").addEventListener("keydown", controlBorderColor, false);
   document.getElementById("reg-password").addEventListener("keydown", controlBorderColor, false);
   document.getElementById("reg-password2").addEventListener("keydown", controlBorderColor, false);
-})
+});
 </script>
 
 <script>
