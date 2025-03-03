@@ -37,7 +37,7 @@ $fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURN', 'DATE REMARKS', 'DATE RESUBMIT', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
+$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'IR #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURN', 'DATE REMARKS', 'DATE RESUBMIT', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARD TO EA', 'RETURNED FROM EA', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMIT', 'STATUS');
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if($_GET['action'] == 1)
@@ -45,48 +45,22 @@ if($_GET['action'] == 1)
     $get = $report->get_by_proj_date_manager($proj, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -189,7 +163,7 @@ if($_GET['action'] == 1)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }  
     // Export data to excel and download as xlsx file 
@@ -203,48 +177,22 @@ if($_GET['action'] == 2)
     $get = $report->get_by_comp_date_manager($comp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -347,7 +295,7 @@ if($_GET['action'] == 2)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -361,48 +309,22 @@ if($_GET['action'] == 3)
     $get = $report->get_by_supp_date_manager($supp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -505,7 +427,7 @@ if($_GET['action'] == 3)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -526,48 +448,22 @@ if($_GET['action'] == 4)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -670,7 +566,7 @@ if($_GET['action'] == 4)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -684,48 +580,22 @@ if($_GET['action'] == 5)
     $get = $report->get_by_comp_proj_date_manager($proj, $comp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -828,7 +698,7 @@ if($_GET['action'] == 5)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -842,48 +712,22 @@ if($_GET['action'] == 6)
     $get = $report->get_by_proj_comp_supp_date_manager($proj, $comp, $supp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -986,7 +830,7 @@ if($_GET['action'] == 6)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1000,48 +844,22 @@ if($_GET['action'] == 7)
     $get = $report->get_all_date_manager($proj, $comp, $supp, $stat, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1144,7 +962,7 @@ if($_GET['action'] == 7)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1158,48 +976,22 @@ if($_GET['action'] == 8)
     $get = $report->get_by_date_manager($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1302,7 +1094,7 @@ if($_GET['action'] == 8)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1316,48 +1108,22 @@ if($_GET['action'] == 9)
     $get = $report->get_by_proj_supp_date_manager($proj, $supp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1460,7 +1226,7 @@ if($_GET['action'] == 9)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1479,48 +1245,22 @@ if($_GET['action'] == 10)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1623,7 +1363,7 @@ if($_GET['action'] == 10)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1637,48 +1377,22 @@ if($_GET['action'] == 11)
     $get = $report->get_by_comp_supp_date_manager($comp, $supp, $from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1781,7 +1495,7 @@ if($_GET['action'] == 11)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1800,48 +1514,22 @@ if($_GET['action'] == 12)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1944,7 +1632,7 @@ if($_GET['action'] == 12)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1963,48 +1651,22 @@ if($_GET['action'] == 13)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -2107,7 +1769,7 @@ if($_GET['action'] == 13)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -2126,48 +1788,22 @@ if($_GET['action'] == 14)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -2270,7 +1906,7 @@ if($_GET['action'] == 14)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -2289,48 +1925,22 @@ if($_GET['action'] == 15)
     }
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
     {
-        $date_received_fo = '-';
-        $date_received_bo = '-';
-        $date_to_ea = '-';
-        $date_from_ea = '-';
-        $date_release = '-';
-        $bill_date = '-';
-        $due_date = '-';
-        $date_submit = '-';
-        $date_return = '-';
-        $date_resubmit = '-';
-        if($row['2nd_date_received'] != null){
+        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
         }else{
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] != null){
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if($row['date_from_ea'] != null){
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if($row['date_release'] != null){
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
-        if($row['bill_date'] != null){
-            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
-        }
-        if($row['due_date'] != null){
-            $due_date = date('m-d-Y', strtotime($row['due_date']));
-        }
-        if($row['date_submit'] != null){
-            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
-        }
-        if($row['date_received_bo'] != null){
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if($row['date_returned_req'] != null){
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if($row['date_resubmit'] != null){
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
-        }
+        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
+        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
+        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
+        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
+        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
+        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
+        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
+        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -2433,7 +2043,7 @@ if($_GET['action'] == 15)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
