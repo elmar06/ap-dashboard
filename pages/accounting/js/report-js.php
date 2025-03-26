@@ -53,6 +53,17 @@ $('#stale-check').on('click', function(e){
   $('#manage-report').hide();
   $('#stale-report').show();
 })
+//STALE CHECK REPORT
+$('#create-audit').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').show();
+})
 //DISBURSEMENT REPORT
 $('#report').on('click', function(e){
   e.preventDefault();

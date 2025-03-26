@@ -21,26 +21,22 @@ $id = $_POST['id'];
 $array_id = explode(',', $id);
 foreach($array_id as $value)
 {
-  $po->status = 16;
-  $po->date_cancel = date('Y-m-d');
-  $po->po_id = $id;//check_details
-  $po->id = $value;//po_details
-  $po->po_id = $value;//po_other_details
+    $po->stale_date = date('Y-m-d');
+    $po->po_id = $id;//check_details
+    $po->id = $value;//po_details
 
-  $upd = $po->mark_cancel_check();
-
-  if($upd)
-  {
-    //save details to audit trail
-    $report->user_id = $_SESSION['id'];
-    $report->po_id = $id;
-    $report->action = 1;
-    $report->remark = 'PO/JO Mark as Cancelled';
-    $report->date_added = date('Y-m-d');
-    $mark = $report->save_audit_trail();
-    echo ($mark) ? 1 : 0;
-  }else{
-    echo 0;
-  }
+    $upd = $po->mark_stale_check();
+    if($upd){
+        //save activity in audit trail
+        $report->user_id = $_SESSION['id'];
+        $report->po_id = $value;
+        $report->action = 2;
+        $report->remark = 'PO/JO has been marked as stale check.';
+        $report->date_added = date('Y-m-d');
+        $save = $report->save_audit_trail();
+        echo ($save) ? 1 : 0;
+    }else{
+        echo 0;
+    }
 }
 ?>

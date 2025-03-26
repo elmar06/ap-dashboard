@@ -39,25 +39,24 @@
       </div><!-- /Breadcrumbs -->
       <!-- Pending Card -->
       <div id="page-body">
-        <div class="row mb-3">
+        <div class="row">
           <!-- Total Submitted PO/JO Card-->
-          <div class="col-xl-3 col-md-6 mb-4 card-height">
+          <div class="col-xl-2 col-md-3 mb-3 card-height">
             <div class="card h-100">
               <div class="card-body">
                 <div class="row align-items-center">
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For Receiving</div>
                     <?php
-
-                    $count = $po->count_for_receive_bo();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['receiving-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      $count = $po->count_for_receive_bo();
+                      if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                        echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['receiving-count'] . '</div>';
+                      } else {
+                        echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                      }
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
-                      <a class="text-success mr-2" href="#" onclick="get_for_releasing()"><i class="fas fa-arrow-up"></i> More Details</a>
+                      <a class="text-success mr-2" href="#" onclick="get_for_receiving()"><i class="fas fa-arrow-up"></i> More Details</a>
                     </div>
                   </div>
                   <div class="col-auto">
@@ -67,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-md-6 mb-4 card-height">
+          <div class="col-xl-2 col-md-3 mb-3 card-height">
             <div class="card h-100">
               <div class="card-body">
                 <div class="row align-items-center">
@@ -93,8 +92,35 @@
               </div>
             </div>
           </div>
+          <!-- COUNT THE FORWARDED PO/JO FROM MANILA -->
+          <div class="col-xl-2 col-md-3 mb-3 card-height">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-uppercase mb-1">Forwarded from Manila</div>
+                    <?php
+                    //$po->submitted_by = $_SESSION['id'];
+                    $count = $po->count_from_manila();
+                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['count'] . '</div>';
+                    } else {
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                    }
+                    ?>
+                    <div class="mt-2 mb-0 text-muted text-xs">
+                      <a class="text-success mr-2" href="#" onclick="get_from_manila()"><i class="fas fa-arrow-up"></i> More Details</a>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                  <i class="fa-solid fa-paper-plane-top fa-2x text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Received by Accounting Payable -->
-          <div class="col-xl-3 col-md-6 mb-4 card-height">
+          <div class="col-xl-2 col-md-3 mb-3 card-height">
             <div class="card h-100">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -121,7 +147,7 @@
             </div>
           </div>
           <!-- For Releasing Card -->
-          <div class="col-xl-3 col-md-6 mb-4 card-height">
+          <div class="col-xl-2 col-md-3 mb-3 card-height">
             <div class="card h-100">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -193,11 +219,13 @@
                           //date format
                           $bill_date = date('m/d/y', strtotime($row['bill_date']));
                           if ($row['status'] == 3) {
-                            $action = '<a href="#" class="btn-sm btn-success btnReceived" value="' . $row['po-id'] . '"><i class="fas fa-hand-holding"></i> Received</a> <a href="#" class="btn-sm btn-danger return" value="' . $row['po-id'] . '"><i class="fas fa-undo-alt"></i> Return</a>';
+                            $action = '<a href="#" class="btn-sm btn-success btnReceived" onclick="mark_received_bo('.$row['po-id'].')"><i class="fas fa-hand-holding"></i> Received</a> <a href="#" class="btn-sm btn-danger return" value="' . $row['po-id'] . '"><i class="fas fa-undo-alt"></i> Return</a>';
                           } elseif ($row['status'] == 15) {
                             $action = '<a href="#" class="btn-sm btn-info upd-cv" value="' . $row['po-id'] . '"><i class="fas fa-pencil-alt"></i> Update CV</a> <a href="#" class="btn-sm btn-danger return" value="' . $row['po-id'] . '"><i class="fas fa-undo-alt"></i> Return</a>';
                           } elseif ($row['status'] == 20) {
                             $action = '<a href="#" class="btn-sm btn-info edit" value="' . $row['po-id'] . '"><i class="fas fa-edit"></i> For Reprocess (Staled Check)</a>';
+                          } elseif ($row['status'] == 21) {
+                            $action = '<a href="#" class="btn-sm btn-warning edit" value="' . $row['po-id'] . '"><i class="fas fa-edit"></i> For Reprocess (Cancelled Check)</a>';
                           } else {
                             $action = '<a href="#" class="btn-sm btn-primary edit" value="' . $row['po-id'] . '"><i class="fas fa-edit"></i> Create CV</a> <a href="#" class="btn-sm btn-danger return" value="' . $row['po-id'] . '"><i class="fas fa-undo-alt"></i> Return</a>';
                           }

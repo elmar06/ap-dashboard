@@ -15,6 +15,7 @@
   <link href="../../assets/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../../assets/vendor/dataTables1/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="../../assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/vendor/toastr/toastr.css" rel="stylesheet" type="text/css">
 </head>
 
 <body id="page-top">
@@ -62,7 +63,7 @@
                         $access->user_id = $user_id;
                         $get = $access->get_company();
                         while($row1 = $get->fetch(PDO::FETCH_ASSOC))
-                        {
+                        { 
                           //get the access company id
                           $id = $row1['comp-access'];
                           $array_id = explode(',', $id);
@@ -82,11 +83,19 @@
                               //$check_details->po_id = $row['po-id'];
                               $get_check = $check_details->get_check_details_byID($row['po-id']);
                               while($row2 = $get_check->fetch(PDO:: FETCH_ASSOC))
-                              {
-                                $cv_num = $row2['cv_no'];
-                                $check_date = date('m/d/y', strtotime($row2['check_date']));
-                                $check_no = $row2['check_no'];
-                                $cv_amount = number_format($row2['cv_amount'], 2);          
+                              {   
+                                //check if the check need to mark as stale
+                                $date_now = new DateTime(date('Y-m-d'));
+                                $date_check = new DateTime(date('Y-m-d', strtotime($row2['check_date'])));  
+                                //calculate the date difference
+                                $no_days = $date_now->diff($date_check)->days;
+                                if($no_days >= 170){
+                                  //color code (orange)
+                                  $cv_num = '<span style="color: #e9680f"><b>'.$row2['cv_no'].'</b></span>';
+                                  $check_date = '<span style="color: #e9680f"><b>'.date('m/d/y', strtotime($row2['check_date'])).'</b></span>';
+                                  $check_no = '<span style="color: #e9680f"><b>'.$row2['check_no'].'</b></span>';
+                                  $cv_amount = number_format($row2['cv_amount'], 2); 
+                                }      
                               }
                               //get the date sent to EA(po_other_details) 
                               $date_ea = '-';
@@ -169,6 +178,8 @@
                                 $status = '<label style="color: green"><b> Released</b></label>';
                               }elseif($row['status'] == 15){
                                 $status = '<label style="color: blue"><b> Forwarded to Cebu</b></label>';
+                              }elseif($row['status'] == 16){
+                                $status = '<label style="color: red"><b> Cancelled Check</b></label>';
                               }elseif($row['status'] == 20){
                                 $status = '<label style="color: orange"><b> Staled Check</b></label>';
                               }else{
@@ -232,6 +243,64 @@
   </div>
 </div>
 
+<!-- process modal -->
+<div class="modal fade" id="viewProcessReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="process-body" class="modal-body">
+        <!-- modal body goes here -->
+      </div>
+      <div class="modal-footer">
+        <?php
+          if($_SESSION['id'] == 5)//button visible only for Sir Owen
+          {
+            echo '<button id="btnStale" class="btn btn-warning" onclick="mark_stale()"><i class="fa-solid fa-barcode-scan"></i> Mark as Stale</button>
+                  <button id="btnCancel" class="btn btn-danger" onclick="mark_cancel()"><i class="fa-solid fa-ban"></i> Mark as Cancel</button>';
+          }
+        ?>
+        <button id="btnToManila" class="btn btn-primary" onclick="showManilaModal()"><i class="fa-solid fa-paper-plane"></i> Forward to Manila</button>
+        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- forward to Manila modal -->
+<div class="modal fade" id="forwardManila" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="check-details">
+            <div class="row">
+              <div class="col-lg-12">
+                <label><i style="color: red">*</i> Date Forwarded:</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
+                  </div>
+                  <input id="date-to-manila" class="form-control datepicker" placeholder="Enter date forwarded">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button id="btnSubmit" class="btn btn-primary" onclick="forward_manila()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- View Only Details Modal -->
 <div class="modal fade" id="viewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
@@ -268,6 +337,7 @@
   <script src="../../assets/vendor/select2/js/select2.full.min.js"></script>
   <script src="../../assets/vendor/dataTables1/js/dataTables.bootstrap.min.js"></script>
   <script src="../../assets/js/jquery.toast.js"></script>
+  <script src="../../assets/vendor/toastr/toastr.js"></script>
   <?php include "js/processPO-js.php"; ?>
 </body>
 </html>

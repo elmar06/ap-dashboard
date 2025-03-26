@@ -61,87 +61,85 @@ function hideLoading(){
       }
   })
 
-  //register function
-  $('#register').click(function(e){
-    e.preventDefault();
+//register function
+function register(){
+  //other details
+  var firstname = $('#firstname').val();
+  var lastname = $('#lastname').val();
+  var email = $('#email').val();
+  var username = $('#username').val();
+  var password = $('#reg-password').val();
+  var password2 = $('#reg-password2').val();
+  var department = $('#department').val();
+  var myData = 'firstname=' + firstname + '&lastname=' + lastname + '&email=' + email + '&username=' + username + '&password=' + password + '&department=' + department;
 
-    //other details
-    var firstname = $('#firstname').val();
-    var lastname = $('#lastname').val();
-    var email = $('#email').val();
-    var username = $('#username').val();
-    var password = $('#reg-password').val();
-    var password2 = $('#reg-password2').val();
-    var department = $('#department').val();
-    var myData = 'firstname=' + firstname + '&lastname=' + lastname + '&email=' + email + '&username=' + username + '&password=' + password + '&department=' + department;
-
-    if(firstname != null && lastname != null && email != null && password != null)
-    {
-      //check if the user already exist
-      $.ajax({
-        type: 'POST',
-        url: 'controls/check_user.php',
-        data: myData,
-        beforeSend: function()
+  if(firstname != null && lastname != null && email != null && password != null)
+  {
+    //check if the user already exist
+    $.ajax({
+      type: 'POST',
+      url: 'controls/check_user.php',
+      data: myData,
+      beforeSend: function()
+      {
+        showToast();
+      },
+      success: function(response)
+      {
+        if(response > 0)
         {
-          showToast();
-        },
-        success: function(response)
-        {
-          if(response > 0)
-          {
-            //show error msg if exist
-            $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. User is already in database.</center>');
-            $('#reg-warning').fadeIn();
-            setTimeout(function(){
-              $('#reg-warning').hide();
-            }, 4000)
-          }
-          else
-          {
-            //save user information if not exist
-            $.ajax({
-              type: 'POST',
-              url: 'controls/register.php',
-              data: myData,
-              success: function(response)
-              {
-                if(response > 0)
-                {
-                  $('#reg-success').html('<center><i class="fas fa-check"></i> Registration Successfull. You can now Login. </center>');
-                  $('#reg-success').fadeIn();
-                  setTimeout(function(){
-                    $('#reg-success').fadeOut();
-                  }, 3000)
-                }
-                else
-                {
-                  $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. Please call the IT administrator in local 124 for assistance.</center>');
-                  $('#reg-warning').fadeIn();
-                  setTimeout(function(){
-                    $('#reg-warning').hide();
-                  }, 4000)
-                }
-              },
-              error: function(xhr, ajaxOptions, thrownError)
-              {
-                alert(thrownError);
-              }
-            })
-          }
+          //show error msg if exist
+          $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. User is already in database.</center>');
+          $('#reg-warning').fadeIn();
+          setTimeout(function(){
+            $('#reg-warning').hide();
+          }, 4000)
         }
-      })
-    }
-    else
-    {
-      $('#reg-warning').html('<center><i class="fas fa-ban"></i> Please input all the data needed.</center>');
-      $('#reg-warning').fadeIn();
-      setTimeout(function(){
-        $('#reg-warning').hide();
-      }, 4000)  
-      $('#register').attr('disabled', true);
-    }
-  })
+        else
+        {
+          //save user information if not exist
+          $.ajax({
+            type: 'POST',
+            url: 'controls/register.php',
+            data: myData,
+            success: function(response)
+            {
+              if(response > 0)
+              {
+                $('#reg-success').html('<center><i class="fas fa-check"></i> Registration Successfull. You can now Login. </center>');
+                $('#reg-success').fadeIn();
+                setTimeout(function(){
+                  $('#reg-success').fadeOut();
+                }, 3000)
+              }
+              else
+              {
+                $('#reg-warning').html('<center><i class="fas fa-ban"></i> Registration Failed. Please call the IT administrator in local 124 for assistance.</center>');
+                $('#reg-warning').fadeIn();
+                setTimeout(function(){
+                  $('#reg-warning').hide();
+                }, 4000)
+              }
+            },
+            error: function(xhr, ajaxOptions, thrownError)
+            {
+              alert(thrownError);
+            }
+          })
+        }
+      }
+    })
+  }
+  else
+  {
+    $('#reg-warning').html('<center><i class="fas fa-ban"></i> Please input all the data needed.</center>');
+    $('#reg-warning').fadeIn();
+    setTimeout(function(){
+      $('#reg-warning').hide();
+    }, 4000)  
+    $('#register').attr('disabled', true);
+  }
+}
 
 //border color control
 function controlBorderColor() {
@@ -150,16 +148,6 @@ function controlBorderColor() {
    this.style.borderColor = "#d1d3e2";
   }
 }
-
-//change the border color when empty
-$(document).ready(function(){
-  document.getElementById("firstname").addEventListener("keydown", controlBorderColor, false);
-  document.getElementById("lastname").addEventListener("keydown", controlBorderColor, false);
-  document.getElementById("email").addEventListener("keydown", controlBorderColor, false);
-  document.getElementById("department").addEventListener("keydown", controlBorderColor, false);
-  document.getElementById("reg-password").addEventListener("keydown", controlBorderColor, false);
-  document.getElementById("reg-password2").addEventListener("keydown", controlBorderColor, false);
-});
 </script>
 
 <script>

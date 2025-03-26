@@ -66,6 +66,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     </a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="for_releasing_bo.php">
+      <i class="fas fa-fw fa-check-circle"></i>
+      <span>For Releasing</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="released_check_bo.php">
       <i class="fas fa-fw fa-check-double"></i>
       <span>Released Check</span>

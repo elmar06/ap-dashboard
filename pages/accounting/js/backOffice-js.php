@@ -157,7 +157,14 @@ function submitForSignature()
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
   var action = 1;
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+  //check if it is mark as "STAGGARED PAYMENT"
+  var check = $('#staggared').is(':checked');
+  if(check){
+    var staggared = 1;
+  }else{
+    var staggared = 0;
+  }
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action + '&staggared=' + staggared;
 
   if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
@@ -177,22 +184,6 @@ function submitForSignature()
           setTimeout(function(){
             location.reload();
           }, 1000)
-          // //display the new list
-          // $.ajax({
-          //   type: 'POST',
-          //   url: '../../controls/view_all_process_po.php',
-          //   success: function(html)
-          //   {
-          //     $('#upd-success').html('<center><i class="fas fa-check"></i> Successfully created CV. Ready for Printing.</center>');
-          //     $('#upd-success').show();
-          //     setTimeout(function(){
-          //       $('#upd-success').fadeOut();
-          //     }, 3000)
-          //     $('#page-body').fadeOut();
-          //     $('#page-body').fadeIn();
-          //     $('#page-body').html(html);
-          //   }
-          // })
         }
         else
         {
@@ -238,7 +229,6 @@ function forwardToCebu()
       },
       success: function(response)
       {
-        alert(response);
         if(response > 0)
         {
           toastr.success('Request successfully forwarded to Cebu for Printing.');
@@ -375,11 +365,8 @@ function updForSignature()
   }
 }
 //mark as received by Back Office
-$('.btnReceived').on('click', function(e){
-  e.preventDefault();
-
-  var id = $(this).attr('value');
-  
+function mark_received_bo(id)
+{
   $.ajax({
     type: 'POST',
     url: '../../controls/mark_received_bo.php',
@@ -393,23 +380,15 @@ $('.btnReceived').on('click', function(e){
       if(response > 0)
       {
         toastr.success('Request successfully mark as received.');
-        //display the new list
-        $.ajax({
-          type: 'POST',
-          url: '../../controls/view_all_process_po.php',
-          success: function(html)
-          {
-            $('#page-body').fadeOut();
-            $('#page-body').fadeIn();
-            $('#page-body').html(html);
-          }
-        })
+        setTimeout(function(){
+            location.reload();
+          }, 1300)
       }else{
         toastr.error('Receiving Failed. Please contact the system administrator at local 124 for assistance.');
       }
     }
   })
-})
+}
 
 //mark all as received by Back Office
 function mark_all_received()
@@ -558,12 +537,25 @@ function get_for_verification()
     }
   })
 }
-
-//get all request for Releasing(More Details button)
-function get_for_releasing()
+//get all the PO/JO forwarded from MANILA
+function get_from_manila()
 {
   $.ajax({
-    url: '../../controls/get_for_releasing_bo.php',
+    url: '../../controls/get_from_manila.php',
+    success: function(html)
+    {
+      $('#req-body').fadeOut();
+      $('#req-body').fadeIn();
+      $('#req-body').html(html);
+    }
+  })
+}
+
+//get all request for Releasing(More Details button)
+function get_for_receiving()
+{
+  $.ajax({
+    url: '../../controls/get_for_receiving_bo.php',
     success: function(html)
     {
       $('#req-body').fadeOut();

@@ -54,6 +54,9 @@
                     <div class="col-lg-3">
                         <button id="stale-check" class="btn btn-secondary" style="width: 100%;"><i class="fa-duotone fa-barcode-scan"></i> Stale Check</button>
                     </div>
+                    <div class="col-lg-3">
+                        <button id="create-audit" class="btn btn-info" style="width: 100%;"><i class="fa-solid fa-list-tree"></i> Generate Audit Report</button>
+                    </div>
                 </div>
                 <!-- check for release -->
                 <div id="check" style="display: none;">
@@ -164,6 +167,47 @@
                         </div>
                     </div>
                 </div>
+                <!-- Audit Report -->
+                <div id="audit-report" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-3"><br>
+                            <label> Generate report by:</label>
+                            <select id="audit-action" class="form-control mb-3 select2" style="width: 100%;">
+                                <option selected value="0">Select action</option>
+                                <option value="1">Cancelled Check</option>
+                                <option value="2">Stale Check</option>
+                                <option value="3">Staggerd Payment</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3"><br>
+                            <br><label style="padding-bottom: 23px"> </label>
+                            <a class="btn btn-danger remove-data" href="#"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="audit-from" class="form-control datepicker" placeholder="Date From">
+                            </div>
+                        </div>
+                        <div class="col-lg-3"><br>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input id="audit-to" class="form-control datepicker" placeholder="Date To">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <button class="btn btn-success" onclick="stale_report()" value="2"><i class="fas fa-check"></i> Generate</button>
+                        </div>
+                    </div>
+                </div>
                 <!-- Disbursement Report -->
                 <div id="disbursement" style="display: none;">
                     <div class="row">
@@ -216,7 +260,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- MANAGEMENT REPORT FOR MS> MARICOR & SIR OWEN -->
+                <!-- MANAGEMENT REPORT FOR MS. MARICOR & SIR OWEN -->
                 <div id="manage-report" style="display:none">
                     <div class="row">
                         <div class="col-lg-3"><br>
@@ -283,6 +327,8 @@
                                 <option value="1">Pending</option>
                                 <option value="2">Returned</option>
                                 <option value="3">On Process</option>
+                                <option value="6">Sent to EA</option>
+                                <option value="8">Returned from EA</option>
                                 <option value="9">On Hold</option>
                                 <option value="10">For Releasing</option>
                                 <option value="11">Released</option>

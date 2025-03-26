@@ -78,9 +78,9 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
                         if($row5['id'] == $vbank){
-                          echo '<option value="'.$row5['id'].'" selected><b>'.$row5['account'].'</option>';
+                          echo '<option value="'.$row5['id'].'" selected>'.$row5['account'].'</option>';
                         }else{  
-                          echo '<option value="'.$row5['id'].'"><b>'.$row5['account'].'</option>';
+                          echo '<option value="'.$row5['id'].'">'.$row5['account'].'</option>';
                         }
                       }
                     echo '</select>
@@ -103,6 +103,14 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               <div class="col-lg-6">
                   <label><i style="color: red">*</i> Voucher Amount:</label>
                   <input id="cv-amount" class="form-control mb-3" type="text" placeholder="Enter Voucher Amount" value="'.$vamount.'">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="staggared">
+                  <label class="custom-control-label" for="staggared"> Check if Staggared Payment</label>
+                </div>
               </div>
             </div>
         </div>
@@ -230,17 +238,6 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
           <input id="action" class="form-control mb-3" type="text" style="display:none">
         </div>
       </div> 
-      <div class="row">
-        <div class="col-lg-8">
-          <label></i> Expected Release Date:</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar"></i></span>
-            </div>
-            <input id="exp-date-release" class="form-control datepicker" placeholder="Enter release Date">
-          </div>
-        </div>
-      </div>
       <div id="upd-success" class="alert alert-success" role="alert" style="display: none"></div>
       <div id="upd-warning" class="alert alert-danger" role="alert" style="display: none"></div>';
 }

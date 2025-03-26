@@ -32,13 +32,16 @@
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
           <div id="page-body">
-            <div id="bulk-action" class="row" style="display: none">
+            <div id="bulk-action" class="row">
               <div class="col-lg-2">
                 <select id="action" class="form-control select2" style="width: 100%">
-                  <option selected disabled>Bulk Actions</option>
-                  <option value="1">Sent to EA</option>
-                  <option value="2">Received from EA</option>
+                  <option selected disabled value="0">Select Action</option>
+                  <option value="1">Reprocess Request</option>
+                  <option value="2">Remove from the List</option>
                 </select>
+              </div>
+              <div class="col-lg-2">
+              <button class="btn btn-success mb-1" onclick="apply_action()"><i class="fas fa-check-circle"></i> Apply</button>
               </div>
             </div><br>
             <!-- DataTable with Hover -->

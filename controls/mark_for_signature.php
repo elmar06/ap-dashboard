@@ -3,12 +3,14 @@ session_start();
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsCheckDetails.php';
+include '../objects/clsReport.php';
 
 $database = new clsConnection();
 $db = $database->connect();
 
 $po = new PO_Details($db);
 $check = new CheckDetails($db);
+$report = new Reports($db);
 
 $po_id = $_POST['id'];//po-id
 $user_id = $_SESSION['id'];//user id
@@ -32,7 +34,20 @@ if($_POST['action'] == 1)
         $check->amount = $_POST['amount'];
         $check->tax = str_replace(',','',$_POST['tax']);
         $check->cv_amount = str_replace(',','',$_POST['cv_amount']);
-
+        //check if satggared payment
+        if($_POST['staggared'] == 1){
+            $po->status = 4;
+            //save audit trail 
+            $report->po_id = $po_id;
+            $report->user_id = $_SESSION['id'];
+            $report->action = 3;
+            $report->remark = 'PO/JO Staggared Payment processing as of '.date('Y-m-d');
+            $report->date_added = date('Y-m-d');
+            $save = $report->save_audit_trail();
+            echo ($save) ? 1 : 0;
+        }else{
+            $po->status = 5;
+        }
         $mark = $po->mark_bo_process();
         $save = $check->add_details();
     }

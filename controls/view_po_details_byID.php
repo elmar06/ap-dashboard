@@ -311,6 +311,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
     $('input[type=text]').prop('disabled', true);
     $('.select2').prop('disabled', true);
     $('.datepicker').prop('disabled', true);
+    $('#date-to-manila').prop('disabled', false);
     //hide po-id input
     $('#po-id').hide();
   })

@@ -119,21 +119,105 @@ $('.checkboxall').change(function(){
   }
 });
 
-//check list
-$('.checklist').change(function(){
-  var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});
+//new function added MARCH 5, 2025 - ELMAR
+function apply_action()
+{
+  var id = []
+  $('input:checkbox[name=checklist]:checked').each(function() {
+    id.push($(this).val())
+  });
+  var action = $('#action').val();
 
-  if(selected.length > 1)
-  {
-    $('#bulk-action').fadeIn();
-    $('.action').attr('disabled', true);
-    $('.apply').attr('disabled', true);
+  if(id.length > 0){
+    //check if action is selected
+    if(action != null && action != 0){
+      if(action == 1){//reprocess po/jo
+        $.each(id, function( key, value ) {
+          $.ajax({
+            type: 'POST',
+            url: '../../controls/reprocess_po.php',
+            data: {id: value},
+            async: false,
+            dataType: 'html',
+            beforeSend: function()
+            {
+              showToast();
+            },
+            success: function(response)
+            {
+              result = response;
+            },
+            error: function(xhr, ajaxOption, thrownError)
+            {
+              alert(thrownError);
+            }    
+          })
+        });
+        //check if process is successful
+        if(result > 0)
+        {
+          toastr.success('PO/JO successfully mark as for reprocessing.');
+          setTimeout(function(){
+            location.reload();
+          }, 1300)
+        }else{
+          toastr.error('ERROR! Please contact the system administrator at local 124 for assistance.');
+        }
+      }else{//remove from the list
+        $.each(id, function( key, value ) {
+          $.ajax({
+            type: 'POST',
+            url: '../../controls/remove_cancel_po.php',
+            data: {id: value},
+            async: false,
+            dataType: 'html',
+            beforeSend: function()
+            {
+              showToast();
+            },
+            success: function(response)
+            {
+              result = response;
+            },
+            error: function(xhr, ajaxOption, thrownError)
+            {
+              alert(thrownError);
+            }    
+          })
+        });
+        //check if process is successful
+        if(result > 0)
+        {
+          toastr.warning('PO/JO successfully removed from the list.');
+          setTimeout(function(){
+            location.reload();
+          }, 1300)
+        }else{
+          toastr.error('ERROR! Please contact the system administrator at local 124 for assistance.');
+        }
+      }
+    }else{
+      toastr.error('<center>Please select action to proceed.</center>');
+    }
+  }else{
+    toastr.error('<center>Please select a transaction to proceed.</center>');
   }
-  else
-  {
-    $('#bulk-action').fadeOut();
-    $('.action').attr('disabled', false);
-    $('.apply').attr('disabled', false);
-  }
-})
+}
+//check list
+// $('.checklist').change(function(){
+//   var selected = $.map($('input[name="checklist"]:checked'), function(c){return c.value;});
+
+//   if(selected.length > 1)
+//   {
+//     $('#bulk-action').fadeIn();
+//     $('.action').attr('disabled', true);
+//     $('.apply').attr('disabled', true);
+//   }
+//   else
+//   {
+//     $('#bulk-action').fadeOut();
+//     $('.action').attr('disabled', false);
+//     $('.apply').attr('disabled', false);
+//   }
+// })
 </script>
