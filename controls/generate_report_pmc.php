@@ -31,7 +31,7 @@ $to = date('Y-m-d', strtotime($_GET['date_to']));
 // Excel file name for download 
 $fileName = 'AP Dashboard - PMC Report'."'".'s Report.xlsx';
 //1st row REPORT PAGE HEADER
-$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'AMOUNT', 'DATE RECEIVED ACCT', 'FORWARD TO EA', 'RETURNED FROM EA', 'CV NO.', 'CHECK NO', 'CHECK DATE', 'TAX', 'CV AMOUNT', 'DATE RELEASE', 'STATUS');
+$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'AMOUNT', 'DATE RECEIVED ACCT', 'FORWARDED TO EA', 'RETURNED FROM EA', 'CV NO.', 'CHECK NO', 'CHECK DATE', 'TAX', 'CV AMOUNT', 'DATE RELEASE', 'STATUS');
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if($_GET['action'] == 1)

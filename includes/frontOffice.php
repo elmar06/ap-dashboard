@@ -52,6 +52,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
+    <a class="nav-link" href="priority_fo.php">
+    <i class="fa-solid fa-bell-on"></i>
+      <span>Priorities</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="process_po_fo.php">
       <i class="fas fa-fw fa-file-invoice-dollar"></i>
       <span>Process Request</span>

@@ -38,50 +38,53 @@ while($row = $view->fetch(PDO::FETCH_ASSOC))
             $po->po_id = $value;
             $upd = $po->clear_details_stale();
             //get details for email notification
+            if($upd_check && $upd_PODetails){
+                echo 1;
+            }
             $email = ''; 
             //get the email  address of the BO users
-            $get_email = $user->get_bo_staff();
-            while($rowUser = $get_email->fetch(PDO:: FETCH_ASSOC))
-            {
-                $email = $rowUser['email'];
-                //system notification to all Back office users
-                $from = "system.administrator<(noreply@innogroup.com.ph)>"; 
-                $to = $email;
+            // $get_email = $user->get_bo_staff();
+            // while($rowUser = $get_email->fetch(PDO:: FETCH_ASSOC))
+            // {
+            //     $email = $rowUser['email'];
+            //     //system notification to all Back office users
+            //     $from = "system.administrator<(noreply@innogroup.com.ph)>"; 
+            //     $to = $email;
 
-                $subject = "AP Dashboard Stale Check Details";
-                $message = "<html>
-                                <body style='margin: 0 auto; padding: 10px; border: 1px solid #e1e1e1; font-family:Calibri'>
-                                    <div style='background-color: #e38202; padding: 5px; color: white'>
-                                        <h3 style='padding: 0; margin: 0;'>Notice: </h3>
-                                    </div>
-                                    <div style='border: 1px solid #e1e1e1; padding: 5px'>    
-                                        Hi, <br><br>Greetings!<br><br>
-                                        Please refer below for the stale check details.
-                                        <br><br>
-                                        <b>CV No.: ".$row['cv_no']."</b><br>
-                                        <b>Check No.: ".$row['check_no']."</b><br>
-                                        <b>Check Date: ".date('F j, Y', strtotime($row['check_date']))."</b><br>
-                                        <br><br>
-                                        Thank you. <br><br> Best Regards, <br>System Administrator
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                </body>
-                            </html>";
+            //     $subject = "AP Dashboard Stale Check Details";
+            //     $message = "<html>
+            //                     <body style='margin: 0 auto; padding: 10px; border: 1px solid #e1e1e1; font-family:Calibri'>
+            //                         <div style='background-color: #e38202; padding: 5px; color: white'>
+            //                             <h3 style='padding: 0; margin: 0;'>Notice: </h3>
+            //                         </div>
+            //                         <div style='border: 1px solid #e1e1e1; padding: 5px'>    
+            //                             Hi, <br><br>Greetings!<br><br>
+            //                             Please refer below for the stale check details.
+            //                             <br><br>
+            //                             <b>CV No.: ".$row['cv_no']."</b><br>
+            //                             <b>Check No.: ".$row['check_no']."</b><br>
+            //                             <b>Check Date: ".date('F j, Y', strtotime($row['check_date']))."</b><br>
+            //                             <br><br>
+            //                             Thank you. <br><br> Best Regards, <br>System Administrator
+            //                         </div>
+            //                         <br/>
+            //                         <br/>
+            //                     </body>
+            //                 </html>";
 
-                $headers = "MIME-Version: 1.0" . "\r\n";
-                $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
-                $headers .= "From: ".$from."" . "\r\n" ;
+            //     $headers = "MIME-Version: 1.0" . "\r\n";
+            //     $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+            //     $headers .= "From: ".$from."" . "\r\n" ;
 
-                if(mail($to,$subject,$message,$headers))
-                {
-                    echo 1;
-                }
-                else
-                {
-                    echo 0;
-                }
-            }
+            //     if(mail($to,$subject,$message,$headers))
+            //     {
+            //         echo 1;
+            //     }
+            //     else
+            //     {
+            //         echo 0;
+            //     }
+            // }
         }   
     }
 }

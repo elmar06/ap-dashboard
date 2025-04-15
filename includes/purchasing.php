@@ -58,7 +58,7 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
         <a class="collapse-item" href="returned.php">Returned</a>
         <a class="collapse-item" href="in_process.php">In Process</a>
         <a class="collapse-item" href="for_releasing.php">For Releasing</a>
-        <!-- <a class="collapse-item" href="released.php">Released</a> -->
+        <a class="collapse-item" href="released.php">Released</a>
       </div>
     </div>
 

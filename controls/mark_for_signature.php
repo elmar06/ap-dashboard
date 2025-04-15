@@ -16,6 +16,7 @@ $po_id = $_POST['id'];//po-id
 $user_id = $_SESSION['id'];//user id
 //po details
 $po->id = $po_id;
+$po->prio_stat = $_POST['prio_stat'];
 
 //PROCESS REQUEST
 if($_POST['action'] == 1)
@@ -45,8 +46,20 @@ if($_POST['action'] == 1)
             $report->date_added = date('Y-m-d');
             $save = $report->save_audit_trail();
             echo ($save) ? 1 : 0;
+            //update the staggared & prio stat
+            $po->staggared = $_POST['staggared'];
+            $po->prio_stat = $_POST['prio_stat'];
+            $po->id = $po_id;
+            $upd = $po->mark_staggared();
+            echo ($upd) ? 1 : 0;
         }else{
             $po->status = 5;
+             //update the staggared stat
+             $po->staggared = $_POST['staggared'];
+             $po->prio_stat = $_POST['prio_stat'];
+             $po->id = $po_id;
+             $upd = $po->mark_staggared();
+             echo ($upd) ? 1 : 0;
         }
         $mark = $po->mark_bo_process();
         $save = $check->add_details();

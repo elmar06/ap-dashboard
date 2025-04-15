@@ -421,6 +421,18 @@ class PO_Details
         return $sel;
     }
 
+    public function get_prio_request()
+    {
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(10, po_details.status)) AND po_details.company = ? AND po_details.prio_stat = 1 ORDER BY po_details.date_submit DESC';
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
+
+        $sel->execute();
+        return $sel;
+    }
+
     public function get_submitted_po_monitoring_admin()
     {
         $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num,     po_details.po_date, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.amount, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE po_details.status != 0 AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(20, po_details.status)) ORDER BY po_details.date_submit DESC';
@@ -721,7 +733,7 @@ class PO_Details
 
     public function get_all_process_bo()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status) || find_in_set(20, po_details.status) || find_in_set(21, po_details.status)) AND po_details.company = ? ORDER BY po_details.status DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.si_num, po_details.amount, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_date, po_details.status FROM po_details WHERE (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(15, po_details.status) || find_in_set(20, po_details.status) || find_in_set(21, po_details.status) || find_in_set(1, po_details.staggared)) AND po_details.company = ? ORDER BY po_details.status DESC';
         $sel = $this->conn->prepare($query);
 
         $sel->bindParam(1, $this->company);
@@ -1411,19 +1423,20 @@ class PO_Details
 
     public function mark_bo_process()
     {
-        $query = 'UPDATE po_details set po_details.status = ? WHERE po_details.id=?';
+        $query = 'UPDATE po_details set po_details.prio_stat = ?, po_details.status = ? WHERE po_details.id=?';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
-        $upd->bindParam(1, $this->status);
-        $upd->bindParam(2, $this->id);
+        $upd->bindParam(1, $this->prio_stat);
+        $upd->bindParam(2, $this->status);
+        $upd->bindParam(3, $this->id);
 
         return ($upd->execute()) ? true : false;
     }
 
     public function mark_stale()
     {
-        $query = 'UPDATE ' . $this->table_name . ' set status = 20 WHERE id=?';
+        $query = 'UPDATE ' . $this->table_name . ' set status = 20 WHERE id=? AND (status != 11 OR status != 12 OR status != 13 OR status != 14 OR status != 19)';
         $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
@@ -1433,6 +1446,28 @@ class PO_Details
         } else {
             return false;
         }
+    }
+
+    public function mark_prio()
+    {
+        $query = 'UPDATE ' . $this->table_name . ' set prio_stat = 1 WHERE id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+        return ($upd->execute()) ? true : false;
+    }
+
+    public function mark_staggared()
+    {
+        $query = 'UPDATE ' . $this->table_name . ' set staggared = ?, prio_stat = ? WHERE id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->staggared);
+        $upd->bindParam(2, $this->prio_stat);
+        $upd->bindParam(3, $this->id);
+        return ($upd->execute()) ? true : false;
     }
 
     public function clear_details_stale()

@@ -115,12 +115,13 @@ function mark_cancel()
   var po_num = $('#upd-po-no').val();
   var supplier = $('#upd-supplier').val();
   var myData = 'id=' + id + '&po_num=' + po_num + '&supplier=' + supplier;
-
+  alert(myData);
   $.ajax({
     type: 'POST',
     url: '../../controls/mark_cancel_check.php',
     data: myData,
     success: function(response){
+      alert(response);
       if(response > 0){
         toastr.success('Request successfully mark as cancelled.')
         setTimeout(function(){
@@ -148,6 +149,28 @@ function forward_manila(){
     success: function(response){
       if(response > 0){
         toastr.success('Request successfully mark as forwarded to Manila.')
+        setTimeout(function(){
+          location.reload();
+        }, 1500)
+      }else{
+        toastr.error('Failed! Please contact the system administrator at local 124.')
+      }
+    }
+  })
+}
+
+function markPrio()
+{
+  var id = $('#upd-po-id').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/mark_prio.php',
+    data: {id:id},
+    success: function(response)
+    {
+      if(response > 0){
+        toastr.success('Request successfully mark as priority.');
         setTimeout(function(){
           location.reload();
         }, 1500)

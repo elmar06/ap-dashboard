@@ -157,6 +157,13 @@ function submitForSignature()
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
   var action = 1;
+  //check if cheque is mark as priority
+  var prio = $('#prio-check').is(':checked');
+  if(prio){
+    var prio = 1;
+  }else{
+    var prio = 0;
+  }
   //check if it is mark as "STAGGARED PAYMENT"
   var check = $('#staggared').is(':checked');
   if(check){
@@ -164,7 +171,7 @@ function submitForSignature()
   }else{
     var staggared = 0;
   }
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action + '&staggared=' + staggared;
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action + '&staggared=' + staggared + '&prio_stat=' + prio;
 
   if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
@@ -180,27 +187,31 @@ function submitForSignature()
       {
         if(response > 0)
         {
-          toastr.success('Request successfully submitted and mark as for signature.');
-          setTimeout(function(){
-            location.reload();
-          }, 1000)
+          //check if this payment is mark as staggared
+          if(staggared == 1){
+            toastr.success('Request successfully submitted and mark as for staggared payment.');
+            //clear the following input fields
+            $('#cv-no').val('');
+            $('#bank').val(0).trigger('change');
+            $('#check-no').val('');
+            $('#checkdate').val('');
+            $('#cv-tax').val('');
+            $('#cv-amount').val('');
+          }else{
+            toastr.success('Request successfully submitted and mark as for signature.');
+            setTimeout(function(){
+              location.reload();
+            }, 1000)
+          }
         }
         else
         {
-          $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
-          $('#upd-warning').show();
-          setTimeout(function(){
-            $('#upd-warning').fadeOut();
-          }, 3000)
+          toastr.error('Submit Failed! Please contact the system administrator at local 124 for assistance.');
         }
       }
     })
   }else{
-    $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please fill out all the check details needed.</center>');
-    $('#upd-warning').show();
-    setTimeout(function(){
-      $('#upd-warning').fadeOut();
-    }, 3000)
+    toastr.error('Submit Failed! Please fill out all the check details needed.');
   }
 }
 //mark request FORWARDED TO CEBU

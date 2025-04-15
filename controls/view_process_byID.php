@@ -73,7 +73,7 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
                 <div class="col-lg-6">
                     <label><i style="color: red">*</i> Bank:</label>
                     <select id="bank" class="form-control mb-3 select2" style="width: 100%;">
-                      <option selected disabled>Select a Bank</option>';
+                      <option selected disabled value="0">Select a Bank</option>';
                       $get = $bank->get_all_banks();
                       while($row5 = $get->fetch(PDO::FETCH_ASSOC))
                       {
@@ -106,10 +106,16 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-lg-6">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="prio-check">
+                  <label class="custom-control-label" for="prio-check"> Set as Priority</label>
+                </div>
+              </div>
+              <div class="col-lg-6">
                 <div class="custom-control custom-switch">
                   <input type="checkbox" class="custom-control-input" id="staggared">
-                  <label class="custom-control-label" for="staggared"> Check if Staggared Payment</label>
+                  <label class="custom-control-label" for="staggared"> Create Staggared Payment</label>
                 </div>
               </div>
             </div>

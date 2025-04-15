@@ -20,14 +20,14 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <?php include '../../includes/backOffice.php'; ?><!-- page header -->
+    <?php include '../../includes/frontOffice.php'; ?><!-- page header -->
         <!-- Container Fluid-->
         <!-- Breadcrumbs -->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex justify-content-between mb-4">
             <ol class="breadcrumb" align="right">
               <li class="breadcrumb-item"><a href="#">Accounting Payables</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Process Request (Back Office)</li>
+              <li class="breadcrumb-item active" aria-current="page">List of Prio Request</li>
             </ol>
           </div><!-- /Breadcrumbs -->
           <!-- Pending Card -->
@@ -70,7 +70,7 @@
                           foreach($array_id as $value)
                           {
                             $po->company = $value;
-                            $view = $po->get_submitted_po_monitoring();
+                            $view = $po->get_prio_request();
                             while($row = $view->fetch(PDO::FETCH_ASSOC))
                             {
                               //get all the check details if exist
@@ -100,7 +100,7 @@
                                   $check_date = date('m/d/y', strtotime($row2['check_date']));
                                   $check_no = $row2['check_no'];
                                   $cv_amount = number_format($row2['cv_amount'], 2); 
-                                }      
+                                }            
                               }
                               //get the date sent to EA(po_other_details) 
                               $date_ea = '-';
@@ -225,29 +225,6 @@
 <!-- Footer -->
 <?php include '../../includes/footer.php'; ?>
 
-<!-- Edit Details Modal -->
-<div class="modal fade" id="POmodalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Request Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DisableFields()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="details-body" class="modal-body">
-        <!-- modal body goes here -->
-      </div>
-      <div class="modal-footer">
-        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btnCancel" type="button" class="btn btn-secondary" style="display: none" onclick="DisableFields()">Cancel</button>
-        <button id="btnEdit" class="btn btn-info" onclick="EnableFields()">Edit</button>
-        <button id="btnSubmit" class="btn btn-primary" onclick="upd_po_details()">Resubmit</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- process modal -->
 <div class="modal fade" id="viewProcessReq" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
@@ -262,15 +239,7 @@
         <!-- modal body goes here -->
       </div>
       <div class="modal-footer">
-        <?php
-          if($_SESSION['id'] == 4 || $_SESSION['id'] == 5 || $_SESSION['id'] == 53)//button visible only for this users
-          {
-            echo '<button id="btnStale" class="btn btn-warning" onclick="mark_stale()"><i class="fa-solid fa-barcode-scan"></i> Mark as Stale</button>
-                  <button id="btnCancel" class="btn btn-danger" onclick="mark_cancel()"><i class="fa-solid fa-ban"></i> Mark as Cancel</button>';
-          }
-        ?>
-        <button id="btnToManila" class="btn btn-primary" onclick="showManilaModal()"><i class="fa-solid fa-paper-plane"></i> Forward to Manila</button>
-        <button id="btnToManila" class="btn btn-success" onclick="markPrio()"><i class="fa-solid fa-bell-on"></i> Mark as Prio</button>
+        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
