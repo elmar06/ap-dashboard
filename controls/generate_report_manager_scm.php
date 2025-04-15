@@ -60,7 +60,6 @@ if($_GET['action'] == 1)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -163,7 +162,7 @@ if($_GET['action'] == 1)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }  
     // Export data to excel and download as xlsx file 
@@ -192,7 +191,6 @@ if($_GET['action'] == 2)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -295,7 +293,7 @@ if($_GET['action'] == 2)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -324,7 +322,6 @@ if($_GET['action'] == 3)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -427,7 +424,7 @@ if($_GET['action'] == 3)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -463,7 +460,6 @@ if($_GET['action'] == 4)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -566,7 +562,7 @@ if($_GET['action'] == 4)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -595,7 +591,6 @@ if($_GET['action'] == 5)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -698,7 +693,7 @@ if($_GET['action'] == 5)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -727,7 +722,6 @@ if($_GET['action'] == 6)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -830,7 +824,7 @@ if($_GET['action'] == 6)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -859,7 +853,6 @@ if($_GET['action'] == 7)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -962,7 +955,7 @@ if($_GET['action'] == 7)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -991,7 +984,6 @@ if($_GET['action'] == 8)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1094,7 +1086,7 @@ if($_GET['action'] == 8)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1123,7 +1115,6 @@ if($_GET['action'] == 9)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1226,7 +1217,7 @@ if($_GET['action'] == 9)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1260,7 +1251,6 @@ if($_GET['action'] == 10)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1363,7 +1353,7 @@ if($_GET['action'] == 10)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1392,7 +1382,6 @@ if($_GET['action'] == 11)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1495,7 +1484,7 @@ if($_GET['action'] == 11)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1529,7 +1518,6 @@ if($_GET['action'] == 12)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1632,7 +1620,7 @@ if($_GET['action'] == 12)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1666,7 +1654,6 @@ if($_GET['action'] == 13)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1769,7 +1756,7 @@ if($_GET['action'] == 13)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1803,7 +1790,6 @@ if($_GET['action'] == 14)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1906,7 +1892,7 @@ if($_GET['action'] == 14)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1940,7 +1926,6 @@ if($_GET['action'] == 15)
         if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
         if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
         if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -2043,7 +2028,7 @@ if($_GET['action'] == 15)
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
