@@ -1458,6 +1458,16 @@ class PO_Details
         return ($upd->execute()) ? true : false;
     }
 
+    public function mark_unprio()
+    {
+        $query = 'UPDATE ' . $this->table_name . ' set prio_stat = 0 WHERE id=?';
+        $this->conn->setAttribute(PDO::ERRMODE_WARNING, PDO::ERRMODE_WARNING);
+        $upd = $this->conn->prepare($query);
+
+        $upd->bindParam(1, $this->id);
+        return ($upd->execute()) ? true : false;
+    }
+
     public function mark_staggared()
     {
         $query = 'UPDATE ' . $this->table_name . ' set staggared = ?, prio_stat = ? WHERE id=?';

@@ -105,21 +105,11 @@
       success: function(response) {
         if (response > 0) {
           //display the new list
-          $.ajax({
-            type: 'POST',
-            url: '../../controls/view_all_po.php',
-            success: function(html) {
-              $('#upd-success').html('<center><i class="fas fa-check"></i> PO/JO successfully forwarded to back office for processing.</center>');
+          $('#upd-success').html('<center><i class="fas fa-check"></i> PO/JO successfully forwarded to back office for processing.</center>');
               $('#upd-success').show();
-              setTimeout(function() {
-                $('#upd-success').fadeOut();
-                $('#POmodalDetails').modal('hide');
-              }, 2000)
-              $('#page-body').fadeOut();
-              $('#page-body').fadeIn();
-              $('#page-body').html(html);
-            }
-          })
+              setTimeout(function(){
+                location.reload();
+              }, 1500)  
         } else {
           $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
           $('#upd-warning').show();
@@ -148,19 +138,9 @@
           if (response > 0) {
             $('#upd-success').html('<center><i class="fas fa-check"></i> PO/JO successfully mark as returned.</center>');
             $('#upd-success').show();
-            setTimeout(function() {
-              $('#upd-success').fadeOut();
-            }, 3000)
-            //display the new list
-            $.ajax({
-              type: 'POST',
-              url: '../../controls/view_all_po.php',
-              success: function(html) {
-                $('#page-body').fadeOut();
-                $('#page-body').fadeIn();
-                $('#page-body').html(html);
-              }
-            })
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
           } else {
             $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
             $('#upd-warning').show();
@@ -200,15 +180,9 @@
         },
         success: function(response) {
           if (response > 0) {
-            //display the new list
-            $.ajax({
-              type: 'POST',
-              url: '../../controls/view_all_po.php',
-              success: function(html) {
-                toastr.success('Request successfully mark as Returned.');
-                $('#page-body').html(html);
-              }
-            })
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
           } else {
             alert('Error! Please contact the System Administrator at local 124 for assistance.');
           }
@@ -237,18 +211,36 @@
           if (response > 0) {
             toastr.success('Request successfully mark as Received.');
             //display the new list
-            $.ajax({
-              type: 'POST',
-              url: '../../controls/view_all_po.php',
-              success: function(html) {
-                $('#page-body').html(html);
-              }
-            })
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
           } else {
             toastr.error('Receiving failed. Please contact the system administrator at local 124.');
           }
         }
       })
+    })
+  }
+
+  function markPrio()
+  {
+    var id = $('#upd-id').val();
+
+    $.ajax({
+      type: 'POST',
+      url: '../../controls/mark_prio.php',
+      data: {id:id},
+      success: function(response)
+      {
+        if(response > 0){
+          toastr.success('Request successfully mark as priority.');
+          setTimeout(function(){
+            location.reload();
+          }, 1500)
+        }else{
+          toastr.error('Failed! Please contact the system administrator at local 124.')
+        }
+      }
     })
   }
 
@@ -260,6 +252,7 @@
     $('#cancel').fadeIn();
     $('#received').hide();
     $('#returned').hide();
+    $('#btnPrio').hide();
     $('#action').val(1);
   }
 
@@ -270,6 +263,7 @@
     $('#customSwitch1').focus();
     $('#received').hide();
     $('#returned').hide();
+    $('#btnPrio').hide();
     $('#action').val(2);
     $('#btnReport').fadeIn();
 
@@ -280,6 +274,7 @@
     $('.requirements').hide();
     $('#btnSubmit').hide();
     $('#cancel').hide();
+    $('#btnPrio').show();
     $('#received').fadeIn();
     $('#returned').fadeIn();
     $('#btnReport').hide();

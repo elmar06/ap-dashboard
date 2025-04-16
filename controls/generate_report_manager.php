@@ -446,6 +446,8 @@ if($_GET['action'] == 4)
         $get = $report->get_by_stat3_date_manager($from, $to);
     }elseif($stat == 11){
         $get = $report->get_released_po($from, $to);
+    }elseif($stat == 15){
+        $get = $report->get_by_prio_date_manager($from, $to);
     }else{
         $get = $report->get_by_stat_date_manager($stat, $from, $to);
     }

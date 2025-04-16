@@ -324,6 +324,7 @@
                             <label>Status:</label>
                             <select id="manage-status" class="form-control mb-3 select2" style="width: 100%;">
                                 <option selected value="0">Select a Status</option>
+                                <option value="15">Priority Request</option>
                                 <option value="1">Pending</option>
                                 <option value="2">Returned</option>
                                 <option value="3">On Process</option>

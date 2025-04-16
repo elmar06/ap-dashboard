@@ -547,6 +547,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
+          <button id="btnPrio" class="btn btn-primary" onclick="markPrio()"><i class="fa-solid fa-bell-on"></i> Mark as Prio</button>
           <button href="#" id="returned" class="btn btn-danger" onclick="mark_returned()"><i class="fas fa-undo-alt"></i></button>
           <button href="#" id="received" class="btn btn-success" onclick="mark_received()"><i class="fas fa-check"></i></button>
           <button href="#" id="cancel" class="btn btn-danger" onclick="cancel_return()" style="display: none"><i class="fas fa-times"></i></button>

@@ -321,6 +321,7 @@
       </div>
       <div class="modal-footer">
         <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="btnPrio" class="btn btn-success" onclick="markPrio()"><i class="fa-solid fa-bell-on"></i> Mark as Prio</button>
       </div>
     </div>
   </div>
