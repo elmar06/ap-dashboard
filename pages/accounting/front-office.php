@@ -41,15 +41,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">Pending PO/JO</div>
                     <?php
-                    //get the company
-                    //get the count per company
-                    $count = $po->count_pending();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['pending-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company//check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_pending();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['pending-count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" id="pending_POJO" onclick="get_pending_po()" id="pending_POJO"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -70,13 +76,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">Returned</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_return();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['return-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company//check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_return();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['return-count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_returned_po()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -97,13 +111,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">In Process</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_on_process();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['process-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company//check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_on_process();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['process-count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_process_po()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -124,13 +146,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
                     <?php
-                    $po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_releasing();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['releasing-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                    //check the for receiving po by company//check the for receiving po by company//check the for receiving po by company//check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_releasing();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['releasing-count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_releasing_po()"><i class="fas fa-arrow-up"></i> More Details</a>

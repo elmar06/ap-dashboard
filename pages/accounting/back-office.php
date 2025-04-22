@@ -48,12 +48,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For Receiving</div>
                     <?php
-                      $count = $po->count_for_receive_bo();
-                      if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                        echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['receiving-count'] . '</div>';
-                      } else {
-                        echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                      //check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_for_receive_bo();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['receiving-count']; 
+                        }
+                        $total += $subtotal;
                       }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_for_receiving()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -73,13 +82,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For BO Processing</div>
                     <?php
-                    //$po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_for_process_bo();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['pending-count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_for_process_bo();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['pending-count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_for_processing()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -100,13 +117,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">Forwarded from Manila</div>
                     <?php
-                    //$po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_from_manila();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_from_manila();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_from_manila()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -127,13 +152,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">For Signature</div>
                     <?php
-                    //$po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_for_signature();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_for_signature();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="for_signature.php"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -154,13 +187,21 @@
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-uppercase mb-1">On Hold</div>
                     <?php
-                    //$po->submitted_by = $_SESSION['id'];
-                    $count = $po->count_on_hold();
-                    if ($row = $count->fetch(PDO::FETCH_ASSOC)) {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $row['count'] . '</div>';
-                    } else {
-                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
-                    }
+                      //check the for receiving po by company//check the for receiving po by company
+                      $total = 0;
+                      $id = $_SESSION['company'];
+                      $array_id = explode(',', $id);
+                      foreach ($array_id as $key=>$value) {
+                        $subtotal = 0;
+                        $comp_id =  $value;
+                        $po->company = $comp_id;
+                        $count = $po->count_on_hold();
+                        while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                          $subtotal = $row['count']; 
+                        }
+                        $total += $subtotal;
+                      }
+                      echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                     ?>
                     <div class="mt-2 mb-0 text-muted text-xs">
                       <a class="text-success mr-2" href="#" onclick="get_for_verification()"><i class="fas fa-arrow-up"></i> More Details</a>

@@ -1100,9 +1100,11 @@ class PO_Details
 
     public function count_pending()
     {
-        $query = 'SELECT count(id) as "pending-count" FROM ' . $this->table_name . ' WHERE status=1';
+        $query = 'SELECT count(id) as "pending-count" FROM ' . $this->table_name . ' WHERE status=1 and company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1110,9 +1112,11 @@ class PO_Details
 
     public function count_return()
     {
-        $query = 'SELECT count(id) as "return-count" FROM ' . $this->table_name . ' WHERE status=2';
+        $query = 'SELECT count(id) as "return-count" FROM ' . $this->table_name . ' WHERE status=2 AND company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1120,9 +1124,11 @@ class PO_Details
 
     public function count_on_process()
     {
-        $query = 'SELECT count(id) as "process-count" FROM ' . $this->table_name . ' WHERE (find_in_set(3, status) || find_in_set(4, status) || find_in_set(5, status) || find_in_set(6, status) || find_in_set(7, status) || find_in_set(8, status) || find_in_set(9, status)) AND status != 0';
+        $query = 'SELECT count(id) as "process-count" FROM ' . $this->table_name . ' WHERE (find_in_set(3, status) || find_in_set(4, status) || find_in_set(5, status) || find_in_set(6, status) || find_in_set(7, status) || find_in_set(8, status) || find_in_set(9, status)) AND status != 0 AND company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1130,9 +1136,11 @@ class PO_Details
 
     public function count_releasing()
     {
-        $query = 'SELECT count(id) as "releasing-count" FROM ' . $this->table_name . ' WHERE status=10';
+        $query = 'SELECT count(id) as "releasing-count" FROM ' . $this->table_name . ' WHERE status=10 AND company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
+
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1200,8 +1208,7 @@ class PO_Details
 
     public function count_for_receive_bo()
     {
-        $query = 'SELECT count(id) as "receiving-count" FROM ' . $this->table_name . ' WHERE status = 3';
-        //$query = 'SELECT SUM(count_per_category) AS total_count FROM ( SELECT id, COUNT(*) AS count_per_category FROM po_details WHERE company = ? AND status = 3 GROUP BY company) AS subquery';
+        $query = 'SELECT count(id) as "receiving-count" FROM ' . $this->table_name . ' WHERE company = ? AND status = 3';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -1213,11 +1220,11 @@ class PO_Details
 
     public function count_for_process_bo()
     {
-        $query = 'SELECT count(id) as "pending-count" FROM ' . $this->table_name . ' WHERE status=4';
+        $query = 'SELECT count(id) as "pending-count" FROM ' . $this->table_name . ' WHERE company = ? AND status=4';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
-        // $sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1235,11 +1242,11 @@ class PO_Details
 
     public function count_for_signature()
     {
-        $query = 'SELECT count(po_details.id) as "count", check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 6';
+        $query = 'SELECT count(po_details.id) as "count", check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 6 AND po_details.company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
-        // $sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1247,11 +1254,11 @@ class PO_Details
 
     public function count_from_manila()
     {
-        $query = 'SELECT count(po_details.id) as "count", check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 15';
+        $query = 'SELECT count(po_details.id) as "count", check_details.check_no, check_details.cv_amount FROM po_details, check_details WHERE po_details.id = check_details.po_id AND po_details.status = 15 AND po_details.company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
-        // $sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1283,11 +1290,11 @@ class PO_Details
 
     public function count_for_verification()
     {
-        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status=8';
+        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status=8 AND company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
-        // $sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1295,11 +1302,11 @@ class PO_Details
 
     public function count_on_hold()
     {
-        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status = 9';
+        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status = 9 AND company = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
-        // $sel->bindParam(1, $this->company);
+        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
