@@ -257,18 +257,10 @@ function SubmitPO()
                   {
                     if(response > 0)
                     {
-                      //get the updated list
-                      $.ajax({
-                        url: '../../controls/view_submit_po.php',
-                        success: function(html)
-                        {
-                          toastr.success('Request successfully submitted.');
-                          $('#page-body').fadeOut();
-                          $('#page-body').fadeIn();
-                          $('#page-body').html(html);
-                          clearInp();
-                        }
-                      })
+                      toastr.success('Request successfully submitted.');
+                        setTimeout(function(){
+                          location.reload();
+                        }, 1500)
                     }
                     else
                     {

@@ -226,7 +226,14 @@ function forwardToCebu()
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
   var action = 2;
-  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+  //check if cheque is mark as priority
+  var prio = $('#prio-check').is(':checked');
+  if(prio){
+    var prio = 1;
+  }else{
+    var prio = 0;
+  }
+  var myData = 'id=' + id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&prio_stat=' + prio + '&action=' + action;
 
   if(cv_no != '' && bank != null && checkdate != '' && tax != '' && cv_amount != '')
   {

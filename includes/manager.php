@@ -51,6 +51,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
   </li>
   <hr class="sidebar-divider">
   <li class="nav-item">
+    <a class="nav-link" href="priority.php">
+    <i class="fa-solid fa-bell-on"></i>
+      <span>Priorities</span>
+    </a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="submit.php">
       <i class="fas fa-fw fa-check-double"></i>
       <span>Released Check</span>

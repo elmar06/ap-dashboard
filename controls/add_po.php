@@ -4,6 +4,8 @@ include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsUser.php';
 include '../objects/clsAccess.php';
+include 'phpmailer/class.phpmailer.php';
+include 'phpmailer/class.smtp.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -11,6 +13,7 @@ $db = $database->connect();
 $po = new PO_Details($db);
 $user = new Users($db);
 $access = new Access($db);
+$mail = new PHPMailer();
 
 //get the new id
 $id = '';
@@ -43,7 +46,7 @@ $po_date = date('Y-m-d', strtotime($_POST['po_date']));
 //save details to po_details table
 $po->po_num = $_POST['po_num'];
 $po->ir_rr_no = $_POST['ir_num'];
-$po->po_amount = str_replace(',','', $_POST['po_amount']);;
+$po->po_amount = str_replace(',','', $_POST['po_amount']);
 $po->po_date = $po_date;
 $po->si_num = $_POST['si_num'];
 $po->company = $_POST['company'];
@@ -82,6 +85,7 @@ if($details)
             //get the access of user per company
             $id = $row['id'];
             $firstname = $row['firstname'];
+            $fullname = $row['firstname'].' '.$row['lastname'];
             $email = $row['email'];
             $array_id = explode(',', $id);
             foreach($array_id as $value)
@@ -98,11 +102,23 @@ if($details)
                     {
                         if($_POST['company'] == $value){
                             //sent email to fo staff
-                            $from = "system.administrator<(noreply@innogroup.com.ph)>"; 
-                            $to = $email;
                             $staff = $firstname;
+                            //phpmailer settings
+                            $mail->isSMTP();
+                            $mail->Host = 'smtp.gmail.com';
+                            $mail->SMTPAuth = true;
+                            $mail->Username = 'it.cebu6000@gmail.com';
+                            $mail->Password = 'akytbgtqxphavqbj';
+                            $mail->SMTPSecure = 'ssl'; // or try 'tls'
+                            $mail->Port = 465;
 
-                            $subject = "AP Dashboard Request Notification";
+                            //receiver/recepient settings
+                            $mail->setFrom('it.cebu6000@gmail.com', 'AP Dashboard Admin');
+                            $mail->addAddress($email, $fullname); // Add a recipient
+
+                            $mail->isHTML(true);
+                            $mail->Subject = "AP Dashboard Request Notification";
+
                             $message = "<html>
                                             <body style='margin: 0 auto; padding: 10px; border: 1px solid #e1e1e1; font-family:Calibri'>
                                                 <div style='background-color: #00C957; padding: 5px; color: white'>
@@ -110,26 +126,23 @@ if($details)
                                                 </div>
                                                 <div style='border: 1px solid #e1e1e1; padding: 5px'>    
                                                     Hi ".$staff.", <br><br>Greetings!<br><br>
-                                                    You have a new request from purchasing department.<br><br>
+                                                    You have a new request from purchasing department with the following details below.<br>
+                                                    PO Num: <b>".$_POST['po_num']."</b><br>
+                                                    SI Num: <b>".$_POST['si_num']."</b><br><br>
                                                     Thank you. <br><br> Best Regards, <br>System Administrator
                                                 </div>
                                                 <br/>
                                                 <br/>
                                             </body>
                                         </html>";
-
-                            $headers = "MIME-Version: 1.0" . "\r\n";
-                            $headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
-                            $headers .= "From: ".$from."" . "\r\n" ;
-
-                            if(mail($to,$subject,$message,$headers))
-                            {
+                            $mail->Body = $message;
+                            if(!$mail->send()){
+                                echo 0;
+                            }else{
                                 echo 1;
                             }
-                            else
-                            {
-                                echo 0;
-                            }
+                        }else{
+                            echo 0;//if no staff will match
                         }
                     }
                 }
