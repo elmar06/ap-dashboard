@@ -311,17 +311,30 @@ function receivedFromManila()
 {
   var id = $('#upd-id').val();
   var action = 4;
+  //check if cheque is mark as priority
+  var prio = $('#prio-check').is(':checked');
+  if(prio){
+    var prio = 1;
+  }else{
+    var prio = 0;
+  }
+  //check if it is mark as "STAGGARED PAYMENT"
+  var check = $('#staggared').is(':checked');
+  if(check){
+    var staggared = 1;
+  }else{
+    var staggared = 0;
+  }
   $.ajax({
     type: 'POST',
     url: '../../controls/mark_for_signature.php',
-    data: {id: id, action: action},
+    data: {id: id, action: action, prio_stat: prio, staggared: staggared},
     beforeSend: function()
     {
       showToast();
     },
     success: function(response)
     {
-      alert(response);
       toastr.success('Request successfully mark as received. You can now create a cv for this request.');
       setTimeout(function(){
         location.reload();
@@ -343,7 +356,22 @@ function updForSignature()
   var tax = $('#cv-tax').val();
   var cv_amount = $('#cv-amount').val();
   var action = 3;
-  var myData = 'id=' + id + '&check_id=' + check_id + '&check_po_id=' + check_po_id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action;
+  //check if cheque is mark as priority
+  var prio = $('#prio-check').is(':checked');
+  if(prio){
+    var prio = 1;
+  }else{
+    var prio = 0;
+  }
+  //check if it is mark as "STAGGARED PAYMENT"
+  var check = $('#staggared').is(':checked');
+  if(check){
+    var staggared = 1;
+  }else{
+    var staggared = 0;
+  }
+
+  var myData = 'id=' + id + '&check_id=' + check_id + '&check_po_id=' + check_po_id + '&cv_no=' + cv_no + '&bank=' + bank + '&check_no=' + check_no + '&checkdate=' + checkdate + '&amount=' + amount + '&tax=' + tax + '&cv_amount=' + cv_amount + '&action=' + action + '&staggared=' + staggared + '&prio_stat=' + prio;
 
   if(cv_no != '' && bank != null && check_no != '' && checkdate != '' && tax != '' && cv_amount != '')
   {
@@ -359,10 +387,22 @@ function updForSignature()
       {
         if(response > 0)
         {
-          toastr.success('Request successfully submitted and mark as for signature.');
-          setTimeout(function(){
-            location.reload();
-          }, 1500)
+          //check if this payment is mark as staggared
+          if(staggared == 1){
+            toastr.success('Request successfully submitted and mark as for staggared payment.');
+            //clear the following input fields
+            $('#cv-no').val('');
+            $('#bank').val(0).trigger('change');
+            $('#check-no').val('');
+            $('#checkdate').val('');
+            $('#cv-tax').val('');
+            $('#cv-amount').val('');
+          }else{
+            toastr.success('Request successfully submitted and mark as for signature.');
+            setTimeout(function(){
+              location.reload();
+            }, 1500)
+          }
         }
         else
         {

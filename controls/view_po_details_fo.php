@@ -24,14 +24,17 @@ while($row = $get->fetch(PDO::FETCH_ASSOC))
 {
   //format the date for display
   $bill_date = date('F d, Y', strtotime($row['bill_date']));
-  $due_date = date('F d, Y', strtotime($row['due_date']));
+  $due_date = '';
+  if($row['due_date'] != null || $row['due_date'] != ''){
+    $due_date = date('F d, Y', strtotime($row['due_date']));
+    //get the difference between bill_date & due_date
+    $date1 = time();
+    $date2 = strtotime($row['due_date']);
+    $datediff = $date2 - $date1;
+    $days_left = floor($datediff/(60*60*24))." day/s";
+  }
   $date_submit = date('F d, Y', strtotime($row['date_submit']));
 
-  //get the difference between bill_date & due_date
-  $date1 = time();
-  $date2 = strtotime($row['due_date']);
-  $datediff = $date2 - $date1;
-  $days_left = floor($datediff/(60*60*24))." day/s";
 
   echo '
       <div class="row">
