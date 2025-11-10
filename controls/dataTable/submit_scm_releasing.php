@@ -28,18 +28,17 @@ $check_details = new CheckDetails($db);
 //create column like in db
 $columns = array(
     0 => 'po_details.id',
-    1 => "CONCAT(users.firstname, ' ', users.lastname)",
-    2 => 'project.project',
-    3 => 'company.company',
-    4 => 'po_details.si_no',
-    5 => 'po_details.po_num',
-    6 => 'supplier.supplier_name',
-    7 => 'po_details.bill_date',
-    8 => 'check_details.check_date',
-    9 => 'check_details.check_no',
-    10 => 'check_details.cv_amount',
-    11 => 'check_details.tax',
-    12 => 'po_other_details.date_to_ea'
+    1 => 'project.project',
+    2 => 'company.company',
+    3 => 'po_details.si_no',
+    4 => 'po_details.po_num',
+    5 => 'supplier.supplier_name',
+    6 => 'po_details.bill_date',
+    7 => 'check_details.check_date',
+    8 => 'check_details.check_no',
+    9 => 'check_details.cv_amount',
+    10 => 'check_details.tax',
+    11 => 'po_other_details.date_to_ea'
 );
 $dept_id = $_SESSION['dept'];
 
@@ -53,26 +52,20 @@ $sql = 'SELECT
         po_details.amount, 
         po_details.status, 
         po_details.submitted_by, 
-        project.project, 
+        po_details.project, 
         company.company, 
         supplier.supplier_name, 
-        CONCAT(users.firstname, " ", users.lastname) as "fullname", 
         po_other_details.date_to_ea, 
         check_details.check_date, 
         check_details.check_no, 
         check_details.cv_amount, 
         check_details.tax 
-
-        FROM po_details, po_other_details, check_details, project, company, 
-        supplier, users 
-        
-        WHERE po_details.submitted_by = users.id 
-        AND users.dept = '.$dept_id.' AND po_details.project = project.id 
-        AND po_details.company = company.id 
+        FROM po_details, po_other_details, check_details,company, 
+        supplier        
+        WHERE po_details.company = company.id 
         AND po_details.supplier = supplier.id 
         AND po_details.id = po_other_details.po_id 
         AND check_details.po_id 
-        
         LIKE po_details.id 
         AND po_details.status = 10 
         AND check_details.status != 0';
@@ -80,8 +73,6 @@ $sql = 'SELECT
 if(isset($_POST['search']['value'])){
     $search_val = $_POST['search']['value'];
     $sql .= " AND (po_details.status LIKE '%".$search_val."%'";
-    $sql .= " OR CONCAT(users.firstname, ' ', users.lastname) LIKE '%".$search_val."%'";
-    $sql .= " OR project.project LIKE '%".$search_val."%'";
     $sql .= " OR company.company LIKE '%".$search_val."%'";
     $sql .= " OR po_details.si_num LIKE '%".$search_val."%'";
     $sql .= " OR po_details.po_num LIKE '%".$search_val."%'";
@@ -122,23 +113,27 @@ $output = array();
 $data = array();
 while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
 {
-    $proj_name = $row['project'];
     $comp_name = $row['company'];
     $sup_name = $row['supplier_name'];
-
     //date format
     $bill_date = date('m/d/y', strtotime($row['bill_date']));
     $check_date = date('m/d/y', strtotime($row['check_date']));
     $date_to_ea = date('m/d/y', strtotime($row['date_to_ea']));
-
     //get the check details
     $cv_amount = number_format($row['cv_amount'], 2);
     $tax = number_format($row['tax'], 2);
+    // get the project name
+    $proj_name = '-';
+    $project->id = $row['project'];
+    $get2 = $project->get_proj_details();
+    while ($rowProj = $get2->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['project'] == $rowProj['id']) {
+            $proj_name = $rowProj['project'];
+        }
+    }
     //subdata for data
     $subdata = array();
-
     $subdata[] = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'">';
-    $subdata[] = $row['fullname'];
     $subdata[] = $proj_name;
     $subdata[] = $comp_name;
     $subdata[] = $row['si_num'];

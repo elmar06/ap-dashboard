@@ -41,7 +41,6 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th><input type="checkbox" class="checkboxall" /><span class="checkmark"></span></th>
-                                        <th>Submitted by</th>
                                         <th>Project</th>
                                         <th>Company</th>
                                         <th>SI No</th>

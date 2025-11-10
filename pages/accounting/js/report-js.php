@@ -94,7 +94,17 @@ $('#management-report').on('click', function(e){
   $('#manage-report').show();
   $('#stale-report').hide();
 })
+// AUDIT REPORT
+$('#create-audit').on('click', function(e){
+  e.preventDefault();
 
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').show();
+})
 //generate report function
 function for_releasing_report()
 {
@@ -203,7 +213,6 @@ function generate_report()
   }else{
     var action = 8;//Generate report by DATE SPAN only
   }
-
   var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
 
   if(date_from == '' && date_to == ''){

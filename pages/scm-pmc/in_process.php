@@ -43,7 +43,6 @@
                                             <th>
                                                 <center>Status</center>
                                             </th>
-                                            <th>Submitted by</th>
                                             <th>Project</th>
                                             <th>Company</th>
                                             <th>SI No</th>

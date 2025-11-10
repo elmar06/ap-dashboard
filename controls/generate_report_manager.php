@@ -37,7 +37,7 @@ $fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
 //2nd row REPORT PAGE HEADER
-$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURNED', 'RETURN REMARKS', 'DATE RESUBMITTED', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARDED TO EA', 'RETURNED FROM EA', 'DATE TO MANILA', 'DATE MARKED FOR RELEASING', 'DATE RELEASED', 'SUBMITTED BY', 'DATE SUBMITTED', 'STATUS');
+$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURNED', 'RETURN REMARKS', 'DATE RESUBMITTED', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARDED TO EA', 'RETURNED FROM EA', 'DATE TO MANILA', 'DATE MARKED FOR RELEASING', 'DATE RELEASED', 'DATE SUBMITTED', 'STATUS');
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if($_GET['action'] == 1)
@@ -89,7 +89,7 @@ if($_GET['action'] == 1)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -222,7 +222,7 @@ if($_GET['action'] == 2)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -355,7 +355,7 @@ if($_GET['action'] == 3)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -497,7 +497,7 @@ if($_GET['action'] == 4)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -630,7 +630,7 @@ if($_GET['action'] == 5)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -763,7 +763,7 @@ if($_GET['action'] == 6)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -895,7 +895,7 @@ if($_GET['action'] == 7)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -983,24 +983,31 @@ if($_GET['action'] == 8)
 {
     $get = $report->get_by_date_manager($from, $to);
     while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
+    {        
         if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
         if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
         if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        if($row['date_for_release'] == null || $row['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($row['date_for_release']));}
-        if($row['date_to_manila'] == null || $row['date_to_manila'] == '1970-01-01'){$date_to_manila = '-';}else{$date_to_manila = date('m-d-Y', strtotime($row['date_to_manila']));}
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while($rowOther = $get_other->fetch(PDO:: FETCH_ASSOC))
+        {
+            if($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01'){
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            }else{
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));}
+            if($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));}
+            if($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($rowOther['date_release']));}
+            if($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));}
+            if($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));}
+            if($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));}
+            if($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));}
+            if($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));}
+            if($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01'){$date_to_manila = '-';}else{$date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));}
+            $fo_id = $rowOther['received_by_fo'];   
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
@@ -1028,7 +1035,7 @@ if($_GET['action'] == 8)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1095,15 +1102,17 @@ if($_GET['action'] == 8)
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
+        $user->id = $fo_id;
         $get_user = $user->get_user_detail_byid();
         while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
         {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+            if($row5['id'] == $fo_id){
+                $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+            }
         }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_to_manila, $date_for_release, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remark'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_to_manila, $date_for_release, $date_release, /*$row['fullname'],*/ $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1161,7 +1170,7 @@ if($_GET['action'] == 9)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1299,7 +1308,7 @@ if($_GET['action'] == 10)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1432,7 +1441,7 @@ if($_GET['action'] == 11)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1570,7 +1579,7 @@ if($_GET['action'] == 12)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1708,7 +1717,7 @@ if($_GET['action'] == 13)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1846,7 +1855,7 @@ if($_GET['action'] == 14)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -1984,7 +1993,7 @@ if($_GET['action'] == 15)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details

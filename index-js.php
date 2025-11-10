@@ -1,9 +1,9 @@
 <script>
-$(document).ready(function(){
-  $.ajax({
-    url: 'controls/check_stale.php'
-  })
-})
+// $(document).ready(function(){
+//   $.ajax({
+//     url: 'controls/check_stale.php'
+//   })
+// })
 //toast function
 function showToast(){
   var title = 'Loading...';

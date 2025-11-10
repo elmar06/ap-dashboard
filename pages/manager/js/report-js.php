@@ -1,13 +1,15 @@
 <script>
 //datepicker
-$('.datepicker').datepicker({
-  clearBtn: true,
-  format: "MM dd, yyyy",
-  setDate: new Date(),
-  autoClose: true
-});
-//select 2
-$('.select2').select2();
+$(document).ready(function(){
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "MM dd, yyyy",
+    setDate: new Date(),
+    autoClose: true
+  });
+  //select 2
+  $('.select2').select2();
+})
 
 //toast
 function showToast(){
@@ -19,15 +21,172 @@ function hideLoading(){
   $.Toast.hideToast();
 }
 
+//clear or reset the dropdown box
+$(document).ready(function(){
+  $('.remove-data').on('click', function(e){
+    e.preventDefault();
+
+    $('#fo-company').append('<option selected disabled>Select a Company</option>');
+    $('#fo-supplier').append('<option selected disabled>Select a Supplier</option>');
+    $('#fo-status').append('<option selected disabled>Select a Status</option>');
+  })
+})
+
+//button event handler
+//CHECK FOR RELEASING
+$('#for-releasing').on('click', function(e){
+  e.preventDefault();
+
+  $('#check').show();
+  $('#disbursement').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').hide();
+})
+//STALE CHECK REPORT
+$('#stale-check').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').show();
+  $('#audit-report').hide();
+})
+//STALE CHECK REPORT
+$('#create-audit').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').show();
+  $('#audit-report').hide();
+})
+//DISBURSEMENT REPORT
+$('#report').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').show();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').hide();
+})
+//PERCENTAGE REPORT
+$('#percentage').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').show();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').hide();
+})
+//MANAGEMENT REPORT
+$('#management-report').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').show();
+  $('#stale-report').hide();
+  $('#audit-report').hide();
+})
+// AUDIT REPORT
+$('#create-audit').on('click', function(e){
+  e.preventDefault();
+
+  $('#disbursement').hide();
+  $('#check').hide();
+  $('#percentage-report').hide();
+  $('#manage-report').hide();
+  $('#stale-report').hide();
+  $('#audit-report').show();
+})
+
 //generate report function
-function generate_report()
+function for_releasing_report()
 {
-  var project = $('#project').val();
-  var company = $('#company').val();
-  var supplier = $('#supplier').val();
-  var status = $('#status').val();
+  var project = $('#fo-project').val();
+  var company = $('#fo-company').val();
+  var supplier = $('#fo-supplier').val();
   var date_from = $('#from').val();
   var date_to = $('#to').val();
+  var action = 1;
+  //initialize action
+  if(project != 0 && company == 0 && supplier == 0){
+    var rep_action = 1;//Generate report by PROJECT & date span
+  }else if(project == 0 && company != 0 && supplier == 0){
+    var rep_action = 2;//Generate report by COMPANY & date span
+  }else  if(project == 0 && company == 0 && supplier != 0){
+    var rep_action = 3;//Generate report by SUPPLIER & date span
+  }else if(project != 0 && company != 0 && supplier == 0){
+    var rep_action = 4;//Generate report by PROJECT, COMPANY & Date Span
+  }else if(project != 0 && company != 0 && supplier != 0){
+    var rep_action = 5//Generate report by ALL
+  }else if(project == 0 && company != 0 && supplier != 0){
+    var rep_action = 6;//Generate report by COMPANY, SUPPLIER & DATE SPAN
+  }else{
+    var rep_action = 7;//Generate report by DATE SPAN only
+  }
+
+  var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action + '&rep_action=' + rep_action;
+
+  if(date_from == '' && date_to == ''){
+    toastr.error('ERROR! Please select a date span to generate report.');
+    $('#from').focus();
+  }else{
+    showToast();
+    window.open('../../controls/generate_report_fo.php?' + myData);
+  }   
+}
+//generate report function
+function disbursement_report()
+{
+  var date_from = $('#dis-from').val();
+  var date_to = $('#dis-to').val();
+  var action = 2;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+//generate report function
+function percentage_report()
+{
+  var date_from = $('#percent-from').val();
+  var date_to = $('#percent-to').val();
+  var action = 3;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+//generate report function
+function stale_report()
+{
+  var date_from = $('#stale-from').val();
+  var date_to = $('#stale-to').val();
+  var action = 4;
+  var myData = 'date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
+  showToast();
+  window.location = '../../controls/generate_report_fo.php?' + myData;
+}
+//generate management report function
+function generate_report()
+{
+  var project = $('#manage-project').val();
+  var company = $('#manage-company').val();
+  var supplier = $('#manage-supplier').val();
+  var status = $('#manage-status').val();
+  var date_from = $('#manage-from').val();
+  var date_to = $('#manage-to').val();
   var action = '';
 
   if(project != 0 && company == 0 && supplier == 0 && status == 0){
@@ -61,7 +220,6 @@ function generate_report()
   }else{
     var action = 8;//Generate report by DATE SPAN only
   }
-
   var myData = 'project=' + project + '&company=' + company + '&supplier=' + supplier + '&status=' + status + '&date_from=' + date_from + '&date_to=' + date_to + '&action=' + action;
 
   if(date_from == '' && date_to == ''){
@@ -72,16 +230,4 @@ function generate_report()
     window.open('../../controls/generate_report_manager.php?' + myData);
   }   
 }
-
-//clear or reset the dropdown box
-$(document).ready(function(){
-  $('.remove').on('click', function(e){
-    e.preventDefault();
-
-    $('#project').append('<option selected value="0">Select a Project</option>');
-    $('#company').append('<option selected value="0">Select a Company</option>');
-    $('#supplier').append('<option selected value="0">Select a Supplier</option>');
-    $('#status').append('<option selected value="0">Select a Status</option>');
-  })
-})
 </script>
