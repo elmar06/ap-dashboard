@@ -61,7 +61,7 @@ if($_GET['action'] == 16)
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = $row3['supplier_name'];
+            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -118,7 +118,7 @@ if($_GET['action'] == 17)
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = $row3['supplier_name'];
+            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
         }
         //YEAR END REQUIREMENTS
         if($row['yr_req'] == 1){

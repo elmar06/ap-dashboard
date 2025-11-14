@@ -71,7 +71,7 @@ if($_GET['action'] == 1)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -138,7 +138,7 @@ if($_GET['action'] == 2)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -210,7 +210,7 @@ if($_GET['action'] == 3)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -277,7 +277,7 @@ if($_GET['action'] == 4)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -349,7 +349,7 @@ if($_GET['action'] == 5)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -416,7 +416,7 @@ if($_GET['action'] == 6)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -488,7 +488,7 @@ if($_GET['action'] == 7)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -560,7 +560,7 @@ if($_GET['action'] == 8)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details
@@ -627,7 +627,7 @@ if($_GET['action'] == 9)
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
             if($row3['id'] == $row['supplier']){
-                $supp_name = $row3['supplier_name'];
+               $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
         //get the check details

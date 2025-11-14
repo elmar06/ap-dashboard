@@ -77,7 +77,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -121,7 +121,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -165,7 +165,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -209,7 +209,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -253,7 +253,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -297,7 +297,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -341,7 +341,7 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = $row3['supplier_name'];
+                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
@@ -387,7 +387,7 @@ elseif($action == 2)//DISBURSEMENT REPORT
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = $row3['supplier_name'];
+            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -437,7 +437,7 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = $row3['supplier_name'];
+            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -520,7 +520,7 @@ else//STALE CHECK
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = $row3['supplier_name'];
+            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
         }
         
         //date format
