@@ -531,7 +531,7 @@ class PO_Details
 
     public function get_po_by_id()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.ir_rr_no, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.counter_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.status, po_other_details.po_id, po_other_details.remarks, po_details.scm_remark, po_details.yrEnd_stat FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
+        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.ir_rr_no, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.counter_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.rcp_stat, po_details.status, po_other_details.po_id, po_other_details.remarks, po_details.scm_remark, po_details.yrEnd_stat FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -944,12 +944,13 @@ class PO_Details
     //YEAR END REPORT 
     public function accept_yearEnd()
     {
-        $query = 'UPDATE po_details SET yr_req = ?, status = 19 WHERE id = ?';
+        $query = 'UPDATE po_details SET yr_req = ?, status =? WHERE id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
         $upd->bindParam(1, $this->yr_req);
-        $upd->bindParam(2, $this->id);
+        $upd->bindParam(2, $this->status);
+        $upd->bindParam(3, $this->id);
 
         return ($upd->execute()) ? true : false;
     }
@@ -979,7 +980,7 @@ class PO_Details
 
     public function submit_yearEnd_toAP()
     {
-        $query = 'UPDATE po_details SET status = 1 WHERE id = ?';
+        $query = 'UPDATE po_details SET status = ? WHERE id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
@@ -1002,7 +1003,26 @@ class PO_Details
 
     public function get_yearEnd_forReceived()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.project as "proj-id", po_details.bill_date, po_details.due_date, po_details.si_num, po_details.amount, po_details.status, po_details.yr_req FROM po_details WHERE (find_in_set(17, po_details.status) || find_in_set(18, po_details.status) || find_in_set(19, po_details.status)) AND yrEnd_stat = 1 ORDER BY status ASC';
+        $query = 'SELECT po_details.id as "po-id", 
+        po_details.po_num, 
+        po_details.company as "comp-id", 
+        po_details.supplier as "supp-id", 
+        po_details.project as "proj-id", 
+        po_details.bill_date, 
+        po_details.due_date, 
+        po_details.si_num, 
+        po_details.amount, 
+        po_details.status, 
+        po_details.yr_req 
+        
+        FROM po_details 
+        
+        WHERE (find_in_set(17, po_details.status) || 
+        find_in_set(18, po_details.status) || 
+        find_in_set(19, po_details.status)) 
+        AND yrEnd_stat = 1 
+        ORDER BY status ASC';
+
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -2143,5 +2163,89 @@ class PO_Details
 
         $sel->execute();
         return $sel;
+    }
+
+    //Author: Rex 
+    // FO Year end Report
+    public function update_yearEnd_forReceived()
+    {
+        $sql = "UPDATE po_details SET yrEnd_stat = 1 WHERE id = ?";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->po_id);
+
+        $stmt->execute();
+        return $stmt ? true : false;
+    }
+
+    //Author: Rex 
+    // FO Year end Report
+    public function update_yearEnd_forReceived_date()
+    {
+        $sql = "UPDATE po_other_details SET fo_yr_end_fr_date = NOW(), fo_yr_end_fr_process_by =? WHERE po_id = ?";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->process_by);
+        $stmt->bindParam(2, $this->po_id);
+
+        $stmt->execute();
+        return $stmt ? true : false;
+    }
+
+    //Author: Rex 
+    // BO Year end Report
+    public function update_bo_yearend_forreceived()
+    {
+        $sql = "UPDATE po_details SET yrEnd_stat = 1 WHERE id = ?";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->po_id);
+
+        $stmt->execute();
+        return $stmt ? true : false;
+    }
+
+    //Author: Rex 
+    // bo Year end Report
+    public function update_bo_yearend_forreceived_date()
+    {
+        $sql = "UPDATE po_other_details SET bo_yr_end_fr_date = NOW(), bo_yr_end_fr_process_by =? WHERE po_id = ?";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->process_by);
+        $stmt->bindParam(2, $this->po_id);
+
+        $stmt->execute();
+        return $stmt ? true : false;
+    }
+
+    //Author: Rex 
+    // For treasury date for release
+    public function select_date_for_release()
+    {
+        $sql = "SELECT po_id FROM po_other_details WHERE date_for_release = CURRENT_DATE";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+        
+        $stmt->execute();
+        return $stmt;
+    }
+
+    //Author: Rex 
+    // For treasury date for release
+    public function update_po_status()
+    {
+        $sql = "UPDATE po_details SET status = 10 WHERE id = ?";
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(1, $this->po_id);
+
+        $stmt->execute();
+        return $stmt ? true : false;
     }
 }

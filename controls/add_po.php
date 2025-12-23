@@ -114,7 +114,7 @@ if($details)
 
                             //receiver/recepient settings
                             $mail->setFrom('it.cebu6000@gmail.com', 'AP Dashboard Admin');
-                            $mail->addAddress($email, $fullname); // Add a recipient
+                            $mail->addAddress('elmar.malazarte@innogroup.com.ph', $fullname); // Add a recipient
 
                             $mail->isHTML(true);
                             $mail->Subject = "AP Dashboard Request Notification";

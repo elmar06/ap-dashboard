@@ -1,5 +1,7 @@
 <?php
+
 use CodexWorld\PhpXlsxGenerator;
+
 include '../config/clsConnection.php';
 include '../objects/clsPODetails.php';
 include '../objects/clsCompany.php';
@@ -22,7 +24,7 @@ $report = new Reports($db);
 $check = new CheckDetails($db);
 $user = new Users($db);
 // Include XLSX generator library 
-require_once 'PhpXlsxGenerator.php'; 
+require_once 'PhpXlsxGenerator.php';
 
 //initialize data
 $comp = $_GET['company'];
@@ -32,41 +34,112 @@ $stat = $_GET['status'];
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 // Excel file name for download 
-$fileName = 'AP Dashboard - Manager'."'".'s Report.xlsx';
+$fileName = 'AP Dashboard - Manager' . "'" . 's Report.xlsx';
 //1st row REPORT PAGE HEADER
 // $header1 = array('', '', 'REQUEST DETAILS', '', '', '', 'REQUEST OTHER DETAILS', '', '', 'REQUEST CHECK DETAILS', '', '', '', '', '', '', '');
 // $excelData = implode("\t", array_values($header1)) . "\n"; 
+
+//Remove by rex
+// 'DATE TO MANILA', 
+// 'DATE MARKED FOR RELEASING', 
+
 //2nd row REPORT PAGE HEADER
-$excelData[] = array('COMPANY', 'PROJECT', 'VENDOR', 'PO/JO #', 'SI NO', 'SI/BILLING DATE', 'AMOUNT', 'RECEIVED BY', 'DATE RETURNED', 'RETURN REMARKS', 'DATE RESUBMITTED', 'DATE RECEIVED ACCT', 'DATE RECEIVED BO', 'CHECK DATE', 'CV NO.', 'CHECK NO', 'BANK', 'DUE DATE', 'MEMO NO.', 'TAX', 'CV AMOUNT', 'FORWARDED TO EA', 'RETURNED FROM EA', 'DATE TO MANILA', 'DATE MARKED FOR RELEASING', 'DATE RELEASED', 'DATE SUBMITTED', 'STATUS');
+$excelData[] = array(
+    'COMPANY',
+    'PROJECT',
+    'VENDOR',
+    'PO/JO #',
+    'IR RR #',
+    'SI NO',
+    'SI/BILLING DATE',
+    'AMOUNT',
+    'RECEIVED BY',
+    'DATE RETURNED',
+    'RETURN REMARKS',
+    'DATE RESUBMITTED',
+    'DATE RECEIVED ACCT',
+    'DATE RECEIVED BO',
+    'CHECK DATE',
+    'CV NO.',
+    'CHECK NO',
+    'BANK',
+    'DUE DATE',
+    'MEMO NO.',
+    'TAX',
+    'CV AMOUNT',
+    'FORWARDED TO EA',
+    'RETURNED FROM EA',
+    'DATE RELEASED',
+    'SUBMITTED BY',
+    'DATE SUBMITTED',
+    'STATUS'
+);
 
 //GENERATE REPORT BY PROJECT & DATE SPAN
-if($_GET['action'] == 1)
-{   
+if ($_GET['action'] == 1) {
     $get = $report->get_by_proj_date_manager($proj, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -74,9 +147,8 @@ if($_GET['action'] == 1)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -84,9 +156,8 @@ if($_GET['action'] == 1)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -96,11 +167,10 @@ if($_GET['action'] == 1)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -109,187 +179,54 @@ if($_GET['action'] == 1)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
-        }
-
-        //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        $excelData[] = $lineData;
-    }  
-    // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
-    $xlsx->downloadAs($fileName); 
-}
-
-//GENERATE REPORT BY COMPANY & DATE SPAN
-if($_GET['action'] == 2)
-{
-    $get = $report->get_by_comp_date_manager($comp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
-        //get the name of company
-        $comp_name = '-';
-        $company->id = $row['company'];
-        $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
-                $comp_name = $row1['company'];
-            }
-        }
-        //get the name of project
-        $proj_name = '-';
-        $project->id = $row['project'];
-        $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
-                $proj_name = $row2['project'];
-            }
-        }
-        //get the name of supplier
-        $supp_name = '-';
-        $supplier->id = $row['supplier'];
-        $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
-            }
-        }
-        //get the check details
-        $cv_no = '-';
-        $check_no = '-';
-        $tax = '-';
-        $cv_amount = '-';
-        $check_date = '-';
-        $bank_name = '-'; 
-        $check->po_id = $row['po-id'];
-        $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
-            $cv_no = $row4['cv_no'];
-            $check_no = $row4['check_no'];
-            $tax = $row4['tax'];
-            $cv_amount = $row4['cv_amount'];
-            $check_date = date('m-d-Y', strtotime($row4['check_date']));
-            //get the bank name
-            $bank->id = $row4['bank'];
-            $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
-                    $bank_name = $row5['name'];
-                }
-            }
-        }
-        //format of status
-        if($row['status'] == 1){
-            $status = 'Pending';
-        }else if($row['status'] == 2){
-            $status = 'Returned';
-        }else if($row['status'] == 3){
-            $status = 'Received by FO';
-        }else if($row['status'] == 4){
-            $status = 'Process by BO';
-        }elseif($row['status'] == 5){
-            $status = 'For Signature';
-        }elseif($row['status'] == 6){
-            $status = ' Sent to EA';
-        }else if($row['status'] == 7){
-            $status = 'Received by EA';
-        }elseif($row['status'] == 8){
-            $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
-            $status = 'On Hold';
-        }else if($row['status'] == 10){
-            $status = 'For Releasing';
-        }else if($row['status'] == 11){
-            $status = 'Released';
-        }else if($row['status'] == 12){
-            $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
-            $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
-            $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
-            $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
-            $status = 'Stale Check';
-        }else{
-            $status = 'Cancelled';
-        }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -297,38 +234,240 @@ if($_GET['action'] == 2)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
+    $xlsx->downloadAs($fileName);
+}
+
+//GENERATE REPORT BY COMPANY & DATE SPAN
+if ($_GET['action'] == 2) {
+    $get = $report->get_by_comp_date_manager($comp, $from, $to);
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
+            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
+        //get the name of company
+        $comp_name = '-';
+        $company->id = $row['company'];
+        $get_comp = $company->get_company_detail();
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
+                $comp_name = $row1['company'];
+            }
+        }
+        //get the name of project
+        $proj_name = '-';
+        $project->id = $row['project'];
+        $get_proj = $project->get_proj_details();
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
+                $proj_name = $row2['project'];
+            }
+        }
+        //get the name of supplier
+        $supp_name = '-';
+        $supplier->id = $row['supplier'];
+        $get_supp = $supplier->get_supplier_details();
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
+                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            }
+        }
+        //get the check details
+        $cv_no = '-';
+        $check_no = '-';
+        $tax = '-';
+        $cv_amount = '-';
+        $check_date = '-';
+        $bank_name = '-';
+        $check->po_id = $row['po-id'];
+        $get_check = $check->get_details();
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
+            $cv_no = $row4['cv_no'];
+            $check_no = $row4['check_no'];
+            $tax = $row4['tax'];
+            $cv_amount = $row4['cv_amount'];
+            $check_date = date('m-d-Y', strtotime($row4['check_date']));
+            //get the bank name
+            $bank->id = $row4['bank'];
+            $get_bank = $bank->get_bank_details();
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
+                    $bank_name = $row5['name'];
+                }
+            }
+        }
+        //format of status
+        if ($row['status'] == 1) {
+            $status = 'Pending';
+        } else if ($row['status'] == 2) {
+            $status = 'Returned';
+        } else if ($row['status'] == 3) {
+            $status = 'Received by FO';
+        } else if ($row['status'] == 4) {
+            $status = 'Process by BO';
+        } elseif ($row['status'] == 5) {
+            $status = 'For Signature';
+        } elseif ($row['status'] == 6) {
+            $status = ' Sent to EA';
+        } else if ($row['status'] == 7) {
+            $status = 'Received by EA';
+        } elseif ($row['status'] == 8) {
+            $status = 'Returned by EA';
+        } elseif ($row['status'] == 9) {
+            $status = 'On Hold';
+        } else if ($row['status'] == 10) {
+            $status = 'For Releasing';
+        } else if ($row['status'] == 11) {
+            $status = 'Released';
+        } else if ($row['status'] == 12) {
+            $status = 'Forwarded to Compliance';
+        } else if ($row['status'] == 13) {
+            $status = 'Returned by Compliance';
+        } else if ($row['status'] == 14) {
+            $status = 'Accept/Received by Compliance';
+        } else if ($row['status'] == 15) {
+            $status = 'Forwarded to BO Cebu';
+        } else if ($row['status'] == 20) {
+            $status = 'Stale Check';
+        } else {
+            $status = 'Cancelled';
+        }
+        //get the name of receiving acct FO
+        $received_by_fo = '-';
+        $user->id = $row['received_by_fo'];
+        $get_user = $user->get_user_detail_byid();
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+        }
+
+        // $row['ir_rr_no'],
+
+        //initialize data for excel
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $excelData[] = $lineData;
+    }
+    // Export data to excel and download as xlsx file 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERRATE REPORT BY SUPPLIER & DATE SPAN
-if($_GET['action'] == 3)
-{
+if ($_GET['action'] == 3) {
     $get = $report->get_by_supp_date_manager($supp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -336,9 +475,8 @@ if($_GET['action'] == 3)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -346,9 +484,8 @@ if($_GET['action'] == 3)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -358,11 +495,10 @@ if($_GET['action'] == 3)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -371,56 +507,54 @@ if($_GET['action'] == 3)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -428,45 +562,82 @@ if($_GET['action'] == 3)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY STATUS & DATE SPAN
-if($_GET['action'] == 4)
-{
+if ($_GET['action'] == 4) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_stat3_date_manager($from, $to);
-    }elseif($stat == 11){
+    } elseif ($stat == 11) {
         $get = $report->get_released_po($from, $to);
-    }else{
+    } else {
         $get = $report->get_by_stat_date_manager($stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -474,9 +645,8 @@ if($_GET['action'] == 4)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -484,9 +654,8 @@ if($_GET['action'] == 4)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -496,11 +665,10 @@ if($_GET['action'] == 4)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -509,56 +677,54 @@ if($_GET['action'] == 4)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -566,38 +732,75 @@ if($_GET['action'] == 4)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY & DATE SPAN
-if($_GET['action'] == 5)
-{
+if ($_GET['action'] == 5) {
     $get = $report->get_by_comp_proj_date_manager($proj, $comp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -605,9 +808,8 @@ if($_GET['action'] == 5)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -615,9 +817,8 @@ if($_GET['action'] == 5)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -627,11 +828,10 @@ if($_GET['action'] == 5)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -640,56 +840,54 @@ if($_GET['action'] == 5)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -697,38 +895,75 @@ if($_GET['action'] == 5)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER & DATE SPAN
-if($_GET['action'] == 6)
-{
+if ($_GET['action'] == 6) {
     $get = $report->get_by_proj_comp_supp_date_manager($proj, $comp, $supp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -736,9 +971,8 @@ if($_GET['action'] == 6)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -746,9 +980,8 @@ if($_GET['action'] == 6)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -758,11 +991,10 @@ if($_GET['action'] == 6)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -771,56 +1003,54 @@ if($_GET['action'] == 6)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -828,38 +1058,75 @@ if($_GET['action'] == 6)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, SUPPLIER, STATUS & DATE SPAN
-if($_GET['action'] == 7)
-{
+if ($_GET['action'] == 7) {
     $get = $report->get_all_date_manager($proj, $comp, $supp, $stat, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -867,9 +1134,8 @@ if($_GET['action'] == 7)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -877,9 +1143,8 @@ if($_GET['action'] == 7)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -889,11 +1154,10 @@ if($_GET['action'] == 7)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -902,56 +1166,54 @@ if($_GET['action'] == 7)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -959,47 +1221,91 @@ if($_GET['action'] == 7)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY DATE SPAN
-if($_GET['action'] == 8)
-{
+if ($_GET['action'] == 8) {
     $get = $report->get_by_date_manager($from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
         //get the other po details 
         $po->po_id = $row['po-id'];
         $get_other = $po->get_other_details();
-        while($rowOther = $get_other->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01'){
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
                 $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
-            }else{
+            } else {
                 $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
             }
-            if($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));}
-            if($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));}
-            if($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($rowOther['date_release']));}
-            if($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));}
-            if($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));}
-            if($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));}
-            if($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));}
-            if($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01'){$date_for_release = '-';}else{$date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));}
-            if($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01'){$date_to_manila = '-';}else{$date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));}
-            $fo_id = $rowOther['received_by_fo'];   
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            $fo_id = $rowOther['received_by_fo'];
         }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1007,9 +1313,8 @@ if($_GET['action'] == 8)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1017,9 +1322,8 @@ if($_GET['action'] == 8)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1029,11 +1333,10 @@ if($_GET['action'] == 8)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1042,97 +1345,135 @@ if($_GET['action'] == 8)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $fo_id;
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row5['id'] == $fo_id){
-                $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            if ($row5['id'] == $fo_id) {
+                $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
             }
         }
 
+        // Remove by rex
+        // $date_to_manila, $date_for_release,
+
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remark'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_to_manila, $date_for_release, $date_release, /*$row['fullname'],*/ $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remark'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER & DATE SPAN
-if($_GET['action'] == 9)
-{
+if ($_GET['action'] == 9) {
     $get = $report->get_by_proj_supp_date_manager($proj, $supp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1140,9 +1481,8 @@ if($_GET['action'] == 9)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1150,9 +1490,8 @@ if($_GET['action'] == 9)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1162,11 +1501,10 @@ if($_GET['action'] == 9)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1175,56 +1513,54 @@ if($_GET['action'] == 9)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1232,43 +1568,80 @@ if($_GET['action'] == 9)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, STATUS & DATE SPAN
-if($_GET['action'] == 10)
-{
+if ($_GET['action'] == 10) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_proj_stat3_date_manager($proj, $from, $to);
-    }else{
+    } else {
         $get = $report->get_by_proj_stat_date_manager($proj, $stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1276,9 +1649,8 @@ if($_GET['action'] == 10)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1286,9 +1658,8 @@ if($_GET['action'] == 10)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1298,11 +1669,10 @@ if($_GET['action'] == 10)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1311,56 +1681,54 @@ if($_GET['action'] == 10)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1368,38 +1736,75 @@ if($_GET['action'] == 10)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY COMPANY, SUPPLIER & DATE SPAN
-if($_GET['action'] == 11)
-{
+if ($_GET['action'] == 11) {
     $get = $report->get_by_comp_supp_date_manager($comp, $supp, $from, $to);
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1407,9 +1812,8 @@ if($_GET['action'] == 11)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1417,9 +1821,8 @@ if($_GET['action'] == 11)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1429,11 +1832,10 @@ if($_GET['action'] == 11)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1442,56 +1844,54 @@ if($_GET['action'] == 11)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1499,43 +1899,80 @@ if($_GET['action'] == 11)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY COMPANY, STATUS & DATE SPAN
-if($_GET['action'] == 12)
-{
+if ($_GET['action'] == 12) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_comp_stat3_date_manager($proj, $from, $to);
-    }else{
+    } else {
         $get = $report->get_by_comp_stat_date_manager($comp, $stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1543,9 +1980,8 @@ if($_GET['action'] == 12)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1553,9 +1989,8 @@ if($_GET['action'] == 12)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1565,11 +2000,10 @@ if($_GET['action'] == 12)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1578,56 +2012,54 @@ if($_GET['action'] == 12)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1635,43 +2067,80 @@ if($_GET['action'] == 12)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY SUPPLIER, STATUS & DATE SPAN
-if($_GET['action'] == 13)
-{
+if ($_GET['action'] == 13) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_supp_stat3_date_manager($supp, $from, $to);
-    }else{
+    } else {
         $get = $report->get_by_supp_stat_date_manager($supp, $stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1679,9 +2148,8 @@ if($_GET['action'] == 13)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1689,9 +2157,8 @@ if($_GET['action'] == 13)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1701,11 +2168,10 @@ if($_GET['action'] == 13)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1714,56 +2180,54 @@ if($_GET['action'] == 13)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1771,43 +2235,80 @@ if($_GET['action'] == 13)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, SUPPLIER, STATUS & DATE SPAN
-if($_GET['action'] == 14)
-{
+if ($_GET['action'] == 14) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_proj_supp_stat3_date_manager($proj, $supp, $from, $to);
-    }else{
+    } else {
         $get = $report->get_by_proj_supp_stat_date_manager($proj, $supp, $stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1815,9 +2316,8 @@ if($_GET['action'] == 14)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1825,9 +2325,8 @@ if($_GET['action'] == 14)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1837,11 +2336,10 @@ if($_GET['action'] == 14)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1850,56 +2348,54 @@ if($_GET['action'] == 14)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -1907,43 +2403,80 @@ if($_GET['action'] == 14)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
 
 //GENERATE REPORT BY PROJECT, COMPANY, STATUS & DATE SPAN
-if($_GET['action'] == 15)
-{
+if ($_GET['action'] == 15) {
     //check if status is in proces
-    if($stat == 3){
+    if ($stat == 3) {
         $get = $report->get_by_proj_supp_stat3_date_manager($proj, $supp, $from, $to);
-    }else{
+    } else {
         $get = $report->get_by_proj_supp_stat_date_manager($proj, $supp, $stat, $from, $to);
     }
-    while($row = $get->fetch(PDO:: FETCH_ASSOC))
-    {
-        if($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01'){
+    while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
             $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        }else{
+        } else {
             $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
         }
-        if($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01'){$date_to_ea = '-';}else{$date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));}
-        if($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01'){$date_from_ea = '-';}else{$date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));}
-        if($row['date_release'] == null || $row['date_release'] == '1970-01-01'){$date_release = '-';}else{$date_release = date('m-d-Y', strtotime($row['date_release']));}
-        if($row['bill_date'] == null || $row['bill_date'] == '1970-01-01'){$bill_date = '-';}else{$bill_date = date('m-d-Y', strtotime($row['bill_date']));}
-        if($row['due_date'] == null || $row['due_date'] == '1970-01-01'){$due_date = '-';}else{$due_date = date('m-d-Y', strtotime($row['due_date']));}
-        if($row['date_submit'] == null || $row['date_submit'] == '1970-01-01'){$date_submit = '-';}else{$date_submit = date('m-d-Y', strtotime($row['date_submit']));}
-        if($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01'){$date_received_bo = '-';}else{$date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));}
-        if($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01'){$date_received_fo = '-';}else{$date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));}
-        if($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01'){$date_return = '-'; }else{$date_return = date('m-d-Y', strtotime($row['date_returned_req']));}
-        if($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01'){$date_resubmit = '-';}else{$date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));}
+        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
+            $date_to_ea = '-';
+        } else {
+            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
+        }
+        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
+            $date_from_ea = '-';
+        } else {
+            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
+        }
+        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
+            $date_release = '-';
+        } else {
+            $date_release = date('m-d-Y', strtotime($row['date_release']));
+        }
+        if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
+            $bill_date = '-';
+        } else {
+            $bill_date = date('m-d-Y', strtotime($row['bill_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }
+        if ($row['date_submit'] == null || $row['date_submit'] == '1970-01-01') {
+            $date_submit = '-';
+        } else {
+            $date_submit = date('m-d-Y', strtotime($row['date_submit']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
+            $date_return = '-';
+        } else {
+            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
+        }
+        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
+            $date_resubmit = '-';
+        } else {
+            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        }
         //get the name of company
         $comp_name = '-';
         $company->id = $row['company'];
         $get_comp = $company->get_company_detail();
-        while($row1 = $get_comp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row1['id'] == $row['company']){
+        while ($row1 = $get_comp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row1['id'] == $row['company']) {
                 $comp_name = $row1['company'];
             }
         }
@@ -1951,9 +2484,8 @@ if($_GET['action'] == 15)
         $proj_name = '-';
         $project->id = $row['project'];
         $get_proj = $project->get_proj_details();
-        while($row2 = $get_proj->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row2['id'] == $row['project']){
+        while ($row2 = $get_proj->fetch(PDO::FETCH_ASSOC)) {
+            if ($row2['id'] == $row['project']) {
                 $proj_name = $row2['project'];
             }
         }
@@ -1961,9 +2493,8 @@ if($_GET['action'] == 15)
         $supp_name = '-';
         $supplier->id = $row['supplier'];
         $get_supp = $supplier->get_supplier_details();
-        while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
-        {
-            if($row3['id'] == $row['supplier']){
+        while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
+            if ($row3['id'] == $row['supplier']) {
                 $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
             }
         }
@@ -1973,11 +2504,10 @@ if($_GET['action'] == 15)
         $tax = '-';
         $cv_amount = '-';
         $check_date = '-';
-        $bank_name = '-'; 
+        $bank_name = '-';
         $check->po_id = $row['po-id'];
         $get_check = $check->get_details();
-        while($row4 = $get_check->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($row4 = $get_check->fetch(PDO::FETCH_ASSOC)) {
             $cv_no = $row4['cv_no'];
             $check_no = $row4['check_no'];
             $tax = $row4['tax'];
@@ -1986,56 +2516,54 @@ if($_GET['action'] == 15)
             //get the bank name
             $bank->id = $row4['bank'];
             $get_bank = $bank->get_bank_details();
-            while($row5 = $get_bank->fetch(PDO:: FETCH_ASSOC))
-            {
-                if($row5['id'] == $row4['bank']){
+            while ($row5 = $get_bank->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $row4['bank']) {
                     $bank_name = $row5['name'];
                 }
             }
         }
         //format of status
-        if($row['status'] == 1){
+        if ($row['status'] == 1) {
             $status = 'Pending';
-        }else if($row['status'] == 2){
+        } else if ($row['status'] == 2) {
             $status = 'Returned';
-        }else if($row['status'] == 3){
+        } else if ($row['status'] == 3) {
             $status = 'Received by FO';
-        }else if($row['status'] == 4){
+        } else if ($row['status'] == 4) {
             $status = 'Process by BO';
-        }elseif($row['status'] == 5){
+        } elseif ($row['status'] == 5) {
             $status = 'For Signature';
-        }elseif($row['status'] == 6){
+        } elseif ($row['status'] == 6) {
             $status = ' Sent to EA';
-        }else if($row['status'] == 7){
+        } else if ($row['status'] == 7) {
             $status = 'Received by EA';
-        }elseif($row['status'] == 8){
+        } elseif ($row['status'] == 8) {
             $status = 'Returned by EA';
-        }elseif($row['status'] == 9){
+        } elseif ($row['status'] == 9) {
             $status = 'On Hold';
-        }else if($row['status'] == 10){
+        } else if ($row['status'] == 10) {
             $status = 'For Releasing';
-        }else if($row['status'] == 11){
+        } else if ($row['status'] == 11) {
             $status = 'Released';
-        }else if($row['status'] == 12){
+        } else if ($row['status'] == 12) {
             $status = 'Forwarded to Compliance';
-        }else if($row['status'] == 13){
+        } else if ($row['status'] == 13) {
             $status = 'Returned by Compliance';
-        }else if($row['status'] == 14){
+        } else if ($row['status'] == 14) {
             $status = 'Accept/Received by Compliance';
-        }else if($row['status'] == 15){
+        } else if ($row['status'] == 15) {
             $status = 'Forwarded to BO Cebu';
-        }else if($row['status'] == 20){
+        } else if ($row['status'] == 20) {
             $status = 'Stale Check';
-        }else{
+        } else {
             $status = 'Cancelled';
         }
         //get the name of receiving acct FO
         $received_by_fo = '-';
         $user->id = $row['received_by_fo'];
         $get_user = $user->get_user_detail_byid();
-        while($row5 = $get_user->fetch(PDO:: FETCH_ASSOC))
-        {
-            $received_by_fo = $row5['firstname'].' '.$row5['lastname'];
+        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
         }
 
         //initialize data for excel
@@ -2043,10 +2571,8 @@ if($_GET['action'] == 15)
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
-    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray( $excelData ); 
+    $xlsx = CodexWorld\PhpXlsxGenerator::fromArray($excelData);
     $xlsx->downloadAs($fileName);
 }
- 
-exit;
 
-?>
+exit;

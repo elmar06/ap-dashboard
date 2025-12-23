@@ -241,7 +241,11 @@
                         $status = '<label style="color: blue"><b> In Process</b></label>';
                       }
                       //date format
-                      $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      $bill_date = '-';
+                      if($row['bill_date'] != null){
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      }
+                      
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
@@ -315,7 +319,11 @@
                       //format of status
                       $status = '<label style="color: red"><b> Pending</b></label>';
                       //date format
-                      $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      $bill_date = '-';
+                      if($row['bill_date'] != null){
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      }
+
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
@@ -384,7 +392,11 @@
                       //format of status
                       $status = '<label style="color: orange"><b> Returned</b></label>';
                       //date format
-                      $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      $bill_date = '-';
+                      if($row['bill_date'] != null){
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      }
+
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
@@ -462,7 +474,11 @@
                       //format of status
                       $status = '<label style="color: blue"><b> In Process</b></label>';
                       //date format
-                      $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      $bill_date = '-';
+                      if($row['bill_date'] != null){
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      }
+
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
@@ -531,7 +547,11 @@
                       //format of status
                       $status = '<label style="color: green"><b> For Releasing</b></label>';
                       //date format
-                      $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      $bill_date = '-';
+                      if($row['bill_date'] != null){
+                        $bill_date = date('m/d/Y', strtotime($row['bill_date']));
+                      }
+                      
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
