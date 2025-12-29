@@ -43,7 +43,7 @@ function received_yearend() {
 
 //resubmit request
 function reSubmit_yearEnd() {
-  var id = $('#po-id').val();
+  var id = $('#upd-po-id').val();
   var action = 3;
   $.ajax({
     type: 'POST',

@@ -22,6 +22,13 @@ $memo_amount = 0;
 if($_POST['memo_amount'] != 0 || $_POST['memo_amount'] != null){
     $memo_amount = str_replace(',', '', $_POST['memo_amount']);
 }
+//check if it is for Year-End Report
+$status = 1;
+$yrEnd_stat = 0;
+if($_POST['year_end'] == 17){
+    $status = 17;
+    $yrEnd_stat = 1;
+}
 //UPDATE details
 $po->id = $_POST['id'];
 $po->po_num = $_POST['po_num'];
@@ -43,6 +50,10 @@ $po->remark = $_POST['remark'];
 $po->memo_no = $_POST['memo_no'];
 $po->debit_memo = $_POST['debit_memo'];
 $po->memo_amount = $memo_amount;
+$po->status = $status;
+$po->yrEnd_stat = $yrEnd_stat;
+
+echo $status;
 $upd = $po->resubmit_po();
 //add resubmit date
 $po->po_id = $_POST['id'];

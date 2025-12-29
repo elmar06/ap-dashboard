@@ -7,8 +7,9 @@ $(document).ready(function(){
 //resubmit request
 function reSubmit_yearEnd()
 {
-  var id = $('#po-id').val();
+  var id = $('#upd-po-id').val();
   var action = 3;
+
   $.ajax({
     type: 'POST',
     url: '../../controls/process_yearend.php',
@@ -126,8 +127,14 @@ function upd_po_details()
   }else{
     var remark = 0;
   }
+  //check if it is for Year-End
+  var year_end = 0;
+  var yearend = $('#upd-year-end').is(':checked');
+  if(yearend){
+    var year_end = 17;
+  }
 
-  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&due_date=' + due_date + '&terms=' + terms + '&scm_remark=' + scm_remark + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount;
+  var myData = 'id=' + id + '&po_num=' + po_num + '&ir_no=' + ir_no + '&po_amount=' + po_amount + '&po_date=' + po_date + '&si_num=' + si_num + '&si_amount=' + si_amount + '&company=' + company + '&supplier=' + supplier + '&project=' + project + '&department=' + department + '&bill_date=' + bill_date + '&counter_date=' + counter_date + '&due_date=' + due_date + '&terms=' + terms + '&scm_remark=' + scm_remark + '&remark=' + remark + '&memo_no=' + memo_no + '&debit_memo=' + debit_memo + '&memo_amount=' + memo_amount + '&year_end=' + year_end;
 
   if(po_num != null && po_amount != null && si_num != null && si_amount != null && company != null && supplier != null && bill_date != null && counter_date != null && due_date != null)
   {
@@ -139,11 +146,7 @@ function upd_po_details()
       {
         if(response > 0)
         {
-          $('#upd-success').html('<center><i class="fas fa-check"></i> PO Successfully updated.</center>');
-          $('#upd-success').show();
-          setTimeout(function(){
-            $('#upd-success').fadeOut();
-          }, 3000)
+          toastr.success('Request successfully updated.');
           //get the updated list
           $.ajax({
               url: '../../controls/view_submit_po.php',
@@ -159,22 +162,14 @@ function upd_po_details()
         }
         else
         {
-          $('#upd-warning').html('<center><i class="fas fa-ban"></i> Update Failed. Please contact the Administrator at local 124.</center>');
-          $('#upd-warning').show();
-          setTimeout(function(){
-            $('#upd-warning').fadeOut();
-          }, 5000)
+          toastr.error('Update Failed. Please contact the Administrator at local 124.');
         }
       }
     })
   }
   else
   {
-    $('#upd-warning').html('<center><i class="fas fa-ban"></i> Update Failed. Please input all the data needed.</center>');
-    $('#upd-warning').show();
-    setTimeout(function(){
-      $('#upd-warning').fadeOut();
-    }, 3000)
+    toastr.error('Update Failed. Please input all the data needed.');
   }
 }
 

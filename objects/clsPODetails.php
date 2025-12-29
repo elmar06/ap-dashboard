@@ -163,7 +163,7 @@ class PO_Details
 
     public function resubmit_po()
     {
-        $query = 'UPDATE ' . $this->table_name . ' SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, memo_no=?, debit_memo=?, memo_amount=?, scm_remark=?, remark=?, status=1 WHERE id=?';
+        $query = 'UPDATE ' . $this->table_name . ' SET po_num=?, ir_rr_no=?, po_amount=?, po_date=?, si_num=?, company=?, project=?, department=?, supplier=?, bill_date=?, counter_date=?, terms=?, amount=?, due_date=?, memo_no=?, debit_memo=?, memo_amount=?, scm_remark=?, remark=?, yrEnd_stat=?, status=? WHERE id=?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
@@ -186,7 +186,9 @@ class PO_Details
         $upd->bindParam(17, $this->memo_amount);
         $upd->bindParam(18, $this->scm_remark);
         $upd->bindParam(19, $this->remark);
-        $upd->bindParam(20, $this->id);
+        $upd->bindParam(20, $this->yrEnd_stat);
+        $upd->bindParam(21, $this->status);
+        $upd->bindParam(22, $this->id);
 
         if ($upd->execute()) {
             return true;
@@ -980,7 +982,7 @@ class PO_Details
 
     public function submit_yearEnd_toAP()
     {
-        $query = 'UPDATE po_details SET status = ? WHERE id = ?';
+        $query = 'UPDATE po_details SET status = 1 WHERE id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $upd = $this->conn->prepare($query);
 
