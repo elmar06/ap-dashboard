@@ -30,6 +30,15 @@ $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 $action = $_GET['action'];
 
+// SAFER & CLEAN DATA FOR EXCEL
+function cleanExcelString($value) {
+    return preg_replace(
+        '/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}]/u',
+        '',
+        $value
+    );
+}
+
 if($action == 1)//CHECK FOR RELEASE
 {
     $comp = $_GET['company'];
@@ -77,13 +86,20 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
             $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }  
     }
@@ -121,13 +137,20 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }  
     }
@@ -162,16 +185,23 @@ if($action == 1)//CHECK FOR RELEASE
             $supp_name = '-';
             $supplier->id = $row['supplier'];
             $get_supp = $supplier->get_supplier_details();
-            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }  
     }
@@ -206,16 +236,23 @@ if($action == 1)//CHECK FOR RELEASE
             $supp_name = '-';
             $supplier->id = $row['supplier'];
             $get_supp = $supplier->get_supplier_details();
-            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }  
     }
@@ -253,13 +290,20 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }
     }
@@ -297,13 +341,20 @@ if($action == 1)//CHECK FOR RELEASE
             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }
     }
@@ -338,16 +389,23 @@ if($action == 1)//CHECK FOR RELEASE
             $supp_name = '-';
             $supplier->id = $row['supplier'];
             $get_supp = $supplier->get_supplier_details();
-            while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
+             while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
             {
                 if($row3['id'] == $row['supplier']){
-                    $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                    $supp_name = cleanExcelString($row3['supplier_name']);
                 }
             }
             $amount = number_format(floatval($row['cv_amount']), 2);
             $date_release = date('m-d-Y', strtotime($row['date_for_release']));
             //initialize data for excel
-            $lineData = array($row['po_num'], $supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+            $lineData = array($supp_name, $comp_name, $proj_name, $row['cv_no'], $row['check_no'], $amount, $date_release);
+
+            // add this to clean the string for excel export to prevent formula injection
+            foreach ($lineData as $key => $value) {
+                if (is_string($value)) {
+                    $lineData[$key] = cleanExcelString($value);
+                }
+            }
             $excelData[] = $lineData;
         }
     }
@@ -387,7 +445,7 @@ elseif($action == 2)//DISBURSEMENT REPORT
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            $supp_name = cleanExcelString($row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -400,6 +458,13 @@ elseif($action == 2)//DISBURSEMENT REPORT
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['cv_no'], $row['check_no'], $row['amount'], $date_release, $or_num);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
         $excelData[] = $lineData;               
     }
 }
@@ -437,7 +502,7 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            $supp_name = cleanExcelString($row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -449,10 +514,27 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
             $or_num = $row['or_num'];
         }
         //date format
-        $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        $po_date = date('m-d-Y', strtotime($row['po_date']));
-        $due_date = date('m-d-Y', strtotime($row['due_date']));
+        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
+            $date_received_fo = '-';
+        } else {
+            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
+        }
+        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
+            $date_received_bo = '-';
+        } else {
+            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
+        }
+        if ($row['po_date'] == null || $row['po_date'] == '1970-01-01') {
+            $po_date = '-';
+        } else {
+            $po_date = date('m-d-Y', strtotime($row['po_date']));
+        }
+        if ($row['due_date'] == null || $row['due_date'] == '1970-01-01') {
+            $due_date = '-';
+        } else {
+            $due_date = date('m-d-Y', strtotime($row['due_date']));
+        }                
+        
         $date_from_ea = '-';
         if($row['date_from_ea'] != null || $row['date_from_ea'] != ''){
             $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
@@ -492,6 +574,13 @@ elseif($_GET['action'] == 3)//PERCENTAGE REPORT
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, number_format($row['amount'], 2), $date_received_fo, $date_received_bo, $check_date, $cv_no, $account, $check_no, $po_date, $due_date, $supp_name, $row['memo_no'], $tax, $cv_amount, $date_from_ea, $date_release, $row['or_num']);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
         $excelData[] = $lineData;    
     }
 }
@@ -520,7 +609,7 @@ else//STALE CHECK
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            $supp_name = cleanExcelString($row3['supplier_name']);
         }
         
         //date format
@@ -537,6 +626,14 @@ else//STALE CHECK
         }
         //initialize data for excel
         $lineData = array($comp_name, $supp_name, $check_date, $row['check_no'], $row['cv_no'], $bankName, $row['tax'], $cv_amount, $stale_date);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;    
     }
 }

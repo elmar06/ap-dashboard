@@ -26,6 +26,15 @@ require_once 'PhpXlsxGenerator.php';
 $from = date('Y-m-d', strtotime($_GET['date_from']));
 $to = date('Y-m-d', strtotime($_GET['date_to']));
 
+// SAFER & CLEAN DATA FOR EXCEL
+function cleanExcelString($value) {
+    return preg_replace(
+        '/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}]/u',
+        '',
+        $value
+    );
+}
+
 if($_GET['action'] == 16)
 {
     // Excel file name for download 
@@ -61,7 +70,7 @@ if($_GET['action'] == 16)
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            $supp_name = cleanExcelString($row3['supplier_name']);
         }
         //check if empty
         $date_release = '-';
@@ -74,6 +83,13 @@ if($_GET['action'] == 16)
         }
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['cv_no'], $row['check_no'], $row['amount'], $date_release, $or_num);
+
+         // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
         $excelData[] = $lineData;            
     }
     // Export data to excel and download as xlsx file 
@@ -118,7 +134,7 @@ if($_GET['action'] == 17)
         $get_supp = $supplier->get_supplier_details();
         while($row3 = $get_supp->fetch(PDO:: FETCH_ASSOC))
         {
-            $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+            $supp_name = cleanExcelString($row3['supplier_name']);
         }
         //YEAR END REQUIREMENTS
         if($row['yr_req'] == 1){
@@ -170,6 +186,13 @@ if($_GET['action'] == 17)
 
         //initialize data for excel
         $lineData = array($row['si_num'], $comp_name, $supp_name, $amount, $row['po_num'], $proj_name, $due_date, $docs, $status);
+
+         // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
         $excelData[] = $lineData;               
     }
     // Export data to excel and download as xlsx file 

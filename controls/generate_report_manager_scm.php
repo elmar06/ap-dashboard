@@ -75,6 +75,15 @@ $excelData[] = array(
     'STATUS'
 );
 
+// SAFER & CLEAN DATA FOR EXCEL
+function cleanExcelString($value) {
+    return preg_replace(
+        '/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}]/u',
+        '',
+        $value
+    );
+}
+
 //GENERATE REPORT BY PROJECT & DATE SPAN
 if ($_GET['action'] == 1) {
     $get = $report->get_by_proj_date_manager($proj, $from, $to);
@@ -158,7 +167,7 @@ if ($_GET['action'] == 1) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -231,6 +240,14 @@ if ($_GET['action'] == 1) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -321,7 +338,7 @@ if ($_GET['action'] == 2) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -396,6 +413,14 @@ if ($_GET['action'] == 2) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -486,7 +511,7 @@ if ($_GET['action'] == 3) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -559,6 +584,14 @@ if ($_GET['action'] == 3) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -656,7 +689,7 @@ if ($_GET['action'] == 4) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -729,6 +762,14 @@ if ($_GET['action'] == 4) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -819,7 +860,7 @@ if ($_GET['action'] == 5) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -892,6 +933,14 @@ if ($_GET['action'] == 5) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -982,7 +1031,7 @@ if ($_GET['action'] == 6) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1055,6 +1104,13 @@ if ($_GET['action'] == 6) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1145,7 +1201,7 @@ if ($_GET['action'] == 7) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1218,6 +1274,14 @@ if ($_GET['action'] == 7) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1324,7 +1388,7 @@ if ($_GET['action'] == 8) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1402,6 +1466,14 @@ if ($_GET['action'] == 8) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remark'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1492,7 +1564,7 @@ if ($_GET['action'] == 9) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1565,6 +1637,14 @@ if ($_GET['action'] == 9) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1660,7 +1740,7 @@ if ($_GET['action'] == 10) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1733,6 +1813,14 @@ if ($_GET['action'] == 10) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1823,7 +1911,7 @@ if ($_GET['action'] == 11) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -1896,6 +1984,14 @@ if ($_GET['action'] == 11) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1991,7 +2087,7 @@ if ($_GET['action'] == 12) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -2064,6 +2160,14 @@ if ($_GET['action'] == 12) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -2159,7 +2263,7 @@ if ($_GET['action'] == 13) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -2232,6 +2336,14 @@ if ($_GET['action'] == 13) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -2327,7 +2439,7 @@ if ($_GET['action'] == 14) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -2400,6 +2512,14 @@ if ($_GET['action'] == 14) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -2495,7 +2615,7 @@ if ($_GET['action'] == 15) {
         $get_supp = $supplier->get_supplier_details();
         while ($row3 = $get_supp->fetch(PDO::FETCH_ASSOC)) {
             if ($row3['id'] == $row['supplier']) {
-                $supp_name = preg_replace('/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/u', '', $row3['supplier_name']);
+                $supp_name = cleanExcelString($row3['supplier_name']);
             }
         }
         //get the check details
@@ -2568,6 +2688,14 @@ if ($_GET['action'] == 15) {
 
         //initialize data for excel
         $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
+        // add this to clean the string for excel export to prevent formula injection
+        foreach ($lineData as $key => $value) {
+            if (is_string($value)) {
+                $lineData[$key] = cleanExcelString($value);
+            }
+        }
+        
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 

@@ -537,7 +537,7 @@
           <div class="row">
             <div class="col-lg-6">
               <label><i style="color: red">*</i> PO/Contract Amount:</label>
-              <input id="po-amount" class="form-control mb-3 amount" type="text" placeholder="Enter Amount">
+              <input id="po-amount" class="form-control mb-3 amount" type="text" placeholder="Enter Amount" value="0.00">
             </div>
             <div class="col-lg-6">
               <label></i> PO Date:</label>
@@ -685,7 +685,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" hidden>
             <div class="col-lg-12">
               <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="year-end">
