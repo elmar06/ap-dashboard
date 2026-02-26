@@ -173,7 +173,7 @@ function mark_all_for_releasing()
 
 function mark_for_releasing()
 {
-  var date = $('#exp-date-release').val();
+  var date = $('#date-release').val();
   var id = $('#po-no').val();
 
   $.ajax({

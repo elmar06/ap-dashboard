@@ -31,8 +31,13 @@ foreach($po_id as $value)
     }
     if($status == 8 || $status == 9 || $status == 10){
         //if status is FOR VERIFICATION (8) 
+        if($_POST['date'] == ''){
+        $date_release = date('Y-m-d');
+        }else{
+            $date_release = date('Y-m-d', strtotime($_POST['date']));
+        }
         $po->status = 10;
-        $po->date_for_release = date('Y-m-d', strtotime($_POST['date']));
+        $po->date_for_release = $date_release;
         $po->treasury_id = $_SESSION['id'];
         $po->po_id = $value;
         $po->id = $value;        

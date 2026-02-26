@@ -685,13 +685,11 @@ class Reports
         CONCAT(users.firstname, " ", users.lastname) as "fullname",
         po_details.date_submit, 
         po_details.remark, 
-        po_details.status, 
-        po_other_details.received_by_fo, 
-        po_other_details.remarks 
+        po_details.status
         
-        FROM po_details, users, po_other_details
+        FROM po_details, users
         
-        WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.id = po_other_details.po_id AND (po_details.date_submit BETWEEN ? AND ?)';
+        WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
