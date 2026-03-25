@@ -12,7 +12,6 @@ include '../../objects/clsPODetails.php';
 include '../../objects/clsDepartment.php';
 include '../../objects/clsProject.php';
 include '../../objects/clsUser.php';
-include '../../objects/clsCheckDetails.php';
 
 $database = new clsConnection();
 $db = $database->connect();
@@ -23,7 +22,6 @@ $po = new PO_Details($db);
 $dept = new Department($db);
 $project = new Project($db);
 $user = new Users($db);
-$check_details = new CheckDetails($db);
 
 //create column like in db
 $columns = array(
@@ -34,12 +32,7 @@ $columns = array(
     4 => 'po_details.si_no',
     5 => 'po_details.po_num',
     6 => 'supplier.supplier_name',
-    7 => 'po_details.bill_date',
-    8 => 'check_details.check_date',
-    9 => 'check_details.check_no',
-    10 => 'check_details.cv_amount',
-    11 => 'check_details.tax',
-    12 => 'po_other_details.date_to_ea'
+    7 => 'po_details.bill_date'
 );
 $dept_id = $_SESSION['dept'];
 
@@ -54,18 +47,10 @@ $sql = 'SELECT po_details.id as "po-id",
                po_details.status, 
                po_details.project, 
                company.company, 
-               supplier.supplier_name,  
-               po_other_details.date_to_ea, 
-               check_details.check_date, 
-               check_details.check_no, 
-               check_details.cv_amount, 
-               check_details.tax 
-               FROM po_details, po_other_details, check_details, company, supplier
+               supplier.supplier_name
+               FROM po_details, company, supplier
                WHERE po_details.company = company.id 
                AND po_details.supplier = supplier.id 
-               AND po_details.id = po_other_details.po_id 
-               AND check_details.po_id 
-               LIKE po_details.id 
                AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status) || find_in_set(9, po_details.status) || find_in_set(15, po_details.status))';
 
 if(isset($_POST['search']['value'])){
@@ -75,12 +60,7 @@ if(isset($_POST['search']['value'])){
     $sql .= " OR po_details.si_num LIKE '%".$search_val."%'";
     $sql .= " OR po_details.po_num LIKE '%".$search_val."%'";
     $sql .= " OR supplier.supplier_name LIKE '%".$search_val."%'";
-    $sql .= " OR po_details.bill_date LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.check_date LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.check_no LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.cv_amount LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.tax LIKE '%".$search_val."%'";
-    $sql .= " OR po_other_details.date_to_ea LIKE '%".$search_val."%')";
+    $sql .= " OR po_details.bill_date LIKE '%".$search_val."%')";
 }
 else
 {
@@ -117,8 +97,6 @@ while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
 
     //date format
     $bill_date = date('m/d/y', strtotime($row['bill_date']));
-    $check_date = date('m/d/y', strtotime($row['check_date']));
-    $date_to_ea = date('m/d/y', strtotime($row['date_to_ea']));
   
     //format of status
     if($row['status'] == 1){
@@ -140,9 +118,6 @@ while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
     }else{
     $status = '<label style="color: red"><b> On Hold</b></label>';
     }
-    //get the check details
-    $cv_amount = number_format($row['cv_amount'], 2);
-    $tax = number_format($row['tax'], 2);
     // get the project name
     $proj_name = '-';
     $project->id = $row['project'];
@@ -162,11 +137,6 @@ while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
     $subdata[] = $row['po_num'];
     $subdata[] = $sup_name;
     $subdata[] = $bill_date;
-    $subdata[] = $check_date;
-    $subdata[] = $row['check_no'];
-    $subdata[] = $cv_amount;
-    $subdata[] = $tax;
-    $subdata[] = $cv_amount;
     
     //data for output
     $data[] = $subdata;

@@ -44,9 +44,6 @@
                         <th>PO/JO No</th>
                         <th style="max-width: 150px">Supplier</th>
                         <th>Billing Date</th>
-                        <th>Check Date</th>
-                        <th>Check No.</th>
-                        <th>Sent to EA</th>
                         <th><center>Status</center></th>
                       </tr>
                     </thead>

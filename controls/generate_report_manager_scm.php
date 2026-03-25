@@ -88,26 +88,6 @@ function cleanExcelString($value) {
 if ($_GET['action'] == 1) {
     $get = $report->get_by_proj_date_manager($proj, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -123,25 +103,74 @@ if ($_GET['action'] == 1) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -230,16 +259,9 @@ if ($_GET['action'] == 1) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -259,26 +281,6 @@ if ($_GET['action'] == 1) {
 if ($_GET['action'] == 2) {
     $get = $report->get_by_comp_date_manager($comp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -294,25 +296,74 @@ if ($_GET['action'] == 2) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -401,18 +452,9 @@ if ($_GET['action'] == 2) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
-
-        // $row['ir_rr_no'],
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -432,26 +474,6 @@ if ($_GET['action'] == 2) {
 if ($_GET['action'] == 3) {
     $get = $report->get_by_supp_date_manager($supp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -467,25 +489,74 @@ if ($_GET['action'] == 3) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -574,16 +645,9 @@ if ($_GET['action'] == 3) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -610,26 +674,6 @@ if ($_GET['action'] == 4) {
         $get = $report->get_by_stat_date_manager($stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -645,25 +689,74 @@ if ($_GET['action'] == 4) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -752,16 +845,9 @@ if ($_GET['action'] == 4) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -781,26 +867,6 @@ if ($_GET['action'] == 4) {
 if ($_GET['action'] == 5) {
     $get = $report->get_by_comp_proj_date_manager($proj, $comp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -816,25 +882,74 @@ if ($_GET['action'] == 5) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -923,17 +1038,10 @@ if ($_GET['action'] == 5) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
-        
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
             if (is_string($value)) {
@@ -952,26 +1060,6 @@ if ($_GET['action'] == 5) {
 if ($_GET['action'] == 6) {
     $get = $report->get_by_proj_comp_supp_date_manager($proj, $comp, $supp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -987,25 +1075,74 @@ if ($_GET['action'] == 6) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1094,16 +1231,9 @@ if ($_GET['action'] == 6) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -1111,6 +1241,7 @@ if ($_GET['action'] == 6) {
                 $lineData[$key] = cleanExcelString($value);
             }
         }
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 
@@ -1122,26 +1253,6 @@ if ($_GET['action'] == 6) {
 if ($_GET['action'] == 7) {
     $get = $report->get_all_date_manager($proj, $comp, $supp, $stat, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -1157,25 +1268,74 @@ if ($_GET['action'] == 7) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1264,16 +1424,9 @@ if ($_GET['action'] == 7) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -1362,7 +1515,20 @@ if ($_GET['action'] == 8) {
             } else {
                 $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
             }
-            $fo_id = $rowOther['received_by_fo'];
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1451,21 +1617,9 @@ if ($_GET['action'] == 8) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $fo_id;
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            if ($row5['id'] == $fo_id) {
-                $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-            }
-        }
-
-        // Remove by rex
-        // $date_to_manila, $date_for_release,
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remark'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -1485,26 +1639,6 @@ if ($_GET['action'] == 8) {
 if ($_GET['action'] == 9) {
     $get = $report->get_by_proj_supp_date_manager($proj, $supp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -1520,25 +1654,74 @@ if ($_GET['action'] == 9) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1627,16 +1810,9 @@ if ($_GET['action'] == 9) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -1661,26 +1837,6 @@ if ($_GET['action'] == 10) {
         $get = $report->get_by_proj_stat_date_manager($proj, $stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -1696,25 +1852,74 @@ if ($_GET['action'] == 10) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1803,16 +2008,9 @@ if ($_GET['action'] == 10) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -1832,26 +2030,6 @@ if ($_GET['action'] == 10) {
 if ($_GET['action'] == 11) {
     $get = $report->get_by_comp_supp_date_manager($comp, $supp, $from, $to);
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -1867,25 +2045,74 @@ if ($_GET['action'] == 11) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -1974,16 +2201,9 @@ if ($_GET['action'] == 11) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -2008,26 +2228,6 @@ if ($_GET['action'] == 12) {
         $get = $report->get_by_comp_stat_date_manager($comp, $stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -2043,25 +2243,74 @@ if ($_GET['action'] == 12) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -2150,16 +2399,9 @@ if ($_GET['action'] == 12) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -2184,26 +2426,6 @@ if ($_GET['action'] == 13) {
         $get = $report->get_by_supp_stat_date_manager($supp, $stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -2219,25 +2441,74 @@ if ($_GET['action'] == 13) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -2326,16 +2597,9 @@ if ($_GET['action'] == 13) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -2360,26 +2624,6 @@ if ($_GET['action'] == 14) {
         $get = $report->get_by_proj_supp_stat_date_manager($proj, $supp, $stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -2395,25 +2639,74 @@ if ($_GET['action'] == 14) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -2502,16 +2795,9 @@ if ($_GET['action'] == 14) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -2536,26 +2822,6 @@ if ($_GET['action'] == 15) {
         $get = $report->get_by_proj_supp_stat_date_manager($proj, $supp, $stat, $from, $to);
     }
     while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['2nd_date_received'] != null || $row['2nd_date_received'] != '1970-01-01') {
-            $date_received_fo = date('m-d-Y', strtotime($row['2nd_date_received']));
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_to_ea'] == null || $row['date_to_ea'] == '1970-01-01') {
-            $date_to_ea = '-';
-        } else {
-            $date_to_ea = date('m-d-Y', strtotime($row['date_to_ea']));
-        }
-        if ($row['date_from_ea'] == null || $row['date_from_ea'] == '1970-01-01') {
-            $date_from_ea = '-';
-        } else {
-            $date_from_ea = date('m-d-Y', strtotime($row['date_from_ea']));
-        }
-        if ($row['date_release'] == null || $row['date_release'] == '1970-01-01') {
-            $date_release = '-';
-        } else {
-            $date_release = date('m-d-Y', strtotime($row['date_release']));
-        }
         if ($row['bill_date'] == null || $row['bill_date'] == '1970-01-01') {
             $bill_date = '-';
         } else {
@@ -2571,25 +2837,74 @@ if ($_GET['action'] == 15) {
         } else {
             $date_submit = date('m-d-Y', strtotime($row['date_submit']));
         }
-        if ($row['date_received_bo'] == null || $row['date_received_bo'] == '1970-01-01') {
-            $date_received_bo = '-';
-        } else {
-            $date_received_bo = date('m-d-Y', strtotime($row['date_received_bo']));
-        }
-        if ($row['date_received_fo'] == null || $row['date_received_fo'] == '1970-01-01') {
-            $date_received_fo = '-';
-        } else {
-            $date_received_fo = date('m-d-Y', strtotime($row['date_received_fo']));
-        }
-        if ($row['date_returned_req'] == null || $row['date_returned_req'] == '1970-01-01') {
-            $date_return = '-';
-        } else {
-            $date_return = date('m-d-Y', strtotime($row['date_returned_req']));
-        }
-        if ($row['date_resubmit'] == null || $row['date_resubmit'] == '1970-01-01') {
-            $date_resubmit = '-';
-        } else {
-            $date_resubmit = date('m-d-Y', strtotime($row['date_resubmit']));
+        //get the other po details 
+        $po->po_id = $row['po-id'];
+        $get_other = $po->get_other_details();
+        while ($rowOther = $get_other->fetch(PDO::FETCH_ASSOC)) {
+            if ($rowOther['2nd_date_received'] != null || $rowOther['2nd_date_received'] != '1970-01-01') {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['2nd_date_received']));
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_to_ea'] == null || $rowOther['date_to_ea'] == '1970-01-01') {
+                $date_to_ea = '-';
+            } else {
+                $date_to_ea = date('m-d-Y', strtotime($rowOther['date_to_ea']));
+            }
+            if ($rowOther['date_from_ea'] == null || $rowOther['date_from_ea'] == '1970-01-01') {
+                $date_from_ea = '-';
+            } else {
+                $date_from_ea = date('m-d-Y', strtotime($rowOther['date_from_ea']));
+            }
+            if ($rowOther['date_release'] == null || $rowOther['date_release'] == '1970-01-01') {
+                $date_release = '-';
+            } else {
+                $date_release = date('m-d-Y', strtotime($rowOther['date_release']));
+            }
+            if ($rowOther['date_received_bo'] == null || $rowOther['date_received_bo'] == '1970-01-01') {
+                $date_received_bo = '-';
+            } else {
+                $date_received_bo = date('m-d-Y', strtotime($rowOther['date_received_bo']));
+            }
+            if ($rowOther['date_received_fo'] == null || $rowOther['date_received_fo'] == '1970-01-01') {
+                $date_received_fo = '-';
+            } else {
+                $date_received_fo = date('m-d-Y', strtotime($rowOther['date_received_fo']));
+            }
+            if ($rowOther['date_returned_req'] == null || $rowOther['date_returned_req'] == '1970-01-01') {
+                $date_return = '-';
+            } else {
+                $date_return = date('m-d-Y', strtotime($rowOther['date_returned_req']));
+            }
+            if ($rowOther['date_resubmit'] == null || $rowOther['date_resubmit'] == '1970-01-01') {
+                $date_resubmit = '-';
+            } else {
+                $date_resubmit = date('m-d-Y', strtotime($rowOther['date_resubmit']));
+            }
+            if ($rowOther['date_for_release'] == null || $rowOther['date_for_release'] == '1970-01-01') {
+                $date_for_release = '-';
+            } else {
+                $date_for_release = date('m-d-Y', strtotime($rowOther['date_for_release']));
+            }
+            if ($rowOther['date_to_manila'] == null || $rowOther['date_to_manila'] == '1970-01-01') {
+                $date_to_manila = '-';
+            } else {
+                $date_to_manila = date('m-d-Y', strtotime($rowOther['date_to_manila']));
+            }
+            //get the name of receiving acct FO
+            $received_by_fo = '-';
+            $user->id = $rowOther['received_by_fo'];
+            $get_user = $user->get_user_detail_byid();
+            while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
+                if ($row5['id'] == $rowOther['received_by_fo']) {
+                    $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
+                }
+            }
+            //get the return remarks
+            $return_remark = '-';
+            if ($rowOther['remarks'] != null) {
+                $return_remark = $rowOther['remarks'];
+            }
         }
         //get the name of company
         $comp_name = '-';
@@ -2678,16 +2993,9 @@ if ($_GET['action'] == 15) {
         } else {
             $status = 'Cancelled';
         }
-        //get the name of receiving acct FO
-        $received_by_fo = '-';
-        $user->id = $row['received_by_fo'];
-        $get_user = $user->get_user_detail_byid();
-        while ($row5 = $get_user->fetch(PDO::FETCH_ASSOC)) {
-            $received_by_fo = $row5['firstname'] . ' ' . $row5['lastname'];
-        }
 
         //initialize data for excel
-        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $row['remarks'], $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
+        $lineData = array($comp_name, $proj_name, $supp_name, $row['po_num'], $row['ir_rr_no'], $row['si_num'], $bill_date, $row['amount'], $received_by_fo, $date_return, $return_remark, $date_resubmit, $date_received_fo, $date_received_bo, $check_date, $cv_no, $check_no, $bank_name, $due_date, $row['memo_no'], $tax, $cv_amount, $date_to_ea, $date_from_ea, $date_release, $row['fullname'], $date_submit, $status);
 
         // add this to clean the string for excel export to prevent formula injection
         foreach ($lineData as $key => $value) {
@@ -2695,7 +3003,7 @@ if ($_GET['action'] == 15) {
                 $lineData[$key] = cleanExcelString($value);
             }
         }
-        
+
         $excelData[] = $lineData;
     }
     // Export data to excel and download as xlsx file 

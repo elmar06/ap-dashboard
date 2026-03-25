@@ -33,10 +33,7 @@ $columns = array(
     3 => 'po_details.po_num',    
     4 => 'supplier.supplier_name',
     5 => 'po_details.bill_date',
-    6 => 'check_details.check_date',
-    7 => 'check_details.check_no',
-    8 => 'po_other_details.date_to_ea',
-    9 => 'po_details.status'
+    6 => 'po_details.status'
 );
 //$dept_id = $_SESSION['dept'];
 
@@ -48,20 +45,14 @@ $sql = 'SELECT
         po_details.status, 
         project.project, 
         company.company, 
-        supplier.supplier_name, 
-        check_details.check_date, 
-        check_details.check_no, 
-        po_other_details.date_to_ea 
+        supplier.supplier_name
         
-        FROM po_details, project, company, supplier, check_details, po_other_details, users 
+        FROM po_details, project, company, supplier
         
         WHERE po_details.project = project.id 
         AND po_details.company = company.id 
         AND po_details.supplier = supplier.id 
-        AND po_details.id = po_other_details.po_id 
-        AND check_details.po_id 
-        
-        LIKE po_details.id AND po_details.remark = 1';
+        AND po_details.remark = 1';
 
 if(isset($_POST['search']['value'])){
     $search_val = $_POST['search']['value'];
@@ -70,9 +61,6 @@ if(isset($_POST['search']['value'])){
     $sql .= " OR company.company LIKE '%".$search_val."%'";
     $sql .= " OR supplier.supplier_name LIKE '%".$search_val."%'";
     $sql .= " OR po_details.bill_date LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.check_date LIKE '%".$search_val."%'";
-    $sql .= " OR check_details.check_no LIKE '%".$search_val."%'";
-    $sql .= " OR po_other_details.date_to_ea LIKE '%".$search_val."%'";
     $sql .= " OR po_details.status LIKE '%".$search_val."%')";
 }
 else
@@ -110,8 +98,6 @@ while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
 
     //date format
     $bill_date = date('m/d/y', strtotime($row['bill_date']));
-    $check_date = date('m/d/y', strtotime($row['check_date']));
-    $date_to_ea = date('m/d/y', strtotime($row['date_to_ea']));
 
     //set the status of PO/JO
     //format of status
@@ -143,9 +129,6 @@ while($row = $get_Total->fetch(PDO:: FETCH_ASSOC))
     $subdata[] = $row['po_num'];    
     $subdata[] = $sup_name;
     $subdata[] = $bill_date;
-    $subdata[] = $check_date;
-    $subdata[] = $row['check_no'];    
-    $subdata[] = $date_to_ea;
     $subdata[] = $status;
 
     //data for output

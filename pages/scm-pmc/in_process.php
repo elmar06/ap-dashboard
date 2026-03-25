@@ -49,11 +49,6 @@
                                             <th>PO/JO No</th>
                                             <th>Supplier</th>
                                             <th>Billing Date</th>
-                                            <th>Check Date</th>
-                                            <th>Check No.</th>
-                                            <th>CV Amount</th>
-                                            <th>Tax</th>
-                                            <th>Sent to EA</th>
                                         </tr>
                                     </thead>
                                     <tbody id="po-submit-body">

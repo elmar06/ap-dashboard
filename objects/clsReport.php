@@ -531,7 +531,7 @@ class Reports
     //ACTION - 1
     public function get_by_proj_date_manager($proj, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_detils.received_by_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.id = po_other_details.po_id AND po_details.submitted_by = users.id AND po_details.project = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.project = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -555,26 +555,14 @@ class Reports
         po_details.counter_date, 
         po_details.due_date, 
         po_details.memo_no, 
+        po_details.remark,
         po_details.date_submit, 
-        po_details.status, 
-        po_other_details.date_received_fo, 
-        po_other_details.date_returned_req, 
-        po_other_details.remarks, 
-        po_other_details.date_resubmit, 
-        po_other_details.2nd_date_received, 
-        po_other_details.received_by_fo, 
-        po_other_details.date_received_bo, 
-        po_other_details.date_to_ea, 
-        po_other_details.date_from_ea, 
-        po_other_details.date_to_manila, 
-        po_other_details.date_for_release, 
-        po_other_details.date_release, 
+        po_details.status,  
         CONCAT(users.firstname, " ", users.lastname) as "fullname" 
         
-        FROM po_details, po_other_details, users 
+        FROM po_details, users 
         
         WHERE po_details.submitted_by = users.id 
-        AND po_details.id = po_other_details.po_id 
         AND po_details.company = ? 
         AND po_details.status != 0 
         AND (po_details.date_submit BETWEEN ? AND ?)';
@@ -588,7 +576,7 @@ class Reports
     //ACTION - 3
     public function get_by_supp_date_manager($supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.supplier = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.supplier = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -598,7 +586,7 @@ class Reports
     //ACTION - 4
     public function get_by_stat_date_manager($stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status = ? AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -608,7 +596,7 @@ class Reports
     //ACTION - 4
     public function get_by_stat3_date_manager($from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -618,7 +606,7 @@ class Reports
     //ACTION - 4
     public function get_by_prio_date_manager($from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.prio_stat = 1 AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.prio_stat = 1 AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -628,7 +616,7 @@ class Reports
     //STATUS = 11 (FOR RELEASING) / ACTION 4
     public function get_released_po($from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status = 11 AND (po_other_details.date_release BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status = 11 AND (po_other_details.date_release BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -638,7 +626,7 @@ class Reports
     //ACTION - 5
     public function get_by_comp_proj_date_manager($proj, $comp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -648,7 +636,7 @@ class Reports
     //ACTION - 6
     public function get_by_proj_comp_supp_date_manager($proj, $comp, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -658,7 +646,7 @@ class Reports
     //ACTION - 7
     public function get_all_date_manager($proj, $comp, $supp, $stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.company = ? AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -711,7 +699,7 @@ class Reports
     //ACTION - 9
     public function get_by_proj_supp_date_manager($proj, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.si_num, po_details.po_amount,  po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -721,7 +709,7 @@ class Reports
     //ACTION - 10
     public function get_by_proj_stat_date_manager($proj, $stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -731,7 +719,7 @@ class Reports
     //ACTION - 10
     public function get_by_proj_stat3_date_manager($proj, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -741,7 +729,7 @@ class Reports
     //ACTION - 11
     public function get_by_comp_supp_date_manager($comp, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.company = ? AND po_details.supplier = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -751,7 +739,7 @@ class Reports
     //ACTION - 12
     public function get_by_comp_stat_date_manager($comp, $stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.company = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.company = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -761,7 +749,7 @@ class Reports
     //ACTION - 12
     public function get_by_comp_stat3_date_manager($comp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.company = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.company = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -771,7 +759,7 @@ class Reports
     //ACTION - 13
     public function get_by_supp_stat_date_manager($supp, $stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.supplier = ? AND po_details.status = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -781,7 +769,7 @@ class Reports
     //ACTION - 13
     public function get_by_supp_stat3_date_manager($supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.supplier = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.supplier = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -791,7 +779,7 @@ class Reports
     //ACTION - 14
     public function get_by_proj_supp_stat_date_manager($proj, $supp, $stat, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.date_returned_req, po_other_details.remarks, po_other_details.date_resubmit, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_from_ea, po_other_details.date_to_manila, po_other_details.date_for_release, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.status != 0 AND po_details.project = ? AND po_details.supplier = ? AND po_details.stat = ? AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.po_amount, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.status != 0 AND po_details.project = ? AND po_details.supplier = ? AND po_details.stat = ? AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -801,7 +789,7 @@ class Reports
 
     public function get_by_proj_supp_stat3_date_manager($proj, $supp, $from, $to)
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.date_submit, po_details.status, po_other_details.date_received_fo, po_other_details.2nd_date_received, po_other_details.received_by_fo, po_other_details.date_received_bo, po_other_details.date_to_ea, po_other_details.date_to_manila, po_other_details.date_from_ea, po_other_details.date_release, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, po_other_details, users WHERE po_details.submitted_by = users.id AND po_details.id = po_other_details.po_id AND po_details.project = ? AND po_details.supplier = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
+        $query = 'SELECT po_details.id as "po-id", po_details.company, po_details.project, po_details.supplier, po_details.or_num, po_details.po_num, po_details.ir_rr_no, po_details.si_num, po_details.amount, po_details.bill_date, po_details.counter_date, po_details.due_date, po_details.memo_no, po_details.remark, po_details.date_submit, po_details.status, CONCAT(users.firstname, " ", users.lastname) as "fullname" FROM po_details, users WHERE po_details.submitted_by = users.id AND po_details.project = ? AND po_details.supplier = ? AND (find_in_set(3, po_details.status) || find_in_set(4, po_details.status) || find_in_set(5, po_details.status) || find_in_set(6, po_details.status) || find_in_set(7, po_details.status) || find_in_set(8, po_details.status)) AND po_details.status != 0 AND (po_details.date_submit BETWEEN ? AND ?)';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 

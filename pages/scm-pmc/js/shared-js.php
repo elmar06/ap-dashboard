@@ -17,7 +17,7 @@ function getNewDataListShared()
       },
       'aoColumnDefs': [{
           'bSortable': 'true',
-          'aTargets': [9]
+          'aTargets': [7]
       }]
   });
 }

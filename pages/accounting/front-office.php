@@ -597,6 +597,12 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
+           <?php
+          if($_SESSION['id'] == 4 || $_SESSION['id'] == 5 || $_SESSION['id'] == 53)//button visible only for this users
+          {
+            echo '<button id="btnCancel" class="btn btn-danger" onclick="remove_transaction()"><i class="fa-solid fa-ban"></i> Cancel Transaction</button>';
+          }
+        ?>
           <button id="btnPrio" class="btn btn-primary" onclick="markPrio()"><i class="fa-solid fa-bell-on"></i> Mark as Prio</button>
           <button href="#" id="returned" class="btn btn-danger" onclick="mark_returned()"><i class="fas fa-undo-alt"></i></button>
           <button href="#" id="received" class="btn btn-success" onclick="mark_received()"><i class="fas fa-check"></i></button>

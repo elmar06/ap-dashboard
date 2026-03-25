@@ -136,17 +136,12 @@
         },
         success: function(response) {
           if (response > 0) {
-            $('#upd-success').html('<center><i class="fas fa-check"></i> PO/JO successfully mark as returned.</center>');
-            $('#upd-success').show();
+            toastr.success('PO/JO successfully mark as returned.');
             setTimeout(function(){
               location.reload();
-            }, 1500)
+            }, 2500)
           } else {
-            $('#upd-warning').html('<center><i class="fas fa-ban"></i> Submit Failed! Please contact the system administrator at local 124 for assistance.</center>');
-            $('#upd-warning').show();
-            setTimeout(function() {
-              $('#upd-warning').fadeOut();
-            }, 3000)
+            toastr.error('Failed! Please contact the system administrator at local 124.'); 
           }
         },
         error: function(xhr, ajaxOptions, thrownError) {
@@ -243,6 +238,27 @@
       }
     })
   }
+// cancel the transaction permanently
+function remove_transaction()
+{
+  var id = $('#upd-id').val();
+
+  $.ajax({
+    type: 'POST',
+    url: '../../controls/remove_cancel_po.php',
+    data: {id:id},
+    success: function(response){
+      if(response > 0){
+        toastr.success('Request successfully removed.')
+        setTimeout(function(){
+          location.reload();
+        }, 1500)
+      }else{
+        toastr.error('Failed! Please contact the system administrator at local 124.')
+      }
+    }
+  })
+}
 
   //show remarks
   function mark_returned() {

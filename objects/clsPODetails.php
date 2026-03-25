@@ -315,7 +315,7 @@ class PO_Details
 
     public function get_submitted_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE  po_details.status <= 10 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE  po_details.status = 1 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -533,7 +533,7 @@ class PO_Details
 
     public function get_po_by_id()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.po_num, po_details.ir_rr_no, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.counter_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.rcp_stat, po_details.status, po_other_details.po_id, po_other_details.remarks, po_details.scm_remark, po_details.yrEnd_stat FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
+        $query = 'SELECT po_details.id as "po-id", po_details.rcp_id, po_details.po_num, po_details.ir_rr_no, po_details.po_amount, po_details.po_date, po_details.company as "comp-id", po_details.project as "proj-id", po_details.department as "dept-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.counter_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.amount, po_details.memo_no, po_details.debit_memo, po_details.memo_amount, po_details.date_submit, po_details.submitted_by, po_details.si_num, po_details.reports, po_details.yearEnd_remark, po_details.rcp_stat, po_details.status, po_other_details.po_id, po_other_details.remarks, po_details.scm_remark, po_details.yrEnd_stat FROM po_details, po_other_details WHERE po_details.id = po_other_details.po_id AND po_details.id = ?';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
