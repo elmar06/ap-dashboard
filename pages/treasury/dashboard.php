@@ -104,14 +104,20 @@
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-uppercase mb-1">For Releasing</div>
                         <?php
-                          $po->submitted_by = $_SESSION['id'];
-                          $count = $po->count_releasing();
-                          if($row = $count->fetch(PDO::FETCH_ASSOC))
-                          {
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">'.$row['releasing-count'].'</div>';
-                          }else{
-                            echo '<div class="h5 mb-0 font-weight-bold text-gray-800">0</div>';
+                          $total = 0;
+                          $id = $_SESSION['company'];
+                          $array_id = explode(',', $id);
+                          foreach ($array_id as $key=>$value) {
+                            $subtotal = 0;
+                            $comp_id =  $value;
+                            $po->company = $comp_id;
+                            $count = $po->count_releasing();
+                            while($row = $count->fetch(PDO::FETCH_ASSOC)) {
+                              $subtotal = $row['releasing-count']; 
+                            }
+                            $total += $subtotal;
                           }
+                          echo '<div class="h5 mb-0 font-weight-bold text-gray-800">' . $total . '</div>';
                         ?>
                         <div class="mt-2 mb-0 text-muted text-xs">
                           <a class="text-success mr-2" href="#" onclick="get_releasing()"><i class="fas fa-arrow-up"></i> More Details</a>
@@ -242,7 +248,11 @@
                           }
                           $checkbox = '<input type="checkbox" name="checklist" class="checklist" value="'.$row['po-id'].'">';
                           //date format
-                          $due = date('m/d/Y', strtotime($row['due_date']));
+                          $due = '-';
+                          if (!empty($row['due_date']) && $row['due_date'] !== '1970-01-01' && strtotime($row['due_date']) !== false) 
+                          {
+                            $due = date('m/d/Y', strtotime($row['due_date']));
+                          }
                           $check_date = date('m/d/Y', strtotime($row['check_date']));
                           if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
                             $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
@@ -345,7 +355,11 @@
                             $status = '<label style="color: green"><b>For Releasing</b></label>';
                           }
                           //date format
-                          $due = date('m/d/Y', strtotime($row['due_date']));
+                          $due = '-';
+                          if (!empty($row['due_date']) && $row['due_date'] !== '1970-01-01' && strtotime($row['due_date']) !== false) 
+                          {
+                            $due = date('m/d/Y', strtotime($row['due_date']));
+                          }
                           $check_date = date('m/d/Y', strtotime($row['check_date']));
                           if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
                             $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
@@ -445,7 +459,11 @@
                             $status = '<label style="color: green"><b>For Releasing</b></label>';
                           }
                           //date format
-                          $due = date('m/d/Y', strtotime($row['due_date']));
+                          $due = '-';
+                          if (!empty($row['due_date']) && $row['due_date'] !== '1970-01-01' && strtotime($row['due_date']) !== false) 
+                          {
+                            $due = date('m/d/Y', strtotime($row['due_date']));
+                          }
                           $check_date = date('m/d/Y', strtotime($row['check_date']));
                           if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
                             $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));
@@ -545,7 +563,11 @@
                             $status = '<label style="color: green"><b>For Releasing</b></label>';
                           }
                           //date format
-                          $due = date('m/d/Y', strtotime($row['due_date']));
+                          $due = '-';
+                          if (!empty($row['due_date']) && $row['due_date'] !== '1970-01-01' && strtotime($row['due_date']) !== false) 
+                          {
+                            $due = date('m/d/Y', strtotime($row['due_date']));
+                          }
                           $check_date = date('m/d/Y', strtotime($row['check_date']));
                           if($row['date_received_fo'] != null || $row['date_received_fo'] != ''){
                             $received_fo = date('m/d/Y', strtotime($row['date_received_fo']));

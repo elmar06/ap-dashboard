@@ -195,6 +195,7 @@
                       <th>Supplier</th>
                       <th>Billing Date</th>
                       <th>Amount</th>
+                      <th>Date Submitted</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -242,10 +243,15 @@
                       }
                       //date format
                       $bill_date = '-';
+                      $submit_date = '-';
                       if($row['bill_date'] != null){
                         $bill_date = date('m/d/Y', strtotime($row['bill_date']));
                       }
-                      
+
+                      if($row['date_submit'] != null){
+                        $submit_date = date('m/d/Y', strtotime($row['date_submit']));
+                      }
+
                       echo '
                         <tr>
                           <td><input type="checkbox" name="checklist" class="checklist" value="' . $row['po-id'] . '"></td>
@@ -255,6 +261,7 @@
                           <td>' . $sup_name . '</td>
                           <td>' . $bill_date . '</td>
                           <td>' . number_format(floatval($row['amount']), 2) . '</td>
+                          <td>' . $submit_date . '</td>
                           <td><center>' . $status . '</center></td>
                         </tr>';
                     }

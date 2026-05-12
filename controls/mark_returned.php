@@ -97,12 +97,12 @@ while($row = $get->fetch(PDO::FETCH_ASSOC)){
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'it.cebu6000@gmail.com';
-        $mail->Password = 'mjpwnweozvzfhqvm';
+        $mail->Username = 'igcsystemssupport@gmail.com';
+        $mail->Password = 'khrrtcolyuljwlcr';
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
 
-        $mail->setFrom('it.cebu6000@gmail.com', 'Online RCP');
+        $mail->setFrom('igcsystemssupport@gmail.com', 'AP-Dashboard');
         $mail->addAddress($email, $fullname); //Recipient name
 
         $mail->isHTML(true);

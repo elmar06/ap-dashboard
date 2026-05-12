@@ -315,7 +315,7 @@ class PO_Details
 
     public function get_submitted_po()
     {
-        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.status FROM po_details WHERE  po_details.status = 1 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
+        $query = 'SELECT po_details.id as "po-id", po_details.amount, po_details.po_num, po_details.si_num, po_details.project as "proj-id", po_details.company as "comp-id", po_details.supplier as "supp-id", po_details.bill_no, po_details.bill_date, po_details.terms, po_details.due_date, po_details.days_due, po_details.submitted_by, po_details.date_submit, po_details.status FROM po_details WHERE  po_details.status = 1 AND po_details.status != 0 ORDER BY po_details.bill_date DESC';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
 
@@ -1303,11 +1303,9 @@ class PO_Details
 
     public function count_for_verification()
     {
-        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status=8 AND company = ?';
+        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status=8';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
-
-        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
@@ -1315,11 +1313,9 @@ class PO_Details
 
     public function count_on_hold()
     {
-        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status = 9 AND company = ?';
+        $query = 'SELECT count(id) as "count" FROM ' . $this->table_name . ' WHERE status = 9';
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $sel = $this->conn->prepare($query);
-
-        $sel->bindParam(1, $this->company);
 
         $sel->execute();
         return $sel;
